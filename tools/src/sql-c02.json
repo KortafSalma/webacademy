@@ -1,0 +1,149 @@
+{
+  "id": "sql-ch2",
+  "title": "Types de données SQL",
+  "subtitle": "Choisir le bon type pour chaque colonne",
+  "objectives": [
+    "Distinguer les grandes familles de types : nombres, texte, dates, booléens.",
+    "Choisir entre INT, DECIMAL et FLOAT selon les besoins.",
+    "Comprendre VARCHAR, CHAR et TEXT.",
+    "Utiliser DATE, DATETIME et TIMESTAMP à bon escient.",
+    "Comprendre la valeur NULL et ses pièges."
+  ],
+  "lessons": [
+    {
+      "id": "types-numeriques",
+      "title": "Types numériques",
+      "icon": "🔢",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Le type d'une colonne détermine les valeurs acceptées et l'espace stocké. Pour les nombres : <strong>INT</strong> pour les entiers, <strong>DECIMAL(p,s)</strong> pour les montants exacts, <strong>FLOAT/DOUBLE</strong> pour les mesures approximatives.</p>",
+          "darija": "<p>Type dyal colonne kay7added valeurs li kayqbel w l'espace li kaykhzen. L nombres : <strong>INT</strong> l entiers, <strong>DECIMAL(p,s)</strong> l montants dqiqin, <strong>FLOAT/DOUBLE</strong> l mesures approximatives.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Type", "Usage", "Exemple"],
+          "rows": [
+            ["INT / INTEGER", "identifiants, quantités", "id INT"],
+            ["DECIMAL(6,2)", "prix, notes (exact)", "prix DECIMAL(6,2) → 1234.56"],
+            ["FLOAT / DOUBLE", "mesures physiques (approx.)", "temperature DOUBLE"],
+            ["TINYINT", "petit entier (0-255)", "age TINYINT"]
+          ],
+          "fr": "Pour de l'argent, utilisez toujours <code>DECIMAL</code> : <code>FLOAT</code> accumule des erreurs d'arrondi."
+        },
+        {
+          "type": "example",
+          "title": "Une table de produits",
+          "lang": "sql",
+          "code": "CREATE TABLE produit (\n    id INT PRIMARY KEY,\n    nom VARCHAR(80),\n    prix DECIMAL(6,2),\n    stock INT DEFAULT 0\n);\n\nINSERT INTO produit (id, nom, prix, stock)\nVALUES (1, 'Clavier', 249.90, 12);\n\nSELECT nom, prix FROM produit;",
+          "output": "nom     | prix\nClavier | 249.90",
+          "explainFr": "<code>DECIMAL(6,2)</code> accepte 6 chiffres au total dont 2 après la virgule : 249.90 est valide, 12345.678 ne le serait pas.",
+          "explainDarija": "<code>DECIMAL(6,2)</code> kayqbel 6 chiffres f total, 2 mor virgule : 249.90 valide, 12345.678 machi valide."
+        },
+        {
+          "type": "warning",
+          "title": "FLOAT pour l'argent ? Non",
+          "fr": "<code>0.1 + 0.2</code> en FLOAT ne donne pas exactement <code>0.3</code>. Sur des milliers d'opérations, les centimes dérivent. <code>DECIMAL</code> est exact.",
+          "darija": "<code>0.1 + 0.2</code> b FLOAT ma kay3tich <code>0.3</code> b dqiq. 3la bzaf opérations, centimes kayghalto. <code>DECIMAL</code> dqiq."
+        }
+      ]
+    },
+    {
+      "id": "types-texte",
+      "title": "Types texte",
+      "icon": "🔤",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><strong>CHAR(n)</strong> stocke une longueur fixe (complétée par des espaces), <strong>VARCHAR(n)</strong> une longueur variable limitée à n, et <strong>TEXT</strong> un texte long sans limite pratique précise.</p>",
+          "darija": "<p><strong>CHAR(n)</strong> katkhzen toul tabit (kayt3emmer b espaces), <strong>VARCHAR(n)</strong> toul mbeddel m7doud b n, w <strong>TEXT</strong> texte twil bla 7add 3amali dqiq.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Type", "Longueur", "Quand l'utiliser"],
+          "rows": [
+            ["CHAR(2)", "fixe", "code pays (MA, FR), sexe"],
+            ["VARCHAR(80)", "variable ≤ 80", "nom, email, titre"],
+            ["VARCHAR(255)", "variable ≤ 255", "adresse, URL"],
+            ["TEXT", "longue", "description, article, commentaire"]
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Créer puis insérer du texte",
+          "lang": "sql",
+          "code": "CREATE TABLE client (\n    id INT PRIMARY KEY,\n    code_pays CHAR(2),\n    nom VARCHAR(50),\n    bio TEXT\n);\n\nINSERT INTO client VALUES\n    (1, 'MA', 'Amal', 'Étudiante en informatique.'),\n    (2, 'FR', 'Yassine', NULL);\n\nSELECT nom, code_pays FROM client;",
+          "output": "nom     | code_pays\nAmal    | MA\nYassine | FR",
+          "explainFr": "<code>CHAR(2)</code> convient au code pays car la longueur est toujours 2. <code>VARCHAR(50)</code> s'adapte à la longueur du nom.",
+          "explainDarija": "<code>CHAR(2)</code> mzyan l code pays 7it toul dima 2. <code>VARCHAR(50)</code> kayt3adel m3a toul dyal nom."
+        },
+        {
+          "type": "tip",
+          "title": "VARCHAR ou TEXT ?",
+          "fr": "Si vous connaissez une limite raisonnable, prenez <code>VARCHAR(n)</code> : les index et les contraintes sont plus efficaces. Réservez <code>TEXT</code> aux contenus vraiment longs.",
+          "darija": "Ila 3refi 7add ma3qol, khoud <code>VARCHAR(n)</code> : index w contraintes kaywliw ktar fa3aliya. Khelli <code>TEXT</code> l contenu twil bzzaf."
+        }
+      ]
+    },
+    {
+      "id": "dates-null",
+      "title": "Dates, booléens et NULL",
+      "icon": "📅",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Pour le temps : <strong>DATE</strong> (jour), <strong>TIME</strong> (heure), <strong>DATETIME</strong> (date + heure), <strong>TIMESTAMP</strong> (souvent lié au fuseau et mis à jour automatiquement). Un <strong>booléen</strong> se stocke en <code>BOOLEAN</code> (MySQL) ou <code>INTEGER 0/1</code> (SQLite).</p>",
+          "darija": "<p>L wa9t : <strong>DATE</strong> (nhar), <strong>TIME</strong> (sa3a), <strong>DATETIME</strong> (date + sa3a), <strong>TIMESTAMP</strong> (mrbout b fuseau w kaytbddel automatiquement). <strong>Booléen</strong> kaytkhzen f <code>BOOLEAN</code> (MySQL) wla <code>INTEGER 0/1</code> (SQLite).</p>"
+        },
+        {
+          "type": "example",
+          "title": "Dates d'inscription",
+          "lang": "sql",
+          "code": "CREATE TABLE inscription (\n    id INT PRIMARY KEY,\n    etudiant VARCHAR(50),\n    date_inscription DATE,\n    actif BOOLEAN DEFAULT 1\n);\n\nINSERT INTO inscription VALUES\n    (1, 'Amal', '2026-09-15', 1),\n    (2, 'Omar', '2026-10-02', 0);\n\nSELECT etudiant, date_inscription FROM inscription\nWHERE date_inscription >= '2026-10-01';",
+          "output": "etudiant | date_inscription\nOmar     | 2026-10-02",
+          "explainFr": "Les dates s'écrivent au format ISO <code>AAAA-MM-JJ</code> et se comparent comme du texte dans ce format : la comparaison fonctionne correctement.",
+          "explainDarija": "Dates kaytktbo b format ISO <code>AAAA-MM-JJ</code> w kaytqarno b7al texte f had format : comparaison katkhdem mzyan."
+        },
+        {
+          "type": "warning",
+          "title": "NULL n'est pas 0 ni une chaîne vide",
+          "fr": "<code>NULL</code> signifie « valeur inconnue ». On le teste avec <code>IS NULL</code> / <code>IS NOT NULL</code>, jamais avec <code>= NULL</code> (qui ne renvoie jamais vrai).",
+          "darija": "<code>NULL</code> kat3ni « valeur ma m3erfach ». Kantestiwha b <code>IS NULL</code> / <code>IS NOT NULL</code>, 3omrek b <code>= NULL</code> (li 3omrha ma katrje3 vrai)."
+        },
+        {
+          "type": "example",
+          "title": "Trouver les valeurs inconnues",
+          "lang": "sql",
+          "code": "SELECT nom FROM client WHERE bio IS NULL;",
+          "output": "nom\nYassine",
+          "explainFr": "<code>IS NULL</code> est le seul test fiable. <code>WHERE bio = NULL</code> ne renvoie aucune ligne, même si des NULL existent.",
+          "explainDarija": "<code>IS NULL</code> howa test lwa7id mwatheq. <code>WHERE bio = NULL</code> ma kayrje3 7ta ligne, 7ta ila NULL kayn."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "prix FLOAT",
+      "fix": "prix DECIMAL(8,2)",
+      "fr": "FLOAT introduit des erreurs d'arrondi sur les montants. DECIMAL est exact.",
+      "darija": "FLOAT kayjib erreurs d'arrondi f montants. DECIMAL dqiq."
+    },
+    {
+      "wrong": "WHERE email = NULL",
+      "fix": "WHERE email IS NULL",
+      "fr": "Toute comparaison avec NULL renvoie NULL (donc faux). Utilisez IS NULL.",
+      "darija": "Ay comparaison m3a NULL katrje3 NULL (donc faux). Khdem b IS NULL."
+    },
+    {
+      "wrong": "VARCHAR(20) pour stocker un article complet",
+      "fix": "TEXT pour un contenu long.",
+      "fr": "VARCHAR(20) tronque ou refuse le texte trop long. Choisissez la taille selon l'usage réel.",
+      "darija": "VARCHAR(20) katqess wla katrefus texte twil. Khtar toul 3la 7sab usage 7aqiqi."
+    }
+  ],
+  "summary": {
+    "fr": "Chaque colonne a un <strong>type</strong> : <code>INT</code> pour les entiers, <code>DECIMAL</code> pour l'argent, <code>VARCHAR(n)</code> pour le texte court, <code>TEXT</code> pour le long, <code>DATE/DATETIME</code> pour le temps. <code>NULL</code> représente l'inconnu et se teste avec <code>IS NULL</code>. Le bon type protège les données et améliore les performances.",
+    "darija": "Kol colonne 3ndha <strong>type</strong> : <code>INT</code> l entiers, <code>DECIMAL</code> l flous, <code>VARCHAR(n)</code> l texte qsir, <code>TEXT</code> l twil, <code>DATE/DATETIME</code> l wa9t. <code>NULL</code> kat3ni ma3loma ma m3erfach w kattester b <code>IS NULL</code>. Type mzyan kay7mi données w kay7sen performance."
+  }
+}

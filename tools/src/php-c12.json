@@ -1,0 +1,126 @@
+{
+  "id": "php-ch12",
+  "title": "Manipulation de fichiers",
+  "subtitle": "Lire, écrire et organiser des données sur le serveur",
+  "objectives": [
+    "Lire et écrire un fichier avec file_get_contents et file_put_contents.",
+    "Ouvrir un fichier avec fopen, fwrite et fclose.",
+    "Lire un fichier ligne par ligne.",
+    "Éviter les failles de traversée de chemin."
+  ],
+  "lessons": [
+    {
+      "id": "lire-ecrire",
+      "title": "Lire et écrire simplement",
+      "icon": "📄",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Pour les petits fichiers, deux fonctions suffisent : <code>file_get_contents()</code> lit tout le contenu dans une chaîne, <code>file_put_contents()</code> écrit une chaîne dans un fichier (en le créant si besoin).</p>",
+          "darija": "<p>L fichiers sghar, jouj fonctions kafyin : <code>file_get_contents()</code> katqra kol contenu f chaîne, <code>file_put_contents()</code> katkteb chaîne f fichier (w kat5lqo ila ma kanch).</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "php",
+          "title": "Syntaxe",
+          "code": "$contenu = file_get_contents(\"notes.txt\");\nfile_put_contents(\"notes.txt\", \"Salam\");\nfile_put_contents(\"journal.txt\", \"Nouvelle ligne\\n\", FILE_APPEND);"
+        },
+        {
+          "type": "example",
+          "title": "Journal de visites",
+          "lang": "php",
+          "code": "<?php\n$fichier = __DIR__ . \"/visites.txt\";\n\nif (!file_exists($fichier)) {\n    file_put_contents($fichier, \"0\");\n}\n\n$visites = (int) file_get_contents($fichier);\n$visites++;\nfile_put_contents($fichier, (string) $visites);\n\necho \"Cette page a été vue \" . $visites . \" fois.\";\n?>",
+          "explainFr": "<code>__DIR__</code> garantit que le fichier est créé dans le dossier du script. On lit, on convertit en entier, on incrémente, puis on réécrit.",
+          "explainDarija": "<code>__DIR__</code> katdmen fichier kayt5leq f dossier dyal script. Kanqraw, kan7ewlo l entier, kanzido, w men ba3d kan3awdo nkteb."
+        },
+        {
+          "type": "warning",
+          "title": "Droits d'écriture",
+          "fr": "Le serveur web doit avoir le droit d'écrire dans le dossier. Sur un serveur Linux, un dossier <code>storage/</code> avec les bons droits est préférable à la racine du projet.",
+          "darija": "Serveur web khaso droit dyal écriture f dossier. F serveur Linux, dossier <code>storage/</code> b droits mzyanin 7sen men racine dyal projet."
+        }
+      ]
+    },
+    {
+      "id": "fopen",
+      "title": "fopen, fwrite, fclose",
+      "icon": "🔧",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Pour un contrôle fin (gros fichiers, ajout progressif), on ouvre un <strong>pointeur</strong> avec <code>fopen()</code>. Le mode indique l'usage : <code>r</code> lecture, <code>w</code> écriture (écrase), <code>a</code> ajout à la fin.</p>",
+          "darija": "<p>L contrôle dqiq (fichiers kbar, ajout progressif), kan7ello <strong>pointeur</strong> b <code>fopen()</code>. Mode kaybayen usage : <code>r</code> qraya, <code>w</code> écriture (katmsse7), <code>a</code> ajout f l'akhir.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Mode", "Lecture", "Écriture", "Fichier absent"],
+          "rows": [
+            ["r", "oui", "non", "erreur"],
+            ["w", "non", "oui (écrase)", "créé"],
+            ["a", "non", "oui (ajoute)", "créé"],
+            ["r+", "oui", "oui", "erreur"]
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Ajouter une ligne au journal",
+          "lang": "php",
+          "code": "<?php\n$fichier = __DIR__ . \"/journal.log\";\n$ligne = date(\"Y-m-d H:i:s\") . \" - visite\\n\";\n\n$handle = fopen($fichier, \"a\");\nif ($handle !== false) {\n    fwrite($handle, $ligne);\n    fclose($handle);\n    echo \"Ligne ajoutée.\";\n} else {\n    echo \"Impossible d'ouvrir le fichier.\";\n}\n?>",
+          "explainFr": "<code>fopen()</code> renvoie <code>false</code> en cas d'échec : testez toujours le résultat. <code>fclose()</code> libère le fichier.",
+          "explainDarija": "<code>fopen()</code> katrje3 <code>false</code> ila fchel : dima tester résultat. <code>fclose()</code> kat7rer fichier."
+        }
+      ]
+    },
+    {
+      "id": "lignes-csv",
+      "title": "Lire ligne par ligne et CSV",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><code>file()</code> lit toutes les lignes dans un tableau. <code>fgetcsv()</code> lit une ligne CSV et la renvoie sous forme de tableau : idéal pour importer des données.</p>",
+          "darija": "<p><code>file()</code> katqra kol lignes f tableau. <code>fgetcsv()</code> katqra ligne CSV w katrje3ha tableau : mzyana bach timporti données.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Afficher un fichier ligne par ligne",
+          "lang": "php",
+          "code": "<?php\n$lignes = [\"Amal,Casablanca,16\", \"Yassine,Rabat,14\"];\n\nforeach ($lignes as $ligne) {\n    $champs = str_getcsv($ligne);\n    echo $champs[0] . \" habite à \" . $champs[1] . \" (note \" . $champs[2] . \")<br>\";\n}\n?>",
+          "output": "Amal habite à Casablanca (note 16)<br>Yassine habite à Rabat (note 14)<br>",
+          "explainFr": "<code>str_getcsv()</code> découpe une chaîne CSV sans ouvrir de fichier. Pour un vrai fichier, remplacez-la par <code>fgetcsv($handle)</code> dans une boucle <code>while</code>.",
+          "explainDarija": "<code>str_getcsv()</code> katqess chaîne CSV bla ma t7el fichier. L fichier 7aqiqi, beddelha b <code>fgetcsv($handle)</code> f boucle <code>while</code>."
+        },
+        {
+          "type": "warning",
+          "title": "Traversée de chemin",
+          "fr": "Ne construisez jamais un chemin avec <code>$_GET</code> sans contrôle : <code>../../config.php</code> permettrait de lire n'importe quel fichier. Utilisez <code>basename()</code> et une liste blanche.",
+          "darija": "3omrek ma tbni chemin b <code>$_GET</code> bla contrôle : <code>../../config.php</code> katkhalli yqra ay fichier. Khdem b <code>basename()</code> w lista blanche."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "file_get_contents(\"notes.txt\") sans vérifier l'existence",
+      "fix": "if (is_file($f)) { $contenu = file_get_contents($f); }",
+      "fr": "Un fichier absent déclenche un avertissement et renvoie <code>false</code>. Testez avec <code>is_file()</code> ou <code>file_exists()</code>.",
+      "darija": "Fichier makaynch kay3ti avertissement w kayrje3 <code>false</code>. Testi b <code>is_file()</code> wla <code>file_exists()</code>."
+    },
+    {
+      "wrong": "fopen($f, \"w\") pour ajouter une ligne",
+      "fix": "fopen($f, \"a\") pour ajouter sans effacer.",
+      "fr": "Le mode <code>w</code> vide le fichier avant d'écrire. Pour conserver l'existant, utilisez <code>a</code> (append) ou <code>FILE_APPEND</code>.",
+      "darija": "Mode <code>w</code> kayferregh fichier qbel écriture. Bach t7fed li kayn, khdem b <code>a</code> wla <code>FILE_APPEND</code>."
+    },
+    {
+      "wrong": "$page = $_GET[\"page\"]; include \"pages/\" . $page;",
+      "fix": "$page = basename($_GET[\"page\"]); include \"pages/\" . $page; // + liste blanche",
+      "fr": "Sans filtre, un visiteur peut lire des fichiers hors du dossier prévu (path traversal / LFI).",
+      "darija": "Bla filtre, visiteur y9der yqra fichiers bera dossier (path traversal / LFI)."
+    }
+  ],
+  "summary": {
+    "fr": "<strong>file_get_contents</strong> et <strong>file_put_contents</strong> suffisent pour les petits fichiers ; <strong>fopen/fwrite/fclose</strong> offrent plus de contrôle. Le mode <code>a</code> ajoute sans effacer, <code>w</code> écrase. Testez toujours l'existence et les droits, et ne construisez jamais un chemin depuis une saisie utilisateur.",
+    "darija": "<strong>file_get_contents</strong> w <strong>file_put_contents</strong> kafyin l fichiers sghar ; <strong>fopen/fwrite/fclose</strong> kay3tiw contrôle ktar. Mode <code>a</code> kayzid bla ma ymse7, <code>w</code> kaymse7. Dima testi existence w droits, w 3omrek ma tbni chemin men saisie utilisateur."
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "exercises": {
+    "css": {
+      "11": {
+        "title": "Flexbox",
+        "brief": "Aligner, répartir et faire passer des éléments flex à la ligne.",
+        "levels": [
+          ["Débutant — activer et aligner", "css",
+           "<p>Écris une règle <code>.conteneur</code> qui active Flexbox, répartit les éléments avec <code>space-between</code>, les centre verticalement avec <code>align-items: center</code> et ajoute un <code>gap</code> de <code>16px</code>.</p>",
+           "<p>Kteb règle <code>.conteneur</code> li katfe3el Flexbox, katqasem éléments b <code>space-between</code>, katcenterhom verticalement b <code>align-items: center</code> w katzid <code>gap</code> dyal <code>16px</code>.</p>",
+           ".conteneur {\n  /* Flexbox */\n}",
+           [["html_contains", "display: flex"], ["html_contains", "justify-content: space-between"], ["html_contains", "align-items: center"], ["html_contains", "gap: 16px"]],
+           ["Flexbox s'active sur le conteneur avec display: flex.", "justify-content agit sur l'axe principal.", "align-items agit sur l'axe secondaire.", "gap espace les enfants sans marges."],
+           ".conteneur {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}",
+           "<code>justify-content</code> pousse le premier et le dernier enfant aux extrémités, <code>align-items</code> les centre sur la hauteur, <code>gap</code> garantit un espace minimal entre eux.",
+           "<code>justify-content</code> kaydowez awwel w akhir enfant l tarafin, <code>align-items</code> kaycenterhom f hauteur, <code>gap</code> kay7fed espace minimum binathom."],
+          ["Intermédiaire — parts égales et part double", "css",
+           "<p>Écris une règle <code>.col</code> qui prend une part égale de l'espace disponible, puis une règle <code>.col.large</code> qui prend deux parts.</p>",
+           "<p>Kteb règle <code>.col</code> li katakhod part sawiya men espace li kayn, men ba3d règle <code>.col.large</code> li katakhod jouj parts.</p>",
+           ".col {\n  /* une part */\n}\n\n.col.large {\n  /* deux parts */\n}",
+           [["html_contains", "flex: 1"], ["html_contains", "flex: 2"]],
+           ["Le raccourci flex: 1 signifie grandir et rétrécir également.", "flex: 2 donne deux fois plus d'espace libre.", "Le sélecteur .col.large cible les éléments qui ont les deux classes."],
+           ".col {\n  flex: 1;\n}\n\n.col.large {\n  flex: 2;\n}",
+           "L'espace libre est partagé proportionnellement : la colonne large reçoit deux parts, les autres une part chacune.",
+           "Espace libre kaytqasem b nisba : colonne kbira katakhod jouj parts, lokhrin part wa7da kol wa7da."],
+          ["Avancé — cartes qui passent à la ligne", "css",
+           "<p>Écris une règle <code>.cartes</code> en Flexbox avec <code>flex-wrap: wrap</code> et un <code>gap</code> de <code>16px</code>, puis une règle <code>.carte</code> avec <code>flex: 1 1 180px</code>.</p>",
+           "<p>Kteb règle <code>.cartes</code> f Flexbox b <code>flex-wrap: wrap</code> w <code>gap</code> dyal <code>16px</code>, men ba3d règle <code>.carte</code> b <code>flex: 1 1 180px</code>.</p>",
+           ".cartes {\n  /* conteneur */\n}\n\n.carte {\n  /* enfant */\n}",
+           [["html_contains", "display: flex"], ["html_contains", "flex-wrap: wrap"], ["html_contains", "gap: 16px"], ["html_contains", "flex: 1 1 180px"]],
+           ["flex-wrap: wrap autorise le passage à la ligne.", "flex: 1 1 180px = grow 1, shrink 1, base 180px.", "La base est la largeur de départ avant partage de l'espace."],
+           ".cartes {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 16px;\n}\n\n.carte {\n  flex: 1 1 180px;\n}",
+           "Chaque carte démarre à 180px, peut grandir pour remplir la ligne et rétrécir si besoin. Quand la ligne est pleine, les cartes suivantes passent en dessous.",
+           "Kol carte katbda b 180px, t9der tkber bach t3emmer ligne w tsqer ila khas. Melli ligne kat3mer, cartes li mora kaydowzo l ta7t."]
+        ]
+      },
+      "12": {
+        "title": "CSS Grid",
+        "brief": "Construire des grilles, placer des éléments et dessiner un layout.",
+        "levels": [
+          ["Débutant — grille de trois colonnes", "css",
+           "<p>Écris une règle <code>.grille</code> qui active Grid, crée trois colonnes égales avec <code>repeat(3, 1fr)</code> et ajoute un <code>gap</code> de <code>12px</code>.</p>",
+           "<p>Kteb règle <code>.grille</code> li katfe3el Grid, kat5leq tlata colonnes sawiyin b <code>repeat(3, 1fr)</code> w katzid <code>gap</code> dyal <code>12px</code>.</p>",
+           ".grille {\n  /* grille */\n}",
+           [["html_contains", "display: grid"], ["html_contains", "grid-template-columns: repeat(3, 1fr)"], ["html_contains", "gap: 12px"]],
+           ["Grid s'active avec display: grid.", "grid-template-columns définit les colonnes.", "1fr représente une fraction de l'espace libre."],
+           ".grille {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 12px;\n}",
+           "<code>repeat(3, 1fr)</code> équivaut à <code>1fr 1fr 1fr</code> : trois colonnes de largeur identique qui se partagent l'espace.",
+           "<code>repeat(3, 1fr)</code> b7al <code>1fr 1fr 1fr</code> : tlata colonnes b 3ard sawi li kaytqasmo espace."],
+          ["Intermédiaire — placer une carte sur deux colonnes", "css",
+           "<p>Écris une règle <code>.large</code> qui occupe deux colonnes et deux lignes dans la grille.</p>",
+           "<p>Kteb règle <code>.large</code> li katakhod jouj colonnes w jouj lignes f grille.</p>",
+           ".large {\n  /* occupation */\n}",
+           [["html_contains", "grid-column: span 2"], ["html_contains", "grid-row: span 2"]],
+           ["span 2 signifie « occupe deux pistes ».", "grid-column gère l'axe horizontal.", "grid-row gère l'axe vertical."],
+           ".large {\n  grid-column: span 2;\n  grid-row: span 2;\n}",
+           "La carte s'étend sur deux colonnes et deux lignes. Les autres éléments se placent automatiquement autour d'elle.",
+           "Carte kattmed 3la jouj colonnes w jouj lignes. Éléments okhrin kayt7etto automatiquement 7daha."],
+          ["Avancé — layout avec grid-template-areas", "css",
+           "<p>Écris une règle <code>.page</code> qui définit deux colonnes (<code>200px 1fr</code>) et trois lignes (<code>auto 1fr auto</code>), puis les zones <code>entete</code>, <code>menu</code>, <code>contenu</code> et <code>pied</code> comme dans un layout classique.</p>",
+           "<p>Kteb règle <code>.page</code> li kat7edded jouj colonnes (<code>200px 1fr</code>) w tlata lignes (<code>auto 1fr auto</code>), men ba3d zones <code>entete</code>, <code>menu</code>, <code>contenu</code> w <code>pied</code> b7al layout 3adi.</p>",
+           ".page {\n  display: grid;\n  /* colonnes, lignes, zones */\n}",
+           [["html_contains", "grid-template-columns: 200px 1fr"], ["html_contains", "grid-template-rows: auto 1fr auto"], ["html_contains", "grid-template-areas"], ["html_contains", "entete entete"], ["html_contains", "menu"], ["html_contains", "pied pied"]],
+           ["grid-template-areas utilise des chaînes de caractères.", "Chaque ligne de la déclaration représente une ligne de la grille.", "Un nom répété fusionne les cellules."],
+           ".page {\n  display: grid;\n  grid-template-columns: 200px 1fr;\n  grid-template-rows: auto 1fr auto;\n  grid-template-areas:\n    \"entete entete\"\n    \"menu contenu\"\n    \"pied pied\";\n}",
+           "Le dessin en texte décrit exactement la page : en-tête et pied sur toute la largeur, menu à gauche, contenu à droite. Chaque enfant devra reprendre son nom avec <code>grid-area</code>.",
+           "Rsam b texte kaywsef page b dqiq : en-tête w pied 3la 3ard kamel, menu liser, contenu limen. Kol enfant khas y3awed smiyto b <code>grid-area</code>."]
+        ]
+      },
+      "13": {
+        "title": "Design responsive",
+        "brief": "Rendre une page lisible du mobile au grand écran.",
+        "levels": [
+          ["Débutant — viewport et image fluide", "html",
+           "<p>Ajoute la balise <code>meta name=\"viewport\"</code> dans le <code>head</code>, puis écris une règle <code>img</code> avec <code>max-width: 100%</code> et <code>height: auto</code>.</p>",
+           "<p>Zid balise <code>meta name=\"viewport\"</code> f <code>head</code>, men ba3d kteb règle <code>img</code> b <code>max-width: 100%</code> w <code>height: auto</code>.</p>",
+           "<head>\n  <!-- viewport -->\n  <style>\n    /* image fluide */\n  </style>\n</head>",
+           [["html_contains", "name=\"viewport\""], ["html_contains", "width=device-width"], ["html_contains", "max-width: 100%"], ["html_contains", "height: auto"]],
+           ["viewport indique au mobile d'utiliser la largeur réelle de l'écran.", "max-width: 100% empêche l'image de dépasser son conteneur.", "height: auto conserve les proportions."],
+           "<head>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <style>\n    img {\n      max-width: 100%;\n      height: auto;\n    }\n  </style>\n</head>",
+           "La balise viewport est indispensable : sans elle, le mobile simule un écran de 980px. L'image ne dépasse jamais son conteneur et garde son ratio.",
+           "Balise viewport darouriya : bla biha, mobile kayfeddo écran 980px. Image 3omrha ma tfout conteneur dyalha w kat7fed ratio."],
+          ["Intermédiaire — conteneur fluide et titre adaptatif", "css",
+           "<p>Écris une règle <code>.conteneur</code> avec <code>width: min(100% - 32px, 1000px)</code> et <code>margin-inline: auto</code>, puis une règle <code>h1</code> avec <code>font-size: clamp(1.5rem, 4vw + 0.5rem, 3rem)</code>.</p>",
+           "<p>Kteb règle <code>.conteneur</code> b <code>width: min(100% - 32px, 1000px)</code> w <code>margin-inline: auto</code>, men ba3d règle <code>h1</code> b <code>font-size: clamp(1.5rem, 4vw + 0.5rem, 3rem)</code>.</p>",
+           ".conteneur {\n  /* largeur fluide */\n}\n\nh1 {\n  /* taille fluide */\n}",
+           [["html_contains", "width: min(100% - 32px, 1000px)"], ["html_contains", "margin-inline: auto"], ["html_contains", "clamp(1.5rem, 4vw + 0.5rem, 3rem)"]],
+           ["min() choisit la plus petite des deux valeurs.", "margin-inline: auto centre horizontalement.", "clamp(min, idéal, max) borne la taille."],
+           ".conteneur {\n  width: min(100% - 32px, 1000px);\n  margin-inline: auto;\n}\n\nh1 {\n  font-size: clamp(1.5rem, 4vw + 0.5rem, 3rem);\n}",
+           "Le conteneur garde 16px de marge de chaque côté sur mobile et ne dépasse jamais 1000px. Le titre grandit avec la largeur de la fenêtre tout en restant entre 1.5rem et 3rem.",
+           "Conteneur kay7fed 16px marge kol jiht 3la mobile w 3omro ma yfout 1000px. Titre kaykber m3a 3ard dyal fenêtre w kaybqa bin 1.5rem w 3rem."],
+          ["Avancé — carte responsive complète", "css",
+           "<p>Écris une règle <code>.carte</code> avec <code>max-width: 520px</code>, <code>margin: 0 auto</code>, un fond blanc, un <code>border-radius: 10px</code> et <code>overflow: hidden</code>. Puis une règle <code>.carte img</code> avec <code>width: 100%</code>, <code>height: auto</code> et <code>display: block</code>.</p>",
+           "<p>Kteb règle <code>.carte</code> b <code>max-width: 520px</code>, <code>margin: 0 auto</code>, fond byed, <code>border-radius: 10px</code> w <code>overflow: hidden</code>. Men ba3d règle <code>.carte img</code> b <code>width: 100%</code>, <code>height: auto</code> w <code>display: block</code>.</p>",
+           ".carte {\n  /* carte */\n}\n\n.carte img {\n  /* image */\n}",
+           [["html_contains", "max-width: 520px"], ["html_contains", "margin: 0 auto"], ["html_contains", "overflow: hidden"], ["html_contains", ".carte img"], ["html_contains", "width: 100%"], ["html_contains", "display: block"]],
+           ["overflow: hidden coupe ce qui dépasse des coins arrondis.", "margin: 0 auto centre la carte.", "display: block supprime l'espace fantôme sous l'image."],
+           ".carte {\n  max-width: 520px;\n  margin: 0 auto;\n  background: #ffffff;\n  border-radius: 10px;\n  overflow: hidden;\n}\n\n.carte img {\n  width: 100%;\n  height: auto;\n  display: block;\n}",
+           "La carte est centrée, limitée à 520px et ses coins arrondis sont respectés grâce à <code>overflow: hidden</code>. L'image occupe toute la largeur et garde ses proportions.",
+           "Carte mcentriya, m7doda b 520px w coins arrondis kayt7fed 3lihom b <code>overflow: hidden</code>. Image katakhod 3ard kamel w kat7fed proportions."]
+        ]
+      },
+      "14": {
+        "title": "Media queries",
+        "brief": "Adapter une mise en page selon la largeur et les préférences.",
+        "levels": [
+          ["Débutant — première media query", "css",
+           "<p>Écris une media query qui applique <code>display: flex;</code> à <code>.conteneur</code> à partir de <code>768px</code> de large.</p>",
+           "<p>Kteb media query li kattbeq <code>display: flex;</code> 3la <code>.conteneur</code> men <code>768px</code> dyal 3ard.</p>",
+           "/* media query mobile-first */",
+           [["html_contains", "@media (min-width: 768px)"], ["html_contains", "display: flex"]],
+           ["Une media query s'écrit @media (condition) { ... }.", "min-width signifie « à partir de cette largeur ».", "La règle doit cibler .conteneur."],
+           "@media (min-width: 768px) {\n  .conteneur {\n    display: flex;\n  }\n}",
+           "Sous 768px, le conteneur garde son style de base. À partir de 768px, il devient flex : c'est l'approche mobile-first.",
+           "Qbel 768px, conteneur kay7fed style de base. Men 768px, kaywli flex : hadi approche mobile-first."],
+          ["Intermédiaire — grille de 1 à 3 colonnes", "css",
+           "<p>Écris une règle de base <code>.grille { display: grid; grid-template-columns: 1fr; }</code>, puis deux media queries : deux colonnes à partir de <code>600px</code> et trois colonnes à partir de <code>900px</code>.</p>",
+           "<p>Kteb règle de base <code>.grille { display: grid; grid-template-columns: 1fr; }</code>, men ba3d jouj media queries : jouj colonnes men <code>600px</code> w tlata colonnes men <code>900px</code>.</p>",
+           ".grille {\n  /* base mobile */\n}\n\n/* 600px */\n\n/* 900px */",
+           [["html_contains", "grid-template-columns: 1fr"], ["html_contains", "@media (min-width: 600px)"], ["html_contains", "repeat(2, 1fr)"], ["html_contains", "@media (min-width: 900px)"], ["html_contains", "repeat(3, 1fr)"]],
+           ["La base s'applique à tous les écrans.", "Les media queries suivantes écrasent la base quand leur condition est vraie.", "L'ordre mobile-first va du plus petit au plus grand."],
+           ".grille {\n  display: grid;\n  grid-template-columns: 1fr;\n}\n\n@media (min-width: 600px) {\n  .grille {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n\n@media (min-width: 900px) {\n  .grille {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}",
+           "Sous 600px : une colonne. De 600 à 899px : deux colonnes. À partir de 900px : trois colonnes. Chaque palier enrichit le précédent.",
+           "Qbel 600px : colonne wa7da. Men 600 7ta 899px : jouj colonnes. Men 900px : tlata colonnes. Kol palier kayzid 3la li qbelo."],
+          ["Avancé — mouvement réduit et thème sombre", "css",
+           "<p>Écris une media query <code>prefers-reduced-motion: reduce</code> qui réduit <code>animation-duration</code> et <code>transition-duration</code> à <code>0.01ms</code> pour tous les éléments, puis une media query <code>prefers-color-scheme: dark</code> qui donne au <code>body</code> un fond <code>#0f172a</code> et un texte <code>#e2e8f0</code>.</p>",
+           "<p>Kteb media query <code>prefers-reduced-motion: reduce</code> li katnqes <code>animation-duration</code> w <code>transition-duration</code> l <code>0.01ms</code> l kol éléments, men ba3d media query <code>prefers-color-scheme: dark</code> li kat3ti l <code>body</code> fond <code>#0f172a</code> w texte <code>#e2e8f0</code>.</p>",
+           "/* mouvement réduit */\n\n/* thème sombre */",
+           [["html_contains", "prefers-reduced-motion: reduce"], ["html_contains", "animation-duration: 0.01ms"], ["html_contains", "transition-duration: 0.01ms"], ["html_contains", "prefers-color-scheme: dark"], ["html_contains", "background: #0f172a"], ["html_contains", "color: #e2e8f0"]],
+           ["Ces media queries ne dépendent pas de la largeur mais des préférences du système.", "Le sélecteur * cible tous les éléments.", "Le thème sombre améliore le confort de lecture."],
+           "@media (prefers-reduced-motion: reduce) {\n  * {\n    animation-duration: 0.01ms;\n    transition-duration: 0.01ms;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  body {\n    background: #0f172a;\n    color: #e2e8f0;\n  }\n}",
+           "Ces deux media queries respectent les choix de l'utilisateur : moins d'animations pour éviter le malaise, et un thème sombre automatique si le système l'utilise.",
+           "Had jouj media queries kay7trmo choix dyal utilisateur : animations qlil bach yt7asab malaise, w thème sombre automatique ila système kayst3mlo."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "css": {
+      "11": {
+        "title": "Quiz — Flexbox",
+        "questions": [
+          ["mcq", "Sur quel élément active-t-on Flexbox ?", ["Le conteneur parent", "Chaque enfant", "La balise html uniquement"], 0, "Conteneur flex", "<code>display: flex</code> se met sur le parent ; ses enfants directs deviennent des éléments flex.", "<code>display: flex</code> kayt7et 3la parent ; enfants nichan kaywliw éléments flex."],
+          ["tf", "justify-content agit sur l'axe principal.", 0, "Axes Flexbox", "Vrai : <code>justify-content</code> aligne sur l'axe défini par <code>flex-direction</code>.", "S7i7 : <code>justify-content</code> kay3adel 3la axe li kay7eddo <code>flex-direction</code>."],
+          ["mcq", "Quelle propriété aligne sur l'axe secondaire ?", ["align-items", "justify-content", "flex-wrap"], 0, "align-items", "<code>align-items</code> agit sur l'axe perpendiculaire à l'axe principal.", "<code>align-items</code> kaykhdem 3la axe perpendiculaire l axe principal."],
+          ["fill", "Le raccourci qui combine grow, shrink et basis s'appelle ________.", "flex", "Raccourci flex", "<code>flex: 1 1 180px</code> signifie grow 1, shrink 1, base 180px.", "<code>flex: 1 1 180px</code> kat3ni grow 1, shrink 1, base 180px."],
+          ["multi", "Quelles valeurs de justify-content existent ?", ["space-between", "space-around", "center", "middle"], [0, 1, 2], "Valeurs de justify-content", "<code>center</code>, <code>space-between</code> et <code>space-around</code> sont valides ; <code>middle</code> n'existe pas en Flexbox.", "<code>center</code>, <code>space-between</code> w <code>space-around</code> valides ; <code>middle</code> ma kaynch f Flexbox."]
+        ]
+      },
+      "12": {
+        "title": "Quiz — CSS Grid",
+        "questions": [
+          ["mcq", "Que fait repeat(3, 1fr) ?", ["Trois colonnes égales", "Trois lignes de 1px", "Une colonne répétée trois fois verticalement"], 0, "repeat et fr", "<code>repeat(3, 1fr)</code> crée trois pistes égales qui se partagent l'espace.", "<code>repeat(3, 1fr)</code> kay5leq tlata pistes sawiyin li kaytqasmo espace."],
+          ["tf", "grid-column: span 2 fait occuper deux colonnes à un élément.", 0, "span", "Vrai : <code>span 2</code> indique que l'élément couvre deux pistes de colonnes.", "S7i7 : <code>span 2</code> kay3ni élément kayghatti jouj pistes dyal colonnes."],
+          ["mcq", "Quelle propriété dessine un layout avec des noms de zones ?", ["grid-template-areas", "grid-gap", "flex-direction"], 0, "grid-template-areas", "<code>grid-template-areas</code> décrit la page avec des chaînes comme \"entete entete\".", "<code>grid-template-areas</code> kaywsef page b chaînes b7al \"entete entete\"."],
+          ["fill", "La fonction qui crée des colonnes automatiques d'au moins 180px est repeat(auto-fit, ________(180px, 1fr)).", "minmax", "minmax", "<code>minmax(180px, 1fr)</code> fixe un minimum de 180px et un maximum d'une fraction libre.", "<code>minmax(180px, 1fr)</code> kay7ded minimum 180px w maximum fraction libre."],
+          ["mcq", "Quelle unité représente une fraction de l'espace libre en Grid ?", ["fr", "px", "em"], 0, "Unité fr", "<code>fr</code> distribue l'espace restant entre les pistes.", "<code>fr</code> kayqasem espace li bqa bin pistes."]
+        ]
+      },
+      "13": {
+        "title": "Quiz — Design responsive",
+        "questions": [
+          ["mcq", "Quelle balise est indispensable au responsive sur mobile ?", ["meta name=\"viewport\"", "meta charset", "link rel=\"icon\""], 0, "Viewport", "Sans la balise viewport, le mobile simule un écran large et réduit toute la page.", "Bla balise viewport, mobile kayfeddo écran kbir w kayseghar page kamla."],
+          ["tf", "L'approche mobile-first écrit d'abord le style de base pour petit écran.", 0, "Mobile-first", "Vrai : on part du mobile puis on ajoute des min-width pour les écrans plus larges.", "S7i7 : kanbdaw men mobile men ba3d kanzido min-width l écrans kbar."],
+          ["mcq", "Quelle règle empêche une image de dépasser son conteneur ?", ["max-width: 100%; height: auto;", "width: 2000px;", "position: absolute;"], 0, "Images fluides", "<code>max-width: 100%</code> limite l'image à la largeur disponible et <code>height: auto</code> garde le ratio.", "<code>max-width: 100%</code> kay7ded image b 3ard li kayn w <code>height: auto</code> kay7fed ratio."],
+          ["fill", "La fonction CSS qui borne une taille entre un minimum et un maximum est ________().", "clamp", "clamp", "<code>clamp(1.5rem, 4vw, 3rem)</code> choisit une valeur idéale bornée par min et max.", "<code>clamp(1.5rem, 4vw, 3rem)</code> kaykhtar valeur idéale m7doda b min w max."],
+          ["mcq", "Pourquoi éviter width: 960px sur un conteneur principal ?", ["Cela crée un défilement horizontal sur mobile", "Cela supprime les images", "Cela désactive les media queries"], 0, "Largeurs fixes", "Une largeur fixe supérieure à l'écran provoque un débordement horizontal.", "3ard fixe kbar men écran kay5leq débordement horizontal."]
+        ]
+      },
+      "14": {
+        "title": "Quiz — Media queries",
+        "questions": [
+          ["mcq", "Quelle est la syntaxe correcte d'une media query ?", ["@media (min-width: 768px) { ... }", "media(min-width: 768px) { ... }", "@media min-width = 768px { ... }"], 0, "Syntaxe", "On écrit <code>@media (condition) { règles }</code>.", "Kanktbo <code>@media (condition) { règles }</code>."],
+          ["tf", "En mobile-first, on utilise des min-width croissants.", 0, "min-width", "Vrai : la base sert au mobile, puis les <code>min-width</code> enrichissent pour les écrans plus larges.", "S7i7 : base l mobile, men ba3d <code>min-width</code> kayzido l écrans kbar."],
+          ["mcq", "Où choisit-on les points de rupture ?", ["Là où la mise en page commence à casser", "Aux dimensions exactes d'un téléphone", "Toujours à 1200px"], 0, "Breakpoints", "Les breakpoints se choisissent selon le contenu, pas selon un modèle d'appareil.", "Breakpoints kaytkhtaro 3la 7sab contenu, machi 3la 7sab modèle d'appareil."],
+          ["fill", "La media query qui respecte les utilisateurs sensibles aux animations est prefers-________.", "reduced-motion", "Préférences", "<code>prefers-reduced-motion: reduce</code> permet de réduire ou désactiver les animations.", "<code>prefers-reduced-motion: reduce</code> kaykhalli tnqes wla t7yed animations."],
+          ["multi", "Quelles media features existent ?", ["prefers-color-scheme", "prefers-reduced-motion", "orientation", "font-color"], [0, 1, 2], "Media features", "<code>prefers-color-scheme</code>, <code>prefers-reduced-motion</code> et <code>orientation</code> sont valides ; <code>font-color</code> n'existe pas.", "<code>prefers-color-scheme</code>, <code>prefers-reduced-motion</code> w <code>orientation</code> valides ; <code>font-color</code> ma kaynch."]
+        ]
+      }
+    }
+  }
+}

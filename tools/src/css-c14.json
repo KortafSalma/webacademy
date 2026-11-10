@@ -1,0 +1,149 @@
+{
+  "id": "css-ch14",
+  "title": "Media queries",
+  "subtitle": "Adapter le style selon l'écran et les préférences",
+  "objectives": [
+    "Écrire une media query avec @media.",
+    "Distinguer min-width et max-width.",
+    "Choisir des points de rupture utiles.",
+    "Adapter une grille et une navigation.",
+    "Respecter prefers-reduced-motion et prefers-color-scheme."
+  ],
+  "lessons": [
+    {
+      "id": "syntaxe-media",
+      "title": "Syntaxe des media queries",
+      "icon": "🎛️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Une <strong>media query</strong> applique un bloc de CSS seulement si une condition est vraie : largeur d'écran, orientation, préférence de thème… On l'écrit <code>@media (condition) { ... }</code>.</p>",
+          "darija": "<p><strong>Media query</strong> kattbeq bloc dyal CSS ghir ila condition vraie : 3ard dyal écran, orientation, préférence dyal thème… Kanktbo <code>@media (condition) { ... }</code>.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "css",
+          "title": "Deux formes essentielles",
+          "code": "/* À partir de 768px (mobile-first) */\n@media (min-width: 768px) {\n  .conteneur { display: flex; }\n}\n\n/* Jusqu'à 767px */\n@media (max-width: 767px) {\n  .menu { display: none; }\n}"
+        },
+        {
+          "type": "warning",
+          "title": "min-width ou max-width ?",
+          "fr": "En <strong>mobile-first</strong>, on écrit le style de base pour mobile puis on ajoute des <code>min-width</code> croissants : les règles s'empilent dans l'ordre du fichier. <code>max-width</code> correspond à une approche desktop-first, plus fragile.",
+          "darija": "F <strong>mobile-first</strong>, kanktbo style de base l mobile men ba3d kanzido <code>min-width</code> kbar : règles kaytt3emro b tartib dyal fichier. <code>max-width</code> katmatch approche desktop-first, li katkon ktar hchacha."
+        },
+        {
+          "type": "example",
+          "title": "Une grille qui passe de 1 à 3 colonnes",
+          "lang": "css",
+          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Media query</title>\n<style>\n  .grille {\n    display: grid;\n    gap: 12px;\n    grid-template-columns: 1fr;\n    font-family: sans-serif;\n  }\n  .case {\n    padding: 22px;\n    background: #fef3c7;\n    border: 2px solid #d97706;\n    text-align: center;\n  }\n  @media (min-width: 600px) {\n    .grille { grid-template-columns: repeat(2, 1fr); }\n  }\n  @media (min-width: 900px) {\n    .grille { grid-template-columns: repeat(3, 1fr); }\n  }\n</style>\n</head>\n<body>\n  <div class=\"grille\">\n    <div class=\"case\">1</div>\n    <div class=\"case\">2</div>\n    <div class=\"case\">3</div>\n  </div>\n</body>\n</html>",
+          "preview": true,
+          "explainFr": "Sous 600px : une colonne. Entre 600 et 899px : deux colonnes. À partir de 900px : trois colonnes. Chaque règle suivante écrase la précédente quand sa condition est vraie.",
+          "explainDarija": "Qbel 600px : colonne wa7da. Bin 600 w 899px : jouj colonnes. Men 900px : tlata colonnes. Kol règle li mora katghalleb li qbelha melli condition dyalha tkoun vraie."
+        }
+      ]
+    },
+    {
+      "id": "breakpoints",
+      "title": "Choisir les points de rupture",
+      "icon": "📏",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Il n'existe pas de breakpoints universels. On choisit les largeurs où <strong>la mise en page commence à casser</strong>, pas les dimensions d'un téléphone précis. Trois paliers suffisent souvent : mobile, tablette, desktop.</p>",
+          "darija": "<p>Ma kaynch breakpoints universels. Kankhtaro 3ard fin <strong>mise en page katbda tkhesr</strong>, machi dimensions dyal téléphone mo3ayyan. Tlata paliers ghaliban kafyin : mobile, tablette, desktop.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Palier", "Largeur indicative", "Objectif"],
+          "rows": [
+            ["Mobile", "base, < 600px", "une colonne, texte lisible"],
+            ["Tablette", "600px – 899px", "deux colonnes, marges"],
+            ["Desktop", "≥ 900px", "trois colonnes, menu horizontal"],
+            ["Grand écran", "≥ 1280px", "conteneur borné, pas étiré"]
+          ]
+        },
+        {
+          "type": "tip",
+          "title": "Observer avant de coder",
+          "fr": "Réduisez la fenêtre lentement : dès qu'un texte devient trop long ou qu'une carte se comprime, notez la largeur. C'est votre breakpoint réel. Inutile de copier ceux d'un framework si votre contenu n'en a pas besoin.",
+          "darija": "Nqes 3ard dyal fenêtre b chwiya : melli texte kaywli twil bzzaf wla carte kattsqer, sjjl 3ard. Hada howa breakpoint 7aqiqi dyalek. Ma khassekch tcopy ceux dyal framework ila contenu dyalek ma 3ndoch 7aja."
+        },
+        {
+          "type": "example",
+          "title": "Navigation qui passe en colonne",
+          "lang": "css",
+          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Menu responsive</title>\n<style>\n  .nav {\n    display: flex;\n    flex-direction: column;\n    gap: 8px;\n    padding: 12px;\n    background: #0f172a;\n    font-family: sans-serif;\n  }\n  .nav a {\n    color: #e2e8f0;\n    text-decoration: none;\n    padding: 8px 12px;\n    border-radius: 6px;\n  }\n  .nav a:hover { background: #1e293b; }\n  @media (min-width: 700px) {\n    .nav { flex-direction: row; align-items: center; }\n  }\n</style>\n</head>\n<body>\n  <nav class=\"nav\">\n    <a href=\"#\">Accueil</a>\n    <a href=\"#\">Cours</a>\n    <a href=\"#\">Exercices</a>\n    <a href=\"#\">Quiz</a>\n  </nav>\n</body>\n</html>",
+          "preview": true,
+          "explainFr": "Sur mobile, les liens s'empilent verticalement et restent faciles à toucher. À partir de 700px, la barre devient horizontale.",
+          "explainDarija": "3la mobile, liens kayt3emro verticalement w kaybqaw sahel l touch. Men 700px, barre katwli horizontale."
+        }
+      ]
+    },
+    {
+      "id": "preferences",
+      "title": "Préférences utilisateur et impression",
+      "icon": "♿",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Les media queries ne concernent pas seulement la largeur. <code>prefers-reduced-motion</code> détecte les utilisateurs qui réduisent les animations, <code>prefers-color-scheme</code> le thème clair ou sombre, et <code>print</code> l'impression.</p>",
+          "darija": "<p>Media queries ma kayt7ekkomch ghir f 3ard. <code>prefers-reduced-motion</code> kat3ref utilisateurs li kaynqso animations, <code>prefers-color-scheme</code> thème clair wla sombre, w <code>print</code> impression.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Respecter les préférences",
+          "lang": "css",
+          "code": "@media (prefers-reduced-motion: reduce) {\n  * {\n    animation-duration: 0.01ms !important;\n    transition-duration: 0.01ms !important;\n  }\n}\n\n@media (prefers-color-scheme: dark) {\n  body {\n    background: #0f172a;\n    color: #e2e8f0;\n  }\n}\n\n@media print {\n  nav, footer, .publicite { display: none; }\n  body { color: black; background: white; }\n}"
+        },
+        {
+          "type": "table",
+          "headers": ["Media feature", "Valeurs", "Usage"],
+          "rows": [
+            ["prefers-reduced-motion", "no-preference | reduce", "désactiver les animations"],
+            ["prefers-color-scheme", "light | dark", "thème sombre automatique"],
+            ["orientation", "portrait | landscape", "mise en page selon rotation"],
+            ["print", "—", "version imprimable"],
+            ["hover", "hover | none", "éviter les effets au survol sur tactile"]
+          ]
+        },
+        {
+          "type": "warning",
+          "title": "Ne pas cacher du contenu essentiel",
+          "fr": "Une media query ne doit pas supprimer une information indispensable sur mobile. Si un menu disparaît, prévoyez un bouton pour l'ouvrir. Le responsive réorganise, il n'ampute pas.",
+          "darija": "Media query ma khasch t7yed ma3loma darouriya 3la mobile. Ila menu kayghib, 7etted bouton bach yt7el. Responsive kay3awed y3adel, ma kaynqessch."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "Écrire les media queries max-width dans le désordre",
+      "fix": "Mobile-first : base mobile, puis min-width croissants dans l'ordre.",
+      "fr": "Des media queries mal ordonnées produisent des règles qui s'écrasent de façon imprévisible.",
+      "darija": "Media queries bla tartib kay3tiw règles li kaytghallbo b chkel ma m7eddch."
+    },
+    {
+      "wrong": "Un breakpoint par modèle de téléphone",
+      "fix": "Choisir les largeurs où le contenu casse (souvent 600px et 900px).",
+      "fr": "Les appareils changent chaque année ; votre contenu, lui, a des points de rupture stables.",
+      "darija": "Appareils kaytbeddlo kol 3am ; contenu dyalek 3ndo points de rupture stables."
+    },
+    {
+      "wrong": "Cacher un menu sans alternative accessible",
+      "fix": "Afficher un bouton menu et gérer l'ouverture au clavier.",
+      "fr": "Supprimer la navigation sur mobile rend le site inutilisable pour une partie des visiteurs.",
+      "darija": "7yed navigation 3la mobile kay3mel site ma ysta3melch l part dyal visiteurs."
+    },
+    {
+      "wrong": "Ignorer prefers-reduced-motion",
+      "fix": "Réduire ou désactiver les animations dans cette media query.",
+      "fr": "Les animations fortes peuvent provoquer un malaise chez certains utilisateurs.",
+      "darija": "Animations qwiyin y9dro y3mlo malaise l chi utilisateurs."
+    }
+  ],
+  "summary": {
+    "fr": "Une <strong>media query</strong> applique du CSS selon une condition. En <strong>mobile-first</strong>, on part du petit écran et on ajoute des <code>min-width</code> croissants. Les <strong>breakpoints</strong> se choisissent là où le contenu casse, pas selon un modèle de téléphone. On adapte aussi les <strong>préférences</strong> (mouvement réduit, thème sombre) et l'<strong>impression</strong>.",
+    "darija": "<strong>Media query</strong> kattbeq CSS 3la 7sab condition. F <strong>mobile-first</strong>, kanbdaw men écran sghir w kanzido <code>min-width</code> kbar. <strong>Breakpoints</strong> kaytkhtaro fin contenu kaykhesr, machi 3la 7sab modèle dyal téléphone. Kan3adlo 7ta <strong>préférences</strong> (mouvement réduit, thème sombre) w <strong>impression</strong>."
+  }
+}

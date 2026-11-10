@@ -1,0 +1,225 @@
+{
+  "exercises": {
+    "php": {
+      "1": {
+        "title": "Introduction à PHP",
+        "brief": "Écrire ses premiers scripts PHP et afficher du texte.",
+        "levels": [
+          ["Débutant — premier echo", "php",
+           "<p>Écris un script PHP qui affiche exactement <code>Bonjour WebAcademy</code>.</p>",
+           "<p>Kteb script PHP li kay3red b dqiq <code>Bonjour WebAcademy</code>.</p>",
+           "<?php\n\n// Affiche le message\n",
+           [["output_contains", "Bonjour WebAcademy"]],
+           ["Un fichier PHP commence par la balise <?php.", "La commande d'affichage est echo.", "Le point-virgule termine l'instruction."],
+           "<?php\necho \"Bonjour WebAcademy\";\n?>",
+           "Le serveur exécute <code>echo</code> et envoie le texte au navigateur. Sans point-virgule, PHP signale une erreur de syntaxe.",
+           "Serveur kaynffed <code>echo</code> w kaysift texte l navigateur. Bla point-virgule, PHP kay3ti erreur de syntaxe."],
+          ["Intermédiaire — HTML et PHP", "php",
+           "<p>Affiche un titre HTML <code>h1</code> contenant <code>Bienvenue</code>, puis un paragraphe contenant <code>J'apprends PHP</code>.</p>",
+           "<p>3red titre HTML <code>h1</code> fih <code>Bienvenue</code>, men ba3d paragraphe fih <code>J'apprends PHP</code>.</p>",
+           "<?php\n// Affiche un titre puis un paragraphe\n",
+           [["output_contains", "<h1>Bienvenue</h1>"], ["output_contains", "J'apprends PHP"]],
+           ["PHP peut générer du HTML avec echo.", "Échappe les apostrophes avec des guillemets doubles.", "Chaque echo se termine par un point-virgule."],
+           "<?php\necho \"<h1>Bienvenue</h1>\";\necho \"<p>J'apprends PHP</p>\";\n?>",
+           "PHP produit du HTML que le navigateur interprète : le titre est reconnu comme un vrai <code>h1</code>, pas comme du texte brut.",
+           "PHP kayproduit HTML li navigateur kayfhem : titre kayt3ref b7al <code>h1</code> 7aqiqi, machi texte 3adi."],
+          ["Avancé — plusieurs lignes et commentaires", "php",
+           "<p>Affiche <code>Ligne 1</code> puis <code>Ligne 2</code> sur deux lignes HTML séparées par <code>&lt;br&gt;</code>. Ajoute un commentaire PHP dans le script.</p>",
+           "<p>3red <code>Ligne 1</code> men ba3d <code>Ligne 2</code> 3la jouj lignes HTML mfreqin b <code>&lt;br&gt;</code>. Zid commentaire PHP f script.</p>",
+           "<?php\n// Ton commentaire\n",
+           [["output_contains", "Ligne 1"], ["output_contains", "Ligne 2"], ["output_contains", "<br>"]],
+           ["Un commentaire PHP s'écrit // ou /* ... */.", "La balise <br> force un retour à la ligne dans le navigateur.", "Tu peux enchaîner plusieurs echo."],
+           "<?php\n// Deux lignes séparées\necho \"Ligne 1<br>\";\necho \"Ligne 2\";\n?>",
+           "Le commentaire est ignoré à l'exécution. Les deux <code>echo</code> envoient leur texte dans l'ordre, et <code>&lt;br&gt;</code> crée la coupure visuelle.",
+           "Commentaire kaytjahl f exécution. Jouj <code>echo</code> kaysifto texte b tartib, w <code>&lt;br&gt;</code> kay5leq l9ta visuelle."]
+        ]
+      },
+      "4": {
+        "title": "Conditions",
+        "brief": "Prendre des décisions avec if, else, elseif et switch.",
+        "levels": [
+          ["Débutant — if / else", "php",
+           "<p>Définis <code>$note = 14</code>. Si la note est supérieure ou égale à 10, affiche <code>Admis</code>, sinon affiche <code>Recalé</code>.</p>",
+           "<p>3erref <code>$note = 14</code>. Ila note kbira wla sawiya 10, 3red <code>Admis</code>, sinon 3red <code>Recalé</code>.</p>",
+           "<?php\n$note = 14;\n\n// Condition\n",
+           [["output_contains", "Admis"], ["output_not_contains", "Recalé"]],
+           ["L'opérateur >= teste « supérieur ou égal ».", "La condition se place entre parenthèses après if.", "else s'exécute quand la condition est fausse."],
+           "<?php\n$note = 14;\n\nif ($note >= 10) {\n    echo \"Admis\";\n} else {\n    echo \"Recalé\";\n}\n?>",
+           "14 ≥ 10 est vrai, donc le bloc <code>if</code> s'exécute. Avec 8, le bloc <code>else</code> afficherait « Recalé ».",
+           "14 ≥ 10 s7i7a, donc bloc <code>if</code> kaytnffed. B 8, bloc <code>else</code> kay3red « Recalé »."],
+          ["Intermédiaire — elseif", "php",
+           "<p>Définis <code>$age = 20</code>. Affiche <code>Enfant</code> si l'âge est inférieur à 13, <code>Adolescent</code> s'il est inférieur à 18, sinon <code>Adulte</code>.</p>",
+           "<p>3erref <code>$age = 20</code>. 3red <code>Enfant</code> ila age 9el men 13, <code>Adolescent</code> ila 9el men 18, sinon <code>Adulte</code>.</p>",
+           "<?php\n$age = 20;\n\n// Catégories d'âge\n",
+           [["output_contains", "Adulte"], ["output_not_contains", "Adolescent"], ["output_not_contains", "Enfant"]],
+           ["elseif permet d'enchaîner plusieurs conditions.", "L'ordre compte : la première condition vraie gagne.", "La dernière branche est un else sans condition."],
+           "<?php\n$age = 20;\n\nif ($age < 13) {\n    echo \"Enfant\";\n} elseif ($age < 18) {\n    echo \"Adolescent\";\n} else {\n    echo \"Adulte\";\n}\n?>",
+           "20 n'est ni inférieur à 13 ni inférieur à 18 : les deux premières conditions sont fausses, le <code>else</code> final affiche « Adulte ».",
+           "20 machi 9el men 13 w machi 9el men 18 : jouj conditions lawla ghaltin, <code>else</code> akhir kay3red « Adulte »."],
+          ["Avancé — switch", "php",
+           "<p>Définis <code>$jour = \"lundi\"</code>. Avec un <code>switch</code>, affiche <code>Début de semaine</code> pour lundi, mardi, mercredi et jeudi, <code>Week-end proche</code> pour vendredi, et <code>Week-end</code> pour samedi et dimanche.</p>",
+           "<p>3erref <code>$jour = \"lundi\"</code>. B <code>switch</code>, 3red <code>Début de semaine</code> l lundi, mardi, mercredi w jeudi, <code>Week-end proche</code> l vendredi, w <code>Week-end</code> l samedi w dimanche.</p>",
+           "<?php\n$jour = \"lundi\";\n\nswitch ($jour) {\n    // tes cases\n}\n?>",
+           [["output_contains", "Début de semaine"]],
+           ["switch compare la valeur à chaque case.", "Plusieurs case peuvent partager le même bloc.", "break empêche de passer au case suivant."],
+           "<?php\n$jour = \"lundi\";\n\nswitch ($jour) {\n    case \"lundi\":\n    case \"mardi\":\n    case \"mercredi\":\n    case \"jeudi\":\n        echo \"Début de semaine\";\n        break;\n    case \"vendredi\":\n        echo \"Week-end proche\";\n        break;\n    default:\n        echo \"Week-end\";\n}\n?>",
+           "Les quatre premiers <code>case</code> partagent le même bloc : ils tombent les uns dans les autres jusqu'au <code>break</code>. Sans <code>break</code>, l'exécution continuerait dans le case suivant.",
+           "Rba3 <code>case</code> lawla kaytqasmo nefs bloc : kayt3aqbo 7ta l <code>break</code>. Bla <code>break</code>, exécution katkemmel f case li mora."]
+        ]
+      },
+      "5": {
+        "title": "Boucles",
+        "brief": "Répéter des instructions avec for, while et les sauts.",
+        "levels": [
+          ["Débutant — for", "php",
+           "<p>Utilise une boucle <code>for</code> pour afficher les nombres de 1 à 5, séparés par un espace.</p>",
+           "<p>Khdem b boucle <code>for</code> bach t3red ar9am men 1 7ta 5, mfreqin b espace.</p>",
+           "<?php\n// Boucle de 1 à 5\n",
+           [["output_contains", "1 2 3 4 5"]],
+           ["for prend une initialisation, une condition et une incrémentation.", "La condition $i <= 5 inclut 5.", "Ajoute un espace après chaque nombre."],
+           "<?php\nfor ($i = 1; $i <= 5; $i++) {\n    echo $i . \" \";\n}\n?>",
+           "La boucle démarre à 1, s'exécute tant que <code>$i &lt;= 5</code>, et incrémente <code>$i</code> après chaque tour. La sortie est « 1 2 3 4 5 ».",
+           "Boucle katbda b 1, kattnffed ma dam <code>$i &lt;= 5</code>, w katzid <code>$i</code> mora kol tour. Sortie hiya « 1 2 3 4 5 »."],
+          ["Intermédiaire — while et accumulation", "php",
+           "<p>Calcule la somme des entiers de 1 à 10 avec une boucle <code>while</code> et affiche <code>Somme : 55</code>.</p>",
+           "<p>7seb somme dyal ar9am men 1 7ta 10 b boucle <code>while</code> w 3red <code>Somme : 55</code>.</p>",
+           "<?php\n$i = 1;\n$somme = 0;\n\n// Boucle while\n",
+           [["output_contains", "Somme : 55"]],
+           ["Initialise $somme à 0 avant la boucle.", "Ajoute $i à $somme à chaque tour.", "N'oublie pas d'incrémenter $i pour éviter une boucle infinie."],
+           "<?php\n$i = 1;\n$somme = 0;\n\nwhile ($i <= 10) {\n    $somme += $i;\n    $i++;\n}\n\necho \"Somme : \" . $somme;\n?>",
+           "L'accumulateur <code>$somme</code> grandit à chaque tour : 1, puis 3, 6… jusqu'à 55. Sans <code>$i++</code>, la condition resterait vraie indéfiniment.",
+           "Accumulateur <code>$somme</code> kaykber kol tour : 1, men ba3d 3, 6… 7ta 55. Bla <code>$i++</code>, condition katbqa vraie bla nihaya."],
+          ["Avancé — continue", "php",
+           "<p>Affiche uniquement les nombres pairs de 1 à 10, séparés par un espace, en utilisant une boucle et <code>continue</code> pour sauter les impairs.</p>",
+           "<p>3red ghir ar9am pairs men 1 7ta 10, mfreqin b espace, b boucle w <code>continue</code> bach tqbez ar9am impairs.</p>",
+           "<?php\nfor ($i = 1; $i <= 10; $i++) {\n    // saute les impairs\n}\n?>",
+           [["output_contains", "2 4 6 8 10"]],
+           ["Le modulo % 2 vaut 0 pour un nombre pair.", "continue passe immédiatement au tour suivant.", "Affiche seulement quand $i % 2 === 0."],
+           "<?php\nfor ($i = 1; $i <= 10; $i++) {\n    if ($i % 2 !== 0) {\n        continue;\n    }\n    echo $i . \" \";\n}\n?>",
+           "<code>continue</code> interrompt le tour courant sans quitter la boucle. Les impairs sont sautés, seuls 2, 4, 6, 8 et 10 sont affichés.",
+           "<code>continue</code> kay9te3 tour li kayn bla ma ykhrej men boucle. Impairs kaytqbezo, ghir 2, 4, 6, 8 w 10 kaybanou."]
+        ]
+      },
+      "6": {
+        "title": "Tableaux (arrays)",
+        "brief": "Manipuler des tableaux indexés et associatifs.",
+        "levels": [
+          ["Débutant — tableau indexé", "php",
+           "<p>Crée un tableau <code>$notes = [12, 15, 18]</code>, puis affiche <code>Nombre : 3</code> et <code>Maximum : 18</code>.</p>",
+           "<p>5leq tableau <code>$notes = [12, 15, 18]</code>, men ba3d 3red <code>Nombre : 3</code> w <code>Maximum : 18</code>.</p>",
+           "<?php\n$notes = [12, 15, 18];\n\n// Nombre puis maximum\n",
+           [["output_contains", "Nombre : 3"], ["output_contains", "Maximum : 18"]],
+           ["count() renvoie le nombre d'éléments.", "max() renvoie la plus grande valeur.", "Concatène le texte et la valeur avec un point."],
+           "<?php\n$notes = [12, 15, 18];\n\necho \"Nombre : \" . count($notes) . \"<br>\";\necho \"Maximum : \" . max($notes);\n?>",
+           "Le tableau contient trois valeurs. <code>count()</code> renvoie 3 et <code>max()</code> parcourt les valeurs pour renvoyer 18.",
+           "Tableau fih tlata valeurs. <code>count()</code> katrje3 3 w <code>max()</code> katdowez valeurs bach trje3 18."],
+          ["Intermédiaire — tableau associatif", "php",
+           "<p>Crée un tableau associatif <code>$etudiant</code> avec <code>nom =&gt; \"Amal\"</code> et <code>ville =&gt; \"Rabat\"</code>, puis affiche <code>Amal habite à Rabat</code>.</p>",
+           "<p>5leq tableau associatif <code>$etudiant</code> b <code>nom =&gt; \"Amal\"</code> w <code>ville =&gt; \"Rabat\"</code>, men ba3d 3red <code>Amal habite à Rabat</code>.</p>",
+           "<?php\n$etudiant = [\n    // clés et valeurs\n];\n",
+           [["output_contains", "Amal habite à Rabat"]],
+           ["Les clés sont des chaînes : nom et ville.", "Accède à une valeur avec $etudiant['nom'].", "Utilise des guillemets doubles pour insérer les variables ou concatène."],
+           "<?php\n$etudiant = [\n    'nom' => 'Amal',\n    'ville' => 'Rabat',\n];\n\necho $etudiant['nom'] . \" habite à \" . $etudiant['ville'];\n?>",
+           "Un tableau associatif associe une clé explicite à chaque valeur. <code>$etudiant['nom']</code> vaut « Amal » et <code>$etudiant['ville']</code> vaut « Rabat ».",
+           "Tableau associatif kayrbet clé wad7a l kol valeur. <code>$etudiant['nom']</code> = « Amal » w <code>$etudiant['ville']</code> = « Rabat »."],
+          ["Avancé — tri et implode", "php",
+           "<p>Crée <code>$villes = [\"Zagora\", \"Agadir\", \"Rabat\"]</code>, trie le tableau par ordre alphabétique avec <code>sort()</code>, puis affiche les villes séparées par <code>, </code> avec <code>implode()</code>.</p>",
+           "<p>5leq <code>$villes = [\"Zagora\", \"Agadir\", \"Rabat\"]</code>, rteb tableau b tartib alphabétique b <code>sort()</code>, men ba3d 3red villes mfreqin b <code>, </code> b <code>implode()</code>.</p>",
+           "<?php\n$villes = [\"Zagora\", \"Agadir\", \"Rabat\"];\n\n// tri puis affichage\n",
+           [["output_contains", "Agadir, Rabat, Zagora"]],
+           ["sort() modifie le tableau sur place.", "implode(', ', $villes) colle les valeurs.", "L'ordre alphabétique place Agadir avant Rabat et Zagora."],
+           "<?php\n$villes = [\"Zagora\", \"Agadir\", \"Rabat\"];\n\nsort($villes);\necho implode(\", \", $villes);\n?>",
+           "<code>sort()</code> réordonne le tableau lui-même. <code>implode()</code> transforme ensuite le tableau en une chaîne lisible, avec le séparateur fourni.",
+           "<code>sort()</code> kayrteb tableau rasso. <code>implode()</code> kaybeddel tableau l chaîne mqroua, b séparateur li 3titih."]
+        ]
+      },
+      "7": {
+        "title": "Fonctions",
+        "brief": "Déclarer, appeler et retourner des valeurs.",
+        "levels": [
+          ["Débutant — fonction simple", "php",
+           "<p>Déclare une fonction <code>saluer($nom)</code> qui retourne <code>Bonjour</code> suivi du nom, puis affiche le résultat de <code>saluer(\"Amal\")</code>.</p>",
+           "<p>3len fonction <code>saluer($nom)</code> li katrje3 <code>Bonjour</code> m3a smiya, men ba3d 3red résultat dyal <code>saluer(\"Amal\")</code>.</p>",
+           "<?php\n// Déclare la fonction\n\n// Appelle la fonction\n",
+           [["output_contains", "Bonjour Amal"]],
+           ["Une fonction se déclare avec function nom($parametre).", "return renvoie la valeur sans l'afficher.", "echo affiche la valeur retournée."],
+           "<?php\nfunction saluer($nom) {\n    return \"Bonjour \" . $nom;\n}\n\necho saluer(\"Amal\");\n?>",
+           "<code>return</code> termine la fonction et renvoie la chaîne. C'est <code>echo</code>, à l'extérieur, qui l'affiche.",
+           "<code>return</code> kaysali fonction w kayrje3 chaîne. <code>echo</code>, bera, howa li kay3redha."],
+          ["Intermédiaire — paramètres et calcul", "php",
+           "<p>Déclare une fonction <code>moyenne($a, $b)</code> qui retourne la moyenne des deux nombres, puis affiche <code>Moyenne : 14.5</code> pour 14 et 15.</p>",
+           "<p>3len fonction <code>moyenne($a, $b)</code> li katrje3 moyenne dyal jouj ar9am, men ba3d 3red <code>Moyenne : 14.5</code> l 14 w 15.</p>",
+           "<?php\n// Fonction moyenne\n\n// Affichage\n",
+           [["output_contains", "Moyenne : 14.5"]],
+           ["La moyenne est ($a + $b) / 2.", "return doit renvoyer le résultat.", "Concatène le libellé et l'appel de fonction."],
+           "<?php\nfunction moyenne($a, $b) {\n    return ($a + $b) / 2;\n}\n\necho \"Moyenne : \" . moyenne(14, 15);\n?>",
+           "(14 + 15) / 2 = 14.5. La fonction isole le calcul : on peut la réutiliser avec n'importe quels nombres.",
+           "(14 + 15) / 2 = 14.5. Fonction kat3zel calcul : t9der t3awed tsta3melha b ay ar9am."],
+          ["Avancé — paramètre par défaut", "php",
+           "<p>Déclare <code>prixTTC($prix, $taux = 0.2)</code> qui retourne le prix avec taxe arrondi à deux décimales. Affiche <code>Prix TTC : 120</code> pour un prix de 100.</p>",
+           "<p>3len <code>prixTTC($prix, $taux = 0.2)</code> li katrje3 prix m3a taxe mroundi l jouj décimales. 3red <code>Prix TTC : 120</code> l prix 100.</p>",
+           "<?php\n// Fonction avec paramètre par défaut\n\n// Affichage\n",
+           [["output_contains", "Prix TTC : 120"]],
+           ["Un paramètre par défaut est utilisé si l'appel ne le fournit pas.", "round($valeur, 2) arrondit à deux décimales.", "100 × 1.2 = 120."],
+           "<?php\nfunction prixTTC($prix, $taux = 0.2) {\n    return round($prix * (1 + $taux), 2);\n}\n\necho \"Prix TTC : \" . prixTTC(100);\n?>",
+           "Le second argument est optionnel : <code>prixTTC(100)</code> utilise 0.2. Le calcul donne 100 × 1.2 = 120, arrondi à 120.",
+           "Argument tani ikhtiyari : <code>prixTTC(100)</code> kaysta3mel 0.2. Calcul kay3ti 100 × 1.2 = 120, mroundi l 120."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "php": {
+      "1": {
+        "title": "Quiz — Introduction à PHP",
+        "questions": [
+          ["mcq", "Où le code PHP est-il exécuté ?", ["Sur le serveur", "Dans le navigateur", "Dans la base de données"], 0, "Exécution serveur", "PHP est un langage serveur : le navigateur ne reçoit que le HTML produit.", "PHP langage serveur : navigateur kayakhod ghir HTML li tproduit."],
+          ["tf", "Un fichier PHP commence généralement par la balise <?php.", 0, "Balise d'ouverture", "Vrai : <code>&lt;?php</code> indique au serveur que le code PHP commence.", "S7i7 : <code>&lt;?php</code> kay3lem serveur belli code PHP bda."],
+          ["mcq", "Quelle commande affiche du texte en PHP ?", ["echo", "print_r uniquement", "display"], 0, "echo", "<code>echo</code> envoie du texte vers la sortie HTML.", "<code>echo</code> kaysift texte l sortie HTML."],
+          ["fill", "L'extension habituelle d'un fichier PHP est .________.", "php", "Extension", "Un fichier <code>.php</code> est interprété par le serveur avant d'être envoyé au navigateur.", "Fichier <code>.php</code> kaytfsar b serveur qbel ma ytsift l navigateur."],
+          ["multi", "Que peut contenir un fichier PHP ?", ["du HTML", "du code PHP", "des commentaires", "du CSS directement exécuté par PHP"], [0, 1, 2], "Contenu d'un fichier PHP", "Un fichier PHP peut mélanger HTML, PHP et commentaires ; le CSS est du texte envoyé au navigateur, pas exécuté par PHP.", "Fichier PHP y9der ykhelt HTML, PHP w commentaires ; CSS texte li kaysift l navigateur, machi exécuté b PHP."]
+        ]
+      },
+      "4": {
+        "title": "Quiz — Conditions",
+        "questions": [
+          ["mcq", "Quelle structure exécute un bloc quand une condition est fausse ?", ["else", "if", "while"], 0, "else", "<code>else</code> est la branche exécutée quand le <code>if</code> est faux.", "<code>else</code> hiya branche li kattnffed melli <code>if</code> ghalt."],
+          ["tf", "elseif permet de tester plusieurs conditions à la suite.", 0, "elseif", "Vrai : les conditions sont évaluées dans l'ordre jusqu'à la première vraie.", "S7i7 : conditions kaytqaymo b tartib 7ta awwla vraie."],
+          ["mcq", "Quel opérateur teste l'égalité stricte en PHP ?", ["===", "=", "=="], 0, "Égalité stricte", "<code>===</code> compare valeur et type ; <code>==</code> compare seulement la valeur.", "<code>===</code> kayqaren valeur w type ; <code>==</code> kayqaren valeur ghir."],
+          ["fill", "La structure qui compare une valeur à plusieurs cas s'appelle ________.", "switch", "switch", "<code>switch</code> enchaîne des <code>case</code> et un <code>default</code>.", "<code>switch</code> kayrbet <code>case</code> w <code>default</code>."],
+          ["mcq", "Que se passe-t-il si on oublie break dans un switch ?", ["L'exécution continue dans le case suivant", "Le script s'arrête", "Rien du tout"], 0, "break", "Sans <code>break</code>, PHP exécute les instructions des cases suivants (fallthrough).", "Bla <code>break</code>, PHP kaynffed instructions dyal cases li mora (fallthrough)."]
+        ]
+      },
+      "5": {
+        "title": "Quiz — Boucles",
+        "questions": [
+          ["mcq", "Quelle boucle est la plus adaptée quand on connaît le nombre de tours ?", ["for", "while", "foreach"], 0, "for", "<code>for</code> regroupe initialisation, condition et incrémentation.", "<code>for</code> kayjem3 initialisation, condition w incrémentation."],
+          ["tf", "Une boucle while peut ne jamais s'exécuter si sa condition est fausse dès le départ.", 0, "while", "Vrai : la condition est testée avant le premier tour.", "S7i7 : condition katt7eqqeq qbel awwel tour."],
+          ["mcq", "Quelle instruction quitte immédiatement une boucle ?", ["break", "continue", "return false"], 0, "break", "<code>break</code> sort de la boucle ; <code>continue</code> passe seulement au tour suivant.", "<code>break</code> kaykhrej men boucle ; <code>continue</code> kaydowez ghir l tour li mora."],
+          ["fill", "L'instruction qui saute le tour courant sans quitter la boucle est ________.", "continue", "continue", "<code>continue</code> ignore le reste du tour et reprend la boucle.", "<code>continue</code> kaytjahl ba9i tour w kay3awed boucle."],
+          ["mcq", "Que risque une boucle while si la variable de condition n'est jamais modifiée ?", ["Une boucle infinie", "Une erreur de syntaxe", "Un tableau vide"], 0, "Boucle infinie", "Sans modification, la condition reste vraie et le script tourne sans fin.", "Bla modification, condition katbqa vraie w script kaydowez bla nihaya."]
+        ]
+      },
+      "6": {
+        "title": "Quiz — Tableaux (arrays)",
+        "questions": [
+          ["mcq", "Quelle fonction renvoie le nombre d'éléments d'un tableau ?", ["count()", "max()", "implode()"], 0, "count", "<code>count($tableau)</code> renvoie le nombre d'éléments.", "<code>count($tableau)</code> katrje3 3adad éléments."],
+          ["tf", "Un tableau associatif utilise des clés nommées.", 0, "Tableau associatif", "Vrai : chaque valeur est associée à une clé comme <code>'nom'</code> ou <code>'ville'</code>.", "S7i7 : kol valeur mrbouta b clé b7al <code>'nom'</code> wla <code>'ville'</code>."],
+          ["mcq", "Quelle fonction transforme un tableau en chaîne ?", ["implode()", "explode()", "sort()"], 0, "implode", "<code>implode(', ', $t)</code> colle les valeurs avec un séparateur.", "<code>implode(', ', $t)</code> kayls9 valeurs b séparateur."],
+          ["fill", "La fonction qui trie un tableau par ordre croissant est ________().", "sort", "Tri", "<code>sort()</code> réordonne les valeurs du tableau sur place.", "<code>sort()</code> kayrteb valeurs dyal tableau f blaso."],
+          ["mcq", "Comment accéder à la valeur de clé nom dans $etudiant ?", ["$etudiant['nom']", "$etudiant(0)", "$etudiant->nom"], 0, "Accès par clé", "On utilise les crochets avec la clé : <code>$etudiant['nom']</code>.", "Kankhdmo crochets m3a clé : <code>$etudiant['nom']</code>."]
+        ]
+      },
+      "7": {
+        "title": "Quiz — Fonctions",
+        "questions": [
+          ["mcq", "Quel mot-clé déclare une fonction en PHP ?", ["function", "def", "fn"], 0, "Déclaration", "Une fonction se déclare avec <code>function nom() { ... }</code>.", "Fonction katt3len b <code>function nom() { ... }</code>."],
+          ["tf", "return affiche la valeur à l'écran.", 1, "return vs echo", "Faux : <code>return</code> renvoie la valeur ; c'est <code>echo</code> qui l'affiche.", "Ghalt : <code>return</code> kayrje3 valeur ; <code>echo</code> howa li kay3redha."],
+          ["mcq", "Que se passe-t-il si une fonction n'a pas de return ?", ["Elle renvoie null", "Elle provoque une erreur fatale", "Elle affiche automatiquement son résultat"], 0, "Valeur de retour", "Sans <code>return</code>, une fonction renvoie <code>null</code>.", "Bla <code>return</code>, fonction katrje3 <code>null</code>."],
+          ["fill", "Un paramètre qui a une valeur par défaut est dit ________.", "optionnel", "Paramètre par défaut", "Un paramètre optionnel peut être omis lors de l'appel : <code>fx($a, $b = 2)</code>.", "Paramètre optionnel y9der yt7yed f appel : <code>fx($a, $b = 2)</code>."],
+          ["mcq", "Une variable déclarée dans une fonction est accessible…", ["uniquement dans cette fonction", "partout dans le script", "dans le navigateur"], 0, "Portée", "Les variables locales ont une portée limitée au corps de la fonction.", "Variables locales 3ndhom portée m7doda f corps dyal fonction."]
+        ]
+      }
+    }
+  }
+}

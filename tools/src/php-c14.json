@@ -1,0 +1,148 @@
+{
+  "id": "php-ch14",
+  "title": "POO PHP",
+  "subtitle": "Modéliser le monde avec des classes et des objets",
+  "objectives": [
+    "Créer une classe avec des propriétés et des méthodes.",
+    "Utiliser un constructeur et le mot-clé $this.",
+    "Comprendre l'encapsulation et les niveaux de visibilité.",
+    "Étendre une classe par héritage."
+  ],
+  "lessons": [
+    {
+      "id": "classe-objet",
+      "title": "Classe et objet",
+      "icon": "🏛️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Une <strong>classe</strong> est un modèle ; un <strong>objet</strong> est une instance concrète de ce modèle. Une classe contient des <strong>propriétés</strong> (données) et des <strong>méthodes</strong> (comportements).</p>",
+          "darija": "<p><strong>Classe</strong> hiya modèle ; <strong>objet</strong> hiya instance concrète men had modèle. Classe kat7et <strong>propriétés</strong> (données) w <strong>méthodes</strong> (comportements).</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "php",
+          "title": "Syntaxe d'une classe",
+          "code": "class Etudiant {\n    public string $nom;\n    public int $note;\n\n    public function afficher(): string {\n        return $this->nom . \" : \" . $this->note . \"/20\";\n    }\n}\n\n$e = new Etudiant();\n$e->nom = \"Amal\";\n$e->note = 16;\necho $e->afficher();"
+        },
+        {
+          "type": "example",
+          "title": "Premier objet",
+          "lang": "php",
+          "code": "<?php\nclass Etudiant {\n    public string $nom;\n    public int $note;\n\n    public function afficher(): string {\n        return $this->nom . \" : \" . $this->note . \"/20\";\n    }\n}\n\n$e = new Etudiant();\n$e->nom = \"Amal\";\n$e->note = 16;\n\necho $e->afficher();\n?>",
+          "output": "Amal : 16/20",
+          "explainFr": "<code>new Etudiant()</code> crée un objet. <code>$e-&gt;nom</code> accède à une propriété, <code>$this</code> désigne l'objet courant à l'intérieur de la classe.",
+          "explainDarija": "<code>new Etudiant()</code> kat5leq objet. <code>$e-&gt;nom</code> katwsel l propriété, <code>$this</code> kat3ni objet li kayn dakhel classe."
+        },
+        {
+          "type": "tip",
+          "title": "Une classe = un fichier",
+          "fr": "Par convention, une classe vit dans son propre fichier <code>Etudiant.php</code>, avec le même nom que la classe. Cela facilite l'autoload et la lecture du projet.",
+          "darija": "B convention, classe katkon f fichier dyalha <code>Etudiant.php</code>, b nefs smiya dyal classe. Hakka autoload w qraya dyal projet kaywliw sahel."
+        }
+      ]
+    },
+    {
+      "id": "constructeur-this",
+      "title": "Constructeur et $this",
+      "icon": "🔨",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Le <strong>constructeur</strong> <code>__construct()</code> s'exécute automatiquement à la création de l'objet. Il sert à initialiser les propriétés et à garantir qu'un objet est toujours dans un état valide.</p>",
+          "darija": "<p><strong>Constructeur</strong> <code>__construct()</code> kaynffed automatiquement melli kayt5leq objet. Kaybda propriétés w kaydmen objet ykon dima f 7ala valide.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Constructeur avec paramètres",
+          "lang": "php",
+          "code": "<?php\nclass Etudiant {\n    public function __construct(\n        private string $nom,\n        private int $note\n    ) {}\n\n    public function mention(): string {\n        if ($this->note >= 16) return \"Excellent\";\n        if ($this->note >= 12) return \"Bien\";\n        if ($this->note >= 10) return \"Passable\";\n        return \"Insuffisant\";\n    }\n}\n\n$e = new Etudiant(\"Amal\", 16);\necho $e->nom . \" : \" . $e->mention();\n?>",
+          "output": "Amal : Excellent",
+          "explainFr": "La promotion de propriétés dans le constructeur (PHP 8) déclare et initialise <code>$nom</code> et <code>$note</code> en une seule fois. <code>$this-&gt;note</code> lit la propriété de l'objet.",
+          "explainDarija": "Promotion dyal propriétés f constructeur (PHP 8) kat3len w katbda <code>$nom</code> w <code>$note</code> f marra wa7da. <code>$this-&gt;note</code> katqra propriété dyal objet."
+        },
+        {
+          "type": "warning",
+          "title": "$this hors d'une méthode",
+          "fr": "<code>$this</code> n'existe que dans une méthode d'instance. L'utiliser dans une fonction globale ou une méthode statique provoque une erreur.",
+          "darija": "<code>$this</code> katkayn ghir f méthode d'instance. Ila khdemti biha f fonction globale wla méthode statique, ghadi t3tik erreur."
+        }
+      ]
+    },
+    {
+      "id": "encapsulation",
+      "title": "Visibilité et encapsulation",
+      "icon": "🔒",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Les mots-clés <strong>public</strong>, <strong>protected</strong> et <strong>private</strong> contrôlent l'accès aux membres. L'<strong>encapsulation</strong> consiste à cacher les données internes et à exposer des méthodes contrôlées (getters/setters).</p>",
+          "darija": "<p>Kelmat <strong>public</strong>, <strong>protected</strong> w <strong>private</strong> kaycontroliw accès l membres. <strong>Encapsulation</strong> hiya tkhbi données dakhliya w t3red méthodes contrôlées (getters/setters).</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Visibilité", "Depuis la classe", "Depuis une classe enfant", "Depuis l'extérieur"],
+          "rows": [
+            ["public", "oui", "oui", "oui"],
+            ["protected", "oui", "oui", "non"],
+            ["private", "oui", "non", "non"]
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Protéger une note",
+          "lang": "php",
+          "code": "<?php\nclass Etudiant {\n    public function __construct(private int $note = 0) {}\n\n    public function setNote(int $note): void {\n        if ($note < 0 || $note > 20) {\n            throw new InvalidArgumentException(\"Note entre 0 et 20\");\n        }\n        $this->note = $note;\n    }\n\n    public function getNote(): int {\n        return $this->note;\n    }\n}\n\n$e = new Etudiant(12);\n$e->setNote(18);\necho $e->getNote();\n?>",
+          "output": "18",
+          "explainFr": "La propriété est <code>private</code> : impossible d'écrire <code>$e-&gt;note = 25</code>. Le setter valide la valeur avant de la stocker.",
+          "explainDarija": "Propriété <code>private</code> : ma tqderch tkteb <code>$e-&gt;note = 25</code>. Setter kayvalidi valeur qbel ma ykhzenha."
+        }
+      ]
+    },
+    {
+      "id": "heritage",
+      "title": "Héritage",
+      "icon": "🌳",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>L'<strong>héritage</strong> permet à une classe enfant (<code>extends</code>) de réutiliser les membres d'une classe parente. On peut <strong>surcharger</strong> une méthode pour adapter son comportement.</p>",
+          "darija": "<p><strong>Héritage</strong> kaykhalli classe enfant (<code>extends</code>) t3awed testa3mel membres dyal classe parente. T9der <strong>surcharger</strong> méthode bach tbeddel comportement dyalha.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Personne et Etudiant",
+          "lang": "php",
+          "code": "<?php\nclass Personne {\n    public function __construct(protected string $nom) {}\n\n    public function presentation(): string {\n        return \"Je suis \" . $this->nom;\n    }\n}\n\nclass Etudiant extends Personne {\n    public function __construct(string $nom, private string $filiere) {\n        parent::__construct($nom);\n    }\n\n    public function presentation(): string {\n        return parent::presentation() . \", étudiant en \" . $this->filiere;\n    }\n}\n\n$e = new Etudiant(\"Amal\", \"Informatique\");\necho $e->presentation();\n?>",
+          "output": "Je suis Amal, étudiant en Informatique",
+          "explainFr": "<code>parent::__construct()</code> appelle le constructeur du parent. La méthode surchargée ajoute l'information de filière tout en réutilisant le texte du parent.",
+          "explainDarija": "<code>parent::__construct()</code> kat3ayet constructeur dyal parent. Méthode surchargée kat3awn information dyal filière w kat3awed testa3mel texte dyal parent."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "$etudiant = Etudiant();",
+      "fix": "$etudiant = new Etudiant();",
+      "fr": "Un objet se crée avec <code>new</code>. Sans ce mot-clé, PHP cherche une fonction.",
+      "darija": "Objet kayt5leq b <code>new</code>. Bla had kelma, PHP kayqelleb 3la fonction."
+    },
+    {
+      "wrong": "echo $this->nom; en dehors d'une méthode",
+      "fix": "Utiliser $objet->nom depuis l'extérieur (si public), ou $this->nom dans la classe.",
+      "fr": "<code>$this</code> n'a de sens qu'à l'intérieur d'une méthode d'instance.",
+      "darija": "<code>$this</code> 3ndha ma3na ghir dakhel méthode d'instance."
+    },
+    {
+      "wrong": "Accéder à une propriété private depuis l'extérieur",
+      "fix": "Passer par un getter public.",
+      "fr": "<code>private</code> interdit l'accès externe : c'est voulu. Exposez une méthode <code>get...</code> si nécessaire.",
+      "darija": "<code>private</code> katmna3 accès men bera : hadi hiya l'fikra. 3red méthode <code>get...</code> ila khas."
+    }
+  ],
+  "summary": {
+    "fr": "La <strong>POO</strong> organise le code en <strong>classes</strong> (modèles) et <strong>objets</strong> (instances). Une classe contient des <strong>propriétés</strong> et des <strong>méthodes</strong>, initialisées par un <strong>constructeur</strong>. <code>public</code>, <code>protected</code> et <code>private</code> contrôlent l'accès. L'<strong>héritage</strong> réutilise une classe parente avec <code>extends</code>.",
+    "darija": "<strong>POO</strong> katt3adel code b <strong>classes</strong> (modèles) w <strong>objets</strong> (instances). Classe kat7et <strong>propriétés</strong> w <strong>méthodes</strong>, kaybdaw b <strong>constructeur</strong>. <code>public</code>, <code>protected</code> w <code>private</code> kaycontroliw accès. <strong>Héritage</strong> kay3awed yesta3mel classe parente b <code>extends</code>."
+  }
+}

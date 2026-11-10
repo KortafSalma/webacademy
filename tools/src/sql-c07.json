@@ -1,0 +1,151 @@
+{
+  "id": "sql-ch7",
+  "title": "Tri et groupement",
+  "subtitle": "Ordonner les résultats et regrouper les lignes",
+  "objectives": [
+    "Trier avec ORDER BY en ordre croissant ou décroissant.",
+    "Trier sur plusieurs colonnes.",
+    "Regrouper avec GROUP BY et calculer par catégorie.",
+    "Filtrer les groupes avec HAVING et paginer avec LIMIT."
+  ],
+  "lessons": [
+    {
+      "id": "order-by",
+      "title": "ORDER BY",
+      "icon": "⬆️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Sans <code>ORDER BY</code>, l'ordre des lignes n'est <strong>pas garanti</strong>. <code>ORDER BY colonne ASC</code> trie du plus petit au plus grand, <code>DESC</code> l'inverse. On peut trier sur plusieurs colonnes.</p>",
+          "darija": "<p>Bla <code>ORDER BY</code>, tartib dyal lignes <strong>ma madmonch</strong>. <code>ORDER BY colonne ASC</code> kayrteb men sghir l kbir, <code>DESC</code> l'3aks. T9der trteb 3la bzaf colonnes.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Notes de la meilleure à la plus faible",
+          "lang": "sql",
+          "code": "SELECT etudiant_id, valeur\nFROM note\nORDER BY valeur DESC;",
+          "output": "etudiant_id | valeur\n4           | 18.5\n2           | 17.0\n1           | 16.0\n1           | 15.0\n3           | 13.0\n1           | 14.5\n2           | 12.5\n3           | 9.0\n5           | 11.8\n5           | 11.0",
+          "explainFr": "Le tri décroissant place la meilleure note en premier. Pour un classement lisible, ajoutez une colonne de départage : <code>ORDER BY valeur DESC, etudiant_id ASC</code>.",
+          "explainDarija": "Tri décroissant kay7et 7sen note f lwel. L classement wad7, zid colonne dyal départage : <code>ORDER BY valeur DESC, etudiant_id ASC</code>."
+        },
+        {
+          "type": "example",
+          "title": "Tri sur deux colonnes",
+          "lang": "sql",
+          "code": "SELECT nom, filiere\nFROM etudiant\nORDER BY filiere ASC, nom ASC;",
+          "output": "nom    | filiere\nTazi   | 3IA\nBoukhriss | GC\nKortaf | GI\nMarzak | GI\nSekkat | GI",
+          "explainFr": "Les étudiants sont d'abord groupés par filière, puis triés par nom à l'intérieur de chaque filière.",
+          "explainDarija": "Étudiants kayrtebto lwel b filière, men ba3d b nom dakhel kol filière."
+        },
+        {
+          "type": "tip",
+          "title": "NULL en premier ou en dernier ?",
+          "fr": "Selon le moteur, les NULL apparaissent au début ou à la fin du tri. Pour forcer un ordre, utilisez <code>ORDER BY (colonne IS NULL), colonne</code> ou <code>COALESCE()</code>.",
+          "darija": "3la 7sab moteur, NULL kaybano f lbda wla l'akhir. Bach tferd tartib, khdem b <code>ORDER BY (colonne IS NULL), colonne</code> wla <code>COALESCE()</code>."
+        }
+      ]
+    },
+    {
+      "id": "group-by",
+      "title": "GROUP BY",
+      "icon": "📊",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><code>GROUP BY</code> regroupe les lignes qui partagent une même valeur, puis applique une fonction d'agrégation à chaque groupe. Chaque groupe produit <strong>une seule ligne</strong> dans le résultat.</p>",
+          "darija": "<p><code>GROUP BY</code> kayjem3 lignes li 3ndhom nefs valeur, men ba3d kaytbeq fonction d'agrégation 3la kol groupe. Kol groupe kay3ti <strong>ligne wa7da</strong> f résultat.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Nombre de notes par étudiant",
+          "lang": "sql",
+          "code": "SELECT etudiant_id, COUNT(*) AS nombre_notes, AVG(valeur) AS moyenne\nFROM note\nGROUP BY etudiant_id\nORDER BY moyenne DESC;",
+          "output": "etudiant_id | nombre_notes | moyenne\n4           | 1            | 18.5\n2           | 2            | 14.75\n1           | 3            | 15.17\n5           | 2            | 11.4\n3           | 2            | 11.0",
+          "explainFr": "Les 10 notes sont réparties en 5 groupes (un par étudiant). <code>COUNT(*)</code> et <code>AVG()</code> sont calculés à l'intérieur de chaque groupe.",
+          "explainDarija": "10 notes tqesmo 3la 5 groupes (kol etudiant). <code>COUNT(*)</code> w <code>AVG()</code> kayt7esbo dakhel kol groupe."
+        },
+        {
+          "type": "example",
+          "title": "Moyenne par matière",
+          "lang": "sql",
+          "code": "SELECT m.nom AS matiere, AVG(n.valeur) AS moyenne\nFROM note n\nJOIN matiere m ON m.id = n.matiere_id\nGROUP BY m.nom\nORDER BY moyenne DESC;",
+          "output": "matiere         | moyenne\nPHP             | 15.67\nBase de donnees | 13.4\nAnglais         | 13.0\nMath            | 12.88",
+          "explainFr": "Le regroupement porte sur le nom de la matière. La jointure permet d'afficher un libellé lisible au lieu de l'identifiant.",
+          "explainDarija": "Regroupement 3la smiya dyal matière. Jointure katkhalli t3red libellé mqrou instead of identifiant."
+        },
+        {
+          "type": "warning",
+          "title": "Colonnes non agrégées",
+          "fr": "Toute colonne du <code>SELECT</code> qui n'est pas dans une fonction d'agrégation doit figurer dans le <code>GROUP BY</code>. Sinon le résultat est indéterminé (ou refusé en mode strict).",
+          "darija": "Kol colonne f <code>SELECT</code> li machi f fonction d'agrégation khas tkon f <code>GROUP BY</code>. Sinon résultat ma m7eddch (wla kaytrefus f mode strict)."
+        }
+      ]
+    },
+    {
+      "id": "having-limit",
+      "title": "HAVING et LIMIT",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><code>WHERE</code> filtre les lignes <strong>avant</strong> le regroupement ; <code>HAVING</code> filtre les groupes <strong>après</strong>. <code>LIMIT n</code> ne garde que n lignes, <code>OFFSET m</code> saute les m premières : c'est la base de la pagination.</p>",
+          "darija": "<p><code>WHERE</code> kayfiltri lignes <strong>qbel</strong> regroupement ; <code>HAVING</code> kayfiltri groupes <strong>men ba3d</strong>. <code>LIMIT n</code> kay7fed ghir n lignes, <code>OFFSET m</code> kayqbez m lwel : hadi asas pagination.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Clause", "S'applique à", "Exemple"],
+          "rows": [
+            ["WHERE", "lignes", "valeur >= 10"],
+            ["GROUP BY", "création des groupes", "GROUP BY etudiant_id"],
+            ["HAVING", "groupes", "HAVING AVG(valeur) >= 14"],
+            ["ORDER BY", "ordre final", "ORDER BY moyenne DESC"],
+            ["LIMIT", "nombre de lignes final", "LIMIT 3"]
+          ],
+          "fr": "Ordre logique d'exécution : FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT."
+        },
+        {
+          "type": "example",
+          "title": "Étudiants ayant au moins deux notes",
+          "lang": "sql",
+          "code": "SELECT etudiant_id, COUNT(*) AS nombre\nFROM note\nGROUP BY etudiant_id\nHAVING COUNT(*) >= 2\nORDER BY nombre DESC;",
+          "output": "etudiant_id | nombre\n1           | 3\n2           | 2\n3           | 2\n5           | 2",
+          "explainFr": "<code>WHERE COUNT(*) &gt;= 2</code> serait invalide : le WHERE ne connaît pas encore les groupes. C'est le rôle de <code>HAVING</code>.",
+          "explainDarija": "<code>WHERE COUNT(*) &gt;= 2</code> ghalta : WHERE mazal ma kay3refch groupes. Hada role dyal <code>HAVING</code>."
+        },
+        {
+          "type": "example",
+          "title": "Top 3 des notes",
+          "lang": "sql",
+          "code": "SELECT etudiant_id, valeur\nFROM note\nORDER BY valeur DESC\nLIMIT 3;",
+          "output": "etudiant_id | valeur\n4           | 18.5\n2           | 17.0\n1           | 16.0",
+          "explainFr": "<code>LIMIT 3</code> s'applique après le tri : on obtient bien les trois meilleures notes. <code>LIMIT 3 OFFSET 3</code> donnerait le trio suivant.",
+          "explainDarija": "<code>LIMIT 3</code> kaytbeq men ba3d tri : kankhdmo 3 meilleures notes. <code>LIMIT 3 OFFSET 3</code> kat3ti trio li mora."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "HAVING sans GROUP BY pour filtrer une ligne",
+      "fix": "Utiliser WHERE pour filtrer les lignes.",
+      "fr": "HAVING est prévu pour les groupes. Pour une simple condition de ligne, WHERE est plus clair et plus rapide.",
+      "darija": "HAVING makhssos l groupes. L condition 3adiya 3la ligne, WHERE awda7 w asra3."
+    },
+    {
+      "wrong": "SELECT nom, COUNT(*) FROM note",
+      "fix": "SELECT etudiant_id, COUNT(*) FROM note GROUP BY etudiant_id",
+      "fr": "Mélanger une colonne non groupée et une agrégation sans GROUP BY produit un résultat incohérent.",
+      "darija": "Tkhlit colonne bla groupement m3a agrégation bla GROUP BY kay3ti résultat ma m7eddch."
+    },
+    {
+      "wrong": "WHERE COUNT(*) > 2",
+      "fix": "HAVING COUNT(*) > 2",
+      "fr": "Les agrégations ne sont pas disponibles dans WHERE : elles se filtrent dans HAVING.",
+      "darija": "Agrégations ma kayninach f WHERE : kaytfiltraw f HAVING."
+    }
+  ],
+  "summary": {
+    "fr": "<strong>ORDER BY</strong> trie (ASC/DESC, plusieurs colonnes), <strong>GROUP BY</strong> regroupe pour calculer des agrégats par catégorie, <strong>HAVING</strong> filtre les groupes après calcul et <strong>LIMIT/OFFSET</strong> pagine les résultats. L'ordre logique est FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT.",
+    "darija": "<strong>ORDER BY</strong> kayrteb (ASC/DESC, bzaf colonnes), <strong>GROUP BY</strong> kayjem3 bach y7seb agrégats par catégorie, <strong>HAVING</strong> kayfiltri groupes men ba3d calcul w <strong>LIMIT/OFFSET</strong> kaypagini résultats. Tartib logique : FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT."
+  }
+}

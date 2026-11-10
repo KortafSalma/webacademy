@@ -1,0 +1,133 @@
+{
+  "id": "sql-ch3",
+  "title": "DDL",
+  "subtitle": "Créer et modifier la structure de la base",
+  "objectives": [
+    "Créer une table avec CREATE TABLE.",
+    "Modifier une table avec ALTER TABLE.",
+    "Supprimer une table avec DROP TABLE et vider avec TRUNCATE.",
+    "Adopter des conventions de nommage claires."
+  ],
+  "lessons": [
+    {
+      "id": "create-table",
+      "title": "CREATE TABLE",
+      "icon": "🏗️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Le <strong>DDL</strong> (Data Definition Language) décrit la structure : <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>TRUNCATE</code>. <code>CREATE TABLE</code> définit les colonnes, leurs types et leurs contraintes.</p>",
+          "darija": "<p><strong>DDL</strong> (Data Definition Language) kaywcaf structure : <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>TRUNCATE</code>. <code>CREATE TABLE</code> kay3erref colonnes, types dyalhom w contraintes.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "sql",
+          "title": "Syntaxe",
+          "code": "CREATE TABLE etudiant (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50) NOT NULL,\n    prenom VARCHAR(50) NOT NULL,\n    filiere VARCHAR(20) DEFAULT 'GI',\n    email VARCHAR(80) UNIQUE\n);"
+        },
+        {
+          "type": "example",
+          "title": "Créer et remplir une table",
+          "lang": "sql",
+          "code": "CREATE TABLE livre (\n    id INT PRIMARY KEY,\n    titre VARCHAR(100) NOT NULL,\n    auteur VARCHAR(60),\n    annee INT\n);\n\nINSERT INTO livre (id, titre, auteur, annee) VALUES\n    (1, 'Le Petit Prince', 'Saint-Exupéry', 1943),\n    (2, 'PHP moderne', 'Amal B.', 2026);\n\nSELECT titre, annee FROM livre;",
+          "output": "titre            | annee\nLe Petit Prince  | 1943\nPHP moderne      | 2026",
+          "explainFr": "La table est créée avec quatre colonnes typées. <code>NOT NULL</code> impose une valeur pour le titre ; <code>PRIMARY KEY</code> identifie chaque ligne.",
+          "explainDarija": "Table tsaybat b rba3 colonnes typées. <code>NOT NULL</code> kayfarred valeur l titre ; <code>PRIMARY KEY</code> kay3arref kol ligne."
+        }
+      ]
+    },
+    {
+      "id": "alter-table",
+      "title": "ALTER TABLE",
+      "icon": "🔧",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><code>ALTER TABLE</code> modifie une table existante : ajouter une colonne, changer un type, ajouter une contrainte, renommer. Les données existantes sont conservées quand c'est possible.</p>",
+          "darija": "<p><code>ALTER TABLE</code> katbeddel table li kayna : tzid colonne, tbeddel type, tzid contrainte, tbeddel smiya. Données li kaynin kaybqaw melli ykon mumkin.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "sql",
+          "title": "Opérations courantes",
+          "code": "ALTER TABLE livre ADD COLUMN isbn VARCHAR(20);\nALTER TABLE livre MODIFY COLUMN auteur VARCHAR(100);\nALTER TABLE livre ADD CONSTRAINT uq_isbn UNIQUE (isbn);\nALTER TABLE livre RENAME TO ouvrage;"
+        },
+        {
+          "type": "example",
+          "title": "Ajouter une colonne puis la remplir",
+          "lang": "sql",
+          "code": "CREATE TABLE contact (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50)\n);\n\nINSERT INTO contact VALUES (1, 'Amal');\n\nALTER TABLE contact ADD COLUMN email VARCHAR(80);\n\nUPDATE contact SET email = 'amal@site.ma' WHERE id = 1;\n\nSELECT nom, email FROM contact;",
+          "output": "nom  | email\nAmal | amal@site.ma",
+          "explainFr": "La nouvelle colonne est créée vide (NULL) pour les lignes existantes. On la remplit ensuite avec <code>UPDATE</code>.",
+          "explainDarija": "Colonne jdida kat5leq khawya (NULL) l lignes li kaynin. Men ba3d kan3emmeroha b <code>UPDATE</code>."
+        },
+        {
+          "type": "warning",
+          "title": "ALTER sur une grosse table",
+          "fr": "Certaines modifications (changer un type, ajouter une contrainte) reconstruisent la table et peuvent bloquer un service en production. Testez toujours sur une copie.",
+          "darija": "Chi modifications (tbeddel type, tzid contrainte) kay3awdo ybniw table w y9dro yblokiw service f production. Dima testi 3la copie."
+        }
+      ]
+    },
+    {
+      "id": "drop-truncate",
+      "title": "DROP et TRUNCATE",
+      "icon": "🗑️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><strong>TRUNCATE TABLE</strong> vide toutes les lignes mais garde la structure. <strong>DROP TABLE</strong> supprime la table entière (structure et données). Ces opérations sont <strong>irréversibles</strong> sans sauvegarde.</p>",
+          "darija": "<p><strong>TRUNCATE TABLE</strong> katferregh kol lignes walakin kat7fed structure. <strong>DROP TABLE</strong> katmse7 table kamla (structure w données). Had opérations <strong>ma kayrj3ouch</strong> bla sauvegarde.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Commande", "Données", "Structure", "Réversible ?"],
+          "rows": [
+            ["DELETE FROM t", "lignes choisies", "conservée", "oui (dans une transaction)"],
+            ["TRUNCATE TABLE t", "toutes les lignes", "conservée", "non"],
+            ["DROP TABLE t", "toutes les lignes", "supprimée", "non"]
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Vider puis supprimer",
+          "lang": "sql",
+          "code": "CREATE TABLE test_drop (id INT);\nINSERT INTO test_drop VALUES (1), (2), (3);\n\nTRUNCATE TABLE test_drop;\nSELECT COUNT(*) FROM test_drop;\n\nDROP TABLE test_drop;",
+          "output": "COUNT(*)\n0",
+          "explainFr": "Après <code>TRUNCATE</code>, la table existe encore mais est vide. <code>DROP</code> la ferait disparaître complètement.",
+          "explainDarija": "Men ba3d <code>TRUNCATE</code>, table mazal kayna walakin khawya. <code>DROP</code> katghayebha kamla."
+        },
+        {
+          "type": "tip",
+          "title": "DROP IF EXISTS",
+          "fr": "En script de création, <code>DROP TABLE IF EXISTS t;</code> évite l'erreur si la table n'existe pas. Pratique pour rejouer un script de test.",
+          "darija": "F script dyal création, <code>DROP TABLE IF EXISTS t;</code> kaymna3 erreur ila table ma kaynach. Mzyan bach t3awed script dyal test."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "Supprimer une table sans sauvegarde",
+      "fix": "Exporter la table (dump) avant DROP, ou tester sur une base de développement.",
+      "fr": "<code>DROP TABLE</code> est définitif : aucune commande ne restaure les données.",
+      "darija": "<code>DROP TABLE</code> niha2i : 7ta commande ma katrje3 données."
+    },
+    {
+      "wrong": "ALTER TABLE ... ADD email VARCHAR(80) sans valeur par défaut sur une table NOT NULL",
+      "fix": "Ajouter la colonne avec DEFAULT, ou la rendre NULL, puis remplir.",
+      "fr": "Sur une table contenant déjà des lignes, une nouvelle colonne NOT NULL sans défaut peut être refusée.",
+      "darija": "3la table fiha lignes, colonne NOT NULL jdida bla défaut t9der ttreffus."
+    },
+    {
+      "wrong": "Utiliser des noms avec espaces ou accents",
+      "fix": "etudiant, date_inscription, code_pays",
+      "fr": "Des noms simples en minuscules avec underscores évitent les guillemets obligatoires et les erreurs de portabilité.",
+      "darija": "Smiyat sahlin b minuscules w underscores kaymna3o guillemets darourin w erreurs dyal portabilité."
+    }
+  ],
+  "summary": {
+    "fr": "Le <strong>DDL</strong> crée et modifie la structure : <code>CREATE TABLE</code> définit colonnes, types et contraintes, <code>ALTER TABLE</code> ajoute ou modifie des éléments, <code>TRUNCATE</code> vide sans supprimer, <code>DROP</code> supprime définitivement. Travaillez toujours avec une sauvegarde.",
+    "darija": "<strong>DDL</strong> kaybni w kaybeddel structure : <code>CREATE TABLE</code> kay3erref colonnes, types w contraintes, <code>ALTER TABLE</code> kayzid wla ybeddel, <code>TRUNCATE</code> kayferregh bla ma ymse7, <code>DROP</code> kaymse7 niha2iyan. Dima khdem b sauvegarde."
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "id": "php-ch4",
+  "title": "Conditions",
+  "subtitle": "Prendre des décisions dans le code",
+  "objectives": [
+    "Utiliser la structure if / else simple.",
+    "Comprendre elseif pour chaîner plusieurs conditions.",
+    "Combiner des conditions avec les opérateurs logiques (&&, ||, !).",
+    "Utiliser switch pour les choix multiples sur une même variable.",
+    "Écrire des conditions courtes avec l'opérateur ternaire."
+  ],
+  "lessons": [
+    {
+      "id": "if-simple",
+      "title": "if / else simple",
+      "icon": "🔀",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>La structure <strong>if / else</strong> exécute du code seulement si une condition est vraie. Si elle est fausse, c'est le bloc <code>else</code> qui s'exécute.</p>",
+          "darija": "<p>Structure <strong>if / else</strong> katnffed code ghir ila condition vraie. Ila kanet fausse, kaynffed bloc <code>else</code>.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "php",
+          "title": "Syntaxe if / else",
+          "code": "if ($age >= 18) {\n    echo \"Vous êtes majeur.\";\n} else {\n    echo \"Vous êtes mineur.\";\n}"
+        },
+        {
+          "type": "example",
+          "title": "Vérifier l'âge d'un visiteur",
+          "lang": "php",
+          "code": "<?php\n$age = 20;\n\nif ($age >= 18) {\n    echo \"Vous êtes majeur.\";\n} else {\n    echo \"Vous êtes mineur.\";\n}\n?>",
+          "preview": true,
+          "explainFr": "$age vaut 20, donc la condition <code>$age >= 18</code> est vraie : le script affiche « Vous êtes majeur. ».",
+          "explainDarija": "$age fih 20, donc condition vraie : script kaytbra « Vous êtes majeur. »."
+        },
+        {
+          "type": "tip",
+          "title": "Les accolades sont obligatoires ?",
+          "fr": "Pour une seule instruction, PHP accepte <code>if ($x) echo $x;</code> sans accolades. Mais <strong>écrivez toujours les accolades</strong> : c'est plus lisible et ça évite un bug quand vous ajoutez une deuxième ligne.",
+          "darija": "Ila 3andek ghir instruction wa7da, PHP kayqbel bla accolades. Walakin dima kteb <code>{ }</code> : kaytqra mzyan w kaymna3 les bugs melli tzid ligne jdida."
+        }
+      ]
+    },
+    {
+      "id": "elseif",
+      "title": "elseif : plusieurs cas",
+      "icon": "🪜",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><strong>elseif</strong> permet de tester une nouvelle condition si la précédente était fausse. PHP teste les conditions <em>dans l'ordre</em> et s'arrête à la première qui est vraie.</p>",
+          "darija": "<p><strong>elseif</strong> kaytesti condition jdida ila li qbelha kanet fausse. PHP kaytesti b tartib w kay7bes 3la lawla li katkon vraie.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "php",
+          "title": "Chaîne de conditions",
+          "code": "if ($note >= 16) {\n    echo \"Excellent\";\n} elseif ($note >= 12) {\n    echo \"Bien\";\n} elseif ($note >= 10) {\n    echo \"Passable\";\n} else {\n    echo \"Insuffisant\";\n}"
+        },
+        {
+          "type": "example",
+          "title": "Attribuer une mention",
+          "lang": "php",
+          "code": "<?php\n$note = 14;\n\nif ($note >= 16) {\n    echo \"Excellent\";\n} elseif ($note >= 12) {\n    echo \"Bien\";\n} elseif ($note >= 10) {\n    echo \"Passable\";\n} else {\n    echo \"Insuffisant\";\n}\n?>",
+          "preview": true,
+          "explainFr": "14 n'est pas ≥ 16, mais il est ≥ 12 : PHP s'arrête là et affiche « Bien ». Les <code>elseif</code> suivants ne sont jamais testés.",
+          "explainDarija": "14 machi ≥ 16, walakin ≥ 12 : PHP kay7bes w kaytbra « Bien ». Les elseif li mora ma-ytesterch."
+        }
+      ]
+    },
+    {
+      "id": "conditions-logiques",
+      "title": "Opérateurs logiques",
+      "icon": "🔗",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>On combine plusieurs conditions avec <code>&amp;&amp;</code> (et), <code>||</code> (ou) et <code>!</code> (non).</p>",
+          "darija": "<p>Kanjem3o les conditions b <code>&amp;&amp;</code> (w), <code>||</code> (wla) w <code>!</code> (machi).</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Opérateur", "Nom", "Vrai quand…"],
+          "rows": [
+            ["&&", "ET", "les deux conditions sont vraies"],
+            ["||", "OU", "au moins une condition est vraie"],
+            ["!", "NON", "la condition est fausse"]
+          ],
+          "fr": "Exemple : <code>if ($age >= 18 &amp;&amp; $permis)</code> ne passe que si le visiteur est majeur <em>et</em> possède un permis."
+        },
+        {
+          "type": "example",
+          "title": "Conduire : âge + permis",
+          "lang": "php",
+          "code": "<?php\n$age = 20;\n$permis = true;\n\nif ($age >= 18 && $permis) {\n    echo \"Vous pouvez conduire.\";\n} else {\n    echo \"Conduite interdite.\";\n}\n?>",
+          "preview": true,
+          "explainFr": "Les deux conditions sont vraies (20 ≥ 18 et permis = true) : le message autorise la conduite.",
+          "explainDarija": "Jouj conditions vraies (20 ≥ 18 w permis = true) : message kaygol tqder tsou9."
+        },
+        {
+          "type": "warning",
+          "title": "= n'est pas ==",
+          "fr": "Dans une condition, <code>=</code> <strong>affecte</strong> une valeur et <code>==</code> / <code>===</code> <strong>comparent</strong>. <code>if ($a = 5)</code> est toujours vrai : utilisez <code>if ($a === 5)</code>.",
+          "darija": "<code>=</code> kay3ti valeur, <code>==</code> w <code>===</code> kayqarno. <code>if ($a = 5)</code> dima vraie : kteb <code>if ($a === 5)</code>."
+        }
+      ]
+    },
+    {
+      "id": "switch",
+      "title": "switch : choix multiples",
+      "icon": "🎛️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><strong>switch</strong> compare une même variable à plusieurs valeurs. Chaque <code>case</code> se termine par <code>break</code> pour arrêter l'exécution ; <code>default</code> gère tous les autres cas.</p>",
+          "darija": "<p><strong>switch</strong> kayqaren nefs variable m3a bzaf dyal valeurs. Kol <code>case</code> khas ykml b <code>break</code>; <code>default</code> kayakhod les cas li baqyin.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "php",
+          "title": "Syntaxe switch",
+          "code": "switch ($jour) {\n    case \"lundi\":\n        echo \"Début de semaine\";\n        break;\n    case \"vendredi\":\n        echo \"Fin de semaine\";\n        break;\n    default:\n        echo \"Autre jour\";\n}"
+        },
+        {
+          "type": "example",
+          "title": "Afficher le type de journée",
+          "lang": "php",
+          "code": "<?php\n$jour = \"samedi\";\n\nswitch ($jour) {\n    case \"lundi\":\n    case \"mardi\":\n    case \"mercredi\":\n    case \"jeudi\":\n    case \"vendredi\":\n        echo \"Jour de travail\";\n        break;\n    case \"samedi\":\n    case \"dimanche\":\n        echo \"Week-end !\";\n        break;\n    default:\n        echo \"Jour inconnu\";\n}\n?>",
+          "preview": true,
+          "explainFr": "Plusieurs <code>case</code> peuvent partager le même bloc. Ici « samedi » tombe sur « Week-end ! ».",
+          "explainDarija": "Bzaf dyal case y9dro ychedo nefs bloc. Hna « samedi » kaydakhl f « Week-end ! »."
+        },
+        {
+          "type": "warning",
+          "title": "Oublier break",
+          "fr": "Sans <code>break</code>, PHP continue dans le <code>case</code> suivant : c'est le <em>fall-through</em>. Ça peut être volontaire, mais la plupart du temps c'est un bug.",
+          "darija": "Bla <code>break</code>, PHP kaykml f case li mora : smitha fall-through. Merrat kaykon 3mad, walakin ghaliban bug."
+        }
+      ]
+    },
+    {
+      "id": "ternaire",
+      "title": "Opérateur ternaire",
+      "icon": "⚡",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Le ternaire <code>condition ? si_vrai : si_faux</code> est une écriture courte d'un <code>if / else</code> qui renvoie une valeur. À réserver aux conditions simples.</p>",
+          "darija": "<p>Ternaire <code>condition ? si_vrai : si_faux</code> hiya écriture qsira dyal <code>if / else</code> li kayrje3 valeur. Khdma ghir m3a conditions sahla.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Mention courte",
+          "lang": "php",
+          "code": "<?php\n$note = 15;\n$mention = ($note >= 10) ? \"Admis\" : \"Recalé\";\necho $mention;\n?>",
+          "preview": true,
+          "explainFr": "$note vaut 15, la condition est vraie : $mention reçoit « Admis » et echo l'affiche.",
+          "explainDarija": "$note fih 15, condition vraie : $mention yakhod « Admis » w echo kaytbraha."
+        },
+        {
+          "type": "tip",
+          "title": "Ne pas imbriquer trop de ternaires",
+          "fr": "Un ternaire dans un autre ternaire devient illisible. Au-delà de deux cas, revenez à <code>if / elseif</code> ou à <code>switch</code>.",
+          "darija": "Ternaire f dakhel ternaire kaywli s3ib lqraya. Ila 3andek ktar men jouj cas, rje3 l <code>if / elseif</code> wla <code>switch</code>."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "if ($age = 18) { ... }",
+      "fix": "if ($age == 18) { ... } ou if ($age === 18) { ... }",
+      "fr": "Utiliser <code>=</code> au lieu de <code>==</code> : la condition affecte 18 à $age et devient toujours vraie.",
+      "darija": "Ila ktebti <code>=</code> blast <code>==</code> : condition kate3ti 18 l $age w katwli dima vraie."
+    },
+    {
+      "wrong": "Oublier le break dans un switch",
+      "fix": "Ajouter break; à la fin de chaque case (sauf fall-through volontaire).",
+      "fr": "Sans <code>break</code>, PHP exécute aussi les <code>case</code> suivants et affiche plusieurs messages.",
+      "darija": "Bla <code>break</code>, PHP kaynffed 7ta les case li mora w kaytbra bzaf dyal messages."
+    },
+    {
+      "wrong": "if ($age >= 18 && $permis == true) sans parenthèses autour de chaque test",
+      "fix": "if (($age >= 18) && ($permis === true))",
+      "fr": "Les parenthèses clarifient la priorité des opérateurs et évitent les surprises avec <code>||</code> et <code>&amp;&amp;</code> mélangés.",
+      "darija": "Les parenthèses kaywad7o l'ordre w kaymna3o les erreurs melli tkhelt <code>||</code> m3a <code>&amp;&amp;</code>."
+    },
+    {
+      "wrong": "switch ($note) { case $note > 10: ... }",
+      "fix": "switch compare des valeurs : utiliser if / elseif pour des comparaisons.",
+      "fr": "<code>switch</code> teste l'égalité avec des valeurs fixes ; pour des intervalles, utilisez <code>if / elseif</code>.",
+      "darija": "<code>switch</code> kayqaren égalité m3a valeurs fixe ; l les intervalles khdem b <code>if / elseif</code>."
+    }
+  ],
+  "summary": {
+    "fr": "<strong>if / else</strong> exécute un bloc selon une condition, <strong>elseif</strong> enchaîne plusieurs tests dans l'ordre, les opérateurs <strong>&amp;&amp;</strong>, <strong>||</strong> et <strong>!</strong> combinent les conditions, <strong>switch</strong> choisit parmi plusieurs valeurs (avec <code>break</code> !) et le <strong>ternaire</strong> écrit une condition courte. Attention : <code>==</code> compare, <code>=</code> affecte.",
+    "darija": "<strong>if / else</strong> kaynffed bloc 3la 7sab condition, <strong>elseif</strong> kayzid tests b tartib, <strong>&amp;&amp;</strong>, <strong>||</strong> w <strong>!</strong> kayjem3o les conditions, <strong>switch</strong> kaykhtar men bzaf valeurs (m3a <code>break</code> !) w <strong>ternaire</strong> kaykteb condition qsira. 3ndak: <code>==</code> kayqaren, <code>=</code> kay3ti."
+  }
+}

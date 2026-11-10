@@ -1,0 +1,182 @@
+{
+  "exercises": {
+    "php": {
+      "8": {
+        "title": "Fonctions de chaînes",
+        "brief": "Mesurer, nettoyer, remplacer et découper du texte.",
+        "levels": [
+          ["Débutant — longueur et majuscules", "php",
+           "<p>Définis <code>$mot = \"webacademy\"</code>, puis affiche <code>Longueur : 10</code> et <code>Majuscules : WEBACADEMY</code>.</p>",
+           "<p>3erref <code>$mot = \"webacademy\"</code>, men ba3d 3red <code>Longueur : 10</code> w <code>Majuscules : WEBACADEMY</code>.</p>",
+           "<?php\n$mot = \"webacademy\";\n\n// Longueur puis majuscules\n",
+           [["output_contains", "Longueur : 10"], ["output_contains", "Majuscules : WEBACADEMY"]],
+           ["strlen() compte les caractères.", "strtoupper() convertit en majuscules.", "Concatène le libellé et le résultat de la fonction."],
+           "<?php\n$mot = \"webacademy\";\n\necho \"Longueur : \" . strlen($mot) . \"<br>\";\necho \"Majuscules : \" . strtoupper($mot);\n?>",
+           "<code>strlen()</code> renvoie 10 caractères et <code>strtoupper()</code> renvoie la chaîne en majuscules. Ces fonctions ne modifient pas <code>$mot</code> : elles renvoient une nouvelle chaîne.",
+           "<code>strlen()</code> katrje3 10 caractères w <code>strtoupper()</code> katrje3 chaîne b majuscules. Had fonctions ma kaybeddlouch <code>$mot</code> : kayrje3o chaîne jdida."],
+          ["Intermédiaire — trim et remplacement", "php",
+           "<p>Définis <code>$phrase = \"  J'aime le PHP  \"</code>. Supprime les espaces autour avec <code>trim()</code>, remplace <code>PHP</code> par <code>SQL</code>, puis affiche le résultat.</p>",
+           "<p>3erref <code>$phrase = \"  J'aime le PHP  \"</code>. 7yed espaces li 3la tarafin b <code>trim()</code>, beddel <code>PHP</code> b <code>SQL</code>, men ba3d 3red résultat.</p>",
+           "<?php\n$phrase = \"  J'aime le PHP  \";\n\n// Nettoie puis remplace\n",
+           [["output_contains", "J'aime le SQL"]],
+           ["trim() enlève les espaces au début et à la fin.", "str_replace($ancien, $nouveau, $texte) effectue le remplacement.", "Affiche la chaîne transformée, pas l'originale."],
+           "<?php\n$phrase = \"  J'aime le PHP  \";\n\n$propre = trim($phrase);\necho str_replace(\"PHP\", \"SQL\", $propre);\n?>",
+           "<code>trim()</code> supprime les espaces parasites, puis <code>str_replace()</code> remplace toutes les occurrences de « PHP » par « SQL ». Le résultat est « J'aime le SQL ».",
+           "<code>trim()</code> kat7yed espaces zaydin, men ba3d <code>str_replace()</code> kaybeddel kol occurrences dyal « PHP » b « SQL ». Résultat « J'aime le SQL »."],
+          ["Avancé — explode et implode", "php",
+           "<p>Définis <code>$csv = \"html,css,php\"</code>. Découpe la chaîne avec <code>explode()</code>, mets chaque mot en majuscule initiale avec <code>array_map('ucfirst', ...)</code>, puis recolle avec <code>implode()</code> et le séparateur <code> - </code>.</p>",
+           "<p>3erref <code>$csv = \"html,css,php\"</code>. Qsem chaîne b <code>explode()</code>, 7et kol kelma b majuscule lawla b <code>array_map('ucfirst', ...)</code>, men ba3d ls9hom b <code>implode()</code> w séparateur <code> - </code>.</p>",
+           "<?php\n$csv = \"html,css,php\";\n\n// explode, ucfirst, implode\n",
+           [["output_contains", "Html - Css - Php"]],
+           ["explode(',', $csv) renvoie un tableau.", "array_map applique ucfirst à chaque élément.", "implode(' - ', $tableau) recolle les valeurs."],
+           "<?php\n$csv = \"html,css,php\";\n\n$parties = explode(\",\", $csv);\n$parties = array_map('ucfirst', $parties);\necho implode(\" - \", $parties);\n?>",
+           "<code>explode()</code> transforme la chaîne en tableau, <code>array_map()</code> applique <code>ucfirst()</code> à chaque mot, et <code>implode()</code> reconstruit une chaîne lisible.",
+           "<code>explode()</code> katbeddel chaîne l tableau, <code>array_map()</code> kattbeq <code>ucfirst()</code> 3la kol kelma, w <code>implode()</code> kat3awed tabni chaîne mqroua."]
+        ]
+      },
+      "9": {
+        "title": "Traitement des formulaires",
+        "brief": "Lire, nettoyer et valider des données reçues.",
+        "levels": [
+          ["Débutant — lire et nettoyer", "php",
+           "<p>Le tableau <code>$_POST['nom']</code> contient <code>\"  Amal  \"</code>. Lis-le avec l'opérateur <code>??</code>, nettoie-le avec <code>trim()</code>, puis affiche <code>Bonjour Amal</code>.</p>",
+           "<p>Tableau <code>$_POST['nom']</code> fih <code>\"  Amal  \"</code>. Qraha b opérateur <code>??</code>, nqiha b <code>trim()</code>, men ba3d 3red <code>Bonjour Amal</code>.</p>",
+           "<?php\n$_POST['nom'] = \"  Amal  \";\n\n// Lis, nettoie, affiche\n",
+           [["output_contains", "Bonjour Amal"]],
+           ["$_POST['nom'] ?? '' évite une erreur si le champ manque.", "trim() enlève les espaces autour.", "Concatène « Bonjour » et le nom nettoyé."],
+           "<?php\n$_POST['nom'] = \"  Amal  \";\n\n$nom = trim($_POST['nom'] ?? '');\necho \"Bonjour \" . $nom;\n?>",
+           "L'opérateur <code>??</code> fournit une valeur par défaut si la clé n'existe pas. <code>trim()</code> supprime les espaces saisis par erreur, et l'affichage devient propre.",
+           "Opérateur <code>??</code> kay3ti valeur par défaut ila clé ma kanatch. <code>trim()</code> kay7yed espaces li tketbo b ghalat, w affichage kaywli nqi."],
+          ["Intermédiaire — valider un email", "php",
+           "<p>Définis <code>$email = \"amal@site.ma\"</code> et utilise <code>filter_var()</code> avec <code>FILTER_VALIDATE_EMAIL</code> pour afficher <code>Email valide</code> si le format est correct, sinon <code>Email invalide</code>.</p>",
+           "<p>3erref <code>$email = \"amal@site.ma\"</code> w khdem b <code>filter_var()</code> m3a <code>FILTER_VALIDATE_EMAIL</code> bach t3red <code>Email valide</code> ila format s7i7, sinon <code>Email invalide</code>.</p>",
+           "<?php\n$email = \"amal@site.ma\";\n\n// Validation\n",
+           [["output_contains", "Email valide"]],
+           ["filter_var renvoie l'email validé ou false.", "Compare explicitement à false avec !==.", "Utilise un ternaire pour choisir le message."],
+           "<?php\n$email = \"amal@site.ma\";\n\n$valide = filter_var($email, FILTER_VALIDATE_EMAIL);\necho $valide !== false ? \"Email valide\" : \"Email invalide\";\n?>",
+           "<code>filter_var()</code> vérifie la structure de l'adresse. Elle renvoie la chaîne validée ou <code>false</code> : le test <code>!== false</code> évite de confondre avec une chaîne vide.",
+           "<code>filter_var()</code> katt7eqqeq structure dyal adresse. Katrje3 chaîne validée wla <code>false</code> : test <code>!== false</code> kaymna3 khelt m3a chaîne khawya."],
+          ["Avancé — erreurs de formulaire", "php",
+           "<p>Définis <code>$nom = \"\"</code> et <code>$email = \"amal@site.ma\"</code>. Construis un tableau <code>$erreurs</code> : ajoute <code>Le nom est obligatoire</code> si le nom est vide, et <code>Email invalide</code> si l'email est invalide. Affiche <code>Erreurs : ...</code> avec <code>implode()</code>, ou <code>Formulaire valide</code> s'il n'y a aucune erreur.</p>",
+           "<p>3erref <code>$nom = \"\"</code> w <code>$email = \"amal@site.ma\"</code>. Bni tableau <code>$erreurs</code> : zid <code>Le nom est obligatoire</code> ila nom khawi, w <code>Email invalide</code> ila email ghalt. 3red <code>Erreurs : ...</code> b <code>implode()</code>, wla <code>Formulaire valide</code> ila ma kanch erreur.</p>",
+           "<?php\n$nom = \"\";\n$email = \"amal@site.ma\";\n$erreurs = [];\n\n// Validation\n",
+           [["output_contains", "Le nom est obligatoire"]],
+           ["Un tableau d'erreurs se remplit avec $erreurs[].", "Vérifie le nom vide avec === ''.", "implode(', ', $erreurs) affiche toutes les erreurs."],
+           "<?php\n$nom = \"\";\n$email = \"amal@site.ma\";\n$erreurs = [];\n\nif ($nom === '') {\n    $erreurs[] = \"Le nom est obligatoire\";\n}\n\nif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {\n    $erreurs[] = \"Email invalide\";\n}\n\nif ($erreurs) {\n    echo \"Erreurs : \" . implode(\", \", $erreurs);\n} else {\n    echo \"Formulaire valide\";\n}\n?>",
+           "On collecte toutes les erreurs au lieu de s'arrêter à la première : l'utilisateur corrige tout en une seule fois. <code>implode()</code> les affiche séparément.",
+           "Kanjem3o kol erreurs blast ma n7ebso f lawla : utilisateur kaysele7 kolchi f marra wa7da. <code>implode()</code> kay3redhom mfreqin."]
+        ]
+      },
+      "10": {
+        "title": "Include et require",
+        "brief": "Réutiliser du code avec include, require et require_once.",
+        "levels": [
+          ["Débutant — require d'un fichier de config", "php",
+           "<p>Crée un fichier <code>config.php</code> avec <code>file_put_contents()</code> contenant <code>define('SITE_NAME', 'WebAcademy');</code>, inclus-le avec <code>require</code>, puis affiche la constante <code>SITE_NAME</code>.</p>",
+           "<p>5leq fichier <code>config.php</code> b <code>file_put_contents()</code> fih <code>define('SITE_NAME', 'WebAcademy');</code>, dkhelo b <code>require</code>, men ba3d 3red constante <code>SITE_NAME</code>.</p>",
+           "<?php\n// Crée config.php puis require\n",
+           [["output_contains", "WebAcademy"]],
+           ["Le contenu inclus doit commencer par <?php.", "Utilise __DIR__ . '/config.php' pour un chemin fiable.", "require charge le fichier et exécute son code."],
+           "<?php\nfile_put_contents(__DIR__ . '/config.php', \"<?php define('SITE_NAME', 'WebAcademy');\");\n\nrequire __DIR__ . '/config.php';\necho SITE_NAME;\n?>",
+           "<code>require</code> inclut le fichier et exécute son code dans la portée courante : la constante définie devient disponible. <code>__DIR__</code> pointe vers le dossier du script.",
+           "<code>require</code> kaydkhel fichier w kaynffed code dyalo f portée li kayn : constante katwli disponible. <code>__DIR__</code> kay3ayer l dossier dyal script."],
+          ["Intermédiaire — include d'un en-tête", "php",
+           "<p>Crée <code>entete.php</code> qui définit <code>$titre = 'Bienvenue';</code>, inclus-le avec <code>include</code>, puis affiche <code>&lt;h1&gt;Bienvenue&lt;/h1&gt;</code>.</p>",
+           "<p>5leq <code>entete.php</code> li kay3erref <code>$titre = 'Bienvenue';</code>, dkhelo b <code>include</code>, men ba3d 3red <code>&lt;h1&gt;Bienvenue&lt;/h1&gt;</code>.</p>",
+           "<?php\n// Crée entete.php puis include\n",
+           [["output_contains", "<h1>Bienvenue</h1>"]],
+           ["include exécute le fichier inclus.", "La variable définie dans le fichier inclus reste disponible après.", "Concatène les balises autour de $titre."],
+           "<?php\nfile_put_contents(__DIR__ . '/entete.php', \"<?php \\$titre = 'Bienvenue';\");\n\ninclude __DIR__ . '/entete.php';\necho \"<h1>\" . $titre . \"</h1>\";\n?>",
+           "<code>include</code> partage la portée du script appelant : <code>$titre</code> est défini après l'inclusion. Une inclusion manquante provoque un avertissement, mais le script continue.",
+           "<code>include</code> kaycharek portée dyal script li kay3ayet : <code>$titre</code> kayt3erref mora inclusion. Inclusion naqsa kat3ti avertissement, walakin script kaykemmel."],
+          ["Avancé — require_once", "php",
+           "<p>Crée <code>fonctions.php</code> contenant une fonction <code>saluer($nom)</code> qui retourne <code>Bonjour</code> suivi du nom. Inclus le fichier deux fois avec <code>require_once</code>, puis affiche <code>saluer(\"Amal\")</code>.</p>",
+           "<p>5leq <code>fonctions.php</code> fih fonction <code>saluer($nom)</code> li katrje3 <code>Bonjour</code> m3a smiya. Dkhel fichier jouj marrat b <code>require_once</code>, men ba3d 3red <code>saluer(\"Amal\")</code>.</p>",
+           "<?php\n// Crée fonctions.php puis require_once deux fois\n",
+           [["output_contains", "Bonjour Amal"]],
+           ["require_once ne charge le fichier qu'une seule fois.", "Sans _once, la fonction serait redéclarée et PHP provoquerait une erreur fatale.", "La fonction doit être définie dans le fichier inclus."],
+           "<?php\nfile_put_contents(__DIR__ . '/fonctions.php', \"<?php function saluer(\\$nom) { return 'Bonjour ' . \\$nom; }\");\n\nrequire_once __DIR__ . '/fonctions.php';\nrequire_once __DIR__ . '/fonctions.php';\n\necho saluer(\"Amal\");\n?>",
+           "<code>require_once</code> vérifie si le fichier a déjà été chargé. Le second appel est ignoré, ce qui évite l'erreur « Cannot redeclare saluer() ».",
+           "<code>require_once</code> kayt7eqqeq wach fichier tcharga qbel. Appel tani kaytjahl, w hakka kayt7ased erreur « Cannot redeclare saluer() »."]
+        ]
+      },
+      "11": {
+        "title": "Sessions et cookies",
+        "brief": "Conserver des données entre les pages avec les sessions.",
+        "levels": [
+          ["Débutant — ouvrir une session", "php",
+           "<p>Démarre une session, stocke <code>Amal</code> dans <code>$_SESSION['utilisateur']</code>, puis affiche <code>Connecté : Amal</code>.</p>",
+           "<p>Bda session, khzen <code>Amal</code> f <code>$_SESSION['utilisateur']</code>, men ba3d 3red <code>Connecté : Amal</code>.</p>",
+           "<?php\n// session_start puis stockage\n",
+           [["output_contains", "Connecté : Amal"]],
+           ["session_start() doit être appelé avant tout affichage.", "$_SESSION est un tableau superglobal.", "Lis la valeur avec $_SESSION['utilisateur']."],
+           "<?php\nsession_start();\n\n$_SESSION['utilisateur'] = \"Amal\";\necho \"Connecté : \" . $_SESSION['utilisateur'];\n?>",
+           "<code>session_start()</code> crée ou reprend une session identifiée par un cookie. Les valeurs stockées dans <code>$_SESSION</code> restent disponibles sur les pages suivantes.",
+           "<code>session_start()</code> kat5leq wla kat3awed session m3erfa b cookie. Valeurs mkheznin f <code>$_SESSION</code> kaybqaw disponibles f pages li mora."],
+          ["Intermédiaire — panier en session", "php",
+           "<p>Démarre une session, crée <code>$_SESSION['panier'] = [\"PHP\", \"SQL\"]</code>, ajoute <code>HTML</code> avec <code>$_SESSION['panier'][] = \"HTML\"</code>, puis affiche <code>Articles : 3</code>.</p>",
+           "<p>Bda session, 5leq <code>$_SESSION['panier'] = [\"PHP\", \"SQL\"]</code>, zid <code>HTML</code> b <code>$_SESSION['panier'][] = \"HTML\"</code>, men ba3d 3red <code>Articles : 3</code>.</p>",
+           "<?php\nsession_start();\n\n// Panier\n",
+           [["output_contains", "Articles : 3"]],
+           ["Un tableau en session se modifie comme un tableau normal.", "L'ajout se fait avec [].", "count() renvoie le nombre d'articles."],
+           "<?php\nsession_start();\n\n$_SESSION['panier'] = [\"PHP\", \"SQL\"];\n$_SESSION['panier'][] = \"HTML\";\n\necho \"Articles : \" . count($_SESSION['panier']);\n?>",
+           "Le panier survit aux changements de page : l'utilisateur peut ajouter des articles puis retrouver son panier plus tard. <code>count()</code> affiche 3.",
+           "Panier kaybqa 7ta melli page katbeddel : utilisateur y9der yzid articles w ylqa panier dyalo men ba3d. <code>count()</code> kay3red 3."],
+          ["Avancé — vérifier puis détruire", "php",
+           "<p>Démarre une session, stocke <code>Amal</code>, lis la valeur avec <code>??</code>, supprime-la avec <code>unset()</code>, puis affiche <code>Session active : Amal</code> et <code>Déconnecté</code> si la clé n'existe plus.</p>",
+           "<p>Bda session, khzen <code>Amal</code>, qra valeur b <code>??</code>, 7yedha b <code>unset()</code>, men ba3d 3red <code>Session active : Amal</code> w <code>Déconnecté</code> ila clé ma bqatch.</p>",
+           "<?php\nsession_start();\n\n// Stocke, vérifie, supprime\n",
+           [["output_contains", "Session active : Amal"], ["output_contains", "Déconnecté"]],
+           ["Lis la valeur avant de la supprimer.", "unset($_SESSION['utilisateur']) retire une clé précise.", "isset() vérifie si la clé existe encore."],
+           "<?php\nsession_start();\n\n$_SESSION['utilisateur'] = \"Amal\";\n$utilisateur = $_SESSION['utilisateur'] ?? null;\nunset($_SESSION['utilisateur']);\n\necho $utilisateur ? \"Session active : \" . $utilisateur : \"Aucune session\";\necho \" | \";\necho isset($_SESSION['utilisateur']) ? \"Encore connecté\" : \"Déconnecté\";\n?>",
+           "La valeur est lue avant sa suppression. <code>unset()</code> retire la clé de la session, puis <code>isset()</code> confirme que l'utilisateur n'est plus stocké.",
+           "Valeur katqra qbel suppression. <code>unset()</code> kay7yed clé men session, men ba3d <code>isset()</code> kay2ekked belli utilisateur ma bqach mkhezen."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "php": {
+      "8": {
+        "title": "Quiz — Fonctions de chaînes",
+        "questions": [
+          ["mcq", "Que renvoie strlen(\"PHP\") ?", ["3", "2", "1"], 0, "strlen", "<code>strlen()</code> compte les caractères : P, H et P font 3.", "<code>strlen()</code> kat7seb caractères : P, H w P = 3."],
+          ["tf", "strtoupper() modifie la variable d'origine.", 1, "Valeur de retour", "Faux : elle renvoie une nouvelle chaîne ; il faut réaffecter le résultat pour le conserver.", "Ghalt : katrje3 chaîne jdida ; khas t3awed t3ti résultat bach ytbqa."],
+          ["mcq", "Quelle fonction supprime les espaces au début et à la fin ?", ["trim()", "str_replace()", "explode()"], 0, "trim", "<code>trim()</code> nettoie les espaces parasites autour d'une chaîne.", "<code>trim()</code> katnqqi espaces zaydin 3la tarafin dyal chaîne."],
+          ["fill", "La fonction qui découpe une chaîne en tableau selon un séparateur est ________().", "explode", "explode", "<code>explode(',', $csv)</code> découpe la chaîne à chaque virgule.", "<code>explode(',', $csv)</code> katqsem chaîne 3nd kol virgule."],
+          ["mcq", "Quelle fonction recolle un tableau en chaîne ?", ["implode()", "explode()", "strlen()"], 0, "implode", "<code>implode(' - ', $t)</code> réunit les valeurs avec le séparateur donné.", "<code>implode(' - ', $t)</code> katjem3 valeurs b séparateur li 3titih."]
+        ]
+      },
+      "9": {
+        "title": "Quiz — Traitement des formulaires",
+        "questions": [
+          ["mcq", "Quelle superglobale reçoit les données d'un formulaire en POST ?", ["$_POST", "$_GET", "$_SESSION"], 0, "POST", "Un formulaire avec <code>method=\"post\"</code> remplit <code>$_POST</code>.", "Formulaire b <code>method=\"post\"</code> kay3emmer <code>$_POST</code>."],
+          ["tf", "Les données d'un formulaire doivent être validées côté serveur.", 0, "Validation serveur", "Vrai : les contrôles HTML peuvent être contournés, le serveur doit revérifier.", "S7i7 : contrôles HTML y9dro yt7aydo, serveur khas y3awed yt7eqqeq."],
+          ["mcq", "Quelle fonction valide un email ?", ["filter_var($email, FILTER_VALIDATE_EMAIL)", "trim($email)", "htmlspecialchars($email)"], 0, "Validation email", "<code>filter_var()</code> renvoie l'email validé ou <code>false</code>.", "<code>filter_var()</code> katrje3 email validé wla <code>false</code>."],
+          ["fill", "L'opérateur qui fournit une valeur par défaut si une clé manque est ________.", "??", "Opérateur null coalescing", "<code>$_POST['nom'] ?? ''</code> évite un avertissement si le champ est absent.", "<code>$_POST['nom'] ?? ''</code> kaymna3 avertissement ila champ ma kanch."],
+          ["mcq", "Pourquoi collecter les erreurs dans un tableau ?", ["Pour afficher toutes les erreurs en une fois", "Pour supprimer le formulaire", "Pour envoyer les erreurs par email"], 0, "Erreurs multiples", "L'utilisateur corrige tous les champs en une seule soumission.", "Utilisateur kaysele7 kol champs f soumission wa7da."]
+        ]
+      },
+      "10": {
+        "title": "Quiz — Include et require",
+        "questions": [
+          ["mcq", "Quelle est la différence principale entre include et require ?", ["require provoque une erreur fatale si le fichier manque", "include est plus rapide", "require ne fonctionne qu'avec les fichiers CSS"], 0, "include vs require", "<code>require</code> arrête le script si l'inclusion échoue ; <code>include</code> émet seulement un avertissement.", "<code>require</code> kayweqqef script ila inclusion fchlat ; <code>include</code> kay3ti ghir avertissement."],
+          ["tf", "require_once évite de charger deux fois le même fichier.", 0, "require_once", "Vrai : le fichier n'est inclus qu'une seule fois, ce qui évite les redéclarations.", "S7i7 : fichier kaydkhel ghir marra wa7da, w hakka kayt7ased redéclarations."],
+          ["mcq", "Que contient __DIR__ ?", ["Le dossier du fichier courant", "Le nom du serveur", "Le contenu du fichier"], 0, "__DIR__", "<code>__DIR__</code> donne le chemin absolu du dossier du script, utile pour les inclusions fiables.", "<code>__DIR__</code> kay3ti chemin absolu dyal dossier dyal script, mzyan l inclusions mwatheqa."],
+          ["fill", "La fonction qui écrit du contenu dans un fichier est file_put________().", "contents", "Écriture fichier", "<code>file_put_contents()</code> écrit une chaîne dans un fichier, en le créant si besoin.", "<code>file_put_contents()</code> katkteb chaîne f fichier, w kat5lqo ila ma kanch."],
+          ["mcq", "Où placer un fichier de configuration inclus ?", ["Hors de la racine web publique", "Dans le dossier des images", "Dans le body HTML"], 0, "Sécurité des inclusions", "Un fichier de config sous la racine web pourrait être téléchargé et révéler les identifiants.", "Fichier config ta7t racine web y9der ytchargi w ychher identifiants."]
+        ]
+      },
+      "11": {
+        "title": "Quiz — Sessions et cookies",
+        "questions": [
+          ["mcq", "Quelle fonction démarre une session ?", ["session_start()", "session_open()", "start_session()"], 0, "session_start", "<code>session_start()</code> crée ou reprend la session et doit être appelée avant tout affichage.", "<code>session_start()</code> kat5leq wla kat3awed session w khas t3ayet qbel ay affichage."],
+          ["tf", "Les données de session sont stockées côté serveur.", 0, "Stockage session", "Vrai : le navigateur ne garde qu'un identifiant de session, les données restent sur le serveur.", "S7i7 : navigateur kay7fed ghir identifiant dyal session, données kaybqaw f serveur."],
+          ["mcq", "Quelle superglobale contient les variables de session ?", ["$_SESSION", "$_COOKIE", "$_POST"], 0, "$_SESSION", "Les valeurs de session sont lues et écrites dans <code>$_SESSION</code>.", "Valeurs dyal session kaytqraw w kaytketbo f <code>$_SESSION</code>."],
+          ["fill", "La fonction qui détruit complètement une session est session________().", "destroy", "session_destroy", "<code>session_destroy()</code> détruit les données de session ; il faut aussi vider <code>$_SESSION</code>.", "<code>session_destroy()</code> katdemmer données dyal session ; khas 7ta tferregh <code>$_SESSION</code>."],
+          ["mcq", "Quel risque évite session_regenerate_id() après connexion ?", ["La fixation de session", "Les erreurs SQL", "Les fichiers trop lourds"], 0, "Sécurité session", "Changer l'identifiant après connexion empêche un attaquant d'utiliser un identifiant connu à l'avance.", "Tbeddel identifiant mora connexion kaymna3 attaquant ysta3mel identifiant m3erof qbel."]
+        ]
+      }
+    }
+  }
+}

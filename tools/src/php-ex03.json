@@ -1,0 +1,67 @@
+{
+  "id": "php-ex3",
+  "title": "Opérateurs",
+  "brief": "Manipule les opérateurs arithmétiques, de comparaison et logiques en PHP.",
+  "levels": [
+    {
+      "level": 1,
+      "title": "Débutant — arithmétique et modulo",
+      "lang": "php",
+      "instructions": "<p>Écris un script PHP qui :</p><ul><li>définit <code>$a = 17</code> et <code>$b = 5</code> ;</li><li>affiche la somme, puis le reste de la division de <code>$a</code> par <code>$b</code>.</li></ul><p>Format attendu : une ligne <code>Somme : 22</code>, puis une ligne <code>Reste : 2</code>.</p>",
+      "instructionsDarija": "<p>Kteb script PHP li :</p><ul><li>kay3erref <code>$a = 17</code> w <code>$b = 5</code> ;</li><li>kay3red somme, men ba3d reste dyal division dyal <code>$a</code> 3la <code>$b</code>.</li></ul><p>Format : ligne <code>Somme : 22</code>, men ba3d ligne <code>Reste : 2</code>.</p>",
+      "starter": "<?php\n$a = 17;\n$b = 5;\n\n// Affiche la somme puis le reste\n",
+      "tests": [
+        { "type": "output_contains", "value": "Somme : 22" },
+        { "type": "output_contains", "value": "Reste : 2" }
+      ],
+      "hints": [
+        "L'addition utilise l'opérateur +.",
+        "Le reste d'une division s'obtient avec l'opérateur %.",
+        "Utilise echo avec une concaténation : echo \"Somme : \" . ($a + $b);"
+      ],
+      "solution": "<?php\n$a = 17;\n$b = 5;\n\necho \"Somme : \" . ($a + $b) . \"<br>\";\necho \"Reste : \" . ($a % $b);\n?>",
+      "explainFr": "$a + $b vaut 22. L'opérateur <code>%</code> (modulo) renvoie le reste de la division entière : 17 = 3 × 5 + 2, donc 17 % 5 vaut 2.",
+      "explainDarija": "$a + $b = 22. Opérateur <code>%</code> (modulo) kayrje3 reste dyal division : 17 = 3 × 5 + 2, donc 17 % 5 = 2."
+    },
+    {
+      "level": 2,
+      "title": "Intermédiaire — comparaison",
+      "lang": "php",
+      "instructions": "<p>Écris un script qui définit <code>$age = 20</code>, puis affiche <code>Majeur</code> si l'âge est supérieur ou égal à 18, sinon <code>Mineur</code>.</p><p>Teste ensuite avec <code>$age = 15</code> : le script doit afficher <code>Mineur</code>.</p>",
+      "instructionsDarija": "<p>Kteb script kay3erref <code>$age = 20</code>, men ba3d kay3red <code>Majeur</code> ila age kbir wla sawi 18, sinon <code>Mineur</code>.</p><p>Jerreb b <code>$age = 15</code> : script khas y3red <code>Mineur</code>.</p>",
+      "starter": "<?php\n$age = 20;\n\nif (/* condition */) {\n    echo \"Majeur\";\n} else {\n    echo \"Mineur\";\n}\n?>",
+      "tests": [
+        { "type": "output_contains", "value": "Majeur" },
+        { "type": "output_not_contains", "value": "Mineur" }
+      ],
+      "hints": [
+        "L'opérateur >= teste « supérieur ou égal ».",
+        "La condition s'écrit $age >= 18.",
+        "N'utilise pas = (affectation) mais >= (comparaison)."
+      ],
+      "solution": "<?php\n$age = 20;\n\nif ($age >= 18) {\n    echo \"Majeur\";\n} else {\n    echo \"Mineur\";\n}\n?>",
+      "explainFr": "20 ≥ 18 est vrai : le bloc <code>if</code> s'exécute et affiche « Majeur ». Avec 15, la condition serait fausse et le bloc <code>else</code> afficherait « Mineur ».",
+      "explainDarija": "20 ≥ 18 vraie : bloc <code>if</code> kaynffed w kay3red « Majeur ». B 15, condition tkoun fausse w <code>else</code> kay3red « Mineur »."
+    },
+    {
+      "level": 3,
+      "title": "Avancé — logique et incrémentation",
+      "lang": "php",
+      "instructions": "<p>Écris un script qui :</p><ul><li>définit <code>$actif = true</code> et <code>$compteur = 5</code> ;</li><li>inverse <code>$actif</code> avec l'opérateur <code>!</code> ;</li><li>incrémente <code>$compteur</code> avec <code>++</code> ;</li><li>affiche <code>Actif : faux</code> puis <code>Compteur : 6</code>.</li></ul><p>Indice : convertis le booléen en texte lisible avec un ternaire.</p>",
+      "instructionsDarija": "<p>Kteb script li :</p><ul><li>kay3erref <code>$actif = true</code> w <code>$compteur = 5</code> ;</li><li>kayqleb <code>$actif</code> b opérateur <code>!</code> ;</li><li>kayzid <code>$compteur</code> b <code>++</code> ;</li><li>kay3red <code>Actif : faux</code> men ba3d <code>Compteur : 6</code>.</li></ul><p>Indice : 7ewwel booléen l texte b ternaire.</p>",
+      "starter": "<?php\n$actif = true;\n$compteur = 5;\n\n// Inverse $actif puis incrémente $compteur\n",
+      "tests": [
+        { "type": "output_contains", "value": "Actif : faux" },
+        { "type": "output_contains", "value": "Compteur : 6" }
+      ],
+      "hints": [
+        "L'opérateur ! inverse un booléen : !true donne false.",
+        "L'opérateur ++ ajoute 1 à une variable numérique.",
+        "Pour l'affichage : echo $actif ? \"vrai\" : \"faux\";"
+      ],
+      "solution": "<?php\n$actif = true;\n$compteur = 5;\n\n$actif = !$actif;\n$compteur++;\n\necho \"Actif : \" . ($actif ? \"vrai\" : \"faux\") . \"<br>\";\necho \"Compteur : \" . $compteur;\n?>",
+      "explainFr": "<code>!$actif</code> transforme <code>true</code> en <code>false</code>. <code>$compteur++</code> équivaut à <code>$compteur = $compteur + 1</code> : 5 devient 6. Le ternaire choisit le texte à afficher.",
+      "explainDarija": "<code>!$actif</code> kayqleb <code>true</code> l <code>false</code>. <code>$compteur++</code> b7al <code>$compteur = $compteur + 1</code> : 5 kaywli 6. Ternaire kaykhtar texte li kayt3red."
+    }
+  ]
+}

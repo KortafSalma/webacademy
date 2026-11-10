@@ -1,0 +1,311 @@
+{
+  "exercises": {
+    "integration": {
+      "1": {
+        "title": "Communication PHP — base de données",
+        "brief": "Transformer des lignes de base en HTML et suivre le pipeline complet.",
+        "levels": [
+          ["Débutant — afficher des lignes", "php",
+           "<p>Le tableau <code>$etudiants</code> contient deux lignes issues de la base. Affiche une liste <code>&lt;ul&gt;</code> avec un <code>&lt;li&gt;</code> par étudiant au format <code>Nom - Filière</code>.</p>",
+           "<p>Tableau <code>$etudiants</code> fih jouj lignes men base. 3red liste <code>&lt;ul&gt;</code> b <code>&lt;li&gt;</code> l kol étudiant b format <code>Nom - Filière</code>.</p>",
+           "<?php\n$etudiants = [\n    ['nom' => 'Kortaf', 'filiere' => 'GI'],\n    ['nom' => 'Marzak', 'filiere' => 'GI'],\n];\n\n// Affiche une liste\n",
+           [["output_contains", "<ul>"], ["output_contains", "<li>Kortaf - GI</li>"], ["output_contains", "<li>Marzak - GI</li>"]],
+           ["Parcours le tableau avec foreach.", "Chaque ligne est un tableau associatif : $etudiant['nom'].", "Concatène les balises et les valeurs avec un point."],
+           "<?php\n$etudiants = [\n    ['nom' => 'Kortaf', 'filiere' => 'GI'],\n    ['nom' => 'Marzak', 'filiere' => 'GI'],\n];\n\necho \"<ul>\";\nforeach ($etudiants as $etudiant) {\n    echo \"<li>\" . $etudiant['nom'] . \" - \" . $etudiant['filiere'] . \"</li>\";\n}\necho \"</ul>\";",
+           "Le PHP reçoit des lignes de la base sous forme de tableaux, puis les transforme en HTML. C'est la dernière étape du pipeline : SQL fournit les données, PHP les met en forme.",
+           "PHP kayakhod lignes men base b7al tableaux, men ba3d kaybeddelhom l HTML. Hadi étape akhira f pipeline : SQL kay3ti données, PHP kay3redhom."],
+          ["Intermédiaire — tableau HTML", "php",
+           "<p>À partir de <code>$lignes</code>, affiche un tableau HTML avec l'en-tête <code>Nom</code> et une ligne <code>&lt;td&gt;</code> par étudiant. Le résultat doit contenir <code>&lt;table&gt;</code>, <code>&lt;th&gt;Nom&lt;/th&gt;</code> et <code>&lt;td&gt;Kortaf&lt;/td&gt;</code>.</p>",
+           "<p>Men <code>$lignes</code>, 3red tableau HTML b en-tête <code>Nom</code> w ligne <code>&lt;td&gt;</code> l kol étudiant. Résultat khas ykoun fih <code>&lt;table&gt;</code>, <code>&lt;th&gt;Nom&lt;/th&gt;</code> w <code>&lt;td&gt;Kortaf&lt;/td&gt;</code>.</p>",
+           "<?php\n$lignes = [\n    ['nom' => 'Kortaf'],\n    ['nom' => 'Marzak'],\n];\n\n// Tableau HTML\n",
+           [["output_contains", "<table>"], ["output_contains", "<th>Nom</th>"], ["output_contains", "<td>Kortaf</td>"], ["output_contains", "<td>Marzak</td>"]],
+           ["Ouvre table, thead et tbody.", "La boucle génère une ligne tr par enregistrement.", "Ferme toutes les balises dans le bon ordre."],
+           "<?php\n$lignes = [\n    ['nom' => 'Kortaf'],\n    ['nom' => 'Marzak'],\n];\n\necho \"<table>\";\necho \"<thead><tr><th>Nom</th></tr></thead>\";\necho \"<tbody>\";\nforeach ($lignes as $ligne) {\n    echo \"<tr><td>\" . $ligne['nom'] . \"</td></tr>\";\n}\necho \"</tbody>\";\necho \"</table>\";",
+           "Une page dynamique construit son HTML à partir des données. Le tableau reste lisible même si la base renvoie beaucoup de lignes, car la boucle s'adapte automatiquement.",
+           "Page dynamique katbni HTML dyalha men données. Tableau kaybqa mqrou ila base rje3at bzaf lignes, 7it boucle katt3adel b rasha."],
+          ["Avancé — compter et afficher le pipeline", "php",
+           "<p>Simule un pipeline : la requête <code>$requete</code> et les résultats <code>$resultats</code> sont fournis. Affiche <code>2 étudiants affichés</code>, puis la liste des noms. Termine par <code>Pipeline terminé</code>.</p>",
+           "<p>Simuli pipeline : requête <code>$requete</code> w résultats <code>$resultats</code> m3tin. 3red <code>2 étudiants affichés</code>, men ba3d liste smiyat. Sali b <code>Pipeline terminé</code>.</p>",
+           "<?php\n$requete = \"SELECT nom FROM etudiant WHERE filiere = :filiere\";\n$resultats = [\n    ['nom' => 'Kortaf'],\n    ['nom' => 'Marzak'],\n];\n\n// Compte, liste, fin\n",
+           [["output_contains", "2 étudiants affichés"], ["output_contains", "<li>Kortaf</li>"], ["output_contains", "<li>Marzak</li>"], ["output_contains", "Pipeline terminé"]],
+           ["count($resultats) donne le nombre de lignes.", "Affiche la requête pour tracer l'étape SQL.", "La liste se génère avec foreach."],
+           "<?php\n$requete = \"SELECT nom FROM etudiant WHERE filiere = :filiere\";\n$resultats = [\n    ['nom' => 'Kortaf'],\n    ['nom' => 'Marzak'],\n];\n\necho $requete . \"<br>\";\necho count($resultats) . \" étudiants affichés<br>\";\necho \"<ul>\";\nforeach ($resultats as $ligne) {\n    echo \"<li>\" . $ligne['nom'] . \"</li>\";\n}\necho \"</ul>\";\necho \"Pipeline terminé\";",
+           "Le script montre les trois étapes : la requête SQL, le résultat transformé en HTML, puis la fin du traitement. En production, la requête serait exécutée par PDO au lieu d'être simulée.",
+           "Script kaybayen tlata étapes : requête SQL, résultat mbeddel l HTML, men ba3d nihaya traitement. F production, requête katnffed b PDO blast simulation."]
+        ]
+      },
+      "2": {
+        "title": "Connexions (PDO, MySQL, Oracle)",
+        "brief": "Construire un DSN, configurer PDO et gérer un échec de connexion.",
+        "levels": [
+          ["Débutant — construire le DSN", "php",
+           "<p>Avec <code>$hote = 'localhost'</code>, <code>$base = 'school'</code> et <code>$charset = 'utf8mb4'</code>, construis un DSN MySQL et affiche-le. La sortie doit contenir <code>mysql:host=localhost</code>, <code>dbname=school</code> et <code>charset=utf8mb4</code>.</p>",
+           "<p>B <code>$hote = 'localhost'</code>, <code>$base = 'school'</code> w <code>$charset = 'utf8mb4'</code>, bni DSN MySQL w 3redo. Sortie khas tfih <code>mysql:host=localhost</code>, <code>dbname=school</code> w <code>charset=utf8mb4</code>.</p>",
+           "<?php\n$hote = 'localhost';\n$base = 'school';\n$charset = 'utf8mb4';\n\n// Construis le DSN\n",
+           [["output_contains", "mysql:host=localhost"], ["output_contains", "dbname=school"], ["output_contains", "charset=utf8mb4"]],
+           ["Un DSN MySQL commence par mysql:.", "Les parties sont séparées par des points-virgules.", "Concatène les variables dans le bon ordre."],
+           "<?php\n$hote = 'localhost';\n$base = 'school';\n$charset = 'utf8mb4';\n\n$dsn = \"mysql:host=\" . $hote . \";dbname=\" . $base . \";charset=\" . $charset;\necho $dsn;",
+           "Le DSN est l'adresse complète de la base. Il indique le moteur, l'hôte, le nom de la base et l'encodage des échanges.",
+           "DSN howa adresse kamla dyal base. Kaybeyn moteur, hôte, smiya base w encodage dyal échanges."],
+          ["Intermédiaire — options PDO", "php",
+           "<p>Construis un tableau <code>$options</code> avec <code>PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION</code>, <code>PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC</code> et <code>PDO::ATTR_EMULATE_PREPARES =&gt; false</code>. Affiche <code>ERRMODE_EXCEPTION</code>, <code>FETCH_ASSOC</code> et <code>EMULATE_PREPARES désactivé</code>.</p>",
+           "<p>Bni tableau <code>$options</code> b <code>PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION</code>, <code>PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC</code> w <code>PDO::ATTR_EMULATE_PREPARES =&gt; false</code>. 3red <code>ERRMODE_EXCEPTION</code>, <code>FETCH_ASSOC</code> w <code>EMULATE_PREPARES désactivé</code>.</p>",
+           "<?php\n// Options PDO\n$options = [\n];\n\n// Affichage\n",
+           [["output_contains", "ERRMODE_EXCEPTION"], ["output_contains", "FETCH_ASSOC"], ["output_contains", "EMULATE_PREPARES"]],
+           ["Les clés du tableau sont les constantes PDO::ATTR_*.", "ERRMODE_EXCEPTION fait lever une exception en cas d'erreur.", "EMULATE_PREPARES false utilise les vraies requêtes préparées du serveur."],
+           "<?php\n$options = [\n    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,\n    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,\n    PDO::ATTR_EMULATE_PREPARES => false,\n];\n\necho \"ERRMODE_EXCEPTION activé<br>\";\necho \"FETCH_ASSOC activé<br>\";\necho \"EMULATE_PREPARES désactivé\";",
+           "Ces options rendent PDO strict et prévisible : les erreurs deviennent des exceptions, les lignes arrivent en tableaux associatifs et les requêtes préparées sont réellement exécutées par le serveur.",
+           "Had options kay3mlo PDO strict w wad7 : erreurs kaywliw exceptions, lignes kayjiw tableaux associatifs w requêtes préparées katnffedha serveur b s7i7."],
+          ["Avancé — échec de connexion maîtrisé", "php",
+           "<p>Dans un <code>try</code>, lance une <code>PDOException</code> avec le message <code>Access denied</code>. Dans le <code>catch</code>, stocke le détail dans <code>$journal</code> sans l'afficher, puis affiche <code>Connexion impossible. Détail journalisé.</code></p>",
+           "<p>F <code>try</code>, 3len <code>PDOException</code> b message <code>Access denied</code>. F <code>catch</code>, khzen détail f <code>$journal</code> bla ma t3redo, men ba3d 3red <code>Connexion impossible. Détail journalisé.</code></p>",
+           "<?php\n// Connexion protégée\ntry {\n    // lance l'exception\n} catch (PDOException $e) {\n    // journalise sans afficher\n}\n",
+           [["output_contains", "Connexion impossible"], ["output_contains", "journalisé"]],
+           ["throw new PDOException(...) déclenche l'erreur.", "$e->getMessage() contient le détail technique.", "Le message affiché doit rester générique."],
+           "<?php\ntry {\n    throw new PDOException(\"Access denied for user\");\n} catch (PDOException $e) {\n    $journal = $e->getMessage();\n    echo \"Connexion impossible. Détail journalisé.\";\n}",
+           "L'utilisateur reçoit un message clair, tandis que le détail technique reste dans le journal serveur. Afficher « Access denied » révélerait des informations sur la base.",
+           "Utilisateur kayakhod message wad7, w détail technique kaybqa f journal serveur. Afficher « Access denied » kaychher informations 3la base."]
+        ]
+      },
+      "3": {
+        "title": "Requêtes préparées",
+        "brief": "Écrire des requêtes avec paramètres nommés et positionnels.",
+        "levels": [
+          ["Débutant — paramètre nommé", "php",
+           "<p>Écris une requête préparée qui recherche un étudiant par email avec le paramètre nommé <code>:email</code>. Stocke la valeur dans <code>$params['email']</code> et affiche la requête puis l'email.</p>",
+           "<p>Kteb requête préparée li kat9elleb 3la étudiant b email b paramètre nommé <code>:email</code>. Khzen valeur f <code>$params['email']</code> w 3red requête men ba3d email.</p>",
+           "<?php\n$email = 'amal@example.ma';\n$sql = '';\n$params = [];\n\n// Requête et paramètre\n",
+           [["output_contains", "WHERE email = :email"], ["output_contains", "amal@example.ma"]],
+           ["La requête contient :email sans guillemets autour.", "Le tableau associe la clé email à la valeur.", "N'insère jamais $email directement dans la chaîne SQL."],
+           "<?php\n$email = 'amal@example.ma';\n$sql = \"SELECT id, nom FROM etudiant WHERE email = :email\";\n$params = ['email' => $email];\n\necho $sql . \"<br>\";\necho \"Paramètre : \" . $params['email'];",
+           "Le placeholder <code>:email</code> est séparé de la valeur. PDO enverra la valeur comme donnée, jamais comme fragment de requête : c'est la base de la protection contre l'injection SQL.",
+           "Placeholder <code>:email</code> mfre9 men valeur. PDO kaysift valeur b7al donnée, machi fragment requête : hadi asas protection men injection SQL."],
+          ["Intermédiaire — paramètres positionnels", "php",
+           "<p>Prépare un <code>INSERT</code> avec trois placeholders positionnels <code>?</code> pour <code>nom</code>, <code>filiere</code> et <code>email</code>. Remplis <code>$params</code> dans le bon ordre et affiche <code>3 paramètres liés</code> puis la liste des valeurs.</p>",
+           "<p>7der <code>INSERT</code> b tlata placeholders positionnels <code>?</code> l <code>nom</code>, <code>filiere</code> w <code>email</code>. 3emmer <code>$params</code> b tartib s7i7 w 3red <code>3 paramètres liés</code> men ba3d liste valeurs.</p>",
+           "<?php\n$nom = 'Nadia';\n$filiere = 'GI';\n$email = 'nadia@example.ma';\n$sql = '';\n$params = [];\n\n// INSERT préparé\n",
+           [["output_contains", "3 paramètres liés"], ["output_contains", "Nadia"], ["output_contains", "GI"], ["output_contains", "nadia@example.ma"]],
+           ["Le nombre de ? doit correspondre au nombre de valeurs.", "L'ordre du tableau $params suit l'ordre des ?.", "Utilise implode pour afficher les valeurs."],
+           "<?php\n$nom = 'Nadia';\n$filiere = 'GI';\n$email = 'nadia@example.ma';\n$sql = \"INSERT INTO etudiant (nom, filiere, email) VALUES (?, ?, ?)\";\n$params = [$nom, $filiere, $email];\n\necho $sql . \"<br>\";\necho count($params) . \" paramètres liés<br>\";\necho implode(\" | \", $params);",
+           "Avec les paramètres positionnels, l'ordre compte. Trois <code>?</code> appellent exactement trois valeurs, fournies dans le même ordre au moment de l'exécution.",
+           "B paramètres positionnels, tartib mohim. Tlata <code>?</code> kaytlebo b dqiq tlata valeurs, m3tin f nefs tartib f exécution."],
+          ["Avancé — tri dynamique par liste blanche", "php",
+           "<p>La demande de tri <code>$triDemande = 'nom; DROP TABLE etudiant'</code> est suspecte. Vérifie qu'elle appartient à la liste blanche <code>['nom', 'filiere']</code>. Si non, utilise <code>nom</code> et affiche <code>Tri refusé</code>. Affiche ensuite <code>ORDER BY nom</code>.</p>",
+           "<p>Demande dyal tri <code>$triDemande = 'nom; DROP TABLE etudiant'</code> mochtobha. T7eqqeq wach kayna f liste blanche <code>['nom', 'filiere']</code>. Ila la, khdem b <code>nom</code> w 3red <code>Tri refusé</code>. Men ba3d 3red <code>ORDER BY nom</code>.</p>",
+           "<?php\n$triDemande = 'nom; DROP TABLE etudiant';\n$autorises = ['nom', 'filiere'];\n$tri = 'nom';\n\n// Liste blanche\n",
+           [["output_contains", "Tri refusé"], ["output_contains", "ORDER BY nom"]],
+           ["in_array avec true compare strictement.", "Un nom de colonne ne peut pas être passé en paramètre préparé.", "La liste blanche limite les valeurs acceptées."],
+           "<?php\n$triDemande = 'nom; DROP TABLE etudiant';\n$autorises = ['nom', 'filiere'];\n$tri = 'nom';\n\nif (!in_array($triDemande, $autorises, true)) {\n    echo \"Tri refusé<br>\";\n} else {\n    $tri = $triDemande;\n}\n\n$sql = \"SELECT nom FROM etudiant ORDER BY \" . $tri;\necho $sql;",
+           "Les paramètres préparés protègent les valeurs, pas les identifiants SQL comme un nom de colonne. Pour un tri dynamique, on compare la demande à une liste blanche connue avant de l'insérer dans la requête.",
+           "Paramètres préparés kay7miw valeurs, machi identifiants SQL b7al smiya colonne. L tri dynamique, kanqarno demande m3a liste blanche m3erfa qbel ma ndkheloha f requête."]
+        ]
+      },
+      "4": {
+        "title": "CRUD complet",
+        "brief": "Créer, lire, modifier et supprimer des enregistrements.",
+        "levels": [
+          ["Débutant — ajouter", "php",
+           "<p>Écris une fonction <code>ajouter(&amp;$lignes, $nom, $filiere)</code> qui ajoute un étudiant au tableau, puis ajoute <code>Nadia</code> en <code>GI</code>. Affiche <code>Total : 3</code> et le nom ajouté.</p>",
+           "<p>Kteb fonction <code>ajouter(&amp;$lignes, $nom, $filiere)</code> li katzid étudiant f tableau, men ba3d zid <code>Nadia</code> f <code>GI</code>. 3red <code>Total : 3</code> w smiya li tzadet.</p>",
+           "<?php\n$etudiants = [\n    ['nom' => 'Kortaf', 'filiere' => 'GI'],\n    ['nom' => 'Marzak', 'filiere' => 'GI'],\n];\n\n// Fonction ajouter puis appel\n",
+           [["output_contains", "Total : 3"], ["output_contains", "Nadia"]],
+           ["Le paramètre &$lignes est passé par référence.", "$lignes[] = [...] ajoute une ligne.", "count() renvoie le nouveau total."],
+           "<?php\n$etudiants = [\n    ['nom' => 'Kortaf', 'filiere' => 'GI'],\n    ['nom' => 'Marzak', 'filiere' => 'GI'],\n];\n\nfunction ajouter(&$lignes, $nom, $filiere) {\n    $lignes[] = ['nom' => $nom, 'filiere' => $filiere];\n}\n\najouter($etudiants, 'Nadia', 'GI');\n\necho \"Total : \" . count($etudiants) . \"<br>\";\necho $etudiants[2]['nom'];",
+           "Le passage par référence permet à la fonction de modifier le tableau d'origine. C'est le même principe qu'un <code>INSERT</code> : une nouvelle ligne s'ajoute à la collection.",
+           "Passage par référence kaykhalli fonction tbeddel tableau d'origine. Nefs principe dyal <code>INSERT</code> : ligne jdida katzad l collection."],
+          ["Intermédiaire — modifier", "php",
+           "<p>Le tableau <code>$etudiants</code> est indexé par identifiant. Écris une fonction <code>changerFiliere(&amp;$lignes, $id, $filiere)</code> qui met à jour la filière, puis change l'étudiant 1 en <code>GC</code>. Affiche <code>Amal : GC</code>.</p>",
+           "<p>Tableau <code>$etudiants</code> mfahras b identifiant. Kteb fonction <code>changerFiliere(&amp;$lignes, $id, $filiere)</code> li katbeddel filière, men ba3d beddel étudiant 1 l <code>GC</code>. 3red <code>Amal : GC</code>.</p>",
+           "<?php\n$etudiants = [\n    1 => ['nom' => 'Amal', 'filiere' => 'GI'],\n    2 => ['nom' => 'Yassine', 'filiere' => 'GI'],\n];\n\n// Fonction update puis appel\n",
+           [["output_contains", "Amal : GC"], ["output_contains", "Yassine : GI"]],
+           ["Vérifie que l'identifiant existe avec isset.", "Modifie $lignes[$id]['filiere'].", "Affiche les deux étudiants pour vérifier que seul l'un change."],
+           "<?php\n$etudiants = [\n    1 => ['nom' => 'Amal', 'filiere' => 'GI'],\n    2 => ['nom' => 'Yassine', 'filiere' => 'GI'],\n];\n\nfunction changerFiliere(&$lignes, $id, $filiere) {\n    if (isset($lignes[$id])) {\n        $lignes[$id]['filiere'] = $filiere;\n    }\n}\n\nchangerFiliere($etudiants, 1, 'GC');\n\necho $etudiants[1]['nom'] . \" : \" . $etudiants[1]['filiere'] . \"<br>\";\necho $etudiants[2]['nom'] . \" : \" . $etudiants[2]['filiere'];",
+           "La mise à jour cible une clé précise, comme un <code>UPDATE ... WHERE id = ?</code>. Les autres lignes restent intactes, ce qui évite de modifier toute la table par erreur.",
+           "Mise à jour katcibli clé m7doda, b7al <code>UPDATE ... WHERE id = ?</code>. Lignes okhrin kaybqaw b7alhom, w hakka kayt7ased tbeddel table kamla b ghalat."],
+          ["Avancé — supprimer avec jeton", "php",
+           "<p>Vérifie le jeton CSRF avec <code>hash_equals($jetonSession, $jetonRecu)</code>. Si les jetons correspondent, supprime l'étudiant 2 et affiche <code>Étudiant supprimé</code> puis <code>Total : 1</code>. Sinon affiche <code>Jeton invalide</code>.</p>",
+           "<p>T7eqqeq jeton CSRF b <code>hash_equals($jetonSession, $jetonRecu)</code>. Ila jetons kaymatchi, 7yed étudiant 2 w 3red <code>Étudiant supprimé</code> men ba3d <code>Total : 1</code>. Sinon 3red <code>Jeton invalide</code>.</p>",
+           "<?php\n$etudiants = [\n    1 => ['nom' => 'Amal'],\n    2 => ['nom' => 'Yassine'],\n];\n$jetonSession = 'abc123';\n$jetonRecu = 'abc123';\n\n// Vérifie puis supprime\n",
+           [["output_contains", "Étudiant supprimé"], ["output_contains", "Total : 1"]],
+           ["hash_equals compare deux chaînes en temps constant.", "unset($etudiants[2]) supprime la clé.", "Affiche le total après suppression."],
+           "<?php\n$etudiants = [\n    1 => ['nom' => 'Amal'],\n    2 => ['nom' => 'Yassine'],\n];\n$jetonSession = 'abc123';\n$jetonRecu = 'abc123';\n\nif (hash_equals($jetonSession, $jetonRecu)) {\n    unset($etudiants[2]);\n    echo \"Étudiant supprimé<br>\";\n    echo \"Total : \" . count($etudiants);\n} else {\n    echo \"Jeton invalide\";\n}",
+           "La suppression vérifie d'abord un jeton imprévisible : une simple requête GET ne peut pas déclencher l'action. <code>hash_equals()</code> évite en plus les fuites par temps de comparaison.",
+           "Suppression katt7eqqeq qbel jeton ma ytwwqe3ch : requête GET 3adiya ma t9derch tle3eb action. <code>hash_equals()</code> kaymna3 7ta fuites b temps comparaison."]
+        ]
+      },
+      "5": {
+        "title": "Authentification",
+        "brief": "Hacher les mots de passe, vérifier les identifiants et gérer la session.",
+        "levels": [
+          ["Débutant — hacher et vérifier", "php",
+           "<p>Hache le mot de passe <code>secret123</code> avec <code>password_hash()</code> et <code>PASSWORD_DEFAULT</code>, puis vérifie-le avec <code>password_verify()</code>. Affiche <code>Inscription OK</code> et <code>Connexion réussie</code>.</p>",
+           "<p>7achchi mot de passe <code>secret123</code> b <code>password_hash()</code> w <code>PASSWORD_DEFAULT</code>, men ba3d t7eqqeq mno b <code>password_verify()</code>. 3red <code>Inscription OK</code> w <code>Connexion réussie</code>.</p>",
+           "<?php\n$motDePasse = 'secret123';\n\n// Hash puis vérification\n",
+           [["output_contains", "Inscription OK"], ["output_contains", "Connexion réussie"]],
+           ["password_hash renvoie une chaîne différente à chaque appel.", "password_verify compare le mot de passe au hash.", "Ne stocke jamais le mot de passe en clair."],
+           "<?php\n$motDePasse = 'secret123';\n$hash = password_hash($motDePasse, PASSWORD_DEFAULT);\n\necho \"Inscription OK<br>\";\nif (password_verify($motDePasse, $hash)) {\n    echo \"Connexion réussie\";\n} else {\n    echo \"Connexion refusée\";\n}",
+           "Le hash est irréversible : même en cas de fuite de la base, le mot de passe d'origine n'est pas lisible. <code>password_verify()</code> refait le calcul avec le sel contenu dans le hash.",
+           "Hash ma ytqlebch : 7ta ila base tsrabat, mot de passe d'origine ma ytqrach. <code>password_verify()</code> kay3awed calcul b sel li f hash."],
+          ["Intermédiaire — vérifier un utilisateur simulé", "php",
+           "<p>Le tableau <code>$utilisateurs</code> contient un utilisateur avec son hash. Écris une fonction <code>connecter($email, $motDePasse, $utilisateurs)</code> qui renvoie le nom si les identifiants sont corrects, sinon <code>null</code>. Teste avec le bon mot de passe puis un mauvais, et affiche <code>Connexion réussie</code> puis <code>Identifiants invalides</code>.</p>",
+           "<p>Tableau <code>$utilisateurs</code> fih utilisateur m3a hash dyalo. Kteb fonction <code>connecter($email, $motDePasse, $utilisateurs)</code> li katrje3 smiya ila identifiants s7a7, sinon <code>null</code>. Jerreb b mot de passe s7i7 men ba3d ghalt, w 3red <code>Connexion réussie</code> men ba3d <code>Identifiants invalides</code>.</p>",
+           "<?php\n$utilisateurs = [\n    ['email' => 'amal@example.ma', 'nom' => 'Amal', 'hash' => password_hash('secret123', PASSWORD_DEFAULT)],\n];\n\n// Fonction connecter et deux essais\n",
+           [["output_contains", "Connexion réussie"], ["output_contains", "Identifiants invalides"]],
+           ["Cherche l'utilisateur par email dans la boucle.", "Utilise password_verify pour comparer.", "Le message d'erreur reste générique : ni email ni mot de passe révélé."],
+           "<?php\n$utilisateurs = [\n    ['email' => 'amal@example.ma', 'nom' => 'Amal', 'hash' => password_hash('secret123', PASSWORD_DEFAULT)],\n];\n\nfunction connecter($email, $motDePasse, $utilisateurs) {\n    foreach ($utilisateurs as $utilisateur) {\n        if ($utilisateur['email'] === $email && password_verify($motDePasse, $utilisateur['hash'])) {\n            return $utilisateur['nom'];\n        }\n    }\n    return null;\n}\n\n$nom = connecter('amal@example.ma', 'secret123', $utilisateurs);\necho $nom !== null ? \"Connexion réussie : \" . $nom : \"Identifiants invalides\";\necho \"<br>\";\n$nom = connecter('amal@example.ma', 'mauvais', $utilisateurs);\necho $nom !== null ? \"Connexion réussie\" : \"Identifiants invalides\";",
+           "La fonction renvoie <code>null</code> dès qu'un identifiant échoue. Le message affiché reste identique pour un email inconnu ou un mauvais mot de passe, afin de ne pas aider un attaquant.",
+           "Fonction katrje3 <code>null</code> melli identifiant yfchel. Message li kayban kaybqa nefs l email ma m3erof wla mot de passe ghalt, bach ma n3awnoch attaquant."],
+          ["Avancé — session et régénération", "php",
+           "<p>Démarre une session, stocke <code>Amal</code> dans <code>$_SESSION['utilisateur']</code> et <code>admin</code> dans <code>$_SESSION['role']</code>. Régénère l'identifiant avec <code>session_regenerate_id(true)</code>, puis affiche <code>Connecté : Amal</code>, <code>Rôle : admin</code> et <code>Session régénérée</code>.</p>",
+           "<p>Bda session, khzen <code>Amal</code> f <code>$_SESSION['utilisateur']</code> w <code>admin</code> f <code>$_SESSION['role']</code>. Regeneri identifiant b <code>session_regenerate_id(true)</code>, men ba3d 3red <code>Connecté : Amal</code>, <code>Rôle : admin</code> w <code>Session régénérée</code>.</p>",
+           "<?php\nsession_start();\n\n// Stockage et régénération\n",
+           [["output_contains", "Connecté : Amal"], ["output_contains", "Rôle : admin"], ["output_contains", "Session régénérée"]],
+           ["session_start() doit précéder tout affichage.", "session_regenerate_id(true) change l'identifiant et supprime l'ancien.", "Les données de session restent disponibles après régénération."],
+           "<?php\nsession_start();\n\n$_SESSION['utilisateur'] = 'Amal';\n$_SESSION['role'] = 'admin';\nsession_regenerate_id(true);\n\necho \"Connecté : \" . $_SESSION['utilisateur'] . \"<br>\";\necho \"Rôle : \" . $_SESSION['role'] . \"<br>\";\necho \"Session régénérée\";",
+           "Régénérer l'identifiant après la connexion empêche la fixation de session : un identifiant préparé à l'avance par un attaquant devient inutilisable.",
+           "Régénérer identifiant mora connexion kaymna3 fixation session : identifiant préparé qbel men attaquant kaywli ma yst3melch."]
+        ]
+      },
+      "6": {
+        "title": "Sécurité applicative",
+        "brief": "Échapper les sorties, valider les entrées et vérifier les jetons.",
+        "levels": [
+          ["Débutant — échapper une sortie", "php",
+           "<p>Le commentaire contient <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>. Affiche-le avec <code>htmlspecialchars()</code> pour que la balise soit visible en texte et ne s'exécute pas.</p>",
+           "<p>Commentaire fih <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>. 3redo b <code>htmlspecialchars()</code> bach balise tban b7al texte w ma tnffedch.</p>",
+           "<?php\n$commentaire = '<script>alert(1)</script>';\n\n// Affichage sécurisé\n",
+           [["output_contains", "&lt;script&gt;"], ["output_not_contains", "<script>"]],
+           ["htmlspecialchars convertit < et > en entités.", "Passe ENT_QUOTES et UTF-8.", "L'échappement se fait au moment de l'affichage."],
+           "<?php\n$commentaire = '<script>alert(1)</script>';\n\necho htmlspecialchars($commentaire, ENT_QUOTES, 'UTF-8');",
+           "Le navigateur reçoit du texte échappé, pas une balise exécutable. C'est la protection de base contre le XSS stocké.",
+           "Navigateur kayakhod texte échappé, machi balise katnffed. Hadi protection asasiya men XSS stocké."],
+          ["Intermédiaire — valider les entrées", "php",
+           "<p>Valide <code>$email = 'amal@site.ma'</code> avec <code>FILTER_VALIDATE_EMAIL</code> et <code>$age = '25'</code> avec <code>FILTER_VALIDATE_INT</code>. Affiche <code>Email valide</code>, <code>Âge valide</code>, puis teste <code>faux-email</code> et affiche <code>Email invalide</code>.</p>",
+           "<p>Validi <code>$email = 'amal@site.ma'</code> b <code>FILTER_VALIDATE_EMAIL</code> w <code>$age = '25'</code> b <code>FILTER_VALIDATE_INT</code>. 3red <code>Email valide</code>, <code>Âge valide</code>, men ba3d jerreb <code>faux-email</code> w 3red <code>Email invalide</code>.</p>",
+           "<?php\n$email = 'amal@site.ma';\n$age = '25';\n\n// Validations\n",
+           [["output_contains", "Email valide"], ["output_contains", "Âge valide"], ["output_contains", "Email invalide"]],
+           ["filter_var renvoie la valeur validée ou false.", "FILTER_VALIDATE_INT rejette les chaînes non numériques.", "Compare avec !== false pour éviter les faux positifs."],
+           "<?php\n$email = 'amal@site.ma';\n$age = '25';\n\n$emailValide = filter_var($email, FILTER_VALIDATE_EMAIL) !== false;\n$ageValide = filter_var($age, FILTER_VALIDATE_INT) !== false;\n\necho $emailValide ? \"Email valide<br>\" : \"Email invalide<br>\";\necho $ageValide ? \"Âge valide<br>\" : \"Âge invalide<br>\";\n\n$email = 'faux-email';\n$emailValide = filter_var($email, FILTER_VALIDATE_EMAIL) !== false;\necho $emailValide ? \"Email valide\" : \"Email invalide\";",
+           "Les filtres vérifient le format avant tout traitement. Un email invalide est rejeté tôt, sans requête SQL ni écriture en base.",
+           "Filtres kayt7eqqo format qbel ay traitement. Email ghalt kayrefus b bekri, bla requête SQL wla écriture f base."],
+          ["Avancé — jeton CSRF et requête préparée", "php",
+           "<p>Génère un jeton avec <code>bin2hex(random_bytes(16))</code>, compare-le à <code>$jetonRecu</code> avec <code>hash_equals()</code>, et vérifie que <code>$sql</code> contient le placeholder <code>:email</code>. Affiche <code>Jeton CSRF valide</code> et <code>Requête préparée</code>.</p>",
+           "<p>Generi jeton b <code>bin2hex(random_bytes(16))</code>, qaren-h m3a <code>$jetonRecu</code> b <code>hash_equals()</code>, w t7eqqeq belli <code>$sql</code> fih placeholder <code>:email</code>. 3red <code>Jeton CSRF valide</code> w <code>Requête préparée</code>.</p>",
+           "<?php\n$sql = 'SELECT id FROM utilisateur WHERE email = :email';\n$jeton = bin2hex(random_bytes(16));\n$jetonRecu = $jeton;\n\n// Vérifications\n",
+           [["output_contains", "Jeton CSRF valide"], ["output_contains", "Requête préparée"]],
+           ["random_bytes produit des octets imprévisibles.", "hash_equals compare sans fuite de temps.", "str_contains vérifie la présence du placeholder."],
+           "<?php\n$sql = 'SELECT id FROM utilisateur WHERE email = :email';\n$jeton = bin2hex(random_bytes(16));\n$jetonRecu = $jeton;\n\n$csrfOk = hash_equals($jeton, $jetonRecu);\n$prepareOk = str_contains($sql, ':email');\n\necho $csrfOk ? \"Jeton CSRF valide<br>\" : \"Jeton CSRF invalide<br>\";\necho $prepareOk ? \"Requête préparée\" : \"Requête non préparée\";",
+           "Le jeton CSRF protège les actions sensibles, et la requête préparée protège les valeurs. Les deux mécanismes sont complémentaires : l'un contrôle l'origine de la demande, l'autre empêche l'injection SQL.",
+           "Jeton CSRF kay7mi actions 7assasa, w requête préparée kat7mi valeurs. Jouj mécanismes kaykmmlo b3dhom : wa7ed kaycontrol origine demande, akhor kaymna3 injection SQL."]
+        ]
+      },
+      "7": {
+        "title": "Architecture de projet",
+        "brief": "Séparer configuration, fonctions et vue dans une petite application.",
+        "levels": [
+          ["Débutant — fichier de configuration inclus", "php",
+           "<p>Crée <code>config.php</code> avec <code>file_put_contents()</code> contenant les constantes <code>DB_HOST</code> et <code>DB_NAME</code>. Inclus-le avec <code>require</code>, puis affiche <code>Hôte : localhost</code> et <code>Base : school</code>.</p>",
+           "<p>5leq <code>config.php</code> b <code>file_put_contents()</code> fih constantes <code>DB_HOST</code> w <code>DB_NAME</code>. Dkhelo b <code>require</code>, men ba3d 3red <code>Hôte : localhost</code> w <code>Base : school</code>.</p>",
+           "<?php\n// Crée config.php puis require\n",
+           [["output_contains", "Hôte : localhost"], ["output_contains", "Base : school"]],
+           ["Le contenu du fichier inclus doit commencer par <?php.", "Utilise __DIR__ . '/config.php'.", "define crée une constante globale."],
+           "<?php\nfile_put_contents(__DIR__ . '/config.php', \"<?php define('DB_HOST', 'localhost'); define('DB_NAME', 'school');\");\n\nrequire __DIR__ . '/config.php';\n\necho \"Hôte : \" . DB_HOST . \"<br>\";\necho \"Base : \" . DB_NAME;",
+           "La configuration est isolée dans un fichier unique. Toutes les pages partagent les mêmes paramètres sans les répéter, ce qui facilite les changements d'environnement.",
+           "Configuration m3zoula f fichier wa7ed. Kol pages kaycharko nefs paramètres bla tkrar, w hakka tbeddel environnement kaywli sahel."],
+          ["Intermédiaire — fonction réutilisable", "php",
+           "<p>Crée <code>helpers.php</code> avec une fonction <code>e($texte)</code> qui retourne <code>htmlspecialchars($texte, ENT_QUOTES, 'UTF-8')</code>. Inclus le fichier deux fois avec <code>require_once</code>, puis affiche <code>&amp;lt;b&amp;gt;Alerte&amp;lt;/b&amp;gt;</code> pour l'entrée <code>&lt;b&gt;Alerte&lt;/b&gt;</code>.</p>",
+           "<p>5leq <code>helpers.php</code> b fonction <code>e($texte)</code> li katrje3 <code>htmlspecialchars($texte, ENT_QUOTES, 'UTF-8')</code>. Dkhel fichier jouj marrat b <code>require_once</code>, men ba3d 3red <code>&amp;lt;b&amp;gt;Alerte&amp;lt;/b&amp;gt;</code> l entrée <code>&lt;b&gt;Alerte&lt;/b&gt;</code>.</p>",
+           "<?php\n// Crée helpers.php puis require_once deux fois\n",
+           [["output_contains", "&lt;b&gt;Alerte&lt;/b&gt;"], ["output_contains", "Fonction chargée une seule fois"]],
+           ["require_once évite la redéclaration de e().", "htmlspecialchars retourne la chaîne échappée.", "Affiche aussi un message confirmant l'inclusion unique."],
+           "<?php\nfile_put_contents(__DIR__ . '/helpers.php', \"<?php function e(\\$texte) { return htmlspecialchars(\\$texte, ENT_QUOTES, 'UTF-8'); }\");\n\nrequire_once __DIR__ . '/helpers.php';\nrequire_once __DIR__ . '/helpers.php';\n\necho e('<b>Alerte</b>') . \"<br>\";\necho \"Fonction chargée une seule fois\";",
+           "La fonction <code>e()</code> centralise l'échappement : toutes les vues l'appellent de la même façon. <code>require_once</code> garantit qu'elle n'est définie qu'une fois, même si plusieurs fichiers l'incluent.",
+           "Fonction <code>e()</code> katjem3 échappement : kol vues kay3ayto 3liha b nefs tariqa. <code>require_once</code> kaddmen kat3erref ghir marra wa7da, 7ta ila bzaf fichiers dkheloha."],
+          ["Avancé — modèle et vue séparés", "php",
+           "<p>Crée <code>modele.php</code> qui retourne un tableau de deux étudiants, puis <code>vue.php</code> qui définit une fonction <code>renderListe($lignes)</code> produisant une liste HTML. Inclus les deux avec <code>require</code> et affiche le résultat. La sortie doit contenir <code>&lt;ul&gt;</code>, <code>&lt;li&gt;Kortaf&lt;/li&gt;</code> et <code>2 étudiants</code>.</p>",
+           "<p>5leq <code>modele.php</code> li kayrje3 tableau dyal jouj étudiants, men ba3d <code>vue.php</code> li kay3erref fonction <code>renderListe($lignes)</code> li katproduit liste HTML. Dkhel jouj b <code>require</code> w 3red résultat. Sortie khas tfih <code>&lt;ul&gt;</code>, <code>&lt;li&gt;Kortaf&lt;/li&gt;</code> w <code>2 étudiants</code>.</p>",
+           "<?php\n// Crée modele.php et vue.php puis inclus\n",
+           [["output_contains", "<ul>"], ["output_contains", "<li>Kortaf</li>"], ["output_contains", "2 étudiants"]],
+           ["Le modèle fournit les données, la vue les met en forme.", "Une fonction de rendu garde la vue réutilisable.", "Utilise require pour charger les deux fichiers."],
+           "<?php\nfile_put_contents(__DIR__ . '/modele.php', \"<?php return [['nom' => 'Kortaf'], ['nom' => 'Marzak']];\");\nfile_put_contents(__DIR__ . '/vue.php', \"<?php function renderListe(\\$lignes) { \\$html = '<ul>'; foreach (\\$lignes as \\$ligne) { \\$html .= '<li>' . htmlspecialchars(\\$ligne['nom'], ENT_QUOTES, 'UTF-8') . '</li>'; } return \\$html . '</ul>'; }\");\n\n$etudiants = require __DIR__ . '/modele.php';\nrequire __DIR__ . '/vue.php';\n\necho renderListe($etudiants);\necho \"<br>\" . count($etudiants) . \" étudiants\";",
+           "Le modèle ne connaît pas le HTML, et la vue ne connaît pas la source des données. Cette séparation rend chaque partie testable et réutilisable, même quand l'application grandit.",
+           "Modèle ma kay3refch HTML, w vue ma kat3refch source dyal données. Had séparation kat3mel kol partie testable w réutilisable, 7ta ila application tkber."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "integration": {
+      "1": {
+        "title": "Quiz — Communication PHP / base de données",
+        "questions": [
+          ["mcq", "Quel est l'ordre correct du pipeline dynamique ?", ["Requête utilisateur → PHP → SQL → résultat → HTML", "HTML → SQL → PHP → utilisateur", "SQL → utilisateur → PHP → HTML"], 0, "Pipeline", "Le navigateur demande une page, PHP interroge la base, récupère les lignes et génère le HTML.", "Navigateur kaytleb page, PHP kayste9se base, kayakhod lignes w kayproduit HTML."],
+          ["tf", "Une page PHP peut générer du HTML à partir de lignes de base de données.", 0, "Page dynamique", "Vrai : PHP parcourt les lignes et construit le HTML correspondant.", "S7i7 : PHP kaydowez lignes w kaybni HTML li kaymatch."],
+          ["mcq", "Que reçoit le navigateur à la fin du pipeline ?", ["Du HTML généré, pas le code PHP", "Le code PHP source", "Les identifiants de la base"], 0, "Sortie HTTP", "Le serveur exécute PHP et renvoie uniquement le HTML produit.", "Serveur kaynffed PHP w kayrje3 ghir HTML li tproduit."],
+          ["fill", "La commande PHP qui affiche du texte est ________.", "echo", "Affichage", "echo envoie le texte vers la sortie HTML.", "echo kaysift texte l sortie HTML."],
+          ["multi", "Quelles étapes font partie du pipeline ?", ["Connexion à la base", "Exécution de la requête", "Mise en forme HTML", "Compilation du HTML par MySQL"], [0, 1, 2], "Étapes du pipeline", "La connexion, la requête et la mise en forme sont côté PHP ; MySQL n'exécute pas le HTML.", "Connexion, requête w mise en forme f côté PHP ; MySQL ma kaynffedch HTML."]
+        ]
+      },
+      "2": {
+        "title": "Quiz — Connexions (PDO, MySQL, Oracle)",
+        "questions": [
+          ["mcq", "Que contient un DSN ?", ["Les informations de connexion à la base", "Le résultat d'une requête", "Le mot de passe haché"], 0, "DSN", "Le DSN indique le moteur, l'hôte, la base et éventuellement l'encodage.", "DSN kaybeyn moteur, hôte, base w peut-être encodage."],
+          ["tf", "PDO peut se connecter à plusieurs moteurs de base de données.", 0, "PDO", "Vrai : PDO est une couche d'abstraction pour MySQL, SQLite, Oracle, etc.", "S7i7 : PDO couche abstraction l MySQL, SQLite, Oracle, etc."],
+          ["mcq", "Quelle option PDO fait lever une exception en cas d'erreur ?", ["PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION", "PDO::ATTR_EMULATE_PREPARES => false", "PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC"], 0, "Gestion des erreurs", "ERRMODE_EXCEPTION transforme les erreurs SQL en exceptions attrapables.", "ERRMODE_EXCEPTION kaybeddel erreurs SQL l exceptions li tqbed."],
+          ["fill", "L'option qui renvoie les lignes sous forme de tableau associatif est PDO::FETCH________.", "ASSOC", "FETCH_ASSOC", "PDO::FETCH_ASSOC associe chaque colonne à son nom.", "PDO::FETCH_ASSOC kayrbet kol colonne m3a smiya dyalha."],
+          ["mcq", "Que faire du message technique d'une erreur de connexion ?", ["Le journaliser sans l'afficher à l'utilisateur", "L'afficher tel quel", "Le supprimer"], 0, "Erreur de connexion", "Le détail peut révéler l'hôte ou l'utilisateur : on le journalise, on affiche un message générique.", "Détail y9der ychher hôte wla utilisateur : kansejjlo, kan3erdo message 3adi."]
+        ]
+      },
+      "3": {
+        "title": "Quiz — Requêtes préparées",
+        "questions": [
+          ["mcq", "Pourquoi utiliser une requête préparée ?", ["Séparer le SQL des valeurs pour éviter l'injection", "Accélérer le HTML", "Supprimer les index"], 0, "Requête préparée", "Les valeurs sont envoyées comme données et ne peuvent pas modifier la structure de la requête.", "Valeurs kaytsifto b7al données w ma y9droch ybeddlo structure requête."],
+          ["tf", "Un paramètre nommé commence par deux-points, par exemple :email.", 0, "Paramètre nommé", "Vrai : le nom du placeholder commence par :", "S7i7 : smiya placeholder katbda b :"],
+          ["mcq", "Que représente le ? dans une requête préparée ?", ["Un paramètre positionnel", "Une colonne obligatoire", "Un commentaire"], 0, "Paramètre positionnel", "Chaque ? reçoit une valeur dans l'ordre du tableau de paramètres.", "Kol ? kayakhod valeur b tartib tableau paramètres."],
+          ["fill", "Le nom de la méthode PDO qui exécute une requête préparée est ________().", "execute", "execute", "prepare() prépare la requête, execute() l'exécute avec les paramètres.", "prepare() katt7der requête, execute() kattnffedha b paramètres."],
+          ["mcq", "Peut-on passer un nom de colonne en paramètre préparé ?", ["Non, il faut une liste blanche", "Oui, avec :colonne", "Oui, avec ?"], 0, "Identifiants SQL", "Les paramètres remplacent des valeurs, pas des identifiants ; une liste blanche contrôle le tri.", "Paramètres kay3awdo valeurs, machi identifiants ; liste blanche katcontrol tri."]
+        ]
+      },
+      "4": {
+        "title": "Quiz — CRUD complet",
+        "questions": [
+          ["mcq", "Quelle opération correspond à INSERT ?", ["Create", "Read", "Delete"], 0, "Create", "INSERT ajoute une nouvelle ligne.", "INSERT katzid ligne jdida."],
+          ["tf", "Un UPDATE sans WHERE peut modifier toutes les lignes.", 0, "Update", "Vrai : sans filtre, toutes les lignes de la table sont concernées.", "S7i7 : bla filtre, kol lignes dyal table kaytbeddlo."],
+          ["mcq", "Quelle opération lit les données ?", ["SELECT", "INSERT", "DELETE"], 0, "Read", "SELECT renvoie les lignes demandées.", "SELECT kayrje3 lignes li tlebti."],
+          ["fill", "La commande qui supprime une ligne est ________ FROM.", "DELETE", "Delete", "DELETE FROM table WHERE condition supprime les lignes ciblées.", "DELETE FROM table WHERE condition kat7yed lignes li tciblat."],
+          ["mcq", "Pourquoi vérifier un jeton avant une suppression ?", ["Pour éviter une action déclenchée par un tiers (CSRF)", "Pour accélérer la requête", "Pour créer un index"], 0, "CSRF", "Le jeton prouve que la demande vient bien du formulaire de l'utilisateur.", "Jeton kay2ekked demande jat men formulaire dyal utilisateur."]
+        ]
+      },
+      "5": {
+        "title": "Quiz — Authentification",
+        "questions": [
+          ["mcq", "Quelle fonction hache un mot de passe en PHP ?", ["password_hash()", "md5()", "base64_encode()"], 0, "Hachage", "password_hash() utilise un algorithme robuste et un sel aléatoire.", "password_hash() kaysta3mel algorithme 9wi w sel aléatoire."],
+          ["tf", "password_verify() a besoin du mot de passe en clair et du hash stocké.", 0, "Vérification", "Vrai : elle recalcule le hash avec le sel contenu dans la valeur stockée.", "S7i7 : kat3awed calcul hash b sel li f valeur mkhezna."],
+          ["mcq", "Que faire après une connexion réussie ?", ["Régénérer l'identifiant de session", "Supprimer la base", "Afficher le hash"], 0, "Session", "session_regenerate_id(true) empêche la fixation de session.", "session_regenerate_id(true) kaymna3 fixation session."],
+          ["fill", "La superglobale qui stocke les données de session est ________.", "$_SESSION", "Session", "Les données de session se lisent et s'écrivent dans $_SESSION.", "Données session kaytqraw w kaytketbo f $_SESSION."],
+          ["mcq", "Quel message afficher en cas d'échec de connexion ?", ["Un message générique", "Le mot de passe attendu", "La requête SQL complète"], 0, "Message d'erreur", "Un message générique évite de révéler si l'email existe ou non.", "Message 3adi kaymna3 ychher wach email kayn wla la."]
+        ]
+      },
+      "6": {
+        "title": "Quiz — Sécurité applicative",
+        "questions": [
+          ["mcq", "Quelle fonction échappe une sortie HTML ?", ["htmlspecialchars()", "trim()", "strlen()"], 0, "XSS", "htmlspecialchars() convertit les caractères spéciaux en entités inoffensives.", "htmlspecialchars() kaybeddel caractères spéciaux l entités bla khatar."],
+          ["tf", "Les données d'un formulaire doivent être validées côté serveur.", 0, "Validation", "Vrai : les contrôles HTML peuvent être contournés ; le serveur revérifie toujours.", "S7i7 : contrôles HTML y9dro yt7aydo ; serveur kay3awed yt7eqqeq dima."],
+          ["mcq", "Quelle fonction valide un email ?", ["filter_var($email, FILTER_VALIDATE_EMAIL)", "htmlspecialchars($email)", "password_hash($email)"], 0, "Validation email", "filter_var renvoie l'email validé ou false.", "filter_var katrje3 email validé wla false."],
+          ["fill", "La fonction qui compare deux jetons en temps constant est hash________().", "equals", "hash_equals", "hash_equals() évite les attaques basées sur le temps de comparaison.", "hash_equals() kaymna3 attaques 3la 7sab temps comparaison."],
+          ["mcq", "Quelle pratique protège d'une injection SQL ?", ["Les requêtes préparées", "La concaténation des saisies", "Le masquage des erreurs"], 0, "Injection SQL", "Les requêtes préparées séparent la structure SQL des valeurs fournies.", "Requêtes préparées kayfre9o structure SQL men valeurs m3tina."]
+        ]
+      },
+      "7": {
+        "title": "Quiz — Architecture de projet",
+        "questions": [
+          ["mcq", "Pourquoi isoler la configuration dans un fichier ?", ["Pour partager les paramètres et éviter les répétitions", "Pour supprimer la base", "Pour accélérer le HTML"], 0, "Configuration", "Un fichier de config centralise les constantes utilisées par toutes les pages.", "Fichier config kayjem3 constantes li kaysta3mlohom kol pages."],
+          ["tf", "require_once évite de redéclarer une fonction déjà chargée.", 0, "require_once", "Vrai : le fichier n'est inclus qu'une seule fois.", "S7i7 : fichier kaydkhel ghir marra wa7da."],
+          ["mcq", "Quel est le rôle d'une vue ?", ["Mettre en forme les données pour l'affichage", "Exécuter les requêtes SQL", "Stocker les mots de passe"], 0, "Vue", "La vue transforme les données du modèle en HTML.", "Vue katbeddel données dyal modèle l HTML."],
+          ["fill", "La constante qui donne le dossier du fichier courant est ________.", "__DIR__", "__DIR__", "__DIR__ pointe vers le dossier du script, utile pour les inclusions.", "__DIR__ kay3ayer l dossier dyal script, mzyan l inclusions."],
+          ["multi", "Quels éléments sépare une architecture MVC simple ?", ["Le modèle (données)", "La vue (affichage)", "Le contrôleur (traitement)", "La base de données et le navigateur dans un seul fichier"], [0, 1, 2], "MVC", "Modèle, vue et contrôleur ont chacun une responsabilité distincte.", "Modèle, vue w contrôleur kol wa7ed 3ndo responsabilité mfre9a."]
+        ]
+      }
+    }
+  }
+}

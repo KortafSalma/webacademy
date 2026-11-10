@@ -1,0 +1,155 @@
+{
+  "id": "sql-ch14",
+  "title": "Conception de bases",
+  "subtitle": "Penser la structure avant d'écrire la première table",
+  "objectives": [
+    "Traduire un besoin en entités et associations.",
+    "Lire et écrire des cardinalités (1-1, 1-N, N-N).",
+    "Appliquer les trois premières formes normales.",
+    "Passer d'un modèle conceptuel à un schéma relationnel."
+  ],
+  "lessons": [
+    {
+      "id": "entites-associations",
+      "title": "Entités et associations",
+      "icon": "🧠",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Avant de créer des tables, on décrit le besoin avec un <strong>modèle conceptuel</strong> : les <strong>entités</strong> (étudiant, matière, professeur) et les <strong>associations</strong> entre elles (un étudiant passe une matière). Chaque entité possède des <strong>attributs</strong> et un <strong>identifiant</strong> unique.</p>",
+          "darija": "<p>Qbel ma t5leq tables, kanwsef l7aja b <strong>modèle conceptuel</strong> : <strong>entités</strong> (etudiant, matière, professeur) w <strong>associations</strong> binathom (etudiant kaydowez matière). Kol entité 3ndha <strong>attributs</strong> w <strong>identifiant</strong> unique.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Entité", "Attributs", "Identifiant"],
+          "rows": [
+            ["Etudiant", "nom, prenom, email, filiere", "id"],
+            ["Matiere", "nom, coefficient", "id"],
+            ["Professeur", "nom, specialite", "id"],
+            ["Note", "valeur, date", "id (ou couple etudiant + matiere)"]
+          ]
+        },
+        {
+          "type": "text",
+          "fr": "<p>Une <strong>cardinalité</strong> indique combien d'occurrences peuvent participer à une association : <code>1-1</code>, <code>1-N</code> ou <code>N-N</code>. C'est elle qui décide où placer la clé étrangère.</p>",
+          "darija": "<p><strong>Cardinalité</strong> katbayen sh7al occurrence t9der tcharrek f association : <code>1-1</code>, <code>1-N</code> wla <code>N-N</code>. Hiya li kat9arrer fin kat7et clé étrangère.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Cardinalité", "Exemple", "Traduction en tables"],
+          "rows": [
+            ["1-1", "utilisateur — profil", "clé étrangère UNIQUE d'un côté"],
+            ["1-N", "étudiant — notes", "clé étrangère du côté N"],
+            ["N-N", "étudiants — matières", "table de liaison avec 2 clés étrangères"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "normalisation",
+      "title": "Normalisation",
+      "icon": "🧼",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>La <strong>normalisation</strong> élimine les répétitions et les incohérences. On retient trois formes principales, chacune corrigeant un défaut de la précédente.</p>",
+          "darija": "<p><strong>Normalisation</strong> kat7yed tkrar w incohérences. Kankhdmo b tlata formes principales, kol wa7da katsele7 3ib dyal li qbelha.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Forme", "Règle", "Défaut corrigé"],
+          "rows": [
+            ["1NF", "valeurs atomiques, pas de liste dans une cellule", "tel1,tel2 dans une colonne"],
+            ["2NF", "pas de dépendance partielle à une partie de la clé", "attribut qui dépend seulement de matiere_id"],
+            ["3NF", "pas de dépendance transitive entre attributs non clés", "code_postal qui détermine la ville"]
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Avant / après la 1NF",
+          "lang": "sql",
+          "code": "-- ❌ 1NF violée : plusieurs valeurs dans une cellule\nCREATE TABLE etudiant_avant (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50),\n    telephones VARCHAR(80)  -- '0600..., 0700...'\n);\n\n-- ✅ 1NF : une ligne par téléphone\nCREATE TABLE etudiant (id INT PRIMARY KEY, nom VARCHAR(50));\nCREATE TABLE telephone (\n    id INT PRIMARY KEY,\n    etudiant_id INT NOT NULL,\n    numero VARCHAR(20) NOT NULL,\n    FOREIGN KEY (etudiant_id) REFERENCES etudiant(id)\n);",
+          "explainFr": "Avec une liste dans une colonne, impossible de rechercher un numéro précis, de le valider ou de le supprimer individuellement. La table <code>telephone</code> rend chaque valeur atomique et indexable.",
+          "explainDarija": "B lista f colonne, ma tqderch t9elleb 3la ra9m mo3ayyan, tvalidih wla tmse7o bo7do. Table <code>telephone</code> kat3mel kol valeur atomique w indexable."
+        },
+        {
+          "type": "example",
+          "title": "3NF : séparer ce qui dépend d'autre chose",
+          "lang": "sql",
+          "code": "-- ❌ ville dépend du code postal, pas de l'étudiant\nCREATE TABLE etudiant_avant (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50),\n    code_postal CHAR(5),\n    ville VARCHAR(50)\n);\n\n-- ✅ on isole la correspondance postal → ville\nCREATE TABLE ville (code_postal CHAR(5) PRIMARY KEY, nom VARCHAR(50));\nCREATE TABLE etudiant (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50),\n    code_postal CHAR(5),\n    FOREIGN KEY (code_postal) REFERENCES ville(code_postal)\n);",
+          "explainFr": "Sans séparation, changer le nom d'une ville obligerait à modifier des centaines de lignes, avec un risque d'oubli et donc d'incohérence.",
+          "explainDarija": "Bla tqsim, ila bghiti tbeddel smiya dyal ville khas tbeddel mi2at lignes, b risque d nsayan w incohérence."
+        },
+        {
+          "type": "warning",
+          "title": "Normaliser, mais pas à l'extrême",
+          "fr": "La normalisation protège l'intégrité, mais des jointures excessives peuvent coûter cher en lecture. Pour des rapports, on accepte parfois une <strong>dénormalisation</strong> contrôlée (colonne calculée, table de synthèse).",
+          "darija": "Normalisation kat7mi intégrité, walakin jointures bzzaf y9dro ykelfo f qraya. L rapports, merrat kanqbelo <strong>dénormalisation</strong> m7ekma (colonne calculée, table de synthèse)."
+        }
+      ]
+    },
+    {
+      "id": "modele-relationnel",
+      "title": "Passer au schéma relationnel",
+      "icon": "🗺️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Le passage au relationnel suit des règles simples : chaque entité devient une table, chaque association <code>N-N</code> devient une table de liaison, et chaque association <code>1-N</code> ajoute une clé étrangère du côté N.</p>",
+          "darija": "<p>Passage l relationnel kaytbe3 qawa3id sahlin : kol entité katwli table, kol association <code>N-N</code> katwli table de liaison, w kol association <code>1-N</code> kat3awed clé étrangère f jiht N.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "sql",
+          "title": "Schéma complet",
+          "code": "CREATE TABLE professeur (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50) NOT NULL,\n    specialite VARCHAR(50)\n);\n\nCREATE TABLE etudiant (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50) NOT NULL,\n    prenom VARCHAR(50) NOT NULL,\n    filiere VARCHAR(20) NOT NULL DEFAULT 'GI',\n    email VARCHAR(80) UNIQUE\n);\n\nCREATE TABLE matiere (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50) NOT NULL,\n    coefficient DECIMAL(3,1) DEFAULT 1.0,\n    professeur_id INT,\n    FOREIGN KEY (professeur_id) REFERENCES professeur(id)\n);\n\nCREATE TABLE note (\n    id INT PRIMARY KEY,\n    etudiant_id INT NOT NULL,\n    matiere_id INT NOT NULL,\n    valeur DECIMAL(4,2) CHECK (valeur BETWEEN 0 AND 20),\n    FOREIGN KEY (etudiant_id) REFERENCES etudiant(id),\n    FOREIGN KEY (matiere_id) REFERENCES matiere(id),\n    UNIQUE (etudiant_id, matiere_id)\n);"
+        },
+        {
+          "type": "example",
+          "title": "Vérifier le modèle avec une requête",
+          "lang": "sql",
+          "code": "SELECT e.nom AS etudiant, m.nom AS matiere, n.valeur\nFROM note n\nJOIN etudiant e ON e.id = n.etudiant_id\nJOIN matiere m ON m.id = n.matiere_id\nORDER BY e.nom, m.nom;",
+          "output": "etudiant | matiere | valeur\nKortaf   | Math    | 14.5\nKortaf   | PHP     | 16.0\nMarzak   | Math    | 17.0",
+          "explainFr": "Si cette requête s'écrit naturellement, le modèle est probablement correct. Un modèle qui oblige à des contorsions révèle souvent une association mal placée.",
+          "explainDarija": "Ila had requête katkteb b tbi3a, modèle ghaliban s7i7. Modèle li kayferdek tdir contorsions kaybayen ghaliban association f blasa ghalta."
+        },
+        {
+          "type": "tip",
+          "title": "Nommer tôt, nommer clair",
+          "fr": "Choisissez des noms au singulier, en minuscules, sans accents : <code>etudiant</code>, <code>matiere</code>, <code>date_inscription</code>. Un nom clair vaut mieux qu'un commentaire.",
+          "darija": "Khtar smiyat f singulier, b minuscules, bla accents : <code>etudiant</code>, <code>matiere</code>, <code>date_inscription</code>. Smiya wad7a 7sen men commentaire."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "Créer les tables directement sans modèle",
+      "fix": "Dessiner entités, associations et cardinalités sur papier avant CREATE TABLE.",
+      "fr": "Sans modèle, on découvre les oublis en production : colonne manquante, relation impossible, doublons.",
+      "darija": "Bla modèle, kaytktechfo nsayan f production : colonne naqsa, relation mstahila, doublons."
+    },
+    {
+      "wrong": "Stocker une liste dans une colonne (1NF violée)",
+      "fix": "Créer une table fille avec une ligne par valeur.",
+      "fr": "Les valeurs atomiques permettent les index, les contraintes et les recherches précises.",
+      "darija": "Valeurs atomiques kaykhalliw index, contraintes w recherche b dqiq."
+    },
+    {
+      "wrong": "Dupliquer le nom de la ville dans chaque ligne étudiant (3NF violée)",
+      "fix": "Table ville + clé étrangère code_postal.",
+      "fr": "Une donnée doit être stockée à un seul endroit : sinon les mises à jour créent des incohérences.",
+      "darija": "Donnée khas tkhzen f blasa wa7da : sinon mises à jour kay5alqo incohérences."
+    },
+    {
+      "wrong": "Association N-N sans table de liaison",
+      "fix": "Table de liaison avec deux clés étrangères et une clé composite.",
+      "fr": "Sans table de liaison, on est obligé de dupliquer les lignes ou d'utiliser des listes dans une colonne.",
+      "darija": "Bla table de liaison, khas tkarrer lignes wla tkhdem b listes f colonne."
+    }
+  ],
+  "summary": {
+    "fr": "La conception part du <strong>modèle conceptuel</strong> : entités, attributs, associations et cardinalités. La <strong>normalisation</strong> (1NF, 2NF, 3NF) élimine listes, dépendances partielles et transitives. Le passage au relationnel transforme chaque entité en table, chaque <code>N-N</code> en table de liaison et chaque <code>1-N</code> en clé étrangère côté N. Un bon schéma rend les requêtes naturelles.",
+    "darija": "Conception katbda men <strong>modèle conceptuel</strong> : entités, attributs, associations w cardinalités. <strong>Normalisation</strong> (1NF, 2NF, 3NF) kat7yed listes, dépendances partielles w transitives. Passage l relationnel kaybeddel kol entité l table, kol <code>N-N</code> l table de liaison w kol <code>1-N</code> l clé étrangère f jiht N. Schéma mzyan kay3mel requêtes tbi3iyin."
+  }
+}

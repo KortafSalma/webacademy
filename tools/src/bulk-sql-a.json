@@ -1,0 +1,225 @@
+{
+  "exercises": {
+    "sql": {
+      "2": {
+        "title": "Types de données SQL",
+        "brief": "Choisir le bon type pour chaque colonne.",
+        "levels": [
+          ["Débutant — texte et nombre", "sql",
+           "<p>Crée une table <code>produit</code> avec : <code>id INTEGER PRIMARY KEY</code>, <code>nom TEXT NOT NULL</code> et <code>prix REAL</code>. Supprime d'abord la table si elle existe, puis vérifie avec <code>SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'produit';</code>.</p>",
+           "<p>5leq table <code>produit</code> b : <code>id INTEGER PRIMARY KEY</code>, <code>nom TEXT NOT NULL</code> w <code>prix REAL</code>. 7yed table lwel ila kant kayna, men ba3d t7eqqeq b <code>SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'produit';</code>.</p>",
+           "-- DROP puis CREATE TABLE\n",
+           [["sql_ok", ""], ["result_has", "produit"]],
+           ["DROP TABLE IF EXISTS évite l'erreur si la table existe déjà.", "INTEGER stocke un entier, TEXT du texte, REAL un décimal.", "PRIMARY KEY identifie chaque ligne."],
+           "DROP TABLE IF EXISTS produit;\n\nCREATE TABLE produit (\n    id INTEGER PRIMARY KEY,\n    nom TEXT NOT NULL,\n    prix REAL\n);\n\nSELECT name FROM sqlite_master WHERE type = 'table' AND name = 'produit';",
+           "<code>INTEGER</code>, <code>TEXT</code> et <code>REAL</code> couvrent les besoins de base : identifiant, nom et prix. <code>PRIMARY KEY</code> rend l'identifiant unique.",
+           "<code>INTEGER</code>, <code>TEXT</code> w <code>REAL</code> kayghatto besoins asasiyin : identifiant, nom w prix. <code>PRIMARY KEY</code> kay3mel identifiant unique."],
+          ["Intermédiaire — dates et montants", "sql",
+           "<p>Crée une table <code>employe</code> avec <code>id INTEGER PRIMARY KEY</code>, <code>nom TEXT NOT NULL</code>, <code>salaire DECIMAL(10,2)</code> et <code>date_embauche DATE</code>, puis vérifie son nom dans <code>sqlite_master</code>.</p>",
+           "<p>5leq table <code>employe</code> b <code>id INTEGER PRIMARY KEY</code>, <code>nom TEXT NOT NULL</code>, <code>salaire DECIMAL(10,2)</code> w <code>date_embauche DATE</code>, men ba3d t7eqqeq smiya f <code>sqlite_master</code>.</p>",
+           "DROP TABLE IF EXISTS employe;\n\n-- CREATE TABLE\n",
+           [["sql_ok", ""], ["result_has", "employe"]],
+           ["DECIMAL(10,2) prévoit 10 chiffres dont 2 décimales.", "DATE stocke une date au format AAAA-MM-JJ.", "SQLite accepte ces types et les rapproche de ses types natifs."],
+           "DROP TABLE IF EXISTS employe;\n\nCREATE TABLE employe (\n    id INTEGER PRIMARY KEY,\n    nom TEXT NOT NULL,\n    salaire DECIMAL(10, 2),\n    date_embauche DATE\n);\n\nSELECT name FROM sqlite_master WHERE type = 'table' AND name = 'employe';",
+           "<code>DECIMAL(10,2)</code> documente la précision attendue pour un montant. <code>DATE</code> indique une date ; en SQLite elle est stockée comme texte, mais la contrainte de format reste à la charge de l'application.",
+           "<code>DECIMAL(10,2)</code> katwsef précision dyal montant. <code>DATE</code> kat3ni date ; f SQLite kattkhzen b7al texte, walakin format kaybqa 3la application."],
+          ["Avancé — valeurs par défaut", "sql",
+           "<p>Crée une table <code>mesure</code> avec <code>id INTEGER PRIMARY KEY</code>, <code>valeur REAL NOT NULL</code>, <code>unite TEXT DEFAULT 'kg'</code> et <code>actif INTEGER DEFAULT 1</code>. Termine par <code>SELECT name, dflt_value FROM pragma_table_info('mesure');</code>.</p>",
+           "<p>5leq table <code>mesure</code> b <code>id INTEGER PRIMARY KEY</code>, <code>valeur REAL NOT NULL</code>, <code>unite TEXT DEFAULT 'kg'</code> w <code>actif INTEGER DEFAULT 1</code>. Sali b <code>SELECT name, dflt_value FROM pragma_table_info('mesure');</code>.</p>",
+           "DROP TABLE IF EXISTS mesure;\n\n-- CREATE TABLE\n",
+           [["sql_ok", ""], ["result_has", "unite"], ["result_has", "valeur"]],
+           ["DEFAULT fournit une valeur quand la colonne n'est pas renseignée.", "Le texte par défaut s'écrit entre guillemets simples.", "1 et 0 représentent souvent vrai et faux en SQL."],
+           "DROP TABLE IF EXISTS mesure;\n\nCREATE TABLE mesure (\n    id INTEGER PRIMARY KEY,\n    valeur REAL NOT NULL,\n    unite TEXT DEFAULT 'kg',\n    actif INTEGER DEFAULT 1\n);\n\nSELECT name, dflt_value FROM pragma_table_info('mesure');",
+           "Les valeurs par défaut simplifient les insertions : si l'unité ou l'état n'est pas fourni, la base applique <code>'kg'</code> et <code>1</code>.",
+           "Valeurs par défaut katsahhel insertions : ila unité wla état ma t3tach, base kattbeq <code>'kg'</code> w <code>1</code>."]
+        ]
+      },
+      "3": {
+        "title": "DDL",
+        "brief": "Créer, modifier et renommer des objets de base.",
+        "levels": [
+          ["Débutant — CREATE TABLE", "sql",
+           "<p>Crée une table <code>cours</code> avec <code>id INTEGER PRIMARY KEY</code>, <code>titre TEXT NOT NULL</code> et <code>duree INTEGER</code>, puis vérifie son nom dans <code>sqlite_master</code>.</p>",
+           "<p>5leq table <code>cours</code> b <code>id INTEGER PRIMARY KEY</code>, <code>titre TEXT NOT NULL</code> w <code>duree INTEGER</code>, men ba3d t7eqqeq smiya f <code>sqlite_master</code>.</p>",
+           "DROP TABLE IF EXISTS cours;\n\n-- CREATE TABLE\n",
+           [["sql_ok", ""], ["result_has", "cours"]],
+           ["CREATE TABLE définit les colonnes et leurs types.", "NOT NULL interdit une valeur vide.", "Termine la requête par un point-virgule."],
+           "DROP TABLE IF EXISTS cours;\n\nCREATE TABLE cours (\n    id INTEGER PRIMARY KEY,\n    titre TEXT NOT NULL,\n    duree INTEGER\n);\n\nSELECT name FROM sqlite_master WHERE type = 'table' AND name = 'cours';",
+           "<code>CREATE TABLE</code> est une commande DDL : elle modifie la structure de la base, pas les données. La table apparaît ensuite dans <code>sqlite_master</code>.",
+           "<code>CREATE TABLE</code> commande DDL : katbeddel structure dyal base, machi données. Table men ba3d katban f <code>sqlite_master</code>."],
+          ["Intermédiaire — ALTER TABLE", "sql",
+           "<p>Crée la table <code>cours</code> si besoin, puis ajoute une colonne <code>coefficient REAL DEFAULT 1.0</code> avec <code>ALTER TABLE</code>. Vérifie la structure avec <code>pragma_table_info</code>.</p>",
+           "<p>5leq table <code>cours</code> ila khas, men ba3d zid colonne <code>coefficient REAL DEFAULT 1.0</code> b <code>ALTER TABLE</code>. T7eqqeq structure b <code>pragma_table_info</code>.</p>",
+           "DROP TABLE IF EXISTS cours;\nCREATE TABLE cours (id INTEGER PRIMARY KEY, titre TEXT NOT NULL);\n\n-- ALTER TABLE\n",
+           [["sql_ok", ""], ["result_has", "coefficient"]],
+           ["ALTER TABLE ... ADD COLUMN ajoute une colonne.", "La nouvelle colonne peut avoir une valeur par défaut.", "pragma_table_info('cours') décrit les colonnes."],
+           "DROP TABLE IF EXISTS cours;\nCREATE TABLE cours (id INTEGER PRIMARY KEY, titre TEXT NOT NULL);\n\nALTER TABLE cours ADD COLUMN coefficient REAL DEFAULT 1.0;\n\nSELECT name FROM pragma_table_info('cours');",
+           "<code>ALTER TABLE ... ADD COLUMN</code> enrichit une table existante sans recréer les données. La valeur par défaut s'applique aux lignes déjà présentes.",
+           "<code>ALTER TABLE ... ADD COLUMN</code> katzid table li kayna bla ma t3awed t5leq données. Valeur par défaut kattbeq 3la lignes li kaynin."],
+          ["Avancé — renommer une table", "sql",
+           "<p>Crée une table <code>salle</code> avec <code>id INTEGER PRIMARY KEY</code> et <code>capacite INTEGER</code>, puis renomme-la en <code>salle_cours</code> avec <code>ALTER TABLE ... RENAME TO</code> et vérifie le nouveau nom.</p>",
+           "<p>5leq table <code>salle</code> b <code>id INTEGER PRIMARY KEY</code> w <code>capacite INTEGER</code>, men ba3d beddel smiya l <code>salle_cours</code> b <code>ALTER TABLE ... RENAME TO</code> w t7eqqeq smiya jdida.</p>",
+           "DROP TABLE IF EXISTS salle;\nDROP TABLE IF EXISTS salle_cours;\n\n-- CREATE puis RENAME\n",
+           [["sql_ok", ""], ["result_has", "salle_cours"]],
+           ["RENAME TO change le nom de la table.", "Supprime d'abord l'ancienne table cible pour éviter un conflit.", "Vérifie le nouveau nom dans sqlite_master."],
+           "DROP TABLE IF EXISTS salle;\nDROP TABLE IF EXISTS salle_cours;\n\nCREATE TABLE salle (\n    id INTEGER PRIMARY KEY,\n    capacite INTEGER\n);\n\nALTER TABLE salle RENAME TO salle_cours;\n\nSELECT name FROM sqlite_master WHERE type = 'table' AND name = 'salle_cours';",
+           "Le renommage conserve les données et les contraintes. C'est utile pour corriger un nom sans migration lourde.",
+           "Renommage kay7fed données w contraintes. Mzyan bach tsele7 smiya bla migration tqila."]
+        ]
+      },
+      "4": {
+        "title": "Contraintes",
+        "brief": "Garantir l'intégrité avec PRIMARY KEY, UNIQUE, CHECK et FOREIGN KEY.",
+        "levels": [
+          ["Débutant — UNIQUE et NOT NULL", "sql",
+           "<p>Crée une table <code>membre</code> avec <code>id INTEGER PRIMARY KEY</code>, <code>email TEXT NOT NULL UNIQUE</code> et <code>nom TEXT NOT NULL</code>. Affiche ensuite la définition avec <code>SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'membre';</code>.</p>",
+           "<p>5leq table <code>membre</code> b <code>id INTEGER PRIMARY KEY</code>, <code>email TEXT NOT NULL UNIQUE</code> w <code>nom TEXT NOT NULL</code>. 3red men ba3d définition b <code>SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'membre';</code>.</p>",
+           "DROP TABLE IF EXISTS membre;\n\n-- CREATE TABLE\n",
+           [["sql_ok", ""], ["result_has", "UNIQUE"], ["result_has", "NOT NULL"]],
+           ["UNIQUE interdit deux valeurs identiques.", "NOT NULL impose une valeur.", "Les contraintes se déclarent après le type."],
+           "DROP TABLE IF EXISTS membre;\n\nCREATE TABLE membre (\n    id INTEGER PRIMARY KEY,\n    email TEXT NOT NULL UNIQUE,\n    nom TEXT NOT NULL\n);\n\nSELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'membre';",
+           "La contrainte <code>UNIQUE</code> empêche deux membres d'avoir le même email, et <code>NOT NULL</code> garantit que l'email et le nom sont toujours renseignés.",
+           "Contrainte <code>UNIQUE</code> kamna3 jouj membres ykouno 3ndhom nefs email, w <code>NOT NULL</code> katdmen email w nom dima m3emrin."],
+          ["Intermédiaire — CHECK et FOREIGN KEY", "sql",
+           "<p>Crée une table <code>commande</code> avec <code>id INTEGER PRIMARY KEY</code>, <code>client_id INTEGER NOT NULL</code>, <code>montant REAL CHECK (montant &gt;= 0)</code> et une clé étrangère <code>FOREIGN KEY (client_id) REFERENCES membre(id)</code>. Affiche la définition SQL de la table.</p>",
+           "<p>5leq table <code>commande</code> b <code>id INTEGER PRIMARY KEY</code>, <code>client_id INTEGER NOT NULL</code>, <code>montant REAL CHECK (montant &gt;= 0)</code> w clé étrangère <code>FOREIGN KEY (client_id) REFERENCES membre(id)</code>. 3red définition SQL dyal table.</p>",
+           "DROP TABLE IF EXISTS commande;\n\n-- CREATE TABLE\n",
+           [["sql_ok", ""], ["result_has", "CHECK"], ["result_has", "FOREIGN KEY"]],
+           ["CHECK exprime une règle sur une ou plusieurs colonnes.", "FOREIGN KEY relie une colonne à la clé primaire d'une autre table.", "La table référencée doit exister."],
+           "DROP TABLE IF EXISTS commande;\n\nCREATE TABLE commande (\n    id INTEGER PRIMARY KEY,\n    client_id INTEGER NOT NULL,\n    montant REAL CHECK (montant >= 0),\n    FOREIGN KEY (client_id) REFERENCES membre(id)\n);\n\nSELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'commande';",
+           "<code>CHECK</code> refuse un montant négatif, et <code>FOREIGN KEY</code> empêche de rattacher une commande à un membre inexistant (si les clés étrangères sont activées).",
+           "<code>CHECK</code> kayrefus montant salib, w <code>FOREIGN KEY</code> kaymna3 commande ttrbet b membre ma kanch (ila clés étrangères mfe3lin)."],
+          ["Avancé — clé composite", "sql",
+           "<p>Crée une table <code>note2</code> avec <code>etudiant_id INTEGER NOT NULL</code>, <code>matiere_id INTEGER NOT NULL</code>, <code>valeur REAL CHECK (valeur BETWEEN 0 AND 20)</code> et une clé primaire composite <code>PRIMARY KEY (etudiant_id, matiere_id)</code>. Affiche la définition SQL de la table.</p>",
+           "<p>5leq table <code>note2</code> b <code>etudiant_id INTEGER NOT NULL</code>, <code>matiere_id INTEGER NOT NULL</code>, <code>valeur REAL CHECK (valeur BETWEEN 0 AND 20)</code> w clé primaire composite <code>PRIMARY KEY (etudiant_id, matiere_id)</code>. 3red définition SQL dyal table.</p>",
+           "DROP TABLE IF EXISTS note2;\n\n-- CREATE TABLE\n",
+           [["sql_ok", ""], ["result_has", "PRIMARY KEY"], ["result_has", "CHECK"]],
+           ["Une clé composite combine plusieurs colonnes.", "Le couple (etudiant_id, matiere_id) devient unique.", "CHECK limite la valeur entre 0 et 20."],
+           "DROP TABLE IF EXISTS note2;\n\nCREATE TABLE note2 (\n    etudiant_id INTEGER NOT NULL,\n    matiere_id INTEGER NOT NULL,\n    valeur REAL CHECK (valeur BETWEEN 0 AND 20),\n    PRIMARY KEY (etudiant_id, matiere_id)\n);\n\nSELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'note2';",
+           "La clé composite empêche un étudiant d'avoir deux notes pour la même matière. <code>CHECK</code> garantit en plus que chaque note reste entre 0 et 20.",
+           "Clé composite kamna3 étudiant ykoun 3ndo jouj notes f nefs matière. <code>CHECK</code> kaddmen 7ta kol note tbqa bin 0 w 20."]
+        ]
+      },
+      "5": {
+        "title": "DML",
+        "brief": "Insérer, modifier et supprimer des données.",
+        "levels": [
+          ["Débutant — INSERT", "sql",
+           "<p>Insère un étudiant <code>Nadia</code>, <code>Alami</code>, filière <code>GI</code>, email <code>nadia@example.ma</code>. Utilise <code>INSERT OR IGNORE</code> pour éviter un doublon, puis vérifie avec un <code>SELECT</code>.</p>",
+           "<p>Dkhel étudiant <code>Nadia</code>, <code>Alami</code>, filière <code>GI</code>, email <code>nadia@example.ma</code>. Khdem b <code>INSERT OR IGNORE</code> bach tmna3 doublon, men ba3d t7eqqeq b <code>SELECT</code>.</p>",
+           "-- INSERT puis SELECT\n",
+           [["sql_ok", ""], ["result_has", "nadia@example.ma"]],
+           ["INSERT INTO table (colonnes) VALUES (...)", "Les textes s'écrivent entre guillemets simples.", "INSERT OR IGNORE ignore la ligne si une contrainte UNIQUE échoue."],
+           "INSERT OR IGNORE INTO etudiant (nom, prenom, filiere, email)\nVALUES ('Nadia', 'Alami', 'GI', 'nadia@example.ma');\n\nSELECT nom, prenom, email FROM etudiant WHERE email = 'nadia@example.ma';",
+           "<code>INSERT</code> ajoute une ligne. <code>OR IGNORE</code> rend l'opération rejouable : si l'email existe déjà, la base ignore l'insertion au lieu de provoquer une erreur.",
+           "<code>INSERT</code> katzid ligne. <code>OR IGNORE</code> kat3mel opération t9der t3awedha : ila email kayn, base kattjahl insertion blast ma t3ti erreur."],
+          ["Intermédiaire — UPDATE", "sql",
+           "<p>Modifie la filière de l'étudiant dont l'email est <code>omar@example.ma</code> pour la mettre à <code>GI</code>, puis affiche son nom et sa filière.</p>",
+           "<p>Beddel filière dyal étudiant li email dyalo <code>omar@example.ma</code> l <code>GI</code>, men ba3d 3red smiya w filière dyalo.</p>",
+           "-- UPDATE puis SELECT\n",
+           [["sql_ok", ""], ["result_has", "Boukhriss"], ["result_has", "GI"]],
+           ["UPDATE table SET colonne = valeur WHERE condition.", "Le WHERE limite les lignes modifiées.", "Sans WHERE, toutes les lignes seraient touchées."],
+           "UPDATE etudiant\nSET filiere = 'GI'\nWHERE email = 'omar@example.ma';\n\nSELECT nom, filiere FROM etudiant WHERE email = 'omar@example.ma';",
+           "La clause <code>WHERE</code> cible une seule ligne. L'opération est idempotente : la relancer conserve la même filière.",
+           "Clause <code>WHERE</code> katcibli ligne wa7da. Opération idempotente : ila t3awdat, filière katbqa nefs."],
+          ["Avancé — DELETE", "sql",
+           "<p>Supprime les notes strictement inférieures à <code>10</code>, puis vérifie qu'il n'en reste aucune avec <code>COUNT(*)</code>.</p>",
+           "<p>7yed notes li 9el men <code>10</code> b dqiq, men ba3d t7eqqeq belli ma bqatch walou b <code>COUNT(*)</code>.</p>",
+           "-- DELETE puis COUNT\n",
+           [["sql_ok", ""], ["result_has", "0"]],
+           ["DELETE FROM table WHERE condition.", "COUNT(*) compte les lignes restantes.", "Une suppression sans WHERE viderait toute la table."],
+           "DELETE FROM note\nWHERE valeur < 10;\n\nSELECT COUNT(*) AS restantes FROM note WHERE valeur < 10;",
+           "Seules les notes sous 10 sont supprimées. Le second <code>SELECT</code> renvoie 0, ce qui confirme que la suppression a bien ciblé les bonnes lignes.",
+           "Ghir notes ta7t 10 li tmes7o. <code>SELECT</code> tani kayrje3 0, w hada kay2ekked suppression ciblat lignes s7i7in."]
+        ]
+      },
+      "6": {
+        "title": "Filtrage (WHERE)",
+        "brief": "Sélectionner des lignes avec des conditions précises.",
+        "levels": [
+          ["Débutant — égalité", "sql",
+           "<p>Affiche le nom et le prénom des étudiants de la filière <code>GI</code>.</p>",
+           "<p>3red smiya w prénom dyal étudiants f filière <code>GI</code>.</p>",
+           "-- SELECT ... WHERE\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "Kortaf"]],
+           ["WHERE filiere = 'GI' filtre les lignes.", "Les chaînes sont entre guillemets simples.", "Trois étudiants sont en GI dans le jeu de données."],
+           "SELECT nom, prenom\nFROM etudiant\nWHERE filiere = 'GI';",
+           "Le filtre compare chaque ligne à <code>'GI'</code>. Trois étudiants correspondent : Kortaf, Marzak et Sekkat.",
+           "Filtre kayqaren kol ligne m3a <code>'GI'</code>. Tlata étudiants kaymatcho : Kortaf, Marzak w Sekkat."],
+          ["Intermédiaire — comparaison numérique", "sql",
+           "<p>Affiche les notes supérieures ou égales à <code>16</code> avec l'identifiant de l'étudiant et la valeur.</p>",
+           "<p>3red notes li kbarin wla sawiyin <code>16</code> m3a identifiant dyal étudiant w valeur.</p>",
+           "-- SELECT ... WHERE valeur\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "18.5"]],
+           ["L'opérateur >= inclut la valeur limite.", "Les nombres s'écrivent sans guillemets.", "Trois notes atteignent au moins 16."],
+           "SELECT etudiant_id, valeur\nFROM note\nWHERE valeur >= 16;",
+           "Le filtre numérique garde 16.0, 17.0 et 18.5. Les notes 14.5 et inférieures sont exclues.",
+           "Filtre numérique kay7fed 16.0, 17.0 w 18.5. Notes 14.5 w ta7t kayt7ydo."],
+          ["Avancé — LIKE et OR", "sql",
+           "<p>Affiche le nom et le prénom des étudiants dont le prénom commence par <code>A</code> ou dont l'email contient <code>omar</code>.</p>",
+           "<p>3red smiya w prénom dyal étudiants li prénom dyalo kaybda b <code>A</code> wla email dyalo fih <code>omar</code>.</p>",
+           "-- SELECT ... WHERE ... OR ...\n",
+           [["sql_ok", ""], ["result_has", "Anas"], ["result_has", "Omar"]],
+           ["LIKE 'A%' cherche les valeurs qui commencent par A.", "'%omar%' cherche la sous-chaîne omar n'importe où.", "OR combine deux conditions alternatives."],
+           "SELECT nom, prenom\nFROM etudiant\nWHERE prenom LIKE 'A%'\n   OR email LIKE '%omar%';",
+           "<code>LIKE 'A%'</code> trouve Anas, et <code>LIKE '%omar%'</code> trouve Omar. Le <code>OR</code> renvoie les lignes qui satisfont au moins une condition.",
+           "<code>LIKE 'A%'</code> katlqa Anas, w <code>LIKE '%omar%'</code> katlqa Omar. <code>OR</code> kayrje3 lignes li kay7eqqo 3la l9al condition wa7da."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "sql": {
+      "2": {
+        "title": "Quiz — Types de données SQL",
+        "questions": [
+          ["mcq", "Quel type stocke un nombre entier ?", ["INTEGER", "TEXT", "REAL"], 0, "INTEGER", "<code>INTEGER</code> stocke des nombres entiers sans décimales.", "<code>INTEGER</code> kaykhzen ar9am s7a7 bla décimales."],
+          ["tf", "TEXT peut stocker une chaîne de caractères.", 0, "TEXT", "Vrai : <code>TEXT</code> est prévu pour les chaînes de longueur variable.", "S7i7 : <code>TEXT</code> mkhassas l chaînes b 3ard mokhtalef."],
+          ["mcq", "Quel type convient à un prix avec décimales ?", ["REAL ou DECIMAL", "INTEGER", "BOOLEAN"], 0, "Nombres décimaux", "<code>REAL</code> ou <code>DECIMAL(10,2)</code> conservent les décimales d'un montant.", "<code>REAL</code> wla <code>DECIMAL(10,2)</code> kay7fedo décimales dyal montant."],
+          ["fill", "Le type SQL qui stocke une date est ________.", "DATE", "DATE", "<code>DATE</code> documente une date au format AAAA-MM-JJ (stockée comme texte en SQLite).", "<code>DATE</code> katwsef date b format AAAA-MM-JJ (mkhezna b7al texte f SQLite)."],
+          ["multi", "Quels types sont couramment utilisés en SQL ?", ["INTEGER", "TEXT", "REAL", "SCREEN"], [0, 1, 2], "Types courants", "<code>INTEGER</code>, <code>TEXT</code> et <code>REAL</code> sont des types standard ; <code>SCREEN</code> n'existe pas.", "<code>INTEGER</code>, <code>TEXT</code> w <code>REAL</code> types standard ; <code>SCREEN</code> ma kaynch."]
+        ]
+      },
+      "3": {
+        "title": "Quiz — DDL",
+        "questions": [
+          ["mcq", "Que signifie DDL ?", ["Data Definition Language", "Data Delete Language", "Digital Data Link"], 0, "DDL", "Le DDL regroupe les commandes qui définissent la structure : CREATE, ALTER, DROP.", "DDL kayjem3 commandes li kay3erfo structure : CREATE, ALTER, DROP."],
+          ["tf", "CREATE TABLE modifie la structure de la base.", 0, "CREATE TABLE", "Vrai : créer une table est une opération DDL.", "S7i7 : création table hiya opération DDL."],
+          ["mcq", "Quelle commande ajoute une colonne à une table existante ?", ["ALTER TABLE ... ADD COLUMN", "UPDATE TABLE ... ADD", "INSERT COLUMN"], 0, "ALTER TABLE", "<code>ALTER TABLE</code> modifie la structure sans recréer la table.", "<code>ALTER TABLE</code> katbeddel structure bla ma t3awed t5leq table."],
+          ["fill", "La commande qui supprime définitivement une table est ________ TABLE.", "DROP", "DROP TABLE", "<code>DROP TABLE</code> supprime la table et ses données.", "<code>DROP TABLE</code> kat7yed table w données dyalha."],
+          ["mcq", "Comment renommer une table en SQLite ?", ["ALTER TABLE ancien RENAME TO nouveau", "RENAME TABLE ancien", "UPDATE TABLE ancien NAME"], 0, "Renommage", "<code>ALTER TABLE ... RENAME TO ...</code> change le nom sans perdre les données.", "<code>ALTER TABLE ... RENAME TO ...</code> kaybeddel smiya bla ma ykhser données."]
+        ]
+      },
+      "4": {
+        "title": "Quiz — Contraintes",
+        "questions": [
+          ["mcq", "Quelle contrainte identifie chaque ligne de façon unique ?", ["PRIMARY KEY", "NOT NULL", "DEFAULT"], 0, "PRIMARY KEY", "<code>PRIMARY KEY</code> est unique et non nulle : elle identifie la ligne.", "<code>PRIMARY KEY</code> unique w machi khawya : kat3aref ligne."],
+          ["tf", "UNIQUE interdit les doublons dans une colonne.", 0, "UNIQUE", "Vrai : deux lignes ne peuvent pas partager la même valeur dans cette colonne.", "S7i7 : jouj lignes ma y9droch ycharko nefs valeur f had colonne."],
+          ["mcq", "Quelle contrainte limite les valeurs acceptées ?", ["CHECK", "DEFAULT", "INDEX"], 0, "CHECK", "<code>CHECK (montant >= 0)</code> refuse les valeurs qui ne respectent pas la règle.", "<code>CHECK (montant >= 0)</code> kayrefus valeurs li ma kay7trmoch qa3ida."],
+          ["fill", "La contrainte qui relie une colonne à la clé primaire d'une autre table est FOREIGN ________.", "KEY", "FOREIGN KEY", "<code>FOREIGN KEY</code> garantit l'intégrité référentielle entre deux tables.", "<code>FOREIGN KEY</code> kaddmen intégrité référentielle bin jouj tables."],
+          ["mcq", "Que se passe-t-il si NOT NULL est violé ?", ["L'insertion est refusée", "La valeur devient 0", "La colonne est supprimée"], 0, "NOT NULL", "La base rejette l'opération qui tenterait de mettre NULL dans la colonne.", "Base katrefus opération li kat7awel t7et NULL f colonne."]
+        ]
+      },
+      "5": {
+        "title": "Quiz — DML",
+        "questions": [
+          ["mcq", "Quelle commande ajoute une ligne ?", ["INSERT", "UPDATE", "DELETE"], 0, "INSERT", "<code>INSERT INTO ... VALUES ...</code> ajoute une nouvelle ligne.", "<code>INSERT INTO ... VALUES ...</code> katzid ligne jdida."],
+          ["tf", "Un UPDATE sans WHERE modifie toutes les lignes de la table.", 0, "UPDATE sans WHERE", "Vrai : sans filtre, la modification s'applique à toute la table.", "S7i7 : bla filtre, modification kattbeq 3la table kamla."],
+          ["mcq", "Quelle commande supprime des lignes ?", ["DELETE", "DROP", "ALTER"], 0, "DELETE", "<code>DELETE FROM</code> supprime des lignes ; <code>DROP</code> supprime la table entière.", "<code>DELETE FROM</code> kat7yed lignes ; <code>DROP</code> kat7yed table kamla."],
+          ["fill", "Pour éviter un doublon sur un email unique, on peut utiliser INSERT OR ________.", "IGNORE", "INSERT OR IGNORE", "<code>INSERT OR IGNORE</code> ignore l'insertion si une contrainte échoue.", "<code>INSERT OR IGNORE</code> kaytjahl insertion ila contrainte fchlat."],
+          ["mcq", "Quelle clause cible les lignes à modifier ?", ["WHERE", "ORDER BY", "GROUP BY"], 0, "WHERE", "<code>WHERE</code> limite l'action aux lignes qui respectent la condition.", "<code>WHERE</code> kay7ded action 3la lignes li kay7trmo condition."]
+        ]
+      },
+      "6": {
+        "title": "Quiz — Filtrage (WHERE)",
+        "questions": [
+          ["mcq", "Quelle clause filtre les lignes ?", ["WHERE", "ORDER BY", "LIMIT"], 0, "WHERE", "<code>WHERE</code> sélectionne les lignes selon une condition.", "<code>WHERE</code> katkhtar lignes 3la 7sab condition."],
+          ["tf", "L'opérateur <> signifie différent de.", 0, "Opérateurs", "Vrai : <code><></code> et <code>!=</code> testent la différence.", "S7i7 : <code><></code> w <code>!=</code> kayt7eqqo men différence."],
+          ["mcq", "Quel opérateur cherche un motif de texte ?", ["LIKE", "BETWEEN", "IS NULL"], 0, "LIKE", "<code>LIKE 'A%'</code> cherche les valeurs qui commencent par A.", "<code>LIKE 'A%'</code> kat9elleb 3la valeurs li kaybdaw b A."],
+          ["fill", "Pour tester l'absence de valeur, on écrit IS ________.", "NULL", "IS NULL", "<code>IS NULL</code> teste une valeur absente ; <code>= NULL</code> ne fonctionne pas.", "<code>IS NULL</code> kat7eqqeq valeur ma kaynach ; <code>= NULL</code> ma kaykhdemch."],
+          ["mcq", "Que fait BETWEEN 10 AND 20 ?", ["Teste si la valeur est dans l'intervalle inclus", "Trie les valeurs", "Compte les valeurs"], 0, "BETWEEN", "<code>BETWEEN</code> inclut les deux bornes.", "<code>BETWEEN</code> kaydakhel jouj bornes."]
+        ]
+      }
+    }
+  }
+}

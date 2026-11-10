@@ -1,0 +1,132 @@
+{
+  "id": "sql-ch11",
+  "title": "Relations entre tables",
+  "subtitle": "Modéliser les liens entre les données",
+  "objectives": [
+    "Reconnaître une relation un-à-plusieurs.",
+    "Créer une relation plusieurs-à-plusieurs avec une table de liaison.",
+    "Comprendre la relation un-à-un.",
+    "Choisir le bon comportement en cas de suppression."
+  ],
+  "lessons": [
+    {
+      "id": "un-plusieurs",
+      "title": "Relation un-à-plusieurs",
+      "icon": "1️⃣",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>La relation la plus courante : <strong>un</strong> étudiant possède <strong>plusieurs</strong> notes. La clé étrangère se place toujours du côté <strong>« plusieurs »</strong> : chaque note contient <code>etudiant_id</code>.</p>",
+          "darija": "<p>Relation li kat3awed bzaf : <strong>wa7ed</strong> etudiant 3ndo <strong>bzaf</strong> notes. Clé étrangère kat7et dima f jiht <strong>« bzaf »</strong> : kol note fiha <code>etudiant_id</code>.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "sql",
+          "title": "Le côté « plusieurs » porte la clé",
+          "code": "CREATE TABLE etudiant (\n    id INT PRIMARY KEY,\n    nom VARCHAR(50)\n);\n\nCREATE TABLE note (\n    id INT PRIMARY KEY,\n    etudiant_id INT NOT NULL,\n    valeur DECIMAL(4,2),\n    FOREIGN KEY (etudiant_id) REFERENCES etudiant(id)\n);"
+        },
+        {
+          "type": "example",
+          "title": "Un étudiant, plusieurs notes",
+          "lang": "sql",
+          "code": "INSERT INTO etudiant VALUES (1, 'Amal'), (2, 'Omar');\nINSERT INTO note VALUES\n    (1, 1, 14.5),\n    (2, 1, 16.0),\n    (3, 2, 9.0);\n\nSELECT e.nom, n.valeur\nFROM etudiant e\nJOIN note n ON n.etudiant_id = e.id\nORDER BY e.nom, n.valeur;",
+          "output": "nom  | valeur\nAmal | 14.5\nAmal | 16.0\nOmar | 9.0",
+          "explainFr": "Amal apparaît deux fois car elle a deux notes : c'est le comportement normal d'une jointure un-à-plusieurs.",
+          "explainDarija": "Amal katban jouj merrat 7it 3ndha jouj notes : hada comportement 3adi dyal jointure un-à-plusieurs."
+        },
+        {
+          "type": "tip",
+          "title": "Jamais de liste dans une colonne",
+          "fr": "Ne stockez pas <code>notes = '14.5,16,9'</code> dans une colonne. Vous ne pourriez plus filtrer, calculer une moyenne ni garantir l'intégrité. Une table de notes est la bonne réponse.",
+          "darija": "Ma tkhzench <code>notes = '14.5,16,9'</code> f colonne. Ma tqderch tfiltri, t7seb moyenne wla tdmen intégrité. Table dyal notes hiya l'jawab."
+        }
+      ]
+    },
+    {
+      "id": "plusieurs-a-plusieurs",
+      "title": "Relation plusieurs-à-plusieurs",
+      "icon": "🔀",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Un étudiant passe <strong>plusieurs</strong> matières, et une matière est suivie par <strong>plusieurs</strong> étudiants. On crée une <strong>table de liaison</strong> (ici <code>note</code>) qui contient les deux clés étrangères, et éventuellement des données propres au lien (la note, la date).</p>",
+          "darija": "<p>Etudiant kaydowez <strong>bzaf</strong> matières, w matière kaytab3ha <strong>bzaf</strong> étudiants. Kankhalqo <strong>table de liaison</strong> (hna <code>note</code>) fiha jouj clés étrangères, w eventuellement données khassa b lien (note, date).</p>"
+        },
+        {
+          "type": "example",
+          "title": "Étudiants, matières et notes",
+          "lang": "sql",
+          "code": "CREATE TABLE matiere (id INT PRIMARY KEY, nom VARCHAR(40));\nCREATE TABLE note (\n    etudiant_id INT,\n    matiere_id INT,\n    valeur DECIMAL(4,2),\n    PRIMARY KEY (etudiant_id, matiere_id),\n    FOREIGN KEY (etudiant_id) REFERENCES etudiant(id),\n    FOREIGN KEY (matiere_id) REFERENCES matiere(id)\n);\n\nINSERT INTO matiere VALUES (1, 'Math'), (2, 'PHP');\nINSERT INTO note VALUES (1, 1, 14.5), (1, 2, 16.0), (2, 1, 9.0);\n\nSELECT e.nom, m.nom, n.valeur\nFROM note n\nJOIN etudiant e ON e.id = n.etudiant_id\nJOIN matiere m ON m.id = n.matiere_id;",
+          "output": "nom  | nom  | valeur\nAmal | Math | 14.5\nAmal | PHP  | 16.0\nOmar | Math | 9.0",
+          "explainFr": "La clé primaire composite <code>(etudiant_id, matiere_id)</code> empêche un étudiant d'avoir deux notes pour la même matière. C'est une règle métier gratuite.",
+          "explainDarija": "Clé primaire composite <code>(etudiant_id, matiere_id)</code> katmna3 etudiant ykon 3ndo jouj notes f nefs matière. Hadi règle métier bla ma tktebha f code."
+        },
+        {
+          "type": "table",
+          "headers": ["Relation", "Exemple", "Implémentation"],
+          "rows": [
+            ["1-1", "utilisateur ↔ profil", "clé étrangère UNIQUE"],
+            ["1-N", "étudiant → notes", "clé étrangère côté N"],
+            ["N-N", "étudiants ↔ matières", "table de liaison avec 2 FK"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "un-a-un-cascade",
+      "title": "Un-à-un et suppressions",
+      "icon": "🔂",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Une relation <strong>un-à-un</strong> relie une ligne à exactement une autre : un utilisateur possède un profil. On la réalise avec une clé étrangère <strong>UNIQUE</strong>, ce qui empêche deux profils pour le même utilisateur.</p>",
+          "darija": "<p>Relation <strong>un-à-un</strong> katrbet ligne b ligne okhra b dqiq : utilisateur 3ndo profil wa7ed. Kantsayboha b clé étrangère <strong>UNIQUE</strong>, li katmna3 jouj profils l nefs utilisateur.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Utilisateur et profil",
+          "lang": "sql",
+          "code": "CREATE TABLE utilisateur (id INT PRIMARY KEY, email VARCHAR(80) UNIQUE);\nCREATE TABLE profil (\n    id INT PRIMARY KEY,\n    utilisateur_id INT UNIQUE,\n    bio TEXT,\n    FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE\n);\n\nINSERT INTO utilisateur VALUES (1, 'amal@site.ma');\nINSERT INTO profil VALUES (1, 1, 'Étudiante en GI');\n\nSELECT u.email, p.bio\nFROM utilisateur u\nJOIN profil p ON p.utilisateur_id = u.id;",
+          "output": "email         | bio\namal@site.ma  | Étudiante en GI",
+          "explainFr": "<code>utilisateur_id INT UNIQUE</code> garantit la relation un-à-un. <code>ON DELETE CASCADE</code> supprime le profil quand l'utilisateur est supprimé.",
+          "explainDarija": "<code>utilisateur_id INT UNIQUE</code> katdmen relation un-à-un. <code>ON DELETE CASCADE</code> katmse7 profil melli utilisateur kaytmse7."
+        },
+        {
+          "type": "table",
+          "headers": ["ON DELETE", "Comportement", "Quand l'utiliser"],
+          "rows": [
+            ["RESTRICT", "refuse la suppression du parent", "par défaut, prudent"],
+            ["CASCADE", "supprime les enfants", "données dépendantes (profil, lignes de commande)"],
+            ["SET NULL", "met la clé enfant à NULL", "lien optionnel (professeur d'une note)"],
+            ["NO ACTION", "comme RESTRICT dans la plupart des moteurs", "explicite"]
+          ],
+          "fr": "Choisissez le comportement selon le sens métier : supprimer un étudiant doit-il supprimer ses notes ? Pas toujours : archivez plutôt."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "Stocker plusieurs identifiants dans une seule colonne : '1,2,3'",
+      "fix": "Créer une table de liaison avec une ligne par association.",
+      "fr": "Une colonne ne contient qu'une valeur atomique. Les listes séparées par des virgules rendent les jointures et les contraintes impossibles.",
+      "darija": "Colonne kat7et valeur wa7da atomique. Listes b virgules kaymna3o jointures w contraintes."
+    },
+    {
+      "wrong": "Clé étrangère sans index",
+      "fix": "Créer un index sur la colonne de clé étrangère.",
+      "fr": "Les jointures filtrent sur la clé étrangère : sans index, chaque jointure scanne toute la table enfant.",
+      "darija": "Jointures kayfiltriw 3la clé étrangère : bla index, kol jointure katscan table enfant kamla."
+    },
+    {
+      "wrong": "ON DELETE CASCADE partout par facilité",
+      "fix": "Choisir RESTRICT par défaut, CASCADE seulement pour les dépendances réelles.",
+      "fr": "Une cascade mal placée peut effacer des données historiques précieuses en une seule suppression.",
+      "darija": "Cascade f blasa ghalta t9der tmse7 données historiques mhimmin b suppression wa7da."
+    }
+  ],
+  "summary": {
+    "fr": "Les relations structurent la base : <strong>un-à-plusieurs</strong> place la clé étrangère du côté « plusieurs », <strong>plusieurs-à-plusieurs</strong> passe par une table de liaison avec deux clés étrangères et souvent une clé composite, <strong>un-à-un</strong> utilise une clé étrangère <code>UNIQUE</code>. Le choix <code>ON DELETE</code> (RESTRICT, CASCADE, SET NULL) est une décision métier.",
+    "darija": "Relations kaybniw base : <strong>un-à-plusieurs</strong> kat7et clé étrangère f jiht « bzaf », <strong>plusieurs-à-plusieurs</strong> katdowez b table de liaison fiha jouj clés étrangères w ghaliban clé composite, <strong>un-à-un</strong> katkhdem b clé étrangère <code>UNIQUE</code>. Ikhtiyar <code>ON DELETE</code> (RESTRICT, CASCADE, SET NULL) 9arar métier."
+  }
+}

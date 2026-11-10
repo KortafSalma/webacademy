@@ -1,0 +1,141 @@
+{
+  "id": "sql-ch10",
+  "title": "Sous-requêtes",
+  "subtitle": "Utiliser le résultat d'une requête dans une autre",
+  "objectives": [
+    "Écrire une sous-requête scalaire dans WHERE ou SELECT.",
+    "Utiliser IN avec une sous-requête.",
+    "Comprendre EXISTS et les sous-requêtes corrélées.",
+    "Choisir entre sous-requête et JOIN."
+  ],
+  "lessons": [
+    {
+      "id": "sous-requete-scalaire",
+      "title": "Sous-requête scalaire",
+      "icon": "🎯",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Une <strong>sous-requête</strong> est une requête imbriquée dans une autre. Une sous-requête <strong>scalaire</strong> renvoie une seule valeur, utilisable partout où une valeur est attendue.</p>",
+          "darija": "<p><strong>Sous-requête</strong> hiya requête dakhla f requête okhra. Sous-requête <strong>scalaire</strong> katrje3 valeur wa7da, t9der tkhdem biha f ay blasa li kat7ett valeur.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Notes supérieures à la moyenne",
+          "lang": "sql",
+          "code": "SELECT etudiant_id, valeur\nFROM note\nWHERE valeur > (SELECT AVG(valeur) FROM note)\nORDER BY valeur DESC;",
+          "output": "etudiant_id | valeur\n4           | 18.5\n2           | 17.0\n1           | 16.0\n1           | 15.0",
+          "explainFr": "La sous-requête calcule la moyenne générale (environ 13.83), puis la requête principale garde les notes supérieures à cette valeur.",
+          "explainDarija": "Sous-requête kat7seb moyenne 3amma (7awali 13.83), men ba3d requête principale kat7fed notes li kbar men had valeur."
+        },
+        {
+          "type": "example",
+          "title": "Sous-requête dans le SELECT",
+          "lang": "sql",
+          "code": "SELECT nom,\n       (SELECT COUNT(*) FROM note n WHERE n.etudiant_id = e.id) AS nb_notes\nFROM etudiant e\nORDER BY nom;",
+          "output": "nom       | nb_notes\nBoukhriss | 2\nKortaf    | 3\nMarzak    | 2\nSekkat    | 1\nTazi      | 2",
+          "explainFr": "La sous-requête est <strong>corrélée</strong> : elle référence <code>e.id</code> de la requête principale et s'exécute conceptuellement pour chaque étudiant.",
+          "explainDarija": "Sous-requête <strong>corrélée</strong> : kat3ayet l <code>e.id</code> dyal requête principale w kattnffed conceptuellement l kol etudiant."
+        },
+        {
+          "type": "warning",
+          "title": "Une sous-requête scalaire = une valeur",
+          "fr": "Si une sous-requête scalaire renvoie plusieurs lignes, la base lève une erreur. Utilisez <code>IN</code> ou <code>EXISTS</code> quand plusieurs valeurs sont possibles.",
+          "darija": "Ila sous-requête scalaire katrje3 bzaf lignes, base kat3ti erreur. Khdem b <code>IN</code> wla <code>EXISTS</code> melli ykon bzaf valeurs mumkinin."
+        }
+      ]
+    },
+    {
+      "id": "in-exists",
+      "title": "IN et EXISTS",
+      "icon": "✅",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><code>IN (sous-requête)</code> teste si une valeur appartient à la liste renvoyée. <code>EXISTS (sous-requête)</code> teste si la sous-requête renvoie au moins une ligne. <code>NOT IN</code> et <code>NOT EXISTS</code> font l'inverse.</p>",
+          "darija": "<p><code>IN (sous-requête)</code> kaytesti wach valeur kayna f lista li rj3at. <code>EXISTS (sous-requête)</code> kaytesti wach sous-requête katrje3 3la l9al ligne wa7da. <code>NOT IN</code> w <code>NOT EXISTS</code> kaydiro l'3aks.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Étudiants qui ont une note en PHP",
+          "lang": "sql",
+          "code": "SELECT nom\nFROM etudiant\nWHERE id IN (\n    SELECT etudiant_id\n    FROM note\n    WHERE matiere_id = (SELECT id FROM matiere WHERE nom = 'PHP')\n);",
+          "output": "nom\nKortaf\nMarzak\nSekkat",
+          "explainFr": "La sous-requête interne trouve l'id de PHP (2), la suivante liste les étudiants qui ont une note en PHP, et la requête principale affiche leurs noms.",
+          "explainDarija": "Sous-requête dakhliya katlqa id dyal PHP (2), li mora katlister étudiants li 3ndhom note f PHP, w requête principale kat3red smiyat dyalhom."
+        },
+        {
+          "type": "example",
+          "title": "EXISTS : au moins une note",
+          "lang": "sql",
+          "code": "SELECT e.nom\nFROM etudiant e\nWHERE EXISTS (\n    SELECT 1 FROM note n WHERE n.etudiant_id = e.id\n);",
+          "output": "nom\nKortaf\nMarzak\nBoukhriss\nSekkat\nTazi",
+          "explainFr": "<code>EXISTS</code> s'arrête dès qu'une ligne est trouvée : il ne compte pas, il vérifie l'existence. Le <code>SELECT 1</code> est une convention.",
+          "explainDarija": "<code>EXISTS</code> kay7bess melli ylqa ligne : ma kay7sebch, kayt7eqqeq existence. <code>SELECT 1</code> convention 3adiya."
+        },
+        {
+          "type": "tip",
+          "title": "NOT IN et NULL",
+          "fr": "<code>NOT IN</code> ne renvoie rien si la sous-liste contient un NULL. Préférez <code>NOT EXISTS</code> pour éviter ce piège.",
+          "darija": "<code>NOT IN</code> ma kayrje3 walou ila lista fiha NULL. 7sen <code>NOT EXISTS</code> bach tmna3 had piège."
+        }
+      ]
+    },
+    {
+      "id": "sous-requete-vs-join",
+      "title": "Sous-requête ou JOIN ?",
+      "icon": "⚖️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Une sous-requête exprime souvent l'intention plus clairement (« les étudiants qui ont… »), tandis qu'un JOIN permet d'afficher des colonnes des deux tables. Les deux peuvent produire le même résultat ; le choix dépend de la lisibilité et des performances.</p>",
+          "darija": "<p>Sous-requête ghaliban kat3ebber 3la l'intention b wodo7 (« étudiants li 3ndhom… »), w JOIN kaykhalli t3red colonnes men jouj tables. Jouj y9dro y3tiw nefs résultat ; ikhtiyar kay3tamed 3la qraya w performance.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Besoin", "Outil conseillé"],
+          "rows": [
+            ["Afficher des colonnes de plusieurs tables", "JOIN"],
+            ["Tester l'existence d'une ligne liée", "EXISTS"],
+            ["Comparer à un agrégat (moyenne, max)", "sous-requête scalaire"],
+            ["Filtrer sur une liste d'identifiants", "IN"],
+            ["Classement par groupe (top N)", "sous-requête corrélée ou window function"]
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Meilleure note par étudiant",
+          "lang": "sql",
+          "code": "SELECT e.nom, n.valeur\nFROM note n\nJOIN etudiant e ON e.id = n.etudiant_id\nWHERE n.valeur = (\n    SELECT MAX(n2.valeur)\n    FROM note n2\n    WHERE n2.etudiant_id = n.etudiant_id\n);",
+          "output": "nom       | valeur\nKortaf    | 16.0\nMarzak    | 17.0\nBoukhriss | 13.0\nSekkat    | 18.5\nTazi      | 11.8",
+          "explainFr": "Pour chaque note, la sous-requête corrélée retrouve la valeur maximale du même étudiant. Seules les notes égales à ce maximum sont gardées.",
+          "explainDarija": "L kol note, sous-requête corrélée katlqa valeur maximale dyal nefs etudiant. Ghir notes li sawiyin m3a had maximum kaybqaw."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "WHERE valeur > (SELECT valeur FROM note)",
+      "fix": "WHERE valeur > (SELECT AVG(valeur) FROM note)",
+      "fr": "Une sous-requête scalaire doit renvoyer une seule valeur. Ici plusieurs lignes seraient renvoyées : erreur.",
+      "darija": "Sous-requête scalaire khas trje3 valeur wa7da. Hna bzaf lignes kayrj3o : erreur."
+    },
+    {
+      "wrong": "NOT IN (SELECT professeur_id FROM note)",
+      "fix": "NOT EXISTS (... WHERE n.professeur_id = p.id)",
+      "fr": "Si la sous-requête contient un NULL, NOT IN ne renvoie aucune ligne. NOT EXISTS est plus sûr.",
+      "darija": "Ila sous-requête fiha NULL, NOT IN ma katrje3 7ta ligne. NOT EXISTS ktar amni."
+    },
+    {
+      "wrong": "Sous-requête répétée dans une boucle PHP",
+      "fix": "Écrire une seule requête avec JOIN ou sous-requête.",
+      "fr": "Exécuter une requête par ligne (problème N+1) surcharge la base. Laissez SQL faire le travail en une fois.",
+      "darija": "Tnffed requête l kol ligne (problème N+1) kayzid 7eml 3la base. Khelli SQL ydir lkhdma f marra wa7da."
+    }
+  ],
+  "summary": {
+    "fr": "Une <strong>sous-requête</strong> imbrique une requête dans une autre. Scalaire pour une valeur (<code>AVG</code>, <code>MAX</code>), <code>IN</code> pour une liste, <code>EXISTS</code> pour tester l'existence, corrélée pour dépendre de chaque ligne. Choisissez JOIN quand vous voulez afficher des colonnes des deux tables.",
+    "darija": "<strong>Sous-requête</strong> katdkhel requête f requête okhra. Scalaire l valeur wa7da (<code>AVG</code>, <code>MAX</code>), <code>IN</code> l lista, <code>EXISTS</code> l existence, corrélée bach t3tamed 3la kol ligne. Khtar JOIN melli bghiti t3red colonnes men jouj tables."
+  }
+}

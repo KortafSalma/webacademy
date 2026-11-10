@@ -1,0 +1,156 @@
+{
+  "id": "css-ch11",
+  "title": "Flexbox",
+  "subtitle": "Aligner et répartir les éléments sur une ligne ou une colonne",
+  "objectives": [
+    "Activer Flexbox avec display: flex.",
+    "Comprendre l'axe principal et l'axe secondaire.",
+    "Aligner avec justify-content et align-items.",
+    "Distribuer l'espace avec flex-grow, flex-shrink et flex-basis.",
+    "Passer à la ligne avec flex-wrap et gérer l'écart avec gap."
+  ],
+  "lessons": [
+    {
+      "id": "conteneur-flex",
+      "title": "Le conteneur flex",
+      "icon": "📐",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><strong>Flexbox</strong> est un modèle de mise en page à une dimension : on aligne des éléments sur une <strong>ligne</strong> ou dans une <strong>colonne</strong>. On l'active sur le <em>conteneur</em> avec <code>display: flex</code> ; ses enfants directs deviennent des <em>éléments flex</em>.</p>",
+          "darija": "<p><strong>Flexbox</strong> howa modèle dyal mise en page f dimension wa7da : kanrtebto éléments f <strong>ligne</strong> wla f <strong>colonne</strong>. Kanfe3lo 3la <em>conteneur</em> b <code>display: flex</code> ; les enfants nichan kaywliw <em>éléments flex</em>.</p>"
+        },
+        {
+          "type": "definition",
+          "title": "Axe principal et axe secondaire",
+          "fr": "<p>La propriété <code>flex-direction</code> définit l'<strong>axe principal</strong> : <code>row</code> (horizontal, par défaut) ou <code>column</code> (vertical). L'autre axe est l'<strong>axe secondaire</strong>. <code>justify-content</code> agit sur l'axe principal, <code>align-items</code> sur l'axe secondaire.</p>",
+          "darija": "<p>Propriété <code>flex-direction</code> kat7added <strong>axe principal</strong> : <code>row</code> (horizontal, par défaut) wla <code>column</code> (vertical). L'axe l'akhor howa <strong>axe secondaire</strong>. <code>justify-content</code> katkhdem 3la axe principal, <code>align-items</code> 3la axe secondaire.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "css",
+          "title": "Activer Flexbox",
+          "code": ".conteneur {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}"
+        },
+        {
+          "type": "table",
+          "headers": ["justify-content", "Effet sur l'axe principal"],
+          "rows": [
+            ["flex-start", "tout au début"],
+            ["center", "tout au centre"],
+            ["flex-end", "tout à la fin"],
+            ["space-between", "premier et dernier aux bords, espace égal entre"],
+            ["space-around", "espace autour de chaque élément"],
+            ["space-evenly", "espace strictement égal partout"]
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Centrer sur les deux axes",
+          "lang": "css",
+          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Centrer avec Flexbox</title>\n<style>\n  .boite {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 220px;\n    background: #e0f2fe;\n    border: 2px dashed #0284c7;\n  }\n  .badge {\n    padding: 16px 28px;\n    background: #0284c7;\n    color: white;\n    border-radius: 8px;\n    font-family: sans-serif;\n  }\n</style>\n</head>\n<body>\n  <div class=\"boite\">\n    <div class=\"badge\">Je suis centré</div>\n  </div>\n</body>\n</html>",
+          "preview": true,
+          "explainFr": "<code>justify-content: center</code> centre horizontalement (axe principal en <code>row</code>) et <code>align-items: center</code> centre verticalement (axe secondaire).",
+          "explainDarija": "<code>justify-content: center</code> katcenter horizontalement (axe principal f <code>row</code>) w <code>align-items: center</code> katcenter verticalement (axe secondaire)."
+        }
+      ]
+    },
+    {
+      "id": "proprietes-flexibles",
+      "title": "Les propriétés des éléments flex",
+      "icon": "🧱",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Chaque enfant du conteneur possède trois propriétés de dimension : <code>flex-grow</code> (capacité à grandir), <code>flex-shrink</code> (capacité à rétrécir) et <code>flex-basis</code> (taille de départ). Le raccourci <code>flex</code> les combine.</p>",
+          "darija": "<p>Kol enfant dyal conteneur 3ndo tlata propriétés dyal dimension : <code>flex-grow</code> (imkaniya ykber), <code>flex-shrink</code> (imkaniya ysqer) w <code>flex-basis</code> (taille de départ). Raccourci <code>flex</code> kayjem3hom.</p>"
+        },
+        {
+          "type": "table",
+          "headers": ["Propriété", "Rôle", "Raccourci"],
+          "rows": [
+            ["flex-grow: 1", "prend l'espace libre", "flex: 1"],
+            ["flex-shrink: 0", "refuse de rétrécir", "flex: 0 0 auto"],
+            ["flex-basis: 200px", "largeur de départ", "flex: 1 1 200px"],
+            ["flex: 1", "grandit et rétrécit également", "le plus utilisé"]
+          ]
+        },
+        {
+          "type": "example",
+          "title": "Trois colonnes qui s'adaptent",
+          "lang": "css",
+          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"UTF-8\">\n<title>flex: 1</title>\n<style>\n  .ligne {\n    display: flex;\n    gap: 12px;\n    font-family: sans-serif;\n  }\n  .col {\n    flex: 1;\n    padding: 20px;\n    background: #dbeafe;\n    border: 2px solid #2563eb;\n    text-align: center;\n    border-radius: 6px;\n  }\n  .col.large { flex: 2; }\n</style>\n</head>\n<body>\n  <div class=\"ligne\">\n    <div class=\"col\">1</div>\n    <div class=\"col large\">2 (flex: 2)</div>\n    <div class=\"col\">3</div>\n  </div>\n</body>\n</html>",
+          "preview": true,
+          "explainFr": "L'espace libre est partagé proportionnellement aux valeurs de <code>flex-grow</code> : la colonne centrale reçoit deux parts, les autres une part chacune.",
+          "explainDarija": "Espace libre kaytqsem b nisba l valeurs dyal <code>flex-grow</code> : colonne lwsta katakhod jouj parts, lokhrin part wa7da kol wa7ed."
+        },
+        {
+          "type": "warning",
+          "title": "gap remplace les marges entre éléments",
+          "fr": "Utilisez <code>gap</code> sur le conteneur pour espacer les éléments. C'est plus simple que des marges sur chaque enfant, qui ajoutent des espaces indésirables aux extrémités.",
+          "darija": "Khdem b <code>gap</code> 3la conteneur bach tfre9 éléments. Ashel men marges 3la kol enfant, li kayzido espaces bla fayda f tarafin."
+        }
+      ]
+    },
+    {
+      "id": "flex-pratique",
+      "title": "Cas pratiques",
+      "icon": "🛠️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p><code>flex-wrap: wrap</code> autorise les éléments à passer à la ligne quand ils n'ont plus de place. Combiné à <code>flex-basis</code>, il crée des grilles de cartes qui s'adaptent à la largeur de l'écran sans media query.</p>",
+          "darija": "<p><code>flex-wrap: wrap</code> kaykhalli éléments ydowzo l ligne jdida melli ma ybqach blasa. M3a <code>flex-basis</code>, kay5leq grilles dyal cartes li katt3adel m3a 3ard dyal écran bla media query.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Cartes responsives avec wrap",
+          "lang": "css",
+          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Cartes flexibles</title>\n<style>\n  .cartes {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 16px;\n    font-family: sans-serif;\n  }\n  .carte {\n    flex: 1 1 180px;\n    padding: 18px;\n    background: #f1f5f9;\n    border: 1px solid #cbd5e1;\n    border-radius: 8px;\n  }\n</style>\n</head>\n<body>\n  <div class=\"cartes\">\n    <div class=\"carte\">HTML</div>\n    <div class=\"carte\">CSS</div>\n    <div class=\"carte\">PHP</div>\n    <div class=\"carte\">SQL</div>\n  </div>\n</body>\n</html>",
+          "preview": true,
+          "explainFr": "<code>flex: 1 1 180px</code> signifie : taille de départ 180px, peut grandir et rétrécir. Quand la ligne est pleine, les cartes suivantes passent en dessous.",
+          "explainDarija": "<code>flex: 1 1 180px</code> kat3ni : taille de départ 180px, t9der tkber w tsqer. Melli ligne kat3mer, cartes li mora kaydowzo l ta7t."
+        },
+        {
+          "type": "example",
+          "title": "Barre de navigation",
+          "lang": "css",
+          "code": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Navbar flex</title>\n<style>\n  .nav {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding: 12px 20px;\n    background: #1e293b;\n    color: white;\n    font-family: sans-serif;\n  }\n  .liens { display: flex; gap: 18px; }\n  .liens a { color: #cbd5e1; text-decoration: none; }\n  .liens a:hover { color: white; }\n</style>\n</head>\n<body>\n  <nav class=\"nav\">\n    <strong>WebAcademy</strong>\n    <div class=\"liens\">\n      <a href=\"#\">Cours</a>\n      <a href=\"#\">Exercices</a>\n      <a href=\"#\">Quiz</a>\n    </div>\n  </nav>\n</body>\n</html>",
+          "preview": true,
+          "explainFr": "<code>justify-content: space-between</code> pousse le logo à gauche et le groupe de liens à droite. Le conteneur des liens est lui-même un flex pour les espacer régulièrement.",
+          "explainDarija": "<code>justify-content: space-between</code> kat7et logo 3la liser w groupe dyal liens 3la limen. Conteneur dyal liens howa rasso flex bach yfre9hom b tartib."
+        },
+        {
+          "type": "tip",
+          "title": "Flexbox ou Grid ?",
+          "fr": "Flexbox excelle pour une <strong>seule dimension</strong> (une barre, une ligne de cartes, un centrage). Pour une grille à deux dimensions avec lignes et colonnes, préférez <strong>CSS Grid</strong>.",
+          "darija": "Flexbox mzyan l <strong>dimension wa7da</strong> (barre, ligne dyal cartes, centrage). L grille b jouj dimensions (lignes w colonnes), 7sen <strong>CSS Grid</strong>."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "Mettre display: flex sur les enfants au lieu du conteneur",
+      "fix": ".conteneur { display: flex; }",
+      "fr": "Flexbox s'active sur le parent : ce sont ses enfants directs qui sont alignés.",
+      "darija": "Flexbox kaytfe3el 3la parent : les enfants nichan dyalo homa li kayt3adlo."
+    },
+    {
+      "wrong": "Utiliser margin: auto sur chaque élément pour tout espacer",
+      "fix": "gap: 16px sur le conteneur",
+      "fr": "gap gère l'espacement sans marges parasites aux extrémités.",
+      "darija": "gap kayt7ekkem f espacement bla marges zaydin f tarafin."
+    },
+    {
+      "wrong": "Textes qui débordent malgré flex-wrap",
+      "fix": "Ajouter min-width: 0 sur les enfants, ou autoriser le retour à la ligne du texte.",
+      "fr": "Un enfant flex refuse par défaut de rétrécir sous la largeur de son contenu : min-width: 0 lève ce blocage.",
+      "darija": "Enfant flex b défaut kayrefus ysqer 9el men 3ard dyal contenu dyalo : min-width: 0 kay7el had blocage."
+    }
+  ],
+  "summary": {
+    "fr": "<strong>Flexbox</strong> s'active avec <code>display: flex</code> sur un conteneur. <code>flex-direction</code> choisit l'axe principal ; <code>justify-content</code> aligne sur cet axe et <code>align-items</code> sur l'axe secondaire. Les enfants se partagent l'espace avec <code>flex: grow shrink basis</code>. <code>gap</code> espace, <code>flex-wrap: wrap</code> passe à la ligne : parfait pour les barres et les cartes responsives.",
+    "darija": "<strong>Flexbox</strong> kaytfe3el b <code>display: flex</code> 3la conteneur. <code>flex-direction</code> katkhtar axe principal ; <code>justify-content</code> katt3adel 3la had axe w <code>align-items</code> 3la axe secondaire. Enfants kaytqasmo espace b <code>flex: grow shrink basis</code>. <code>gap</code> kayfre9, <code>flex-wrap: wrap</code> kaydowez l ligne : mzyan l barres w cartes responsives."
+  }
+}

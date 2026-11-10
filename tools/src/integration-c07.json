@@ -1,0 +1,157 @@
+{
+  "id": "integration-ch7",
+  "title": "Architecture de projet",
+  "subtitle": "Structurer une application PHP qui grandit",
+  "objectives": [
+    "Organiser les dossiers d'un projet PHP.",
+    "Séparer configuration, accès aux données, logique et vues.",
+    "Mettre en place un point d'entrée unique (front controller).",
+    "Éviter les inclusions en cascade et les fichiers fourre-tout.",
+    "Préparer le déploiement et la maintenance."
+  ],
+  "lessons": [
+    {
+      "id": "arborescence",
+      "title": "Une arborescence claire",
+      "icon": "🗂️",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Un projet qui grandit ne peut pas rester une collection de fichiers à la racine. On sépare ce qui est <strong>public</strong> (accessible par le navigateur) de ce qui est <strong>interne</strong> (configuration, classes, vues). Seul le dossier <code>public/</code> est exposé par le serveur web.</p>",
+          "darija": "<p>Projet li kaykber ma y9derch ybqa collection dyal fichiers f racine. Kanfre9o li <strong>public</strong> (navigateur y9der ywsel) men li <strong>interne</strong> (configuration, classes, vues). Ghir dossier <code>public/</code> kayt3red l serveur web.</p>"
+        },
+        {
+          "type": "syntax",
+          "lang": "text",
+          "title": "Arborescence recommandée",
+          "code": "mon-projet/\n├── public/              ← seule racine web\n│   ├── index.php        ← point d'entrée unique\n│   └── assets/\n│       ├── css/\n│       └── js/\n├── src/\n│   ├── Controller/\n│   ├── Repository/      ← requêtes SQL\n│   └── Support/\n├── views/\n│   ├── layout.php\n│   └── etudiants/\n├── config/\n│   └── database.php\n├── storage/\n│   └── logs/\n├── .env                 ← jamais versionné\n└── composer.json"
+        },
+        {
+          "type": "table",
+          "headers": ["Dossier", "Contenu", "Accès navigateur"],
+          "rows": [
+            ["public/", "index.php, CSS, JS, images", "oui"],
+            ["src/", "classes PHP, logique métier", "non"],
+            ["views/", "templates HTML/PHP", "non"],
+            ["config/", "connexion, paramètres", "non"],
+            ["storage/", "logs, cache, uploads", "non"]
+          ]
+        },
+        {
+          "type": "warning",
+          "title": "Un fichier de config dans public/ est public",
+          "fr": "Si <code>config/database.php</code> se trouve sous la racine web, un visiteur peut le lire en tapant son URL — et récupérer vos identifiants. La séparation public/interne est une mesure de sécurité, pas un détail esthétique.",
+          "darija": "Ila <code>config/database.php</code> kayn ta7t racine web, visiteur y9der yqrao b URL — w yakhod identifiants dyalek. Tqsim public/interne howa mesure sécurité, machi détail esthétique."
+        }
+      ]
+    },
+    {
+      "id": "front-controller",
+      "title": "Le point d'entrée unique",
+      "icon": "🚪",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Plutôt que d'avoir un fichier PHP par page, on dirige toutes les requêtes vers <code>public/index.php</code> : c'est le <strong>front controller</strong>. Il charge la configuration, prépare la connexion, puis délègue à un <strong>contrôleur</strong> selon l'URL demandée.</p>",
+          "darija": "<p>Blast fichier PHP l kol page, kandiro kol requêtes l <code>public/index.php</code> : hada howa <strong>front controller</strong>. Kaychargi configuration, kaywjjed connexion, men ba3d kaydelegui l <strong>contrôleur</strong> 3la 7sab URL li tlebt.</p>"
+        },
+        {
+          "type": "example",
+          "title": "index.php minimal",
+          "lang": "php",
+          "code": "<?php\ndeclare(strict_types=1);\n\nrequire __DIR__ . '/../config/database.php';\n\n$route = $_GET['route'] ?? 'accueil';\n\n$routes = [\n    'accueil'   => __DIR__ . '/../src/Controller/AccueilController.php',\n    'etudiants' => __DIR__ . '/../src/Controller/EtudiantController.php',\n];\n\nif (!isset($routes[$route])) {\n    http_response_code(404);\n    exit('Page introuvable');\n}\n\nrequire $routes[$route];\n",
+          "explainFr": "La liste blanche <code>$routes</code> empêche un visiteur de charger un fichier arbitraire. Toute URL inconnue renvoie un vrai 404.",
+          "explainDarija": "Liste blanche <code>$routes</code> katmna3 visiteur ychargi fichier 3achwa2i. Ay URL ma m3erfach katrje3 404 7aqiqi."
+        },
+        {
+          "type": "example",
+          "title": "Un contrôleur qui ne mélange pas tout",
+          "lang": "php",
+          "code": "<?php\n// src/Controller/EtudiantController.php\n\n$etudiants = $repository->tousLesEtudiants();\n\nrequire __DIR__ . '/../../views/etudiants/liste.php';\n",
+          "explainFr": "Le contrôleur orchestre : il demande les données au repository, puis inclut la vue. Il ne contient ni HTML ni SQL — chacun son rôle.",
+          "explainDarija": "Contrôleur kaynadem : kaytleb données men repository, men ba3d kaydkhel vue. Ma fihch HTML wla SQL — kol wa7ed 3ndo rôle dyalo."
+        },
+        {
+          "type": "tip",
+          "title": "Réécriture d'URL",
+          "fr": "Un fichier <code>.htaccess</code> ou une règle Nginx redirige toutes les URL vers <code>index.php</code>. On obtient des adresses propres : <code>/etudiants/12</code> au lieu de <code>detail.php?id=12</code>.",
+          "darija": "Fichier <code>.htaccess</code> wla règle Nginx kayredirecti kol URL l <code>index.php</code>. Kankhdmo adresses nqiyin : <code>/etudiants/12</code> blast <code>detail.php?id=12</code>."
+        }
+      ]
+    },
+    {
+      "id": "maintenance",
+      "title": "Organisation du code et déploiement",
+      "icon": "🚀",
+      "blocks": [
+        {
+          "type": "text",
+          "fr": "<p>Quelques règles simples font la différence entre un projet maintenable et un labyrinthe : une classe par fichier, un autoload, des noms explicites, et aucune duplication de la connexion PDO.</p>",
+          "darija": "<p>Chi qawa3id sahlin kayfre9o bin projet sahel t7sin w labyrinthe : classe wa7da l kol fichier, autoload, smiyat wad7in, w 7ta tkrar dyal connexion PDO.</p>"
+        },
+        {
+          "type": "example",
+          "title": "Une connexion centralisée",
+          "lang": "php",
+          "code": "<?php\n// config/database.php\n$dsn = 'mysql:host=127.0.0.1;dbname=ecole;charset=utf8mb4';\n$pdo = new PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'), [\n    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,\n    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,\n    PDO::ATTR_EMULATE_PREPARES => false,\n]);\n",
+          "explainFr": "Un seul endroit définit la connexion. <code>getenv()</code> garde les identifiants hors du code. Les attributs PDO sont cohérents pour toute l'application.",
+          "explainDarija": "Blasa wa7da kat3erref connexion. <code>getenv()</code> kay7fed identifiants bera code. Attributs PDO kaybqaw cohérents l application kamla."
+        },
+        {
+          "type": "table",
+          "headers": ["Pratique", "Bénéfice"],
+          "rows": [
+            ["Une classe par fichier", "autoload simple et lecture rapide"],
+            ["Noms explicites", "comprendre sans ouvrir le fichier"],
+            ["Repository séparé", "SQL centralisé et testable"],
+            ["Vues sans logique", "HTML lisible, code protégé"],
+            ["Logs dans storage/", "diagnostic sans exposer au public"],
+            ["Migrations versionnées", "structure reproductible"]
+          ]
+        },
+        {
+          "type": "warning",
+          "title": "Pas de require en cascade",
+          "fr": "Une chaîne de <code>require</code> entre fichiers crée des dépendances invisibles : on ne sait plus ce qui est chargé. Un autoload Composer et des dépendances explicites en haut de chaque fichier règlent le problème.",
+          "darija": "Chaîne dyal <code>require</code> bin fichiers kat5leq dépendances mkhebyin : ma t3refch ach tchargi. Autoload Composer w dépendances wad7in f lwel dyal kol fichier kay7ello mochkil."
+        },
+        {
+          "type": "tip",
+          "title": "Déploiement reproductible",
+          "fr": "Versionnez le code, pas les secrets. Décrivez les dépendances avec Composer, les tables avec des migrations, et testez sur une base vide avant la mise en production.",
+          "darija": "Versionni code, machi secrets. Wsef dépendances b Composer, tables b migrations, w testi 3la base khawya qbel mise en production."
+        }
+      ]
+    }
+  ],
+  "mistakes": [
+    {
+      "wrong": "Mettre config.php, les classes et index.php dans le même dossier public",
+      "fix": "public/ pour le web, src/ et config/ au-dessus de la racine web.",
+      "fr": "Tout fichier sous la racine web peut être téléchargé ou exécuté directement.",
+      "darija": "Kol fichier ta7t racine web y9der ytchargi wla ytnffed nichan."
+    },
+    {
+      "wrong": "Un fichier par page avec 200 lignes de SQL et de HTML mélangés",
+      "fix": "Contrôleur + repository + vue séparés.",
+      "fr": "Le mélange rend les tests, la réutilisation et la correction impossibles dès que le projet grossit.",
+      "darija": "Khelt kay3mel tests, réutilisation w correction mstahilin melli projet kaykber."
+    },
+    {
+      "wrong": "include $_GET['page'] . '.php'",
+      "fix": "Table de routes en liste blanche.",
+      "fr": "Un paramètre d'URL ne doit jamais désigner directement un fichier à inclure (LFI/RFI).",
+      "darija": "Paramètre d'URL 3omro ma y3ayyen fichier bach ydkhel nichan (LFI/RFI)."
+    },
+    {
+      "wrong": "Commit de .env avec les mots de passe",
+      "fix": "Ajouter .env au .gitignore et fournir un .env.example.",
+      "fr": "Un secret poussé sur Git est compromis, même s'il est supprimé ensuite : l'historique le conserve.",
+      "darija": "Secret li tpusha f Git mkhark, 7ta ila tmse7 men ba3d : historique kay7feddo."
+    }
+  ],
+  "summary": {
+    "fr": "Une bonne <strong>architecture</strong> sépare le public (seul <code>public/</code> est exposé) de l'interne (<code>src/</code>, <code>views/</code>, <code>config/</code>, <code>storage/</code>). Le <strong>front controller</strong> <code>index.php</code> centralise le chargement et route vers un contrôleur. Repository pour le SQL, vues pour le HTML, configuration centralisée, secrets hors du code : le projet reste lisible quand il grandit.",
+    "darija": "<strong>Architecture</strong> mzyana katfre9 public (ghir <code>public/</code> kayt3red) men interne (<code>src/</code>, <code>views/</code>, <code>config/</code>, <code>storage/</code>). <strong>Front controller</strong> <code>index.php</code> kayjem3 chargement w kayrouteri l contrôleur. Repository l SQL, vues l HTML, configuration centralisée, secrets bera code : projet kaybqa mqrou melli kaykber."
+  }
+}

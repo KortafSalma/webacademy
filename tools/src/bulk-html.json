@@ -1,0 +1,182 @@
+{
+  "exercises": {
+    "html": {
+      "2": {
+        "title": "Structure d'un document HTML",
+        "brief": "Construire un document HTML valide, du doctype au body.",
+        "levels": [
+          ["Débutant — le squelette", "html",
+           "<p>Écris un document HTML complet avec : le doctype, la balise <code>html</code> avec <code>lang=\"fr\"</code>, un <code>head</code> contenant <code>meta charset=\"UTF-8\"</code> et un <code>title</code>, puis un <code>body</code> avec un titre <code>h1</code>.</p>",
+           "<p>Kteb document HTML kamel : doctype, balise <code>html</code> b <code>lang=\"fr\"</code>, <code>head</code> fih <code>meta charset=\"UTF-8\"</code> w <code>title</code>, men ba3d <code>body</code> fih titre <code>h1</code>.</p>",
+           "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <!-- métadonnées -->\n</head>\n<body>\n  <!-- titre -->\n</body>\n</html>",
+           [["html_contains", "<!DOCTYPE html>"], ["html_contains", "charset=\"UTF-8\""], ["html_contains", "<h1>"]],
+           ["Le doctype est la première ligne du fichier.", "Le charset UTF-8 évite les accents cassés."],
+           "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Ma première page</title>\n</head>\n<body>\n  <h1>Bienvenue</h1>\n</body>\n</html>",
+           "Le document respecte l'ordre : doctype, html, head (métadonnées), body (contenu visible).",
+           "Document kaytbe3 tartib : doctype, html, head (métadonnées), body (contenu li kayban)."],
+          ["Intermédiaire — titres et paragraphes", "html",
+           "<p>Dans le <code>body</code>, ajoute un <code>h1</code>, un <code>h2</code>, puis deux paragraphes <code>p</code>. Chaque paragraphe contient au moins une phrase.</p>",
+           "<p>F <code>body</code>, zid <code>h1</code>, <code>h2</code>, men ba3d jouj paragraphes <code>p</code>. Kol paragraphe fih 3la l9al jomla.</p>",
+           "<body>\n  <h1>Mon site</h1>\n  <!-- sous-titre -->\n  <!-- paragraphes -->\n</body>",
+           [["html_contains", "<h1>"], ["html_contains", "<h2>"], ["html_contains", "<p>"]],
+           ["Un seul h1 par page : c'est le titre principal.", "h2 sert aux grandes sections."],
+           "<body>\n  <h1>Mon site</h1>\n  <h2>Présentation</h2>\n  <p>Bienvenue sur mon site.</p>\n  <p>J'apprends le développement web.</p>\n</body>",
+           "La hiérarchie h1 puis h2 structure la page ; les paragraphes regroupent le texte.",
+           "Hiérarchie h1 men ba3d h2 katnadem page ; paragraphes kayjem3o texte."],
+          ["Avancé — head complet et commentaires", "html",
+           "<p>Complète le <code>head</code> avec une <code>meta name=\"description\"</code>, une <code>meta name=\"viewport\"</code> et un lien vers une feuille de style <code>style.css</code>. Ajoute un commentaire HTML avant le titre.</p>",
+           "<p>Kmml <code>head</code> b <code>meta name=\"description\"</code>, <code>meta name=\"viewport\"</code> w lien l feuille de style <code>style.css</code>. Zid commentaire HTML qbel titre.</p>",
+           "<head>\n  <meta charset=\"UTF-8\">\n  <!-- commentaire -->\n</head>",
+           [["html_contains", "name=\"description\""], ["html_contains", "name=\"viewport\""], ["html_contains", "style.css"], ["html_contains", "<!--"]],
+           ["La description aide les moteurs de recherche.", "viewport est indispensable pour le responsive."],
+           "<head>\n  <meta charset=\"UTF-8\">\n  <!-- Feuille de style principale -->\n  <meta name=\"description\" content=\"Cours de développement web\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>WebAcademy</title>\n  <link rel=\"stylesheet\" href=\"style.css\">\n</head>",
+           "Le head contient les métadonnées : encodage, description, viewport et feuilles de style.",
+           "Head fih métadonnées : encodage, description, viewport w feuilles de style."]
+        ]
+      },
+      "3": {
+        "title": "Balises de texte et mise en valeur",
+        "brief": "Structurer et mettre en valeur le contenu textuel.",
+        "levels": [
+          ["Débutant — gras et italique", "html",
+           "<p>Écris un paragraphe contenant un mot en <strong>gras</strong> avec <code>strong</code> et un mot en <em>italique</em> avec <code>em</code>.</p>",
+           "<p>Kteb paragraphe fih kelma b <strong>gras</strong> b <code>strong</code> w kelma b <em>italique</em> b <code>em</code>.</p>",
+           "<p>Le HTML est un langage de <!-- gras --> et de <!-- italique -->.</p>",
+           [["html_contains", "<strong>"], ["html_contains", "<em>"]],
+           ["strong indique une importance forte.", "em indique une emphase, pas seulement un style."],
+           "<p>Le HTML est un langage de <strong>balisage</strong> et non de <em>programmation</em>.</p>",
+           "strong et em portent un sens : importance et emphase. Le navigateur les affiche en gras et italique par défaut.",
+           "strong w em 3ndhom ma3na : importance w emphase. Navigateur kay3redhom gras w italique b défaut."],
+          ["Intermédiaire — code, citation, abréviation", "html",
+           "<p>Ajoute : un extrait de code avec <code>code</code>, une citation avec <code>blockquote</code>, et une abréviation avec <code>abbr title=\"...\"</code>.</p>",
+           "<p>Zid : extrait de code b <code>code</code>, citation b <code>blockquote</code>, w abréviation b <code>abbr title=\"...\"</code>.</p>",
+           "<p>Utilisez <!-- code --> pour le code.</p>\n<!-- citation -->\n<p><!-- abréviation --></p>",
+           [["html_contains", "<code>"], ["html_contains", "<blockquote>"], ["html_contains", "<abbr"]],
+           ["abbr prend un attribut title avec la signification.", "blockquote est une citation de bloc."],
+           "<p>Utilisez <code>echo</code> pour afficher du texte.</p>\n<blockquote>Le code est lu bien plus souvent qu'il n'est écrit.</blockquote>\n<p><abbr title=\"HyperText Markup Language\">HTML</abbr> structure la page.</p>",
+           "Chaque balise apporte une sémantique : code pour un extrait technique, blockquote pour une citation, abbr pour une abréviation explicable.",
+           "Kol balise kat3ti sémantique : code l extrait technique, blockquote l citation, abbr l abréviation mfessra."],
+          ["Avancé — article complet", "html",
+           "<p>Écris un court article avec un <code>h2</code>, deux paragraphes, un mot en <code>mark</code>, une <code>hr</code> et une <code>small</code> en fin d'article.</p>",
+           "<p>Kteb article qsir b <code>h2</code>, jouj paragraphes, kelma b <code>mark</code>, <code>hr</code> w <code>small</code> f l'akhir.</p>",
+           "<article>\n  <h2>Titre</h2>\n  <!-- paragraphes -->\n</article>",
+           [["html_contains", "<article>"], ["html_contains", "<mark>"], ["html_contains", "<hr>"], ["html_contains", "<small>"]],
+           ["mark surligne une information pertinente.", "small convient aux mentions légales."],
+           "<article>\n  <h2>Apprendre le HTML</h2>\n  <p>Le HTML décrit la <mark>structure</mark> d'une page.</p>\n  <p>Il ne gère ni les couleurs ni les animations.</p>\n  <hr>\n  <small>Article publié en 2026.</small>\n</article>",
+           "L'article regroupe un contenu autonome ; mark attire l'attention, hr sépare et small réduit l'importance visuelle.",
+           "Article kayjem3 contenu mstqel ; mark kayjbed attention, hr kayfre9 w small kaynqes importance visuelle."]
+        ]
+      },
+      "6": {
+        "title": "Tableaux",
+        "brief": "Présenter des données tabulaires accessibles.",
+        "levels": [
+          ["Débutant — tableau simple", "html",
+           "<p>Crée un tableau avec <code>table</code>, une ligne d'en-tête <code>tr</code> contenant deux <code>th</code>, puis une ligne de données avec deux <code>td</code>.</p>",
+           "<p>5leq tableau b <code>table</code>, ligne d'en-tête <code>tr</code> fiha jouj <code>th</code>, men ba3d ligne données b jouj <code>td</code>.</p>",
+           "<table>\n  <!-- en-tête -->\n  <!-- données -->\n</table>",
+           [["html_contains", "<table>"], ["html_contains", "<th>"], ["html_contains", "<td>"]],
+           ["th sert d'en-tête de colonne.", "Chaque ligne est un tr."],
+           "<table>\n  <tr>\n    <th>Matière</th>\n    <th>Note</th>\n  </tr>\n  <tr>\n    <td>PHP</td>\n    <td>16</td>\n  </tr>\n</table>",
+           "Le tableau contient une ligne d'en-tête et une ligne de données. th est réservé aux en-têtes.",
+           "Tableau fih ligne d'en-tête w ligne données. th mkhassos l en-têtes."],
+          ["Intermédiaire — caption et sections", "html",
+           "<p>Ajoute un <code>caption</code>, un <code>thead</code> et un <code>tbody</code> au tableau, avec deux lignes de données.</p>",
+           "<p>Zid <code>caption</code>, <code>thead</code> w <code>tbody</code> l tableau, m3a jouj lignes données.</p>",
+           "<table>\n  <!-- légende -->\n  <!-- en-têtes -->\n  <!-- corps -->\n</table>",
+           [["html_contains", "<caption>"], ["html_contains", "<thead>"], ["html_contains", "<tbody>"]],
+           ["caption doit être le premier enfant de table.", "tbody regroupe les lignes de données."],
+           "<table>\n  <caption>Notes du semestre</caption>\n  <thead>\n    <tr><th>Matière</th><th>Note</th></tr>\n  </thead>\n  <tbody>\n    <tr><td>PHP</td><td>16</td></tr>\n    <tr><td>SQL</td><td>14</td></tr>\n  </tbody>\n</table>",
+           "caption décrit le tableau, thead isole les en-têtes et tbody les données : la structure est plus claire et accessible.",
+           "caption katchra7 tableau, thead kat3zel en-têtes w tbody données : structure katwli wad7a w accessible."],
+          ["Avancé — fusion de cellules", "html",
+           "<p>Crée un tableau de planning : une cellule <code>th</code> qui couvre deux colonnes avec <code>colspan=\"2\"</code>, puis une ligne avec deux <code>td</code>.</p>",
+           "<p>5leq tableau dyal planning : cellule <code>th</code> katghatti jouj colonnes b <code>colspan=\"2\"</code>, men ba3d ligne b jouj <code>td</code>.</p>",
+           "<table>\n  <tr>\n    <!-- titre sur deux colonnes -->\n  </tr>\n  <tr>\n    <!-- deux cellules -->\n  </tr>\n</table>",
+           [["html_contains", "colspan=\"2\""], ["html_contains", "<th"], ["html_contains", "<td>"]],
+           ["colspan indique le nombre de colonnes couvertes.", "rowspan ferait la même chose verticalement."],
+           "<table>\n  <tr>\n    <th colspan=\"2\">Journée du lundi</th>\n  </tr>\n  <tr>\n    <td>Math</td>\n    <td>PHP</td>\n  </tr>\n</table>",
+           "colspan=\"2\" fait occuper deux colonnes à la cellule d'en-tête. La ligne suivante fournit les deux valeurs.",
+           "colspan=\"2\" katkhalli cellule d'en-tête takhod jouj colonnes. Ligne li mora kat3ti jouj valeurs."]
+        ]
+      },
+      "7": {
+        "title": "Formulaires",
+        "brief": "Créer des formulaires accessibles et validés.",
+        "levels": [
+          ["Débutant — champ et bouton", "html",
+           "<p>Crée un formulaire <code>form</code> avec un <code>label</code> lié à un <code>input type=\"text\"</code> par <code>for</code>/<code>id</code>, et un bouton <code>submit</code>.</p>",
+           "<p>5leq formulaire <code>form</code> b <code>label</code> mrbout b <code>input type=\"text\"</code> b <code>for</code>/<code>id</code>, w bouton <code>submit</code>.</p>",
+           "<form>\n  <!-- label et input -->\n  <!-- bouton -->\n</form>",
+           [["html_contains", "<form"], ["html_contains", "<label"], ["html_contains", "type=\"submit\""]],
+           ["Le for du label doit correspondre à l'id de l'input.", "Un bouton dans un form soumet par défaut."],
+           "<form method=\"post\">\n  <label for=\"nom\">Nom</label>\n  <input type=\"text\" id=\"nom\" name=\"nom\" required>\n  <button type=\"submit\">Envoyer</button>\n</form>",
+           "Le label cliquable améliore l'accessibilité ; required empêche l'envoi vide côté navigateur.",
+           "Label li y9der ytcliqua kay7sen accessibilité ; required kaymna3 envoi khawi f navigateur."],
+          ["Intermédiaire — types de champs", "html",
+           "<p>Ajoute un champ <code>email</code>, un champ <code>password</code>, une liste <code>select</code> avec deux <code>option</code> et une <code>textarea</code>.</p>",
+           "<p>Zid champ <code>email</code>, champ <code>password</code>, liste <code>select</code> b jouj <code>option</code> w <code>textarea</code>.</p>",
+           "<form>\n  <!-- email, password -->\n  <!-- select -->\n  <!-- textarea -->\n</form>",
+           [["html_contains", "type=\"email\""], ["html_contains", "type=\"password\""], ["html_contains", "<select"], ["html_contains", "<textarea"]],
+           ["Chaque champ doit avoir un name pour être envoyé.", "textarea n'utilise pas l'attribut value."],
+           "<form method=\"post\">\n  <label for=\"email\">Email</label>\n  <input type=\"email\" id=\"email\" name=\"email\" required>\n  <label for=\"mdp\">Mot de passe</label>\n  <input type=\"password\" id=\"mdp\" name=\"mdp\" required>\n  <label for=\"filiere\">Filière</label>\n  <select id=\"filiere\" name=\"filiere\">\n    <option value=\"gi\">GI</option>\n    <option value=\"gc\">GC</option>\n  </select>\n  <label for=\"message\">Message</label>\n  <textarea id=\"message\" name=\"message\"></textarea>\n</form>",
+           "Les types email et password déclenchent des comportements natifs (validation, masquage). select et textarea complètent le formulaire.",
+           "Types email w password kaytf3lo comportements natifs (validation, masquage). select w textarea kaykmmlo formulaire."],
+          ["Avancé — formulaire accessible complet", "html",
+           "<p>Complète le formulaire avec un <code>fieldset</code>, une <code>legend</code>, un <code>input type=\"checkbox\"</code> avec son label, et un <code>input type=\"number\" min=\"16\" max=\"99\"</code>.</p>",
+           "<p>Kmml formulaire b <code>fieldset</code>, <code>legend</code>, <code>input type=\"checkbox\"</code> m3a label dyalo, w <code>input type=\"number\" min=\"16\" max=\"99\"</code>.</p>",
+           "<form>\n  <!-- groupe -->\n</form>",
+           [["html_contains", "<fieldset"], ["html_contains", "<legend"], ["html_contains", "type=\"checkbox\""], ["html_contains", "min=\"16\""]],
+           ["fieldset regroupe des champs liés.", "La legend décrit le groupe."],
+           "<form method=\"post\">\n  <fieldset>\n    <legend>Informations personnelles</legend>\n    <label for=\"age\">Âge</label>\n    <input type=\"number\" id=\"age\" name=\"age\" min=\"16\" max=\"99\">\n    <label>\n      <input type=\"checkbox\" name=\"conditions\" required>\n      J'accepte les conditions\n    </label>\n  </fieldset>\n  <button type=\"submit\">Valider</button>\n</form>",
+           "fieldset/legend structurant le formulaire pour les lecteurs d'écran ; min/max bornent la saisie numérique.",
+           "fieldset/legend kaynademo formulaire l lecteurs d'écran ; min/max kay7eddo saisie numérique."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "html": {
+      "2": {
+        "title": "Quiz — Structure d'un document HTML",
+        "questions": [
+          ["mcq", "Quelle est la première ligne obligatoire d'un document HTML5 ?", ["<!DOCTYPE html>", "<html>", "<head>"], 0, "Doctype", "Le doctype HTML5 s'écrit <code><!DOCTYPE html></code> et doit précéder la balise html.", "Doctype HTML5 kaytkteb <code><!DOCTYPE html></code> w khas yji qbel balise html."],
+          ["tf", "La balise <title> se place dans le <body>.", 1, "Placement de title", "Faux : <code>title</code> appartient au <code>head</code> ; il définit le titre de l'onglet.", "Ghalt : <code>title</code> kayn f <code>head</code> ; kay3erref titre dyal onglet."],
+          ["mcq", "À quoi sert <meta charset=\"UTF-8\"> ?", ["À déclarer l'encodage des caractères", "À charger une police", "À créer un formulaire"], 0, "Encodage", "UTF-8 couvre les accents, l'arabe et la plupart des écritures : sans lui, les caractères peuvent s'afficher mal.", "UTF-8 kayghatti accents, l3arabiya w bzaf dyal écritures : bla bih, caractères y9dro ybanou ghalitin."],
+          ["mcq", "Combien de <h1> faut-il idéalement par page ?", ["Un seul", "Deux", "Autant que de sections"], 0, "Hiérarchie des titres", "Un <code>h1</code> unique représente le titre principal ; les sections utilisent h2, h3…", "<code>h1</code> wa7ed kaymettel titre principal ; sections kaykhdmo b h2, h3…"],
+          ["mcq", "Où placer la balise <html> ?", ["Après le doctype, autour de head et body", "Dans le body", "Dans le head"], 0, "Racine du document", "<code>html</code> est l'élément racine : il englobe <code>head</code> et <code>body</code>.", "<code>html</code> howa élément racine : kayjem3 <code>head</code> w <code>body</code>."]
+        ]
+      },
+      "3": {
+        "title": "Quiz — Balises de texte",
+        "questions": [
+          ["mcq", "Quelle balise indique une importance forte ?", ["<strong>", "<em>", "<mark>"], 0, "strong vs em", "<code>strong</code> marque une importance forte ; <code>em</code> une emphase.", "<code>strong</code> kat3ni importance qwiya ; <code>em</code> kat3ni emphase."],
+          ["tf", "<mark> sert à surligner un passage pertinent.", 0, "mark", "Vrai : <code>mark</code> met en évidence un texte en lien avec le contexte.", "S7i7 : <code>mark</code> katbarrez texte mrbout b contexte."],
+          ["mcq", "Quelle balise affiche du code informatique ?", ["<code>", "<pre>", "<kbd>"], 0, "code", "<code>code</code> représente un fragment de code ; <code>pre</code> conserve la mise en forme.", "<code>code</code> katmettel fragment de code ; <code>pre</code> kat7fed mise en forme."],
+          ["mcq", "Quel attribut donne la signification d'une abréviation ?", ["title", "alt", "href"], 0, "abbr", "<code>&lt;abbr title=\"HyperText Markup Language\"&gt;HTML&lt;/abbr&gt;</code> affiche la signification au survol.", "<code>&lt;abbr title=\"HyperText Markup Language\"&gt;HTML&lt;/abbr&gt;</code> kat3red ma3na melli tdir survol."],
+          ["mcq", "Quelle balise représente une citation longue ?", ["<blockquote>", "<q>", "<cite>"], 0, "Citations", "<code>blockquote</code> pour une citation en bloc ; <code>q</code> pour une citation courte en ligne.", "<code>blockquote</code> l citation f bloc ; <code>q</code> l citation qsira f ligne."]
+        ]
+      },
+      "6": {
+        "title": "Quiz — Tableaux",
+        "questions": [
+          ["mcq", "Quelle balise crée une cellule d'en-tête ?", ["<th>", "<td>", "<tr>"], 0, "th vs td", "<code>th</code> est une cellule d'en-tête, <code>td</code> une cellule de données.", "<code>th</code> cellule d'en-tête, <code>td</code> cellule de données."],
+          ["tf", "Un tableau doit avoir une légende <caption> pour être valide.", 1, "caption", "Faux : <code>caption</code> est recommandé pour l'accessibilité, mais pas obligatoire.", "Ghalt : <code>caption</code> mstahsan l accessibilité, walakin machi darouri."],
+          ["mcq", "Quel attribut fusionne deux colonnes ?", ["colspan=\"2\"", "rowspan=\"2\"", "merge=\"2\""], 0, "colspan", "<code>colspan</code> fusionne horizontalement ; <code>rowspan</code> verticalement.", "<code>colspan</code> kayjem3 horizontalement ; <code>rowspan</code> verticalement."],
+          ["mcq", "Où se placent les lignes de données ?", ["Dans <tbody>", "Dans <thead>", "Dans <tfoot> uniquement"], 0, "Sections du tableau", "<code>tbody</code> regroupe les lignes de données, <code>thead</code> les en-têtes.", "<code>tbody</code> kayjem3 lignes données, <code>thead</code> en-têtes."],
+          ["mcq", "Quel élément contient les lignes d'un tableau ?", ["<tr>", "<table>", "<td>"], 0, "Structure", "Chaque ligne est un <code>tr</code>, qui contient des <code>th</code> ou des <code>td</code>.", "Kol ligne hiya <code>tr</code>, fiha <code>th</code> wla <code>td</code>."]
+        ]
+      },
+      "7": {
+        "title": "Quiz — Formulaires",
+        "questions": [
+          ["mcq", "Comment lier un label à son champ ?", ["for du label = id du champ", "name du label = name du champ", "class identique"], 0, "Label", "L'attribut <code>for</code> référence l'<code>id</code> du champ, ce qui rend le label cliquable.", "Attribut <code>for</code> kay3ayet l <code>id</code> dyal champ, hakka label kaywli cliquable."],
+          ["mcq", "Quel type de champ masque la saisie ?", ["password", "text", "email"], 0, "password", "<code>type=\"password\"</code> masque les caractères à l'écran.", "<code>type=\"password\"</code> kaykhbi caractères f écran."],
+          ["tf", "L'attribut required empêche l'envoi d'un champ vide.", 0, "required", "Vrai côté navigateur, mais la validation serveur reste obligatoire.", "S7i7 f navigateur, walakin validation f serveur katbqa darouriya."],
+          ["mcq", "Quelle balise crée une liste déroulante ?", ["<select>", "<input type=\"list\">", "<datalist>"], 0, "select", "<code>select</code> contient des <code>option</code> ; <code>datalist</code> propose des suggestions.", "<code>select</code> fih <code>option</code> ; <code>datalist</code> kay3ti suggestions."],
+          ["mcq", "Quel attribut envoie la valeur du champ au serveur ?", ["name", "id", "placeholder"], 0, "name", "Sans <code>name</code>, la valeur n'est pas incluse dans les données soumises.", "Bla <code>name</code>, valeur ma katdkhelch f données li kaysifthom."]
+        ]
+      }
+    }
+  }
+}

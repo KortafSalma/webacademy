@@ -1,0 +1,182 @@
+{
+  "exercises": {
+    "sql": {
+      "7": {
+        "title": "Tri et groupement",
+        "brief": "Trier les résultats et regrouper les lignes.",
+        "levels": [
+          ["Débutant — ORDER BY et LIMIT", "sql",
+           "<p>Affiche les trois meilleures notes avec <code>etudiant_id</code> et <code>valeur</code>, de la plus haute à la plus basse.</p>",
+           "<p>3red tlata notes l-foq b <code>etudiant_id</code> w <code>valeur</code>, men l-kbira l-sghira.</p>",
+           "-- SELECT ... ORDER BY ... LIMIT\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "18.5"]],
+           ["ORDER BY valeur DESC trie de la plus grande à la plus petite.", "LIMIT 3 garde seulement trois lignes.", "Sans ORDER BY, l'ordre n'est pas garanti."],
+           "SELECT etudiant_id, valeur\nFROM note\nORDER BY valeur DESC\nLIMIT 3;",
+           "Le tri décroissant place 18.5 en tête, puis 17.0 et 16.0. <code>LIMIT 3</code> coupe après ces trois lignes.",
+           "Tri décroissant kay7et 18.5 f lwel, men ba3d 17.0 w 16.0. <code>LIMIT 3</code> kay9te3 mor had tlata lignes."],
+          ["Intermédiaire — GROUP BY", "sql",
+           "<p>Compte le nombre d'étudiants par filière avec <code>GROUP BY</code>. Affiche la filière et l'alias <code>total</code>.</p>",
+           "<p>7seb 3adad étudiants b kol filière b <code>GROUP BY</code>. 3red filière w alias <code>total</code>.</p>",
+           "-- SELECT filiere, COUNT(*)\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "GI"], ["result_has", "3"]],
+           ["GROUP BY regroupe les lignes qui partagent la même filière.", "COUNT(*) compte les lignes de chaque groupe.", "Un alias rend la colonne lisible : AS total."],
+           "SELECT filiere, COUNT(*) AS total\nFROM etudiant\nGROUP BY filiere;",
+           "Chaque groupe correspond à une filière. GI contient trois étudiants, GC et 3IA en contiennent un chacun : trois lignes au total.",
+           "Kol groupe kaymatchi filière. GI fiha tlata étudiants, GC w 3IA fihom wa7ed kol wa7da : tlata lignes b kollha."],
+          ["Avancé — moyenne par matière", "sql",
+           "<p>Affiche <code>matiere_id</code> et la moyenne arrondie à deux décimales (<code>ROUND(AVG(valeur), 2)</code>) des notes, groupées par matière et triées de la moyenne la plus haute à la plus basse.</p>",
+           "<p>3red <code>matiere_id</code> w moyenne mroundiya l jouj décimales (<code>ROUND(AVG(valeur), 2)</code>) dyal notes, mgroupées b matière w mrtbin men moyenne l-foq l ta7t.</p>",
+           "-- GROUP BY ... ORDER BY\n",
+           [["sql_ok", ""], ["row_count", "4"], ["result_has", "15.67"]],
+           ["AVG() calcule la moyenne d'un groupe.", "ROUND(valeur, 2) arrondit à deux décimales.", "ORDER BY moyenne DESC trie les groupes."],
+           "SELECT matiere_id, ROUND(AVG(valeur), 2) AS moyenne\nFROM note\nGROUP BY matiere_id\nORDER BY moyenne DESC;",
+           "La matière 2 (PHP) a la meilleure moyenne avec 15.67, suivie de la 3 (13.4), la 4 (13.0) et la 1 (12.88).",
+           "Matière 2 (PHP) 3ndha 7sen moyenne b 15.67, mora 3 (13.4), 4 (13.0) w 1 (12.88)."]
+        ]
+      },
+      "8": {
+        "title": "Fonctions d'agrégation",
+        "brief": "Compter, sommer et calculer des moyennes.",
+        "levels": [
+          ["Débutant — COUNT et MAX", "sql",
+           "<p>Affiche le nombre total de notes et la note maximale avec <code>COUNT(*)</code> et <code>MAX(valeur)</code>.</p>",
+           "<p>3red 3adad kamel dyal notes w note maximale b <code>COUNT(*)</code> w <code>MAX(valeur)</code>.</p>",
+           "-- SELECT COUNT(*), MAX(...)\n",
+           [["sql_ok", ""], ["result_has", "10"], ["result_has", "18.5"]],
+           ["COUNT(*) compte les lignes.", "MAX(valeur) renvoie la plus grande valeur.", "Les deux fonctions s'utilisent dans le même SELECT."],
+           "SELECT COUNT(*) AS total, MAX(valeur) AS maximum\nFROM note;",
+           "Le jeu de données contient 10 notes, et la plus élevée vaut 18.5. Une requête d'agrégation sans GROUP BY renvoie une seule ligne.",
+           "Jeu de données fih 10 notes, w l-foq 18.5. Requête d'agrégation bla GROUP BY katrje3 ligne wa7da."],
+          ["Intermédiaire — AVG, MIN et MAX", "sql",
+           "<p>Affiche la moyenne arrondie à deux décimales, la note minimale et la note maximale.</p>",
+           "<p>3red moyenne mroundiya l jouj décimales, note minimale w note maximale.</p>",
+           "-- AVG, MIN, MAX\n",
+           [["sql_ok", ""], ["result_has", "13.83"], ["result_has", "9"], ["result_has", "18.5"]],
+           ["AVG(valeur) calcule la moyenne.", "MIN et MAX donnent les bornes.", "ROUND(..., 2) limite les décimales affichées."],
+           "SELECT ROUND(AVG(valeur), 2) AS moyenne,\n       MIN(valeur) AS minimum,\n       MAX(valeur) AS maximum\nFROM note;",
+           "La somme des notes vaut 138.3 pour 10 notes, soit une moyenne de 13.83. La plus basse est 9.0 et la plus haute 18.5.",
+           "Somme dyal notes 138.3 3la 10 notes, ya3ni moyenne 13.83. L-sghira 9.0 w l-kbira 18.5."],
+          ["Avancé — agrégation conditionnelle", "sql",
+           "<p>Compte combien de notes sont supérieures ou égales à <code>15</code> avec <code>SUM(CASE WHEN valeur &gt;= 15 THEN 1 ELSE 0 END)</code>, et affiche l'alias <code>admis</code>.</p>",
+           "<p>7seb sh7al note kbira wla sawiya <code>15</code> b <code>SUM(CASE WHEN valeur &gt;= 15 THEN 1 ELSE 0 END)</code>, w 3red alias <code>admis</code>.</p>",
+           "-- SUM(CASE WHEN ...)\n",
+           [["sql_ok", ""], ["result_has", "4"]],
+           ["CASE renvoie 1 quand la condition est vraie, 0 sinon.", "SUM additionne ces 1 et 0.", "C'est un comptage conditionnel."],
+           "SELECT SUM(CASE WHEN valeur >= 15 THEN 1 ELSE 0 END) AS admis\nFROM note;",
+           "Quatre notes atteignent 15 ou plus : 16.0, 15.0, 17.0 et 18.5. La somme des indicateurs vaut donc 4.",
+           "Rba3 notes kaywselo 15 wla ktar : 16.0, 15.0, 17.0 w 18.5. Somme dyal indicateurs = 4."]
+        ]
+      },
+      "9": {
+        "title": "Joins",
+        "brief": "Combiner plusieurs tables avec INNER et LEFT JOIN.",
+        "levels": [
+          ["Débutant — INNER JOIN", "sql",
+           "<p>Affiche le nom de l'étudiant et sa note pour toutes les notes supérieures ou égales à <code>16</code>.</p>",
+           "<p>3red smiya dyal étudiant w note dyalo l kol notes kbarin wla sawiyin <code>16</code>.</p>",
+           "-- JOIN etudiant / note\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "Kortaf"]],
+           ["JOIN relie les lignes grâce à une condition ON.", "e.id = n.etudiant_id fait la correspondance.", "Le WHERE filtre ensuite les notes."],
+           "SELECT e.nom, n.valeur\nFROM note n\nJOIN etudiant e ON e.id = n.etudiant_id\nWHERE n.valeur >= 16;",
+           "La jointure retrouve l'étudiant de chaque note, puis le filtre garde 16.0, 17.0 et 18.5. Trois lignes sont renvoyées.",
+           "Jointure katlqa étudiant dyal kol note, men ba3d filtre kay7fed 16.0, 17.0 w 18.5. Tlata lignes kayrje3o."],
+          ["Intermédiaire — trois tables", "sql",
+           "<p>Affiche le nom de l'étudiant, le nom de la matière et la valeur pour les notes de la matière <code>Math</code>.</p>",
+           "<p>3red smiya dyal étudiant, smiya dyal matière w valeur l notes dyal matière <code>Math</code>.</p>",
+           "-- JOIN etudiant, matiere, note\n",
+           [["sql_ok", ""], ["result_has", "Marzak"], ["result_has", "Math"], ["result_has", "17"]],
+           ["Chaque table apporte une information différente.", "On enchaîne deux JOIN.", "Le WHERE peut porter sur m.nom."],
+           "SELECT e.nom, m.nom AS matiere, n.valeur\nFROM note n\nJOIN etudiant e ON e.id = n.etudiant_id\nJOIN matiere m ON m.id = n.matiere_id\nWHERE m.nom = 'Math';",
+           "La première jointure identifie l'étudiant, la seconde la matière. On obtient les quatre notes de Math, dont celle de Marzak à 17.0.",
+           "Jointure lawla kat3aref étudiant, tanya matière. Kankhdmo rba3 notes dyal Math, fihom dyal Marzak b 17.0."],
+          ["Avancé — LEFT JOIN et IS NULL", "sql",
+           "<p>Affiche l'étudiant, la matière et la valeur des notes qui n'ont <em>aucun</em> professeur associé. Utilise <code>LEFT JOIN</code> vers <code>professeur</code> et <code>p.id IS NULL</code>.</p>",
+           "<p>3red étudiant, matière w valeur dyal notes li <em>ma 3ndhomch</em> professeur mrbout. Khdem b <code>LEFT JOIN</code> l <code>professeur</code> w <code>p.id IS NULL</code>.</p>",
+           "-- LEFT JOIN ... IS NULL\n",
+           [["sql_ok", ""], ["result_has", "Boukhriss"], ["result_has", "Anglais"], ["result_has", "13"]],
+           ["LEFT JOIN conserve les notes même sans professeur.", "p.id IS NULL détecte l'absence de correspondance.", "On joint aussi etudiant et matiere pour des noms lisibles."],
+           "SELECT e.nom, m.nom AS matiere, n.valeur\nFROM note n\nJOIN etudiant e ON e.id = n.etudiant_id\nJOIN matiere m ON m.id = n.matiere_id\nLEFT JOIN professeur p ON p.id = n.professeur_id\nWHERE p.id IS NULL;",
+           "La note d'Anglais de Boukhriss a un <code>professeur_id</code> NULL. Le <code>LEFT JOIN</code> la conserve, et le filtre <code>IS NULL</code> isole précisément ce cas.",
+           "Note d'Anglais dyal Boukhriss 3ndha <code>professeur_id</code> NULL. <code>LEFT JOIN</code> kay7fedha, w filtre <code>IS NULL</code> kay3zel had cas."]
+        ]
+      },
+      "10": {
+        "title": "Sous-requêtes",
+        "brief": "Utiliser le résultat d'une requête dans une autre.",
+        "levels": [
+          ["Débutant — sous-requête scalaire", "sql",
+           "<p>Affiche le nom des étudiants qui ont au moins une note supérieure à la moyenne générale. Calcule la moyenne avec une sous-requête <code>(SELECT AVG(valeur) FROM note)</code>.</p>",
+           "<p>3red smiya dyal étudiants li 3ndhom 3la l9al note kbira men moyenne 3amma. 7seb moyenne b sous-requête <code>(SELECT AVG(valeur) FROM note)</code>.</p>",
+           "-- WHERE valeur > (SELECT AVG...)\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "Sekkat"]],
+           ["Une sous-requête scalaire renvoie une seule valeur.", "Elle peut être utilisée dans un WHERE.", "DISTINCT évite les doublons d'étudiants."],
+           "SELECT DISTINCT e.nom\nFROM etudiant e\nJOIN note n ON n.etudiant_id = e.id\nWHERE n.valeur > (SELECT AVG(valeur) FROM note);",
+           "La moyenne générale vaut 13.83. Les notes supérieures appartiennent à Kortaf, Marzak et Sekkat ; <code>DISTINCT</code> évite de répéter un nom.",
+           "Moyenne 3amma 13.83. Notes l-foq dyal Kortaf, Marzak w Sekkat ; <code>DISTINCT</code> kaymna3 tkrar smiya."],
+          ["Intermédiaire — meilleure note", "sql",
+           "<p>Affiche le nom de l'étudiant et la valeur de la meilleure note, en comparant <code>valeur</code> à <code>(SELECT MAX(valeur) FROM note)</code>.</p>",
+           "<p>3red smiya dyal étudiant w valeur dyal 7sen note, b comparaison <code>valeur</code> m3a <code>(SELECT MAX(valeur) FROM note)</code>.</p>",
+           "-- WHERE valeur = (SELECT MAX...)\n",
+           [["sql_ok", ""], ["result_has", "Sekkat"], ["result_has", "18.5"]],
+           ["MAX renvoie 18.5 dans le jeu de données.", "La sous-requête évite d'écrire 18.5 en dur.", "La jointure retrouve le nom de l'étudiant."],
+           "SELECT e.nom, n.valeur\nFROM note n\nJOIN etudiant e ON e.id = n.etudiant_id\nWHERE n.valeur = (SELECT MAX(valeur) FROM note);",
+           "La sous-requête calcule la note maximale, puis le filtre garde la ligne correspondante. Le résultat reste correct même si les données changent.",
+           "Sous-requête kat7seb note maximale, men ba3d filtre kay7fed ligne li tmatch. Résultat kaybqa s7i7 7ta ila données tbeddlo."],
+          ["Avancé — EXISTS corrélé", "sql",
+           "<p>Affiche le nom des étudiants qui ont une note dans la matière <code>PHP</code> (identifiant 2), avec une sous-requête <code>EXISTS</code> corrélée.</p>",
+           "<p>3red smiya dyal étudiants li 3ndhom note f matière <code>PHP</code> (identifiant 2), b sous-requête <code>EXISTS</code> corrélée.</p>",
+           "-- WHERE EXISTS (SELECT 1 ...)\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "Sekkat"]],
+           ["EXISTS est vrai dès qu'une ligne correspond.", "La sous-requête référence e.id : elle est corrélée.", "Pas besoin de DISTINCT avec EXISTS."],
+           "SELECT e.nom\nFROM etudiant e\nWHERE EXISTS (\n    SELECT 1\n    FROM note n\n    WHERE n.etudiant_id = e.id\n      AND n.matiere_id = 2\n);",
+           "<code>EXISTS</code> s'arrête à la première note de PHP trouvée pour chaque étudiant. Kortaf, Marzak et Sekkat sont renvoyés, sans doublon.",
+           "<code>EXISTS</code> kayweqqef f awwel note dyal PHP li kaylqa l kol étudiant. Kortaf, Marzak w Sekkat kayrje3o, bla tkrar."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "sql": {
+      "7": {
+        "title": "Quiz — Tri et groupement",
+        "questions": [
+          ["mcq", "Quelle clause trie les résultats ?", ["ORDER BY", "GROUP BY", "WHERE"], 0, "ORDER BY", "<code>ORDER BY</code> trie selon une ou plusieurs colonnes.", "<code>ORDER BY</code> kayrteb 3la 7sab colonne wla bzaf colonnes."],
+          ["tf", "ORDER BY valeur DESC place la plus grande valeur en premier.", 0, "DESC", "Vrai : <code>DESC</code> signifie décroissant.", "S7i7 : <code>DESC</code> kat3ni décroissant."],
+          ["mcq", "Quelle clause limite le nombre de lignes renvoyées ?", ["LIMIT", "WHERE", "HAVING"], 0, "LIMIT", "<code>LIMIT 3</code> garde seulement trois lignes après le tri.", "<code>LIMIT 3</code> kay7fed ghir tlata lignes mora tri."],
+          ["fill", "La clause qui regroupe les lignes par valeur est ________ BY.", "GROUP", "GROUP BY", "<code>GROUP BY filiere</code> crée un groupe par filière.", "<code>GROUP BY filiere</code> kat5leq groupe l kol filière."],
+          ["mcq", "Quelle clause filtre les groupes après un GROUP BY ?", ["HAVING", "WHERE", "LIMIT"], 0, "HAVING", "<code>HAVING</code> s'applique aux groupes agrégés, <code>WHERE</code> aux lignes.", "<code>HAVING</code> kattbeq 3la groupes agrégés, <code>WHERE</code> 3la lignes."]
+        ]
+      },
+      "8": {
+        "title": "Quiz — Fonctions d'agrégation",
+        "questions": [
+          ["mcq", "Quelle fonction compte les lignes ?", ["COUNT(*)", "SUM(*)", "TOTAL(*)"], 0, "COUNT", "<code>COUNT(*)</code> compte toutes les lignes d'un groupe ou d'une table.", "<code>COUNT(*)</code> kat7seb kol lignes dyal groupe wla table."],
+          ["tf", "AVG() ignore les valeurs NULL.", 0, "AVG et NULL", "Vrai : les fonctions d'agrégation ignorent généralement les NULL.", "S7i7 : fonctions d'agrégation ghaliban kaytjahlo NULL."],
+          ["mcq", "Que renvoie MAX(valeur) ?", ["La plus grande valeur", "La moyenne", "Le nombre de valeurs"], 0, "MAX", "<code>MAX()</code> renvoie la valeur maximale de la colonne.", "<code>MAX()</code> katrje3 valeur maximale dyal colonne."],
+          ["fill", "La fonction qui additionne les valeurs est ________().", "SUM", "SUM", "<code>SUM(valeur)</code> renvoie la somme des valeurs numériques.", "<code>SUM(valeur)</code> katrje3 somme dyal valeurs numériques."],
+          ["mcq", "Une requête avec COUNT sans GROUP BY renvoie…", ["Une seule ligne", "Autant de lignes que la table", "Aucune ligne"], 0, "Agrégat global", "Sans <code>GROUP BY</code>, l'agrégat porte sur toute la table et renvoie une ligne.", "Bla <code>GROUP BY</code>, agrégat kay3ni table kamla w kayrje3 ligne wa7da."]
+        ]
+      },
+      "9": {
+        "title": "Quiz — Joins",
+        "questions": [
+          ["mcq", "Quelle clause indique la condition de jointure ?", ["ON", "WHERE", "ORDER BY"], 0, "ON", "<code>ON e.id = n.etudiant_id</code> relie les lignes de deux tables.", "<code>ON e.id = n.etudiant_id</code> kayrbet lignes dyal jouj tables."],
+          ["tf", "INNER JOIN ne renvoie que les lignes qui ont une correspondance dans les deux tables.", 0, "INNER JOIN", "Vrai : les lignes sans correspondance sont exclues.", "S7i7 : lignes bla correspondance kayt7ydo."],
+          ["mcq", "Quel join conserve toutes les lignes de la table de gauche ?", ["LEFT JOIN", "INNER JOIN", "CROSS JOIN"], 0, "LEFT JOIN", "<code>LEFT JOIN</code> garde les lignes de gauche, même sans correspondance à droite.", "<code>LEFT JOIN</code> kay7fed lignes dyal liser, 7ta bla correspondance f limen."],
+          ["fill", "Un alias de table s'écrit après le nom : FROM etudiant ________.", "e", "Alias", "<code>FROM etudiant e</code> permet ensuite d'écrire <code>e.nom</code>.", "<code>FROM etudiant e</code> kaykhalli men ba3d tkteb <code>e.nom</code>."],
+          ["mcq", "Comment détecter une absence de correspondance après LEFT JOIN ?", ["WHERE table.id IS NULL", "WHERE table.id = 0", "ORDER BY table.id"], 0, "IS NULL", "Une colonne NULL signifie qu'aucune ligne de droite ne correspond.", "Colonne NULL kat3ni 7ta ligne f limen ma kattmatch."]
+        ]
+      },
+      "10": {
+        "title": "Quiz — Sous-requêtes",
+        "questions": [
+          ["mcq", "Où peut-on placer une sous-requête scalaire ?", ["Dans un WHERE, en comparaison", "Uniquement dans ORDER BY", "Uniquement dans CREATE TABLE"], 0, "Sous-requête scalaire", "Une sous-requête qui renvoie une valeur peut être comparée dans un <code>WHERE</code>.", "Sous-requête li katrje3 valeur t9der tqaren f <code>WHERE</code>."],
+          ["tf", "Une sous-requête peut renvoyer plusieurs lignes avec IN.", 0, "IN", "Vrai : <code>WHERE id IN (SELECT ...)</code> accepte plusieurs valeurs.", "S7i7 : <code>WHERE id IN (SELECT ...)</code> kayqbel bzaf valeurs."],
+          ["mcq", "Quand utilise-t-on EXISTS ?", ["Pour tester si une sous-requête renvoie au moins une ligne", "Pour trier les résultats", "Pour créer un index"], 0, "EXISTS", "<code>EXISTS</code> est vrai dès qu'une ligne correspond.", "<code>EXISTS</code> kaywli vrai melli ligne wa7da kattmatch."],
+          ["fill", "Une sous-requête qui référence la requête externe est dite ________.", "corrélée", "Sous-requête corrélée", "Elle dépend de chaque ligne de la requête principale.", "Katt3amed 3la kol ligne dyal requête principale."],
+          ["mcq", "Comment trouver la ligne de valeur maximale sans écrire la valeur en dur ?", ["WHERE valeur = (SELECT MAX(valeur) ...)", "ORDER BY valeur LIMIT 1 uniquement", "WHERE valeur > 0"], 0, "MAX en sous-requête", "La sous-requête calcule le maximum ; le filtre garde la ligne correspondante.", "Sous-requête kat7seb maximum ; filtre kay7fed ligne li tmatch."]
+        ]
+      }
+    }
+  }
+}

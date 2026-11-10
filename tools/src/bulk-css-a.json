@@ -1,0 +1,226 @@
+{
+  "exercises": {
+    "css": {
+      "1": {
+        "title": "Introduction à CSS",
+        "brief": "Écrire ses premières règles CSS et comprendre la syntaxe sélecteur / propriété / valeur.",
+        "levels": [
+          ["Débutant — ma première règle", "css",
+           "<p>Écris une règle CSS qui cible tous les titres <code>h1</code> et leur donne la couleur bleue avec <code>color: blue;</code>.</p>",
+           "<p>Kteb règle CSS li katcibli kol titres <code>h1</code> w kat3tihom loun zre9 b <code>color: blue;</code>.</p>",
+           "/* Votre règle CSS ici */",
+           [["html_contains", "h1"], ["html_contains", "color: blue"]],
+           ["Le sélecteur est le nom de l'élément ciblé : h1.", "Une déclaration s'écrit propriété: valeur; entre accolades.", "N'oublie pas le point-virgule après la valeur."],
+           "h1 {\n  color: blue;\n}",
+           "La règle se lit : « tous les éléments h1 reçoivent la couleur bleue ». Le sélecteur <code>h1</code> cible par type d'élément.",
+           "Règle katqra : « kol éléments h1 kayakhdo loun zre9 ». Sélecteur <code>h1</code> kaycibli b type d'élément."],
+          ["Intermédiaire — deux déclarations", "css",
+           "<p>Écris une règle qui cible tous les paragraphes <code>p</code> et leur donne : une couleur <code>#333333</code> et une taille de police de <code>18px</code>.</p>",
+           "<p>Kteb règle li katcibli kol paragraphes <code>p</code> w kat3tihom : loun <code>#333333</code> w taille dyal police <code>18px</code>.</p>",
+           "p {\n  /* deux déclarations */\n}",
+           [["html_contains", "p {"], ["html_contains", "color: #333333"], ["html_contains", "font-size: 18px"]],
+           ["Chaque déclaration se termine par un point-virgule.", "La propriété de taille de texte est font-size.", "La couleur hexadécimale commence par #."],
+           "p {\n  color: #333333;\n  font-size: 18px;\n}",
+           "Un même sélecteur peut porter plusieurs déclarations. Elles s'appliquent toutes aux éléments <code>p</code> de la page.",
+           "Nefs sélecteur y9der y7mel bzaf déclarations. Kollhom kaytbeqo 3la éléments <code>p</code> f page."],
+          ["Avancé — groupe de sélecteurs et commentaire", "css",
+           "<p>Écris une règle qui cible <em>à la fois</em> <code>h1</code> et <code>h2</code> pour leur donner la couleur <code>navy</code>, puis une règle qui donne au <code>body</code> un fond <code>#f8fafc</code>. Ajoute un commentaire CSS au-dessus du groupe.</p>",
+           "<p>Kteb règle li katcibli <em>f nefs lwa9t</em> <code>h1</code> w <code>h2</code> bach t3tihom loun <code>navy</code>, men ba3d règle li kat3ti l <code>body</code> fond <code>#f8fafc</code>. Zid commentaire CSS fo9 groupe.</p>",
+           "/* commentaire */\n/* groupe de titres */\n\n/* fond de page */",
+           [["html_contains", "h1, h2"], ["html_contains", "color: navy"], ["html_contains", "background"], ["html_contains", "/*"]],
+           ["On sépare les sélecteurs groupés par une virgule.", "Un commentaire CSS s'écrit entre /* et */.", "La propriété de fond est background ou background-color."],
+           "/* Styles communs des titres */\nh1, h2 {\n  color: navy;\n}\n\nbody {\n  background: #f8fafc;\n}",
+           "La virgule signifie « ou » : la règle s'applique aux <code>h1</code> et aux <code>h2</code>. Le commentaire n'est pas exécuté, il documente l'intention.",
+           "Virgule kat3ni « wla » : règle kattbeq 3la <code>h1</code> w <code>h2</code>. Commentaire ma kaytnffedch, kayw93i l intention."]
+        ]
+      },
+      "2": {
+        "title": "Inline, interne, externe",
+        "brief": "Placer du CSS dans un attribut, une balise style ou un fichier séparé.",
+        "levels": [
+          ["Débutant — style en ligne", "html",
+           "<p>Écris un paragraphe <code>p</code> dont le texte est « Bonjour » et dont la couleur est rouge, uniquement avec l'attribut <code>style</code>.</p>",
+           "<p>Kteb paragraphe <code>p</code> fih texte « Bonjour » w loun 7mer, ghir b attribut <code>style</code>.</p>",
+           "<p>Bonjour</p>",
+           [["html_contains", "<p"], ["html_contains", "style=\"color: red"], ["html_contains", "Bonjour"]],
+           ["L'attribut style contient des déclarations CSS.", "La syntaxe est style=\"propriété: valeur;\".", "Pas besoin d'accolades ni de sélecteur en ligne."],
+           "<p style=\"color: red;\">Bonjour</p>",
+           "Le style en ligne s'applique au seul élément qui le porte. Il est prioritaire sur les feuilles externes, mais difficile à maintenir sur un grand site.",
+           "Style en ligne kaytbeq ghir 3la élément li 7amlo. 3ndo priorité 3la feuilles externes, walakin s3ib f maintenance f site kbir."],
+          ["Intermédiaire — feuille interne", "html",
+           "<p>Ajoute dans le <code>head</code> une balise <code>style</code> contenant une classe <code>.important</code> qui met le texte en gras (<code>font-weight: bold;</code>), puis applique cette classe à un paragraphe.</p>",
+           "<p>Zid f <code>head</code> balise <code>style</code> fiha classe <code>.important</code> li kat3mel texte gras (<code>font-weight: bold;</code>), men ba3d tbeq had classe 3la paragraphe.</p>",
+           "<head>\n  <!-- feuille interne -->\n</head>\n<body>\n  <p>Texte</p>\n</body>",
+           [["html_contains", "<style>"], ["html_contains", ".important"], ["html_contains", "font-weight: bold"], ["html_contains", "class=\"important\""]],
+           ["La balise style se place dans le head.", "Une classe CSS commence par un point.", "L'attribut HTML est class, pas className."],
+           "<head>\n  <style>\n    .important {\n      font-weight: bold;\n    }\n  </style>\n</head>\n<body>\n  <p class=\"important\">Texte important</p>\n</body>",
+           "La feuille interne reste dans le document HTML. Elle centralise les styles de la page, contrairement au style en ligne répété sur chaque élément.",
+           "Feuille interne katbqa f document HTML. Katjem3 styles dyal page, 3aks style en ligne li kaytkerrer 3la kol élément."],
+          ["Avancé — feuille externe et cascade", "html",
+           "<p>Lie une feuille externe <code>style.css</code> dans le <code>head</code>, puis donne à un titre <code>h1</code> la classe <code>titre</code> et une couleur verte en ligne. Le fichier externe est censé définir <code>.titre { color: navy; }</code>.</p>",
+           "<p>Rbet feuille externe <code>style.css</code> f <code>head</code>, men ba3d 3ti titre <code>h1</code> classe <code>titre</code> w loun khder en ligne. Fichier externe mftard kay3erref <code>.titre { color: navy; }</code>.</p>",
+           "<head>\n  <!-- lien vers style.css -->\n</head>\n<body>\n  <h1>Mon site</h1>\n</body>",
+           [["html_contains", "<link"], ["html_contains", "rel=\"stylesheet\""], ["html_contains", "href=\"style.css\""], ["html_contains", "class=\"titre\""], ["html_contains", "style=\"color: green\""]],
+           ["La balise link est auto-fermante et se place dans le head.", "rel=\"stylesheet\" indique le type de ressource.", "Le style en ligne gagne sur la règle externe à spécificité égale."],
+           "<head>\n  <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n  <h1 class=\"titre\" style=\"color: green;\">Mon site</h1>\n</body>",
+           "La feuille externe est chargée par <code>link</code>. Ici le style en ligne <code>color: green</code> l'emporte sur la règle <code>.titre</code> du fichier externe : c'est la cascade.",
+           "Feuille externe katchargi b <code>link</code>. Hna style en ligne <code>color: green</code> kayghalleb règle <code>.titre</code> dyal fichier externe : hadi hiya cascade."]
+        ]
+      },
+      "8": {
+        "title": "Le modèle de boîte",
+        "brief": "Calculer largeur, padding, bordure et marge avec box-sizing.",
+        "levels": [
+          ["Débutant — box-sizing", "css",
+           "<p>Écris une règle <code>.boite</code> avec <code>box-sizing: border-box;</code>, une largeur de <code>300px</code>, un padding de <code>20px</code> et une bordure de <code>5px solid #333</code>.</p>",
+           "<p>Kteb règle <code>.boite</code> b <code>box-sizing: border-box;</code>, 3ard <code>300px</code>, padding <code>20px</code> w bordure <code>5px solid #333</code>.</p>",
+           ".boite {\n  /* vos déclarations */\n}",
+           [["html_contains", "box-sizing: border-box"], ["html_contains", "width: 300px"], ["html_contains", "padding: 20px"], ["html_contains", "border: 5px solid"]],
+           ["box-sizing: border-box inclut padding et bordure dans la largeur.", "La largeur se déclare avec width.", "La bordure accepte trois valeurs : épaisseur, style, couleur."],
+           ".boite {\n  box-sizing: border-box;\n  width: 300px;\n  padding: 20px;\n  border: 5px solid #333;\n}",
+           "Avec <code>border-box</code>, la boîte mesure 300px au total : le padding et la bordure sont pris <em>à l'intérieur</em> de cette largeur.",
+           "B <code>border-box</code>, boîte katqis 300px b kollha : padding w bordure kaytkhalso <em>f dakhel</em> had 3ard."],
+          ["Intermédiaire — marges et padding raccourcis", "css",
+           "<p>Écris une règle <code>.carte</code> avec une marge verticale de <code>16px</code> et horizontale <code>auto</code>, puis un padding de <code>12px</code> en haut/bas et <code>24px</code> à gauche/droite.</p>",
+           "<p>Kteb règle <code>.carte</code> b marge verticale <code>16px</code> w horizontale <code>auto</code>, men ba3d padding <code>12px</code> fo9/ta7t w <code>24px</code> liser/limen.</p>",
+           ".carte {\n  /* marges */\n  /* padding */\n}",
+           [["html_contains", "margin: 16px auto"], ["html_contains", "padding: 12px 24px"]],
+           ["Le raccourci margin accepte 1, 2 ou 4 valeurs.", "Deux valeurs signifient vertical puis horizontal.", "margin: auto centre horizontalement un bloc de largeur fixe."],
+           ".carte {\n  margin: 16px auto;\n  padding: 12px 24px;\n}",
+           "<code>margin: 16px auto</code> = 16px en haut/bas, automatique à gauche/droite (centrage). <code>padding: 12px 24px</code> = 12px en haut/bas, 24px à gauche/droite.",
+           "<code>margin: 16px auto</code> = 16px fo9/ta7t, automatique liser/limen (centrage). <code>padding: 12px 24px</code> = 12px fo9/ta7t, 24px liser/limen."],
+          ["Avancé — boîte fluide bornée", "css",
+           "<p>Écris une règle <code>.zone</code> avec <code>box-sizing: border-box</code>, une largeur de <code>100%</code>, une largeur maximale de <code>640px</code>, un padding de <code>24px</code>, une bordure de <code>8px solid navy</code> et un centrage horizontal.</p>",
+           "<p>Kteb règle <code>.zone</code> b <code>box-sizing: border-box</code>, 3ard <code>100%</code>, 3ard maximum <code>640px</code>, padding <code>24px</code>, bordure <code>8px solid navy</code> w centrage horizontal.</p>",
+           ".zone {\n  /* boîte fluide */\n}",
+           [["html_contains", "box-sizing: border-box"], ["html_contains", "width: 100%"], ["html_contains", "max-width: 640px"], ["html_contains", "padding: 24px"], ["html_contains", "border: 8px solid"], ["html_contains", "margin: 0 auto"]],
+           ["max-width limite la largeur sans bloquer le rétrécissement.", "100% rend la boîte fluide sur mobile.", "Le centrage se fait avec margin: 0 auto."],
+           ".zone {\n  box-sizing: border-box;\n  width: 100%;\n  max-width: 640px;\n  padding: 24px;\n  border: 8px solid navy;\n  margin: 0 auto;\n}",
+           "La boîte occupe toute la largeur disponible mais ne dépasse jamais 640px. Grâce à <code>border-box</code>, le padding et la bordure n'ajoutent pas de largeur supplémentaire.",
+           "Boîte katakhod 3ard kamel li kayn walakin 3omrha ma tfout 640px. B <code>border-box</code>, padding w bordure ma kayzidoch 3ard zayd."]
+        ]
+      },
+      "9": {
+        "title": "La propriété display",
+        "brief": "Passer de block à inline, inline-block ou none.",
+        "levels": [
+          ["Débutant — block et inline-block", "css",
+           "<p>Écris une règle qui affiche les <code>span</code> comme des blocs, puis une règle qui affiche les liens <code>a</code> en <code>inline-block</code> avec un padding de <code>6px 12px</code>.</p>",
+           "<p>Kteb règle li kat3red <code>span</code> b7al blocs, men ba3d règle li kat3red liens <code>a</code> b <code>inline-block</code> m3a padding <code>6px 12px</code>.</p>",
+           "span {\n  /* bloc */\n}\n\na {\n  /* inline-block */\n}",
+           [["html_contains", "display: block"], ["html_contains", "display: inline-block"], ["html_contains", "padding: 6px 12px"]],
+           ["display: block force un élément en ligne à occuper toute la ligne.", "inline-block accepte width, height et les marges verticales.", "La propriété display s'écrit dans le bloc de déclarations."],
+           "span {\n  display: block;\n}\n\na {\n  display: inline-block;\n  padding: 6px 12px;\n}",
+           "<code>block</code> place chaque span sur sa propre ligne. <code>inline-block</code> garde les liens côte à côte tout en leur permettant d'avoir un padding vertical visible.",
+           "<code>block</code> kat7et kol span f ligne dyalha. <code>inline-block</code> katkhalli liens 7da b3dhom w katt3tihom padding vertical li kayban."],
+          ["Intermédiaire — masquer et révéler", "css",
+           "<p>Écris une règle <code>.cache</code> qui retire complètement l'élément de la page, puis une règle <code>.badge</code> qui l'affiche en <code>inline-block</code> avec une largeur de <code>80px</code> et un alignement de texte centré.</p>",
+           "<p>Kteb règle <code>.cache</code> li kat7yed élément kaml men page, men ba3d règle <code>.badge</code> li kat3red b <code>inline-block</code> b 3ard <code>80px</code> w alignement texte mcentri.</p>",
+           ".cache {\n  /* masquer */\n}\n\n.badge {\n  /* afficher */\n}",
+           [["html_contains", "display: none"], ["html_contains", "display: inline-block"], ["html_contains", "width: 80px"], ["html_contains", "text-align: center"]],
+           ["display: none supprime l'élément du flux.", "inline-block respecte width et height.", "text-align: center centre le texte dans la boîte."],
+           ".cache {\n  display: none;\n}\n\n.badge {\n  display: inline-block;\n  width: 80px;\n  text-align: center;\n}",
+           "<code>display: none</code> fait comme si l'élément n'existait pas : il ne réserve aucun espace. <code>inline-block</code> rend le badge visible et lui donne une largeur fixe.",
+           "<code>display: none</code> kay3mel b7al ila élément ma kanch : ma kay7jzch espace. <code>inline-block</code> kay3red badge w kay3tih 3ard fixe."],
+          ["Avancé — barre de liens", "css",
+           "<p>Écris une règle <code>.menu a</code> qui affiche les liens en <code>inline-block</code>, avec un padding de <code>10px 18px</code>, un fond <code>#1e293b</code>, un texte blanc, et supprime le soulignement.</p>",
+           "<p>Kteb règle <code>.menu a</code> li kat3red liens b <code>inline-block</code>, b padding <code>10px 18px</code>, fond <code>#1e293b</code>, texte byed, w t7yed soulignement.</p>",
+           ".menu a {\n  /* liens de navigation */\n}",
+           [["html_contains", ".menu a"], ["html_contains", "display: inline-block"], ["html_contains", "padding: 10px 18px"], ["html_contains", "background: #1e293b"], ["html_contains", "color: white"], ["html_contains", "text-decoration: none"]],
+           ["Le sélecteur descendant .menu a cible les liens dans le menu.", "text-decoration: none retire le soulignement.", "Le padding rend la zone cliquable plus grande."],
+           ".menu a {\n  display: inline-block;\n  padding: 10px 18px;\n  background: #1e293b;\n  color: white;\n  text-decoration: none;\n}",
+           "Chaque lien devient une zone cliquable rectangulaire, alignée horizontalement avec les autres. Le padding vertical est bien appliqué car l'élément est <code>inline-block</code>.",
+           "Kol lien kaywli zone cliquable rectangulaire, m3a l'okhrin horizontalement. Padding vertical kaytbeq 7it élément <code>inline-block</code>."]
+        ]
+      },
+      "10": {
+        "title": "La propriété position",
+        "brief": "Décaler, ancrer, coller et gérer les calques.",
+        "levels": [
+          ["Débutant — relative", "css",
+           "<p>Écris une règle <code>.decalage</code> qui conserve l'élément dans le flux mais le décale de <code>10px</code> vers le bas et de <code>20px</code> vers la droite.</p>",
+           "<p>Kteb règle <code>.decalage</code> li kat7fed élément f flux walakin kat7wlo <code>10px</code> l ta7t w <code>20px</code> l limen.</p>",
+           ".decalage {\n  /* position */\n}",
+           [["html_contains", "position: relative"], ["html_contains", "top: 10px"], ["html_contains", "left: 20px"]],
+           ["position: relative garde la place d'origine dans le flux.", "top déplace vers le bas quand il est positif.", "left déplace vers la droite quand il est positif."],
+           ".decalage {\n  position: relative;\n  top: 10px;\n  left: 20px;\n}",
+           "<code>relative</code> décale visuellement l'élément sans libérer sa place : les autres éléments restent à leur position initiale.",
+           "<code>relative</code> kat7wel élément visuellement bla ma t7rer blaso : éléments okhrin kaybqaw f blasathom."],
+          ["Intermédiaire — absolute dans un parent relative", "css",
+           "<p>Écris une règle <code>.parent</code> en <code>position: relative</code>, puis une règle <code>.badge</code> en <code>position: absolute</code> placée à <code>8px</code> du haut et <code>8px</code> de la droite.</p>",
+           "<p>Kteb règle <code>.parent</code> b <code>position: relative</code>, men ba3d règle <code>.badge</code> b <code>position: absolute</code> m7tot 3la <code>8px</code> men fo9 w <code>8px</code> men limen.</p>",
+           ".parent {\n  /* repère */\n}\n\n.badge {\n  /* ancrage */\n}",
+           [["html_contains", "position: relative"], ["html_contains", "position: absolute"], ["html_contains", "top: 8px"], ["html_contains", "right: 8px"]],
+           ["Un enfant absolute se positionne par rapport au premier ancêtre positionné.", "Le parent doit être relative pour servir de repère.", "right: 8px place le bord droit à 8px du parent."],
+           ".parent {\n  position: relative;\n}\n\n.badge {\n  position: absolute;\n  top: 8px;\n  right: 8px;\n}",
+           "Le badge sort du flux et se colle au coin supérieur droit du parent. Sans <code>position: relative</code> sur le parent, il se placerait par rapport à la page.",
+           "Badge kaykhrej men flux w kaylse9 f coin fo9ani limen dyal parent. Bla <code>position: relative</code> 3la parent, ghadi yt7et 3la 7sab page."],
+          ["Avancé — en-tête fixe", "css",
+           "<p>Écris une règle <code>header</code> avec <code>position: fixed</code>, collée en haut et à gauche, largeur <code>100%</code> et <code>z-index: 100</code>. Ajoute au <code>body</code> un padding-top de <code>70px</code> pour compenser.</p>",
+           "<p>Kteb règle <code>header</code> b <code>position: fixed</code>, mlsqa fo9 w liser, 3ard <code>100%</code> w <code>z-index: 100</code>. Zid l <code>body</code> padding-top <code>70px</code> bach t3awed.</p>",
+           "header {\n  /* en-tête fixe */\n}\n\nbody {\n  /* compensation */\n}",
+           [["html_contains", "position: fixed"], ["html_contains", "top: 0"], ["html_contains", "left: 0"], ["html_contains", "width: 100%"], ["html_contains", "z-index: 100"], ["html_contains", "padding-top: 70px"]],
+           ["fixed sort l'élément du flux et le fixe à la fenêtre.", "z-index ne fonctionne que sur un élément positionné.", "Le contenu masqué par l'en-tête se rattrape avec un padding."],
+           "header {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  z-index: 100;\n}\n\nbody {\n  padding-top: 70px;\n}",
+           "L'en-tête reste visible au défilement et passe au-dessus du contenu grâce à <code>z-index</code>. Le padding du body empêche le début de la page d'être caché derrière l'en-tête.",
+           "En-tête kaybqa yban f défilement w kaydowez fo9 contenu b <code>z-index</code>. Padding dyal body kaymna3 bdaya dyal page tkoun mkhebbya mora en-tête."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "css": {
+      "1": {
+        "title": "Quiz — Introduction à CSS",
+        "questions": [
+          ["mcq", "À quoi sert CSS ?", ["À décrire la présentation et la mise en forme des pages", "À stocker les données dans une base", "À définir la structure du contenu"], 0, "Rôle de CSS", "CSS décrit l'apparence (couleurs, tailles, disposition) ; le HTML porte la structure.", "CSS kaywsef chkel (lwan, tailles, disposition) ; HTML kay7mel structure."],
+          ["tf", "Une règle CSS se compose d'un sélecteur et d'un bloc de déclarations.", 0, "Syntaxe d'une règle", "Vrai : le sélecteur cible, le bloc entre accolades contient les déclarations.", "S7i7 : sélecteur kaycibli, bloc bin accolades fih déclarations."],
+          ["mcq", "Quelle est la syntaxe correcte d'une déclaration CSS ?", ["propriété: valeur;", "valeur: propriété;", "propriété = valeur;"], 0, "Déclaration", "Une déclaration s'écrit <code>propriété: valeur;</code> avec deux-points et point-virgule.", "Déclaration kattkteb <code>propriété: valeur;</code> b jouj points w point-virgule."],
+          ["fill", "La propriété CSS qui change la couleur du texte est ________.", "color", "Couleur du texte", "La propriété <code>color</code> contrôle la couleur du texte, à ne pas confondre avec <code>background-color</code>.", "Propriété <code>color</code> katt7ekkem f loun dyal texte, ma tkhelt-hach m3a <code>background-color</code>."],
+          ["multi", "Lesquelles sont des propriétés CSS valides ?", ["color", "font-size", "href"], [0, 1], "Propriétés CSS", "<code>color</code> et <code>font-size</code> sont des propriétés CSS ; <code>href</code> est un attribut HTML.", "<code>color</code> w <code>font-size</code> propriétés CSS ; <code>href</code> attribut HTML."]
+        ]
+      },
+      "2": {
+        "title": "Quiz — Inline, interne, externe",
+        "questions": [
+          ["mcq", "Où place-t-on une feuille de style interne ?", ["Dans une balise style du head", "Dans le body après le contenu", "Dans un fichier .js"], 0, "Feuille interne", "La balise <code>style</code> se place dans le <code>head</code> pour que les styles soient connus avant l'affichage.", "Balise <code>style</code> kat7et f <code>head</code> bach styles ytkouno m3erfin qbel affichage."],
+          ["tf", "L'attribut style s'applique à un seul élément.", 0, "Style en ligne", "Vrai : l'attribut <code>style</code> est porté par un élément précis, il ne cible pas un groupe.", "S7i7 : attribut <code>style</code> kay7mlo élément wa7ed, ma kayciblich groupe."],
+          ["mcq", "Quelle balise lie une feuille de style externe ?", ["link rel=\"stylesheet\" href=\"style.css\"", "script src=\"style.css\"", "style src=\"style.css\""], 0, "Feuille externe", "La balise <code>link</code> avec <code>rel=\"stylesheet\"</code> charge le fichier CSS externe.", "Balise <code>link</code> m3a <code>rel=\"stylesheet\"</code> katchargi fichier CSS externe."],
+          ["fill", "L'attribut HTML qui contient du CSS en ligne s'appelle ________.", "style", "Attribut style", "<code>style=\"color: red;\"</code> applique du CSS directement sur l'élément.", "<code>style=\"color: red;\"</code> kaytbeq CSS nichan 3la élément."],
+          ["mcq", "À spécificité égale, quel style l'emporte ?", ["Le style en ligne", "La règle de la feuille externe", "Aucun des deux"], 0, "Cascade", "Le style en ligne est plus proche de l'élément et gagne dans la cascade.", "Style en ligne 9rib ktar l élément w kayghalleb f cascade."]
+        ]
+      },
+      "8": {
+        "title": "Quiz — Le modèle de boîte",
+        "questions": [
+          ["mcq", "Que comprend le modèle de boîte CSS ?", ["Contenu, padding, bordure, marge", "Contenu et couleur uniquement", "Largeur et hauteur uniquement"], 0, "Composition", "Chaque élément est une boîte composée du contenu, du padding, de la bordure et de la marge.", "Kol élément howa boîte mkkwna men contenu, padding, bordure w marge."],
+          ["tf", "box-sizing: border-box inclut le padding et la bordure dans la largeur déclarée.", 0, "box-sizing", "Vrai : la largeur totale reste égale à <code>width</code>.", "S7i7 : 3ard kamel kaybqa sawi m3a <code>width</code>."],
+          ["fill", "La propriété qui ajoute de l'espace à l'intérieur de la bordure est ________.", "padding", "Padding", "<code>padding</code> crée l'espace interne ; <code>margin</code> l'espace externe.", "<code>padding</code> kay5leq espace dakheli ; <code>margin</code> espace kharji."],
+          ["mcq", "Avec width: 300px, padding: 20px, border: 5px et box-sizing: content-box, quelle est la largeur totale ?", ["350px", "300px", "340px"], 0, "Calcul de largeur", "300 + 20 × 2 + 5 × 2 = 350px. En content-box, le padding et la bordure s'ajoutent.", "300 + 20 × 2 + 5 × 2 = 350px. F content-box, padding w bordure kaytzado."],
+          ["multi", "Quelles propriétés font partie du modèle de boîte ?", ["padding", "border", "margin", "color"], [0, 1, 2], "Propriétés de boîte", "<code>padding</code>, <code>border</code> et <code>margin</code> composent la boîte ; <code>color</code> concerne le texte.", "<code>padding</code>, <code>border</code> w <code>margin</code> kaykkwno boîte ; <code>color</code> kat3ni texte."]
+        ]
+      },
+      "9": {
+        "title": "Quiz — La propriété display",
+        "questions": [
+          ["mcq", "Quelle valeur affiche un élément comme un bloc ?", ["block", "inline", "none"], 0, "display: block", "<code>display: block</code> fait occuper toute la ligne disponible à l'élément.", "<code>display: block</code> kaykhalli élément yakhod ligne kamla."],
+          ["tf", "display: none retire l'élément du flux et ne réserve aucun espace.", 0, "display: none", "Vrai : l'élément est retiré de la mise en page comme s'il n'existait pas.", "S7i7 : élément kayt7yed men mise en page b7al ila ma kanch."],
+          ["fill", "La valeur qui rend un élément en ligne tout en acceptant largeur et hauteur est ________-block.", "inline", "inline-block", "<code>inline-block</code> combine le placement en ligne et les dimensions d'un bloc.", "<code>inline-block</code> kayjem3 placement f ligne w dimensions dyal bloc."],
+          ["mcq", "Quelle valeur cache l'élément mais conserve sa place ?", ["visibility: hidden", "display: none", "position: fixed"], 0, "Masquage", "<code>visibility: hidden</code> rend l'élément invisible tout en gardant son espace.", "<code>visibility: hidden</code> kaykhbi élément w kay7fed blaso."],
+          ["mcq", "Les éléments inline ignorent principalement…", ["width et height", "la couleur du texte", "le padding horizontal"], 0, "Éléments inline", "Un élément inline ne prend pas de <code>width</code> ni de <code>height</code> ; il se dimensionne selon son contenu.", "Élément inline ma kayakhodch <code>width</code> wla <code>height</code> ; kaytqis 3la 7sab contenu dyalo."]
+        ]
+      },
+      "10": {
+        "title": "Quiz — La propriété position",
+        "questions": [
+          ["mcq", "Quelle position sort l'élément du flux et le place par rapport à un parent positionné ?", ["absolute", "relative", "static"], 0, "position: absolute", "<code>absolute</code> sort du flux et se repère sur le premier ancêtre positionné.", "<code>absolute</code> kaykhrej men flux w kayt7et 3la awwel ancêtre positionné."],
+          ["tf", "position: fixed reste collé à la fenêtre pendant le défilement.", 0, "position: fixed", "Vrai : <code>fixed</code> se positionne par rapport à la fenêtre, pas au document.", "S7i7 : <code>fixed</code> kayt7et 3la 7sab fenêtre, machi document."],
+          ["mcq", "Quelle position décale l'élément sans le retirer du flux ?", ["relative", "absolute", "fixed"], 0, "position: relative", "<code>relative</code> conserve la place d'origine et décale visuellement l'élément.", "<code>relative</code> kay7fed blasa d'origine w kay7wel élément visuellement."],
+          ["fill", "La propriété qui contrôle l'ordre des calques est ________.", "z-index", "z-index", "<code>z-index</code> fonctionne sur les éléments positionnés et décide qui passe devant.", "<code>z-index</code> kaykhdem 3la éléments positionnés w kay9arrer chkoun kaydowez qddam."],
+          ["mcq", "Quel parent sert de repère à un enfant positionné en absolute ?", ["Un parent avec position relative (ou non static)", "Un parent en position static", "Un parent sans aucune propriété"], 0, "Bloc conteneur", "L'enfant <code>absolute</code> se réfère au premier ancêtre dont la position n'est pas <code>static</code>.", "Enfant <code>absolute</code> kayt7et 3la awwel ancêtre li position dyalo machi <code>static</code>."],
+          ["mcq", "Quelle position se comporte comme relative jusqu'à un seuil de défilement, puis comme fixed ?", ["sticky", "static", "absolute"], 0, "position: sticky", "<code>sticky</code> reste dans le flux et se fige au seuil indiqué par <code>top</code>, <code>bottom</code>, etc.", "<code>sticky</code> kaybqa f flux w kaytsgeb 3nd seuil li kay3tih <code>top</code>, <code>bottom</code>, etc."]
+        ]
+      }
+    }
+  }
+}

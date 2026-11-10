@@ -1,0 +1,182 @@
+{
+  "exercises": {
+    "sql": {
+      "11": {
+        "title": "Relations entre tables",
+        "brief": "Relier les tables avec des clés étrangères et des tables de jonction.",
+        "levels": [
+          ["Débutant — clé étrangère", "sql",
+           "<p>Crée une table <code>auteur</code> (<code>id INTEGER PRIMARY KEY</code>, <code>nom TEXT NOT NULL</code>) et une table <code>livre</code> (<code>id INTEGER PRIMARY KEY</code>, <code>titre TEXT NOT NULL</code>, <code>auteur_id INTEGER NOT NULL</code> avec <code>FOREIGN KEY</code> vers <code>auteur(id)</code>). Insère un auteur et un livre, puis affiche le titre et le nom de l'auteur avec un <code>JOIN</code>.</p>",
+           "<p>5leq table <code>auteur</code> (<code>id INTEGER PRIMARY KEY</code>, <code>nom TEXT NOT NULL</code>) w table <code>livre</code> (<code>id INTEGER PRIMARY KEY</code>, <code>titre TEXT NOT NULL</code>, <code>auteur_id INTEGER NOT NULL</code> m3a <code>FOREIGN KEY</code> l <code>auteur(id)</code>). Dkhel auteur w livre, men ba3d 3red titre w smiya dyal auteur b <code>JOIN</code>.</p>",
+           "-- DROP, CREATE, INSERT puis JOIN\n",
+           [["sql_ok", ""], ["result_has", "Le Petit Prince"], ["result_has", "Saint-Exupery"]],
+           ["La clé étrangère référence la clé primaire de l'autre table.", "Insère d'abord l'auteur pour satisfaire la contrainte.", "Le JOIN relie livre.auteur_id à auteur.id."],
+           "DROP TABLE IF EXISTS livre;\nDROP TABLE IF EXISTS auteur;\n\nCREATE TABLE auteur (\n    id INTEGER PRIMARY KEY,\n    nom TEXT NOT NULL\n);\n\nCREATE TABLE livre (\n    id INTEGER PRIMARY KEY,\n    titre TEXT NOT NULL,\n    auteur_id INTEGER NOT NULL,\n    FOREIGN KEY (auteur_id) REFERENCES auteur(id)\n);\n\nINSERT INTO auteur (id, nom) VALUES (1, 'Saint-Exupery');\nINSERT INTO livre (id, titre, auteur_id) VALUES (1, 'Le Petit Prince', 1);\n\nSELECT l.titre, a.nom AS auteur\nFROM livre l\nJOIN auteur a ON a.id = l.auteur_id;",
+           "La table <code>livre</code> ne répète pas le nom de l'auteur : elle stocke seulement <code>auteur_id</code>. Le <code>JOIN</code> reconstruit l'information complète à la lecture.",
+           "Table <code>livre</code> ma kat3awedch smiya dyal auteur : katkhzen ghir <code>auteur_id</code>. <code>JOIN</code> kay3awed ybni information kamla f qraya."],
+          ["Intermédiaire — table de jonction", "sql",
+           "<p>Crée <code>membre</code>, <code>projet</code> et la table de jonction <code>inscription</code> avec une clé primaire composite <code>(membre_id, projet_id)</code> et deux clés étrangères. Insère deux membres, deux projets et trois inscriptions, puis compte les membres par projet.</p>",
+           "<p>5leq <code>membre</code>, <code>projet</code> w table de jonction <code>inscription</code> b clé primaire composite <code>(membre_id, projet_id)</code> w jouj clés étrangères. Dkhel jouj membres, jouj projets w tlata inscriptions, men ba3d 7seb membres b kol projet.</p>",
+           "-- tables et jonction\n",
+           [["sql_ok", ""], ["row_count", "2"], ["result_has", "Site web"], ["result_has", "2"]],
+           ["Une relation many-to-many passe par une table de jonction.", "La clé composite empêche d'inscrire deux fois le même membre au même projet.", "GROUP BY projet et COUNT(*) donnent le nombre de membres."],
+           "DROP TABLE IF EXISTS inscription;\nDROP TABLE IF EXISTS projet;\nDROP TABLE IF EXISTS membre;\n\nCREATE TABLE membre (\n    id INTEGER PRIMARY KEY,\n    nom TEXT NOT NULL\n);\n\nCREATE TABLE projet (\n    id INTEGER PRIMARY KEY,\n    titre TEXT NOT NULL\n);\n\nCREATE TABLE inscription (\n    membre_id INTEGER NOT NULL,\n    projet_id INTEGER NOT NULL,\n    PRIMARY KEY (membre_id, projet_id),\n    FOREIGN KEY (membre_id) REFERENCES membre(id),\n    FOREIGN KEY (projet_id) REFERENCES projet(id)\n);\n\nINSERT INTO membre (id, nom) VALUES (1, 'Amal'), (2, 'Yassine');\nINSERT INTO projet (id, titre) VALUES (1, 'Site web'), (2, 'API');\nINSERT INTO inscription (membre_id, projet_id) VALUES (1, 1), (1, 2), (2, 1);\n\nSELECT p.titre, COUNT(*) AS membres\nFROM inscription i\nJOIN projet p ON p.id = i.projet_id\nGROUP BY p.id, p.titre\nORDER BY p.id;",
+           "La table <code>inscription</code> porte la relation : chaque ligne relie un membre et un projet. La clé composite garantit l'unicité de la paire, et le <code>GROUP BY</code> produit le nombre de membres par projet.",
+           "Table <code>inscription</code> kat7mel relation : kol ligne katrbet membre w projet. Clé composite kaddmen unicité dyal paire, w <code>GROUP BY</code> kay3ti 3adad membres b kol projet."],
+          ["Avancé — ON DELETE CASCADE", "sql",
+           "<p>Crée <code>client3</code> et <code>commande3</code> avec une clé étrangère <code>client_id</code> vers <code>client3(id)</code> et l'option <code>ON DELETE CASCADE</code>. Affiche la définition SQL de <code>commande3</code> pour vérifier que la contrainte est bien enregistrée.</p>",
+           "<p>5leq <code>client3</code> w <code>commande3</code> b clé étrangère <code>client_id</code> l <code>client3(id)</code> w option <code>ON DELETE CASCADE</code>. 3red définition SQL dyal <code>commande3</code> bach t7eqqeq contrainte msjjla.</p>",
+           "-- DROP, CREATE puis SELECT sql\n",
+           [["sql_ok", ""], ["result_has", "ON DELETE CASCADE"], ["result_has", "FOREIGN KEY"]],
+           ["ON DELETE CASCADE supprime les commandes quand leur client est supprimé.", "La clause se place après REFERENCES.", "sqlite_master.sql contient la définition complète."],
+           "DROP TABLE IF EXISTS commande3;\nDROP TABLE IF EXISTS client3;\n\nCREATE TABLE client3 (\n    id INTEGER PRIMARY KEY,\n    nom TEXT NOT NULL\n);\n\nCREATE TABLE commande3 (\n    id INTEGER PRIMARY KEY,\n    client_id INTEGER NOT NULL,\n    FOREIGN KEY (client_id) REFERENCES client3(id) ON DELETE CASCADE\n);\n\nSELECT sql\nFROM sqlite_master\nWHERE type = 'table' AND name = 'commande3';",
+           "Avec <code>ON DELETE CASCADE</code>, la base supprime automatiquement les lignes enfants quand la ligne parente disparaît. Cela évite des commandes orphelines, à condition d'activer les clés étrangères.",
+           "B <code>ON DELETE CASCADE</code>, base kat7yed lignes enfants automatiquement melli ligne parente tmse7. Hadi katmna3 commandes orphelines, b chart tfe3el clés étrangères."]
+        ]
+      },
+      "12": {
+        "title": "Transactions",
+        "brief": "Valider, annuler et sécuriser un ensemble d'opérations.",
+        "levels": [
+          ["Débutant — BEGIN et COMMIT", "sql",
+           "<p>Crée une table <code>compte_tx</code>, ouvre une transaction avec <code>BEGIN</code>, insère une ligne <code>Depot</code>, valide avec <code>COMMIT</code>, puis affiche le nombre de lignes.</p>",
+           "<p>5leq table <code>compte_tx</code>, 7el transaction b <code>BEGIN</code>, dkhel ligne <code>Depot</code>, validi b <code>COMMIT</code>, men ba3d 3red 3adad lignes.</p>",
+           "-- table, transaction, COMMIT\n",
+           [["sql_ok", ""], ["result_has", "1"]],
+           ["BEGIN démarre une transaction.", "COMMIT valide toutes les opérations en attente.", "La table doit exister avant l'insertion."],
+           "DROP TABLE IF EXISTS compte_tx;\n\nCREATE TABLE compte_tx (\n    id INTEGER PRIMARY KEY,\n    libelle TEXT NOT NULL\n);\n\nBEGIN;\nINSERT INTO compte_tx (id, libelle) VALUES (1, 'Depot');\nCOMMIT;\n\nSELECT COUNT(*) AS total FROM compte_tx;",
+           "Les instructions entre <code>BEGIN</code> et <code>COMMIT</code> forment une seule unité. Ici l'insertion est validée, donc le <code>SELECT</code> voit une ligne.",
+           "Instructions bin <code>BEGIN</code> w <code>COMMIT</code> kaykkwno unité wa7da. Hna insertion tvalidat, donc <code>SELECT</code> kaychof ligne wa7da."],
+          ["Intermédiaire — ROLLBACK", "sql",
+           "<p>Crée <code>journal_tx</code> et insère une ligne <code>Initial</code>. Ouvre une transaction, insère <code>Tentative</code>, puis annule avec <code>ROLLBACK</code>. Affiche le nombre de lignes et le dernier message.</p>",
+           "<p>5leq <code>journal_tx</code> w dkhel ligne <code>Initial</code>. 7el transaction, dkhel <code>Tentative</code>, men ba3d annuli b <code>ROLLBACK</code>. 3red 3adad lignes w akhir message.</p>",
+           "-- transaction annulée\n",
+           [["sql_ok", ""], ["row_count", "1"], ["result_has", "1"], ["result_has", "Initial"]],
+           ["ROLLBACK annule les opérations depuis le dernier BEGIN.", "La ligne insérée avant la transaction est conservée.", "COUNT(*) et MAX(message) résument l'état final."],
+           "DROP TABLE IF EXISTS journal_tx;\n\nCREATE TABLE journal_tx (\n    id INTEGER PRIMARY KEY,\n    message TEXT NOT NULL\n);\n\nINSERT INTO journal_tx (id, message) VALUES (1, 'Initial');\n\nBEGIN;\nINSERT INTO journal_tx (id, message) VALUES (2, 'Tentative');\nROLLBACK;\n\nSELECT COUNT(*) AS total, MAX(message) AS dernier FROM journal_tx;",
+           "Le <code>ROLLBACK</code> défait seulement l'insertion faite dans la transaction. La ligne <code>Initial</code>, écrite avant, reste en place : le total vaut 1.",
+           "<code>ROLLBACK</code> kayrje3 ghir insertion li tdar f transaction. Ligne <code>Initial</code>, li tketbat qbel, katbqa : total = 1."],
+          ["Avancé — SAVEPOINT", "sql",
+           "<p>Crée <code>stock_tx</code>, ouvre une transaction, insère <code>Livre A</code> et <code>Livre B</code>, crée un <code>SAVEPOINT</code>, insère <code>Livre C</code>, puis revient au point avec <code>ROLLBACK TO</code>. Valide avec <code>COMMIT</code> et affiche le nombre de lignes restantes.</p>",
+           "<p>5leq <code>stock_tx</code>, 7el transaction, dkhel <code>Livre A</code> w <code>Livre B</code>, 5leq <code>SAVEPOINT</code>, dkhel <code>Livre C</code>, men ba3d rje3 l point b <code>ROLLBACK TO</code>. Validi b <code>COMMIT</code> w 3red 3adad lignes li bqaw.</p>",
+           "-- transaction avec savepoint\n",
+           [["sql_ok", ""], ["result_has", "2"]],
+           ["SAVEPOINT marque un point intermédiaire.", "ROLLBACK TO annule seulement ce qui suit le point.", "COMMIT valide le reste de la transaction."],
+           "DROP TABLE IF EXISTS stock_tx;\n\nCREATE TABLE stock_tx (\n    id INTEGER PRIMARY KEY,\n    produit TEXT NOT NULL\n);\n\nBEGIN;\nINSERT INTO stock_tx (id, produit) VALUES (1, 'Livre A');\nINSERT INTO stock_tx (id, produit) VALUES (2, 'Livre B');\nSAVEPOINT avant_erreur;\nINSERT INTO stock_tx (id, produit) VALUES (3, 'Livre C');\nROLLBACK TO avant_erreur;\nCOMMIT;\n\nSELECT COUNT(*) AS total FROM stock_tx;",
+           "Le <code>SAVEPOINT</code> permet d'annuler une partie de la transaction sans perdre les opérations précédentes. Après le <code>COMMIT</code>, seuls les livres A et B restent.",
+           "<code>SAVEPOINT</code> kaykhalli tnqes 7aja men transaction bla ma tkhser opérations li qbel. Mora <code>COMMIT</code>, ghir livres A w B li kaybqaw."]
+        ]
+      },
+      "13": {
+        "title": "Views et indexes",
+        "brief": "Créer des vues réutilisables et accélérer les recherches avec des index.",
+        "levels": [
+          ["Débutant — CREATE VIEW", "sql",
+           "<p>Crée une vue <code>vue_etudiants_gi</code> qui sélectionne <code>id</code>, <code>nom</code> et <code>prenom</code> des étudiants de la filière <code>GI</code>. Interroge ensuite la vue.</p>",
+           "<p>5leq vue <code>vue_etudiants_gi</code> li katkhtar <code>id</code>, <code>nom</code> w <code>prenom</code> dyal étudiants f filière <code>GI</code>. Men ba3d ste9se vue.</p>",
+           "-- CREATE VIEW puis SELECT\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "Kortaf"], ["result_has", "Sekkat"]],
+           ["Une vue se crée avec CREATE VIEW nom AS requête.", "La vue se comporte comme une table en lecture.", "Le WHERE filtre les étudiants de GI."],
+           "DROP VIEW IF EXISTS vue_etudiants_gi;\n\nCREATE VIEW vue_etudiants_gi AS\nSELECT id, nom, prenom\nFROM etudiant\nWHERE filiere = 'GI';\n\nSELECT nom, prenom\nFROM vue_etudiants_gi\nORDER BY nom;",
+           "La vue ne stocke pas de données : elle enregistre la requête et l'exécute à chaque lecture. Les trois étudiants de GI apparaissent sans que l'on réécrive le filtre.",
+           "Vue ma katkhzench données : katsejjel requête w kattnffedha f kol qraya. Tlata étudiants dyal GI kaybanou bla ma n3awdo nkteb filtre."],
+          ["Intermédiaire — CREATE INDEX", "sql",
+           "<p>Crée un index <code>idx_etudiant_filiere</code> sur la colonne <code>filiere</code> de la table <code>etudiant</code>, puis vérifie sa présence dans <code>sqlite_master</code>.</p>",
+           "<p>5leq index <code>idx_etudiant_filiere</code> 3la colonne <code>filiere</code> dyal table <code>etudiant</code>, men ba3d t7eqqeq wujud dyalo f <code>sqlite_master</code>.</p>",
+           "-- CREATE INDEX puis vérification\n",
+           [["sql_ok", ""], ["result_has", "idx_etudiant_filiere"]],
+           ["CREATE INDEX nom ON table (colonne) crée l'index.", "DROP INDEX IF EXISTS rend le script rejouable.", "sqlite_master liste les objets de la base."],
+           "DROP INDEX IF EXISTS idx_etudiant_filiere;\n\nCREATE INDEX idx_etudiant_filiere ON etudiant (filiere);\n\nSELECT name\nFROM sqlite_master\nWHERE type = 'index' AND name = 'idx_etudiant_filiere';",
+           "L'index est une structure annexe qui accélère les recherches et les tris sur <code>filiere</code>. Il ne change pas le résultat des requêtes, seulement leur coût.",
+           "Index structure annexe li kat3ejjel recherches w tris 3la <code>filiere</code>. Ma kaybeddelch résultat dyal requêtes, ghir coût dyalhom."],
+          ["Avancé — vue agrégée", "sql",
+           "<p>Crée une vue <code>vue_moyennes</code> qui affiche pour chaque étudiant son <code>nom</code> et sa moyenne arrondie à deux décimales. Interroge la vue pour les moyennes supérieures ou égales à <code>14</code>, triées de la meilleure à la moins bonne.</p>",
+           "<p>5leq vue <code>vue_moyennes</code> li kat3red l kol étudiant <code>nom</code> dyalo w moyenne mroundiya l jouj décimales. Ste9se vue l moyennes kbarin wla sawiyin <code>14</code>, mrtbin men l-7sen l l-9el.</p>",
+           "-- vue avec AVG, puis filtre\n",
+           [["sql_ok", ""], ["row_count", "3"], ["result_has", "Sekkat"], ["result_has", "15.17"]],
+           ["La vue peut contenir un GROUP BY et des agrégats.", "ROUND(AVG(...), 2) arrondit la moyenne.", "On filtre la vue avec WHERE comme une table."],
+           "DROP VIEW IF EXISTS vue_moyennes;\n\nCREATE VIEW vue_moyennes AS\nSELECT e.id, e.nom, ROUND(AVG(n.valeur), 2) AS moyenne\nFROM etudiant e\nJOIN note n ON n.etudiant_id = e.id\nGROUP BY e.id, e.nom;\n\nSELECT nom, moyenne\nFROM vue_moyennes\nWHERE moyenne >= 14\nORDER BY moyenne DESC;",
+           "La vue centralise le calcul de moyenne. Trois étudiants dépassent 14 : Sekkat (18.5), Kortaf (15.17) et Marzak (14.75).",
+           "Vue katjem3 calcul dyal moyenne. Tlata étudiants kayfouto 14 : Sekkat (18.5), Kortaf (15.17) w Marzak (14.75)."]
+        ]
+      },
+      "14": {
+        "title": "Conception de bases",
+        "brief": "Structurer des tables reliées et éviter la redondance.",
+        "levels": [
+          ["Débutant — client et commande", "sql",
+           "<p>Crée <code>client14</code> et <code>commande14</code> reliées par une clé étrangère. Insère deux clients et trois commandes, puis affiche chaque client avec son nombre de commandes.</p>",
+           "<p>5leq <code>client14</code> w <code>commande14</code> mrboutin b clé étrangère. Dkhel jouj clients w tlata commandes, men ba3d 3red kol client m3a 3adad commandes dyalo.</p>",
+           "-- schéma client / commande\n",
+           [["sql_ok", ""], ["row_count", "2"], ["result_has", "Amal"], ["result_has", "2"]],
+           ["Une commande appartient à un seul client.", "La clé étrangère évite une commande sans client.", "GROUP BY client et COUNT(*) comptent les commandes."],
+           "DROP TABLE IF EXISTS commande14;\nDROP TABLE IF EXISTS client14;\n\nCREATE TABLE client14 (\n    id INTEGER PRIMARY KEY,\n    nom TEXT NOT NULL\n);\n\nCREATE TABLE commande14 (\n    id INTEGER PRIMARY KEY,\n    client_id INTEGER NOT NULL,\n    montant REAL NOT NULL,\n    FOREIGN KEY (client_id) REFERENCES client14(id)\n);\n\nINSERT INTO client14 (id, nom) VALUES (1, 'Amal'), (2, 'Yassine');\nINSERT INTO commande14 (id, client_id, montant) VALUES (1, 1, 100), (2, 1, 50), (3, 2, 30);\n\nSELECT c.nom, COUNT(*) AS commandes\nFROM client14 c\nJOIN commande14 cmd ON cmd.client_id = c.id\nGROUP BY c.id, c.nom\nORDER BY c.nom;",
+           "Le nom du client est stocké une seule fois dans <code>client14</code>. Les commandes pointent vers lui par <code>client_id</code>, ce qui évite de répéter le nom et garde les données cohérentes.",
+           "Smiya dyal client katkhzen marra wa7da f <code>client14</code>. Commandes kay3ayto 3liha b <code>client_id</code>, w hakka smiya ma kat3awedch w données kaybqaw mtenasqin."],
+          ["Intermédiaire — lignes de commande", "sql",
+           "<p>Ajoute une table <code>ligne14</code> avec <code>commande_id</code>, <code>produit</code>, <code>quantite</code>, <code>prix_unitaire</code> et une clé primaire composite <code>(commande_id, produit)</code>. Insère deux lignes et calcule le total de la commande avec <code>SUM(quantite * prix_unitaire)</code>.</p>",
+           "<p>Zid table <code>ligne14</code> b <code>commande_id</code>, <code>produit</code>, <code>quantite</code>, <code>prix_unitaire</code> w clé primaire composite <code>(commande_id, produit)</code>. Dkhel jouj lignes w 7seb total dyal commande b <code>SUM(quantite * prix_unitaire)</code>.</p>",
+           "-- lignes et total\n",
+           [["sql_ok", ""], ["result_has", "120"]],
+           ["Une commande contient plusieurs lignes.", "La clé composite empêche deux lignes identiques pour le même produit.", "SUM(quantite * prix_unitaire) calcule le total."],
+           "DROP TABLE IF EXISTS ligne14;\nDROP TABLE IF EXISTS commande14;\nDROP TABLE IF EXISTS client14;\n\nCREATE TABLE client14 (\n    id INTEGER PRIMARY KEY,\n    nom TEXT NOT NULL\n);\n\nCREATE TABLE commande14 (\n    id INTEGER PRIMARY KEY,\n    client_id INTEGER NOT NULL,\n    FOREIGN KEY (client_id) REFERENCES client14(id)\n);\n\nCREATE TABLE ligne14 (\n    commande_id INTEGER NOT NULL,\n    produit TEXT NOT NULL,\n    quantite INTEGER NOT NULL CHECK (quantite > 0),\n    prix_unitaire REAL NOT NULL,\n    PRIMARY KEY (commande_id, produit),\n    FOREIGN KEY (commande_id) REFERENCES commande14(id)\n);\n\nINSERT INTO client14 (id, nom) VALUES (1, 'Amal');\nINSERT INTO commande14 (id, client_id) VALUES (1, 1);\nINSERT INTO ligne14 (commande_id, produit, quantite, prix_unitaire)\nVALUES (1, 'Clavier', 2, 50), (1, 'Souris', 1, 20);\n\nSELECT SUM(quantite * prix_unitaire) AS total\nFROM ligne14\nWHERE commande_id = 1;",
+           "La table <code>ligne14</code> détaille le contenu de chaque commande. Le total se recalcule à partir des quantités et des prix, sans stocker de montant redondant.",
+           "Table <code>ligne14</code> katfessel contenu dyal kol commande. Total kayt7seb men quantités w prix, bla ma nkhzeno montant redondant."],
+          ["Avancé — contraintes de conception", "sql",
+           "<p>Crée une table <code>produit14</code> avec <code>reference TEXT NOT NULL UNIQUE</code> et <code>prix REAL NOT NULL CHECK (prix &gt; 0)</code>. Insère deux produits, puis affiche le nombre de produits et la définition SQL de la table.</p>",
+           "<p>5leq table <code>produit14</code> b <code>reference TEXT NOT NULL UNIQUE</code> w <code>prix REAL NOT NULL CHECK (prix &gt; 0)</code>. Dkhel jouj produits, men ba3d 3red 3adad produits w définition SQL dyal table.</p>",
+           "-- contraintes et vérification\n",
+           [["sql_ok", ""], ["result_has", "2"], ["result_has", "CHECK"], ["result_has", "UNIQUE"]],
+           ["UNIQUE empêche deux produits d'avoir la même référence.", "CHECK refuse un prix nul ou négatif.", "sqlite_master.sql conserve les contraintes déclarées."],
+           "DROP TABLE IF EXISTS produit14;\n\nCREATE TABLE produit14 (\n    id INTEGER PRIMARY KEY,\n    reference TEXT NOT NULL UNIQUE,\n    prix REAL NOT NULL CHECK (prix > 0)\n);\n\nINSERT INTO produit14 (id, reference, prix) VALUES\n    (1, 'REF-001', 25.5),\n    (2, 'REF-002', 40);\n\nSELECT (SELECT COUNT(*) FROM produit14) AS total, sql\nFROM sqlite_master\nWHERE type = 'table' AND name = 'produit14';",
+           "Les contraintes documentent les règles métier directement dans le schéma : une référence unique et un prix strictement positif. La base refuse toute ligne qui les viole.",
+           "Contraintes kaywsef qawa3id métier nichan f schéma : référence unique w prix kbir men 0. Base katrefus ay ligne li tkhellhom."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "sql": {
+      "11": {
+        "title": "Quiz — Relations entre tables",
+        "questions": [
+          ["mcq", "Quel type de relation une table de jonction modélise-t-elle ?", ["Many-to-many", "One-to-one uniquement", "Aucune relation"], 0, "Table de jonction", "Une table de jonction relie deux tables qui ont une relation many-to-many.", "Table de jonction katrbet jouj tables li 3ndhom relation many-to-many."],
+          ["tf", "Une clé étrangère peut référencer la clé primaire d'une autre table.", 0, "Clé étrangère", "Vrai : la clé étrangère pointe vers une clé unique de la table référencée.", "S7i7 : clé étrangère kat3ayer l clé unique f table mrbouta."],
+          ["mcq", "Que garantit une clé primaire composite ?", ["L'unicité de la combinaison des colonnes", "L'unicité de chaque colonne séparément", "La suppression automatique des doublons"], 0, "Clé composite", "La combinaison doit être unique, mais chaque colonne prise seule peut se répéter.", "Combinaison khas tkoun unique, walakin kol colonne b wa7edha t9der t3awed."],
+          ["fill", "La contrainte qui relie une table à une autre est FOREIGN ________.", "KEY", "FOREIGN KEY", "FOREIGN KEY garantit que la valeur existe dans la table référencée.", "FOREIGN KEY kaddmen valeur katbqa kayna f table mrbouta."],
+          ["multi", "Quelles affirmations sont vraies sur une relation many-to-many ?", ["Elle nécessite une table de jonction", "Elle stocke une paire de clés étrangères", "Elle interdit les doublons avec une clé composite", "Elle se crée avec un seul FOREIGN KEY dans la table principale"], [0, 1, 2], "Relation many-to-many", "La table de jonction porte les deux clés étrangères et une clé composite qui évite les doublons.", "Table de jonction kat7mel jouj clés étrangères w clé composite li kamna3 tkrar."]
+        ]
+      },
+      "12": {
+        "title": "Quiz — Transactions",
+        "questions": [
+          ["mcq", "Quelle commande valide définitivement une transaction ?", ["COMMIT", "ROLLBACK", "BEGIN"], 0, "COMMIT", "COMMIT enregistre toutes les opérations de la transaction.", "COMMIT kaysejjel kol opérations dyal transaction."],
+          ["tf", "ROLLBACK annule les modifications non validées.", 0, "ROLLBACK", "Vrai : ROLLBACK défait les opérations depuis le dernier BEGIN ou SAVEPOINT.", "S7i7 : ROLLBACK kayrje3 opérations men akhir BEGIN wla SAVEPOINT."],
+          ["mcq", "À quoi sert SAVEPOINT ?", ["À créer un point intermédiaire dans une transaction", "À supprimer la base", "À créer un index"], 0, "SAVEPOINT", "SAVEPOINT permet d'annuler une partie de la transaction sans perdre le reste.", "SAVEPOINT kaykhalli tnqes 7aja men transaction bla ma tkhser li bqa."],
+          ["fill", "La commande qui démarre une transaction en SQLite est ________.", "BEGIN", "BEGIN", "BEGIN ouvre une transaction qui sera validée par COMMIT ou annulée par ROLLBACK.", "BEGIN kay7el transaction li ghadi tvalidi b COMMIT wla t3awed b ROLLBACK."],
+          ["mcq", "Après ROLLBACK TO nom_savepoint, que se passe-t-il ?", ["Les modifications après le savepoint sont annulées", "Toute la transaction est validée", "La table est supprimée"], 0, "ROLLBACK TO", "On revient au point marqué ; la transaction reste ouverte jusqu'à COMMIT ou ROLLBACK.", "Kanrje3o l point m3ellem ; transaction katbqa m7loula 7ta COMMIT wla ROLLBACK."]
+        ]
+      },
+      "13": {
+        "title": "Quiz — Views et indexes",
+        "questions": [
+          ["mcq", "Qu'est-ce qu'une vue SQL ?", ["Une table virtuelle basée sur une requête", "Une copie physique automatique des données", "Un fichier de sauvegarde"], 0, "Vue", "Une vue enregistre une requête et se comporte comme une table en lecture.", "Vue katsejjel requête w kat3mel b7al table f qraya."],
+          ["tf", "Une vue stocke une copie physique des données par défaut.", 1, "Stockage d'une vue", "Faux : la vue exécute sa requête à chaque lecture ; elle ne duplique pas les données.", "Ghalt : vue kattnffed requête dyalha f kol qraya ; ma kat3awedch données."],
+          ["mcq", "Quel objet accélère les recherches sur une colonne ?", ["Un index", "Une vue", "Un trigger"], 0, "Index", "L'index évite de parcourir toute la table pour trouver les lignes correspondantes.", "Index kaymna3 dowar 3la table kamla bach ylqa lignes."],
+          ["fill", "La commande qui crée une vue est CREATE ________.", "VIEW", "CREATE VIEW", "CREATE VIEW nom AS requête définit la vue.", "CREATE VIEW nom AS requête kat3erref vue."],
+          ["multi", "Quels avantages apporte un index ?", ["Accélérer les recherches", "Accélérer les tris sur la colonne indexée", "Supprimer les doublons", "Réduire l'espace de stockage"], [0, 1], "Avantages d'un index", "Un index accélère recherches et tris ; il ne supprime pas les doublons et occupe de l'espace supplémentaire.", "Index kay3ejjel recherches w tris ; ma kay7yedch tkrar w kayakhod espace zayd."]
+        ]
+      },
+      "14": {
+        "title": "Quiz — Conception de bases",
+        "questions": [
+          ["mcq", "Quel est le but principal de la normalisation ?", ["Réduire la redondance et les anomalies", "Augmenter le nombre de colonnes", "Supprimer les clés étrangères"], 0, "Normalisation", "La normalisation organise les données pour éviter les répétitions et les incohérences.", "Normalisation katt3adel données bach tmna3 tkrar w tanaqod."],
+          ["tf", "Une table de jonction permet de représenter une relation many-to-many.", 0, "Conception relationnelle", "Vrai : elle stocke les paires de clés des deux tables reliées.", "S7i7 : katkhzen paires clés dyal jouj tables mrboutin."],
+          ["mcq", "Quelle clé identifie de manière unique une ligne ?", ["La clé primaire", "Une clé étrangère", "Un index non unique"], 0, "Clé primaire", "La clé primaire est unique et non nulle.", "Clé primaire unique w machi khawya."],
+          ["fill", "La contrainte qui limite les valeurs avec une condition est ________.", "CHECK", "CHECK", "CHECK (prix > 0) refuse les valeurs qui ne respectent pas la condition.", "CHECK (prix > 0) kayrefus valeurs li ma kay7trmoch condition."],
+          ["mcq", "Pourquoi séparer client et commande en deux tables ?", ["Éviter de répéter les données du client et préserver la cohérence", "Pour avoir plus de tables", "Pour supprimer les jointures"], 0, "Séparation des entités", "Le client est stocké une fois ; les commandes le référencent par clé étrangère.", "Client kaykhzen marra wa7da ; commandes kay3ayto 3lih b clé étrangère."]
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "exercises": {
+    "php": {
+      "2": {
+        "title": "Variables et constantes",
+        "brief": "Déclarer des variables, définir des constantes et comprendre la portée.",
+        "levels": [
+          ["Débutant — déclarer et afficher", "php",
+           "<p>Déclare une variable <code>$couleur</code> valant <code>rouge</code>, puis affiche <code>Couleur : rouge</code>.</p>",
+           "<p>3len variable <code>$couleur</code> b valeur <code>rouge</code>, men ba3d 3red <code>Couleur : rouge</code>.</p>",
+           "<?php\n$couleur = \"rouge\";\n\n// Affiche la couleur\n",
+           [["output_contains", "Couleur : rouge"]],
+           ["Une variable PHP commence par $.", "La valeur texte s'écrit entre guillemets.", "Concatène le libellé et la variable avec un point."],
+           "<?php\n$couleur = \"rouge\";\n\necho \"Couleur : \" . $couleur;",
+           "La variable <code>$couleur</code> stocke la chaîne « rouge ». <code>echo</code> envoie le texte concaténé au navigateur.",
+           "Variable <code>$couleur</code> katkhzen chaîne « rouge ». <code>echo</code> kaysift texte m3a valeur l navigateur."],
+          ["Intermédiaire — constante et superglobale", "php",
+           "<p>Définis une constante <code>SITE_NAME</code> valant <code>MonSite</code>, lis <code>$_POST['username']</code> avec une valeur par défaut <code>Invité</code>, puis affiche <code>Bienvenue Invité sur MonSite</code>.</p>",
+           "<p>3len constante <code>SITE_NAME</code> b valeur <code>MonSite</code>, qra <code>$_POST['username']</code> b valeur par défaut <code>Invité</code>, men ba3d 3red <code>Bienvenue Invité sur MonSite</code>.</p>",
+           "<?php\ndefine(\"SITE_NAME\", \"MonSite\");\n\n// Lis le champ puis affiche\n",
+           [["output_contains", "Bienvenue Invité sur MonSite"]],
+           ["define(\"SITE_NAME\", \"MonSite\") crée la constante.", "L'opérateur ?? fournit « Invité » si le champ manque.", "Une constante s'utilise sans le symbole $."],
+           "<?php\ndefine(\"SITE_NAME\", \"MonSite\");\n\n$username = $_POST['username'] ?? 'Invité';\necho \"Bienvenue \" . $username . \" sur \" . SITE_NAME;",
+           "La constante <code>SITE_NAME</code> reste disponible dans tout le script. <code>$_POST</code> est vide dans cet exemple, donc <code>??</code> fournit la valeur par défaut.",
+           "Constante <code>SITE_NAME</code> katbqa disponible f script kamel. <code>$_POST</code> khawi f had exemple, donc <code>??</code> kay3ti valeur par défaut."],
+          ["Avancé — portée et superglobales", "php",
+           "<p>Définis <code>$compteur = 5</code>. Dans une fonction <code>direBonjour()</code>, utilise <code>global $compteur</code> et affiche <code>Bonjour - 5</code>. Lis ensuite <code>$_GET['page']</code> avec la valeur par défaut <code>accueil</code> et affiche <code>Page : accueil</code>.</p>",
+           "<p>3len <code>$compteur = 5</code>. F fonction <code>direBonjour()</code>, khdem b <code>global $compteur</code> w 3red <code>Bonjour - 5</code>. Men ba3d qra <code>$_GET['page']</code> b valeur par défaut <code>accueil</code> w 3red <code>Page : accueil</code>.</p>",
+           "<?php\n$compteur = 5;\n\nfunction direBonjour() {\n    // portée globale\n}\n\n// Page demandée\n",
+           [["output_contains", "Bonjour - 5"], ["output_contains", "Page : accueil"]],
+           ["global $compteur importe la variable dans la fonction.", "$_GET['page'] ?? 'accueil' gère l'absence de paramètre.", "Appelle la fonction avant d'afficher la page."],
+           "<?php\n$compteur = 5;\n\nfunction direBonjour() {\n    global $compteur;\n    $message = \"Bonjour\";\n    echo $message . \" - \" . $compteur;\n}\n\ndireBonjour();\n\n$page = $_GET['page'] ?? 'accueil';\necho \" | Page : \" . $page;",
+           "Sans <code>global</code>, la fonction ne verrait pas <code>$compteur</code>. La superglobale <code>$_GET</code> reste accessible partout et l'opérateur <code>??</code> évite une erreur si le paramètre manque.",
+           "Bla <code>global</code>, fonction ma katchefch <code>$compteur</code>. Superglobale <code>$_GET</code> katbqa accessible f kol blasa w <code>??</code> kaymna3 erreur ila paramètre ma kanch."]
+        ]
+      }
+    }
+  },
+  "quizzes": {
+    "php": {
+      "2": {
+        "title": "Quiz — Variables et constantes",
+        "questions": [
+          ["mcq", "Comment déclare-t-on une variable en PHP ?", ["Avec un $ suivi du nom", "Avec le mot-clé var uniquement", "Avec deux-points"], 0, "Déclaration", "Une variable PHP commence par <code>$</code>, par exemple <code>$age</code>.", "Variable PHP katbda b <code>$</code>, b7al <code>$age</code>."],
+          ["tf", "Une constante se déclare avec define() ou const.", 0, "Constante", "Vrai : <code>define('SITE_NAME', 'MonSite')</code> ou <code>const SITE_NAME = 'MonSite'</code>.", "S7i7 : <code>define('SITE_NAME', 'MonSite')</code> wla <code>const SITE_NAME = 'MonSite'</code>."],
+          ["mcq", "Que renvoie $_POST['nom'] ?? 'Inconnu' si le champ est absent ?", ["Inconnu", "null", "Une erreur fatale"], 0, "Opérateur ??", "L'opérateur null coalescing renvoie la valeur de droite si la clé manque ou vaut null.", "Opérateur null coalescing kayrje3 valeur dyal limen ila clé ma kanatch wla kant null."],
+          ["fill", "Le mot-clé qui importe une variable globale dans une fonction est ________.", "global", "Portée", "<code>global $compteur;</code> rend la variable globale accessible dans la fonction.", "<code>global $compteur;</code> kay3mel variable globale accessible f fonction."],
+          ["mcq", "Quelle superglobale contient les paramètres de l'URL ?", ["$_GET", "$_POST", "$_SESSION"], 0, "Superglobales", "<code>$_GET</code> contient les paramètres passés dans la query string.", "<code>$_GET</code> kay7mel paramètres li kaydozo f query string."]
+        ]
+      }
+    }
+  }
+}

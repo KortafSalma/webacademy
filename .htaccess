@@ -1,0 +1,30 @@
+# WebAcademy — compatibilité Apache lorsque le DocumentRoot est la racine du projet.
+# En production, préférez DocumentRoot = .../public et supprimez ce fichier.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Dossiers privés : jamais servis par Apache.
+    RewriteRule ^(?:src|content|data|views|node_modules|\.git)(?:/|$) - [F,L,NC]
+
+    # Fichiers internes, configuration, rapports, bases et sauvegardes.
+    RewriteRule ^(?:config_local\.php|package(?:-lock)?\.json|router\.php|.*\.md|.*\.sqlite(?:3)?(?:-wal|-shm|-journal)?|.*\.log|.*\.bak|.*\.tmp)$ - [F,L,NC]
+    RewriteRule (^|/)\. - [F,L,NC]
+
+    # Les assets publics vivent dans public/assets.
+    RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+    RewriteRule ^favicon\.svg$ public/favicon.svg [L]
+
+    # Le front controller public traite toutes les autres URLs.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ public/index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "DENY"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+</IfModule>

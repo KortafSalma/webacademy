@@ -1,0 +1,20 @@
+# Données locales et journaux SQLite
+data/*.sqlite-wal
+data/*.sqlite-shm
+data/*.sqlite-journal
+data/*.log
+
+# Fichiers temporaires / éditeurs
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# Dépendances éventuelles
+node_modules/
+vendor/
+
+# Captures et rapports de test locaux
+/wa_shots/
+/test-results/
