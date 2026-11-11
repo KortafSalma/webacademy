@@ -1,0 +1,42 @@
+# WebAcademy — DocumentRoot = htdocs (InfinityFree free hosting)
+# Document root is directly htdocs/, no parent directory available.
+# This file protects private folders and routes all other requests to front controller.
+
+Options -Indexes
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Servir les assets directement depuis htdocs/assets/
+    RewriteRule ^assets/(.+)$ assets/$1 [L]
+    RewriteRule ^favicon\.svg$ assets/favicon.svg [L]
+
+    # Interdiction d'accéder aux dossiers privés directement via URL
+    RewriteRule ^(?:src|content|data|views)(?:/|$) - [F,L,NC]
+
+    # Interdiction des fichiers sensibles internes
+    RewriteRule ^(?:config_local\.php|package(?:-lock)?\.json|router\.php|.*\.md|.*\.sqlite(?:3)?(?:-wal|-shm|-journal)?|.*\.log|.*\.bak|.*\.tmp|.*\.gitignore)$ - [F,L,NC]
+    RewriteRule (^|/)\. - [F,L,NC]
+
+    # Le front controller index.php traite toutes les autres URLs.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "DENY"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+</IfModule>
+
+<FilesMatch "\.(?:sqlite|sqlite3|db|ini|log|md|bak|tmp)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
