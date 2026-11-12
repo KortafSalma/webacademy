@@ -381,9 +381,7 @@ WA.lesson = (function () {
             const consignes = h('div', { style: 'margin-bottom:10px' },
                 h('div', { style: 'font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px' }, 'Consignes'),
                 lv.instructions ? h('div', { html: lv.instructions }) : null,
-                lv.instructionsDarija ? h('div.wa-darija', {},
-                    h('span.flag', {}, 'Darija'),
-                    h('div', { html: lv.instructionsDarija }) : null;
+                lv.instructionsDarija ? h('div.wa-darija', {}, h('span.flag', {}, 'Darija'), h('div', { html: lv.instructionsDarija })) : null,
 
             content.appendChild(consignes);
 
