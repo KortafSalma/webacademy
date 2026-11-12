@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 # WebAcademy — DocumentRoot = htdocs (tinkerhost)
 # Adapté pour tinkerhost : règles Apache pour protéger dossiers privés
 # etrouter vers le front controller index.php.
->>>>>>> b5cdeb6 (Adding Edited files)
 
 Options -Indexes
 DirectoryIndex index.php
@@ -11,29 +8,18 @@ DirectoryIndex index.php
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-<<<<<<< HEAD
-    # Protect private application directories
-=======
     # Interdiction d'accéder aux dossiers privés directement via URL
->>>>>>> b5cdeb6 (Adding Edited files)
     RewriteRule ^(?:src|content|data|views)(?:/|$) - [F,L,NC]
 
-    # Protect sensitive files
+    # Interdiction des fichiers sensibles internes
     RewriteRule ^(?:config_local\.php|package(?:-lock)?\.json|router\.php|.*\.md|.*\.sqlite(?:3)?(?:-wal|-shm|-journal)?|.*\.log|.*\.bak|.*\.tmp|.*\.gitignore)$ - [F,L,NC]
-
-    # Protect hidden files
     RewriteRule (^|/)\. - [F,L,NC]
 
-<<<<<<< HEAD
-    # Route unknown URLs through the front controller
-=======
     # Le front controller index.php traite toutes les URLs qui ne
     # correspondent pas à un fichier physique.
     # Si le fichier (dont les assets CSS/JS) existe, il est servi directement
     # avec le bon MIME type. Sinon, routage vers index.php.
->>>>>>> b5cdeb6 (Adding Edited files)
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
 
@@ -44,20 +30,12 @@ DirectoryIndex index.php
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
 </IfModule>
 
-<IfModule mod_authz_core.c>
-    <FilesMatch "\.(?:sqlite|sqlite3|db|ini|log|md|bak|tmp)$">
+<FilesMatch "\.(?:sqlite|sqlite3|db|ini|log|md|bak|tmp)$">
+    <IfModule mod_authz_core.c>
         Require all denied
-<<<<<<< HEAD
-    </FilesMatch>
-</IfModule>
-
-<IfModule !mod_authz_core.c>
-    <FilesMatch "\.(?:sqlite|sqlite3|db|ini|log|md|bak|tmp)$">
-=======
     </IfModule>
-    <IfModule !mod_authiz_core.c>
->>>>>>> b5cdeb6 (Adding Edited files)
+    <IfModule !mod_authz_core.c>
         Order allow,deny
         Deny from all
-    </FilesMatch>
-</IfModule>
+    </IfModule>
+</FilesMatch>

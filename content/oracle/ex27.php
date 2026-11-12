@@ -20,15 +20,15 @@ return [
             'lang'  => 'oracle',
             'instructions' => '<p>Écrivez la création d\'un trigger BEFORE INSERT sur la table "commandes" qui affecte la valeur par défaut "EN_ATTENTE" au statut si NULL.</p>',
             'instructionsDarija' => '<p>Création trigger BEFORE INSERT table "commandes" affecte valeur par défaut "EN_ATTENTE" statut NULL.</p>',
-            'starter' => 'CREATE OR REPLACE TRIGGER trg_valider_avant_insert BEFORE INSERT ON commandes FOR EACH ROW BEGIN IF :NEW.statut IS NULL THEN :NEW.statut := \\'EN_ATTENTE\\'; END IF; END;',
+            'starter' => 'CREATE OR REPLACE TRIGGER trg_valider_avant_insert BEFORE INSERT ON commandes FOR EACH ROW BEGIN IF :NEW.statut IS NULL THEN :NEW.statut := \'EN_ATTENTE\'; END IF; END;',
             'hints' => [
                 'BEFORE s\'exécute avant l\'opération INSERT.',
                 'FOR EACH ROW s\'exécute pour chaque ligne affectée.',
                 ':NEW référence les nouvelles valeurs.',
             ],
-            'solution' => 'CREATE OR REPLACE TRIGGER trg_valider_avant_insert BEFORE INSERT ON commandes FOR EACH ROW BEGIN IF :NEW.statut IS NULL THEN :NEW.statut := \\'EN_ATTENTE\\'; END IF; END;',
+            'solution' => 'CREATE OR REPLACE TRIGGER trg_valider_avant_insert BEFORE INSERT ON commandes FOR EACH ROW BEGIN IF :NEW.statut IS NULL THEN :NEW.statut := \'EN_ATTENTE\'; END IF; END;',
             'explainFr' => 'Le trigger s\'exécute avant chaque insertion dans la table commandes. Si le statut est NULL, il devient "EN_ATTENTE".',
-            'explainDarija' => 'Trigger s\\'exécute avant chaque insertion table commandes statut NULL devient "EN_ATTENTE".',
+            'explainDarija' => 'Trigger s\'exécute avant chaque insertion table commandes statut NULL devient "EN_ATTENTE".',
         ],
 
         [
@@ -45,7 +45,7 @@ return [
             ],
             'solution' => 'CREATE OR REPLACE TRIGGER trg_journaliser_update AFTER UPDATE ON employés FOR EACH ROW BEGIN NULL; END;',
             'explainFr' => 'Le trigger s\'exécute après chaque modification de la table employés. Le corps est laissé vide (NULL) pour l\'exemple, mais pourrait écrire dans une table d\'audit.',
-            'explainDarija' => 'Trigger s\\'exécute après chaque modification table employés corps vide可能写入表 audit.',
+            'explainDarija' => 'Trigger s\'exécute après chaque modification table employés corps vide可能写入表 audit.',
         ],
 
         [
@@ -86,15 +86,15 @@ return [
             'lang'  => 'oracle',
             'instructions' => '<p>Écrivez un trigger BEFORE DELETE sur la table "clients" qui empêche la suppression si le client a des commandes existantes.</p>',
             'instructionsDarija' => '<p>Trigger BEFORE DELETE table "clients" empêche suppression si client a commandes existantes.</p>',
-            'starter' => 'CREATE OR REPLACE TRIGGER trg_proteger_suppression BEFORE DELETE ON clients FOR EACH ROW BEGIN SELECT COUNT(*) INTO v_compte FROM commandes WHERE client_id = :OLD.id; IF v_compte > 0 THEN RAISE_APPLICATION_ERROR(-20001, \\'Impossible de supprimer un client ayant des commandes existantes.\\'); END IF; END;',
+            'starter' => 'CREATE OR REPLACE TRIGGER trg_proteger_suppression BEFORE DELETE ON clients FOR EACH ROW BEGIN SELECT COUNT(*) INTO v_compte FROM commandes WHERE client_id = :OLD.id; IF v_compte > 0 THEN RAISE_APPLICATION_ERROR(-20001, \'Impossible de supprimer un client ayant des commandes existantes.\'); END IF; END;',
             'hints' => [
                 'Utilisez BEFORE DELETE pour vérifier avant la suppression.',
                 ':OLD.id contient l\'identifiant ancien du client supprimé.',
                 'RAISE_APPLICATION_ERROR lève une erreur personnalisée.',
             ],
-            'solution' => 'CREATE OR REPLACE TRIGGER trg_proteger_suppression BEFORE DELETE ON clients FOR EACH ROW BEGIN SELECT COUNT(*) INTO v_compte FROM commandes WHERE client_id = :OLD.id; IF v_compte > 0 THEN RAISE_APPLICATION_ERROR(-20001, \\'Impossible de supprimer un client ayant des commandes existantes.\\'); END IF; END;',
+            'solution' => 'CREATE OR REPLACE TRIGGER trg_proteger_suppression BEFORE DELETE ON clients FOR EACH ROW BEGIN SELECT COUNT(*) INTO v_compte FROM commandes WHERE client_id = :OLD.id; IF v_compte > 0 THEN RAISE_APPLICATION_ERROR(-20001, \'Impossible de supprimer un client ayant des commandes existantes.\'); END IF; END;',
             'explainFr' => 'Le trigger vérifie s\'il existe des commandes pour ce client. S\'il y en a, une erreur est levée pour empêcher la suppression.',
-            'explainDarija' => 'Trigger vérifie EXISTS commandes client s\\'il y en a erreur levée empêcher suppression.',
+            'explainDarija' => 'Trigger vérifie EXISTS commandes client s\'il y en a erreur levée empêcher suppression.',
         ],
 
     ],
