@@ -1,4 +1,5 @@
 # Données locales et journaux SQLite
+data/app.sqlite
 data/*.sqlite-wal
 data/*.sqlite-shm
 data/*.sqlite-journal

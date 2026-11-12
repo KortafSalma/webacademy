@@ -383,7 +383,7 @@ WA.lesson = (function () {
                 lv.instructions ? h('div', { html: lv.instructions }) : null,
                 lv.instructionsDarija ? h('div.wa-darija', {},
                     h('span.flag', {}, 'Darija'),
-                    h('div', { html: lv.instructionsDarija })) : null));
+                    h('div', { html: lv.instructionsDarija }) : null;
 
             content.appendChild(consignes);
 

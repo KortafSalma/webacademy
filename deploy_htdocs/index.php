@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WebAcademy — front controller for InfinityFree htdocs.
+ * WebAcademy — front controller for tinkerhost / InfinityFree htdocs.
  * 
  * Point d'entrée unique exposé par le serveur web. 
  * Les dossiers src/, content/, views/ et data/ sont dans htdocs/ 
@@ -45,6 +45,9 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
  * srcdoc : 'unsafe-inline' est donc nécessaire pour que les scripts des
  * aperçus continuent de fonctionner. Toutes les ressources (polices et
  * CodeMirror) sont auto-hébergées : aucune origine externe n'est autorisée.
+ * 
+ * CSP explicite : seules les ressources depuis 'self' sont autorisées,
+   les scripts inline sont nécessaires pour les ateliers dans iframes.
  */
 header(
     "Content-Security-Policy: default-src 'self'; "
@@ -158,4 +161,4 @@ if (is_string($requestPath) && preg_match('#/router\.php$#i', $requestPath)) {
 // ---------------------------------------------------------------- Shell SPA
 header('Content-Type: text/html; charset=utf-8');
 header('Cache-Control: no-store, max-age=0');
-include APP_ROOT . '/views/shell.php';
+include __DIR__ . '/views/shell.php';

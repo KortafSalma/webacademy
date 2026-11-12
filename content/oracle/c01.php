@@ -73,9 +73,10 @@ compatible       19.0.0.0.0</pre>',
             'icon'  => '📦',
             'blocks' => [
 
-                make_text_block(
-                    '<p>Oracle Database existe en plusieurs éditions selon les besoins :</p>',
-                    '<p>Oracle Database kayjib editiouns plusieurs selon les besoins :</p>'
+                make_definition_block(
+                    'SGBD (Système de Gestion de Base de Données)',
+                    '<p>Un SGBD est un logiciel qui crée et fait gérer des bases de données. Il assure la <strong>stockage, la sécurité, la concurrence et la récupération</strong> des données. Oracle Database est un SGBD de niveau entreprise.</p>',
+                    '<p>Un SGBD (Systeme de Gestion de Base de Donnees) howa software li kaymanage w kaystocke les données. Il assure la sécurité, w la concurrence, w la récupération.</p>'
                 ),
 
                 make_keywords_block([
@@ -86,12 +87,12 @@ compatible       19.0.0.0.0</pre>',
 
                 make_text_block(
                     '<p><strong>Oracle Database 23c XE</strong> est la version gratuite, idéale pour l\'apprentissage, le développement et les petites deployments. Elle est téléchargeable gratuitement depuis le site d\'Oracle et limite la mémoire utilisée à <strong>12 Go</strong>.</p>',
-                    '<p><b>Oracle Database 23c XE</b> howa version gratuite, ideal pour l'apprentissage, le developpement w les petites deployments. Telechargeable gratuit depuis site Oracle w memory limit 12 Go.</p>'
+                    '<p>Oracle Database 23c XE howa version gratuite, ideal pour l\'apprentissage, le developpement w les petites deployments. Telechargeable gratuit depuis site Oracle w memory limit 12 Go.</p>'
                 ),
 
                 make_tip_block(
                     'Quand utiliser XE ?',
-                    '<p>L\'édition XE convient parfaitement pour apprendre SQL et PL/SQL, développer des applications de petite à moyenne taille, et des projets scolaires ou personnels. Pour les charges de production intensives, optez pour une édition payante.</p>',
+                    '<p>L\'édiction XE convient parfaitement pour apprendre SQL et PL/SQL, développer des applications de petite à moyenne taille, et des projets scolaires ou personnels. Pour les charges de production intensives, optez pour une édition payante.</p>',
                     '<p>XE howa khayef b3d lernen SQL w PL/SQL, developpaption application petite w moyenne size, w projets scolaire w personnel. For production intensif, optez pour edition payante.</p>'
                 ),
 
@@ -134,7 +135,7 @@ compatible       19.0.0.0.0</pre>',
                 make_example_block(
                     'Connexion en tant que SYS',
                     '<pre><code>-- En SQL*Plus\nSQL> CONNECT SYS as SYSDBA\nEnter password: password\n\n-- En SQL Developer :\n1. Cliquez sur "Connect"\n2. Utilisez utilisateur : SYS\n3. Mot de passe : Manager\n4. Connectez-vous en tant que SYSDBA</code></pre>',
-                    '<pre>SQL*Plus: Release 21.0.0.0.0 - Production on mar. 24 juin 2025 10:30:12\n\nCopyright (c) 1982, 2025, Oracle.  All rights reserved.\n\nEnter password: ********\n\nConnected to:\nOracle Database 21c Express Edition Release 21.0.0.0.0 - Production\n</pre>',
+                    '<pre>SQL*Plus: Release 21.0.0.0.0 - Production on mar. 24 juin 2025 10:30:12\n\nCopyright (c) 1982, 2025, Oracle.  All rights reserved.\n\nEnter password: ********\n\nConnected to:\nOracle Database 21c Express Edition Release 21.0.0.0.0 - Production</pre>',
                     'La connexion SYS avec SYSDBA permet de gérer la base au niveau mondial (création de PDB, restauration, etc.).',
                     'SYS avec SYSDBA kaymanage niveau mondial (création PDB, restauration, etc.).'
                 ),

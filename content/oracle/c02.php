@@ -125,7 +125,7 @@ return [
     'mistakes' => [
         [
             'wrong'  => 'Lancer l\'installation sans droits d\'administrateur',
-            'fix'    'Exécutez l\'installateur en tant qu\'administrateur (Windows) ou avec sudo (Linux).',
+            'fix'    => 'Exécutez l\'installateur en tant qu\'administrateur (Windows) ou avec sudo (Linux).',
             'fr'     => 'L\'installation de Oracle Database XE nécessite des privilèges d\'administrateur. Sans eux, l\'installateur échouera lors du configurage des ports et des services.',
             'darija' => 'Installation b rights d\'admin échouera f configurage ports w services.'
         ],
