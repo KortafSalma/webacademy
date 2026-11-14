@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * MODULE ORACLE — Chapitre 15 : Sous-requêtes et requêtes imbriquées
- * Utiliser des requêtes SELECT à l'intérieur d'autres requêtes SELECT, INSERT, UPDATE ou DELETE.
+ * Utiliser des requêtes SELECT à l\'intérieur d\'autres requêtes SELECT, INSERT, UPDATE ou DELETE.
  */
 
 return [

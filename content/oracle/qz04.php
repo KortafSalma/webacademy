@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Que se passera-t-il si l\'on exécute TRUNCATE TABLE commandes dans une transaction non validée ?',
-            'options' => 'Les lignes peuvent être restaurées avec ROLLBACK', 'Les lignes sont définitivement supprimées', 'Erreur de syntaxe', 'Aucun effet'],
+            'options' => ['Les lignes peuvent être restaurées avec ROLLBACK', 'Les lignes sont définitivement supprimées', 'Erreur de syntaxe', 'Aucun effet'],
             'answer'  => 1,
             'concept' => 'TRUNCATE et transactions',
             'explainFr' => 'Faux : TRUNCATE est auto-committable, il ne peut pas être annulé par ROLLBACK. Utilisez DELETE si vous avez besoin d\'annulation.',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Quelle est la différence entre DROP et TRUNCATE ?',
-            'options' => 'DROP supprime structure données, TRUNCATE vide données structure', 'DROP vide structure, TRUNCATE supprime données', 'Identique', 'Aucune des réponses ci-dessus'],
+            'options' => ['DROP supprime structure données, TRUNCATE vide données structure', 'DROP vide structure, TRUNCATE supprime données', 'Identique', 'Aucune des réponses ci-dessus'],
             'answer'  => 0,
             'concept' => 'DROP vs TRUNCATE',
             'explainFr' => 'DROP supprime complètement la table (structure + données), TRUNCATE ne supprime que les lignes mais conserve le schéma.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Que fait ALTER TABLE ?',
-            'options' => 'Modifie la structure d\'une table existante', 'Supprime une table', 'Crée une nouvelle table', 'Renomme une table'],
+            'options' => ['Modifie la structure d\'une table existante', 'Supprime une table', 'Crée une nouvelle table', 'Renomme une table'],
             'answer'  => 0,
             'concept' => 'Commande ALTER TABLE',
             'explainFr' => 'ALTER TABLE permet d\'ajouter, modifier ou supprimer des colonnes et des contraintes.',

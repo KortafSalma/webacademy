@@ -14,7 +14,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'La boucle LOOP crée :',
-            'options' => 'Une boucle infinie', 'Une boucle while', 'Une boucle for', 'Une fonction'],
+            'options' => ['Une boucle infinie', 'Une boucle while', 'Une boucle for', 'Une fonction'],
             'answer' => 0,
             'concept' => 'Boucle LOOP',
             'explainFr' => 'LOOP crée une boucle infinie. Il faut impérativement prévoir une condition EXIT pour en sortir.',
@@ -43,7 +43,7 @@ return [
         [
             'type'    => 'find-error',
             'question'=> 'Identifiez l\'erreur potentielle : DECLARE v_compteur NUMBER := 1; BEGIN LOOP DBMS_OUTPUT.PUT_LINE(v_compteur); END LOOP; END ;',
-            'options' => 'Oubli variable', 'Boucle infinie sans EXIT', 'Syntaxe incorrecte', 'Pas d\'erreur'],
+            'options' => ['Oubli variable', 'Boucle infinie sans EXIT', 'Syntaxe incorrecte', 'Pas d\'erreur'],
             'answer' => 1,
             'concept' => 'Boucle LOOP sans EXIT',
             'explainFr' => 'Sans EXIT WHEN ou une condition d\'arrêt, la boucle s\'exécutera indéfiniment (boucle infinie).',
@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Que affichera la boucle : DECLARE v_compteur NUMBER := 1; LOOP DBMS_OUTPUT.PUT_LINE(v_compteur); v_compteur := v_compteur + 1; EXIT WHEN v_compteur > 3; END LOOP; END ;',
-            'options' => '1 2 3', '1 2 3 4', '1 2', 'Aucune affichage',
+            'options' => ['1 2 3', '1 2 3 4', '1 2', 'Aucune affichage'],
             'answer' => 0,
             'concept' => 'Boucle LOOP EXIT WHEN',
             'explainFr' => 'La boucle affichera 1, 2, 3 et s\'arrêtera grâce à EXIT WHEN v_compteur > 3.',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'La boucle FOR v IN lower..upper LOOP itère sur :',
-            'options' => 'Une plage de valeurs connue', 'Des valeurs aléatoires', 'Des valeurs de table', 'Des valeurs de curseur'],
+            'options' => ['Une plage de valeurs connue', 'Des valeurs aléatoires', 'Des valeurs de table', 'Des valeurs de curseur'],
             'answer' => 0,
             'concept' => 'Boucle FOR',
             'explainFr' => 'La variable v est automatiquement créée et prend les valeurs de lower à upper.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle des suivantes permet de calculer la somme de 1 à 10 ?',
-            'options' => 'DECLARE v_somme NUMBER := 0; FOR v IN 1..10 LOOP v_somme := v_somme + v; END LOOP;', 'DECLARE v_compteur NUMBER := 1; LOOP EXIT WHEN v_compteur > 10; END LOOP;', 'DECLARE v_age NUMBER := 30; WHILE v_age > 0 LOOP v_age := v_age - 1; END LOOP;', 'Toutes les réponses ci-dessus',
+            'options' => ['DECLARE v_somme NUMBER := 0; FOR v IN 1..10 LOOP v_somme := v_somme + v; END LOOP;', 'DECLARE v_compteur NUMBER := 1; LOOP EXIT WHEN v_compteur > 10; END LOOP;', 'DECLARE v_age NUMBER := 30; WHILE v_age > 0 LOOP v_age := v_age - 1; END LOOP;', 'Toutes les réponses ci-dessus'],
             'answer' => 0,
             'concept' => 'Boucle FOR somme',
             'explainFr' => 'La première option utilise une boucle FOR de 1 à 10 pour accumulator la somme.',

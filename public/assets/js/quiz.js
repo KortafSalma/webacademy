@@ -60,7 +60,7 @@ WA.quiz = (function () {
         if (q.type === 'multi') return 'multi';
         if (q.type === 'fill') return 'fill';
         if (q.type === 'sql') return 'sql';
-        if (q.type === 'tf') return 'tf';
+        if (q.type === 'tf' || q.type === 'true_false') return 'tf';
         return 'single';
     }
 
@@ -97,6 +97,7 @@ WA.quiz = (function () {
 
         function optionsFor(q) {
             if (q.type === 'tf') return ['Vrai', 'Faux'];
+            if (q.type === 'true_false') return ['Faux', 'Vrai'];
             return Array.isArray(q.options) ? q.options : [];
         }
 

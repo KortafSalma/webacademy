@@ -14,7 +14,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'La clause GROUP BY sert à :',
-            'options' => 'Filtrer les lignes avant le groupement', 'Regrouper les lignes ayant les mêmes valeurs', ' Trier le résultat final', 'Sélectionner des colonnes'],
+            'options' => ['Filtrer les lignes avant le groupement', 'Regrouper les lignes ayant les mêmes valeurs', ' Trier le résultat final', 'Sélectionner des colonnes'],
             'answer'  => 1,
             'concept' => 'Clause GROUP BY',
             'explainFr' => 'GROUP BY regroupe les lignes qui possèdent les mêmes valeurs dans les colonnes spécifiées.',
@@ -43,7 +43,7 @@ return [
         [
             'type'    => 'find-error',
             'question'=> 'Identifiez l\'erreur : SELECT client_id, COUNT(*) FROM commandes GROUP BY client_id WHERE COUNT(*) > 3',
-            'options' => 'WHERE placé après GROUP BY', 'HAVING manquant', 'Pas d\'erreur', 'Syntaxe correcte'],
+            'options' => ['WHERE placé après GROUP BY', 'HAVING manquant', 'Pas d\'erreur', 'Syntaxe correcte'],
             'answer'  => 0,
             'concept' => 'Erreur WHERE après GROUP BY',
             'explainFr' => 'L\'erreur consiste à écrire WHERE COUNT(*) > 5 après un GROUP BY. Cela provoque une erreur car les alias d\'agrégat n\'existent pas encore au niveau WHERE. Utilisez HAVING à la place.',
@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Quel sera le résultat de SELECT ville, COUNT(*) FROM clients GROUP BY ville HAVING COUNT(*) > 2 ;',
-            'options' => 'Villes avec plus de 2 clients', 'Erreur de syntaxe', 'Toutes les villes', 'Aucune ville'],
+            'options' => ['Villes avec plus de 2 clients', 'Erreur de syntaxe', 'Toutes les villes', 'Aucune ville'],
             'answer'  => 0,
             'concept' => 'HAVING avec COUNT',
             'explainFr' => 'La requête affichera seulement les villes qui comptent plus de 2 clients.',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Dans quel ordre s\'exécutent les clauses suivantes dans une requête SELECT ? WHERE → GROUP BY → HAVING → SELECT → ORDER BY',
-            'options' => 'WHERE → GROUP BY → HAVING → SELECT → ORDER BY', 'HAVING → WHERE → GROUP BY → SELECT → ORDER BY', 'SELECT → FROM → WHERE → GROUP BY → HAVING', 'FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY'],
+            'options' => ['WHERE → GROUP BY → HAVING → SELECT → ORDER BY', 'HAVING → WHERE → GROUP BY → SELECT → ORDER BY', 'SELECT → FROM → WHERE → GROUP BY → HAVING', 'FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY'],
             'answer'  => 3,
             'concept' => 'Ordre d\'exécution SQL',
             'explainFr' => 'L\'ordre d\'exécution standard est : FROM/JOINs → WHERE → GROUP BY → HAVING → SELECT → ORDER BY.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle de ces requêtes est correcte ?',
-            'options' => 'SELECT nom, COUNT(*) FROM clients GROUP BY nom', 'SELECT COUNT(*) FROM clients', 'SELECT nom FROM clients GROUP BY COUNT(*)', 'SELECT COUNT(*) GROUP BY nom FROM clients'],
+            'options' => ['SELECT nom, COUNT(*) FROM clients GROUP BY nom', 'SELECT COUNT(*) FROM clients', 'SELECT nom FROM clients GROUP BY COUNT(*)', 'SELECT COUNT(*) GROUP BY nom FROM clients'],
             'answer'  => 1,
             'concept' => 'Syntaxe GROUP BY',
             'explainFr' => 'La deuxième option est correcte : elle compte le nombre total de lignes dans la table clients.',

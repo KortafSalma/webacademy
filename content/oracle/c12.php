@@ -121,7 +121,7 @@ return [
 
                 make_example_block(
                     'MIN et MAX sur les caractères',
-                    '<pre><code>-- Produit dont le nom commence par la lettre "D" (tri alphabétique)\nSELECT MIN(nom) AS nom_min, MAX(nom) AS nom_max\nFROM produits\nWHERE nom LIKE \\'D%\\\';</code></pre>',
+                    '<pre><code>-- Produit dont le nom commence par la lettre "D" (tri alphabétique)\nSELECT MIN(nom) AS nom_min, MAX(nom) AS nom_max\nFROM produits\nWHERE nom LIKE \'D%\';</code></pre>',
                     '<pre>NOM_MIN  NOM_MAX\n-------  -------\nCasque       Souris</pre>',
                     'MIN et MAX sur noms commençant par D.'
                 ),

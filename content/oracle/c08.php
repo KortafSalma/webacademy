@@ -17,7 +17,7 @@ return [
         'Modifier des lignes existantes avec UPDATE.',
         'Supprimer des lignes avec DELETE.',
         'Utiliser les clauses RETURNING INTO pour récupérer les valeurs modifiées.',
-        'Comprendre l'importance des transactions (COMMIT, ROLLBACK).',
+        'Comprendre l\'importance des transactions (COMMIT, ROLLBACK).',
     ],
 
     'lessons' => [
@@ -44,7 +44,7 @@ return [
 
                 make_example_block(
                     'INSERT avec SELECT',
-                    '<pre><code>-- Insérer les clients français dans une nouvelle table\nINSERT INTO clients_francais (id, nom, email)\nSELECT id, nom, email\nFROM clients\nWHERE pays = \\'France\\\';</code></pre>',
+                    '<pre><code>-- Insérer les clients français dans une nouvelle table\nINSERT INTO clients_francais (id, nom, email)\nSELECT id, nom, email\nFROM clients\nWHERE pays = \'France\';</code></pre>',
                     '<pre>Rows created: 15</pre>',
                     'Les lignes sont insérées à partir du résultat d\'une requête SELECT.'
                 ),

@@ -14,7 +14,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'La contrainte qui interdit les valeurs NULL s\'appelle :',
-            'options' => 'NOT NULL', 'UNIQUE', 'PRIMARY KEY', 'CHECK'],
+            'options' => ['NOT NULL', 'UNIQUE', 'PRIMARY KEY', 'CHECK'],
             'answer'  => 0,
             'concept' => 'Contrainte NOT NULL',
             'explainFr' => 'NOT NULL interdit les valeurs NULL dans la colonne spécifiée.',
@@ -43,7 +43,7 @@ return [
         [
             'type'    => 'find-error',
             'question'=> 'Identifiez l\'erreur : CREATE TABLE t (id NUMBER PRIMARY KEY, nom VARCHAR2(50) NOT NULL UNIQUE)',
-            'options' => 'PASSEPARTOUT', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Multiple PRIMARY KEY'],
+            'options' => ['PASSEPARTOUT', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Multiple PRIMARY KEY'],
             'answer' => 2,
             'concept' => 'Syntaxe CREATE TABLE',
             'explainFr' => 'La syntaxe est correcte : id NUMBER PRIMARY KEY, nom VARCHAR2(50) NOT NULL UNIQUE est valide.',
@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Que se passera-t-il si l\'on essaie d\'insérer une ligne avec NULL dans une colonne NOT NULL ?',
-            'options' => 'L\'insertion réussira', 'L\'insertion sera rejetée avec une erreur', 'La valeur NULL sera remplacée par 0', 'Aucun effet'],
+            'options' => ['L\'insertion réussira', 'L\'insertion sera rejetée avec une erreur', 'La valeur NULL sera remplacée par 0', 'Aucun effet'],
             'answer' => 1,
             'concept' => 'Contrainte NOT NULL',
             'explainFr' => 'L\'insertion sera rejetée car la colonne ne peut pas contenir de NULL.',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'La contrainte qui crée une relation entre deux tables en referencing la clé primaire d\'une autre table s\'appelle :',
-            'options' => 'NOT NULL', 'UNIQUE', 'FOREIGN KEY', 'CHECK',
+            'options' => ['NOT NULL', 'UNIQUE', 'FOREIGN KEY', 'CHECK'],
             'answer' => 2,
             'concept' => 'Contrainte FOREIGN KEY',
             'explainFr' => 'FOREIGN KEY établit une relation de référence entre deux tables.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle de ces contraintes s\'applique lors de la création de la table avec CREATE TABLE ?',
-            'options' => 'NOT NULL', 'UNIQUE', 'PRIMARY KEY', 'Toutes les réponses ci-dessus',
+            'options' => ['NOT NULL', 'UNIQUE', 'PRIMARY KEY', 'Toutes les réponses ci-dessus'],
             'answer' => 3,
             'concept' => 'CREATE TABLE contraintes',
             'explainFr' => 'Toutes ces contraintes peuvent être définies au sein d\'une commande CREATE TABLE.',

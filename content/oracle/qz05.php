@@ -42,7 +42,7 @@ return [
 
         [
             'type'    => 'find-error',
-            'question'=> 'Identifiez l\'erreur potentielle : UPDATE commandes SET statut = \\'EXPEDIÉ\\'',
+            'question'=> 'Identifiez l\'erreur potentielle : UPDATE commandes SET statut = \'EXPEDIÉ\'',
             'options' => ['Oubli du point-virgule', 'Oubli de la clause WHERE', 'Types de données incorrects', 'Pas d\'erreur'],
             'answer'  => 1,
             'concept' => 'Clause WHERE UPDATE',
@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Que se passe-t-il si l\'on exécute DELETE FROM commandes WHERE cmd_id = 1001 puis ROLLBACK immédiatement ?',
-            'options' => 'La ligne est supprimée définitivement', 'La ligne est rétablie', 'Erreur SQL', 'Aucun effet'],
+            'options' => ['La ligne est supprimée définitivement', 'La ligne est rétablie', 'Erreur SQL', 'Aucun effet'],
             'answer'  => 1,
             'concept' => 'Transactions DELETE',
             'explainFr' => 'En l\'absence de COMMIT, ROLLBACK restaure l\'état précédent, y compris la ligne supprimée.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Quel est le risque de faire un DELETE FROM ma_table sans clause WHERE ?',
-            'options' => 'Toutes les lignes seront supprimées', 'Aucune ligne ne sera supprimée', 'Erreur de syntaxe', 'La table sera vidée mais conservée'],
+            'options' => ['Toutes les lignes seront supprimées', 'Aucune ligne ne sera supprimée', 'Erreur de syntaxe', 'La table sera vidée mais conservée'],
             'answer'  => 0,
             'concept' => 'Danger DELETE sans WHERE',
             'explainFr' => 'Sans WHERE, toutes les lignes de la table sont supprimées, ce qui est une opération dangereuse.',

@@ -44,7 +44,7 @@ return [
 
                 make_example_block(
                     'Déclaration de plusieurs variables',
-                    '<pre><code>\nDECLARE\n  v_nom      VARCHAR2(100);\n  v_prenom   VARCHAR2(50);\n  v_age      NUMBER(3);\n  v_actif    BOOLEAN := TRUE;\nBEGIN\n  v_nom := \\'Dupont\\';\n  v_prenom := \\'Jean\\';\n  v_age := 35;\n  -- Affichage\n  DBMS_OUTPUT.PUT_LINE(\\'Client :\' || v_prenom || \\' \"\' || v_nom || \\'\\' || v_age || \\' ans\\');\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_nom      VARCHAR2(100);\n  v_prenom   VARCHAR2(50);\n  v_age      NUMBER(3);\n  v_actif    BOOLEAN := TRUE;\nBEGIN\n  v_nom := \'Dupont\';\n  v_prenom := \'Jean\';\n  v_age := 35;\n  -- Affichage\n  DBMS_OUTPUT.PUT_LINE(\'Client :\' || v_prenom || \' \"\' || v_nom || \'\' || v_age || \' ans\');\nEND;</code></pre>',
                     '<pre>Client : Jean "Dupont" 35 ans</pre>',
                     'Quatre variables de types différents déclarées et initialisées dans la section DECLARE.'
                 ),
@@ -67,7 +67,7 @@ return [
 
                 make_example_block(
                     'Déclaration et utilisation de constantes',
-                    '<pre><code>\nDECLARE\n  -- Constante du taux de TVA (20 %)\n  v_taux_tva CONSTANT NUMBER := 0.20;\n  v_prix_ht  NUMBER := 100;\n  v_prix_ttc NUMBER;\nBEGIN\n  -- Calcul using la constante\n  v_prix_ttc := v_prix_ht * (1 + v_taux_tva);\n  DBMS_OUTPUT.PUT_LINE(\\'Prix TTC :\' || v_prix_ttc);\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  -- Constante du taux de TVA (20 %)\n  v_taux_tva CONSTANT NUMBER := 0.20;\n  v_prix_ht  NUMBER := 100;\n  v_prix_ttc NUMBER;\nBEGIN\n  -- Calcul using la constante\n  v_prix_ttc := v_prix_ht * (1 + v_taux_tva);\n  DBMS_OUTPUT.PUT_LINE(\'Prix TTC :\' || v_prix_ttc);\nEND;</code></pre>',
                     '<pre>Prix TTC : 120</pre>',
                     'La constante v_taux_tva ne peut pas être modifiée dans le bloc.'
                 ),
@@ -102,14 +102,14 @@ return [
 
                 make_example_block(
                     'Utilisation de %TYPE',
-                    '<pre><code>\nDECLARE\n  -- Variable ayant le même type que la colonne nom de la table clients\n  v_nom clients.nom%TYPE;\nBEGIN\n  v_nom := \\'Nouveau client\\';\n  DBMS_OUTPUT.PUT_LINE(\\'Nom saisi :\' || v_nom);\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  -- Variable ayant le même type que la colonne nom de la table clients\n  v_nom clients.nom%TYPE;\nBEGIN\n  v_nom := \'Nouveau client\';\n  DBMS_OUTPUT.PUT_LINE(\'Nom saisi :\' || v_nom);\nEND;</code></pre>',
                     '<pre>Nom saisi : Nouveau client</pre>',
                     'La variable v_nom a le même type que la colonne nom de la table clients (ici VARCHAR2).'
                 ),
 
                 make_example_block(
                     'Utilisation de %ROWTYPE',
-                    '<pre><code>\nDECLARE\n  -- Variable qui possède la structure complète de la ligne clients\n  v_client clients%ROWTYPE;\nBEGIN\n  -- Sélectionner une ligne entière dans v_client\n  SELECT *\n  INTO v_client\n  FROM clients\n  WHERE id = 1;\n  -- Accéder aux colonnes par nom\n  DBMS_OUTPUT.PUT_LINE(\\'Client :\' || v_client.nom || \\' \\' || v_client.email);\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  -- Variable qui possède la structure complète de la ligne clients\n  v_client clients%ROWTYPE;\nBEGIN\n  -- Sélectionner une ligne entière dans v_client\n  SELECT *\n  INTO v_client\n  FROM clients\n  WHERE id = 1;\n  -- Accéder aux colonnes par nom\n  DBMS_OUTPUT.PUT_LINE(\'Client :\' || v_client.nom || \' \' || v_client.email);\nEND;</code></pre>',
                     '<pre>Client : NouveauClient moh@exemple.com</pre>',
                     'La variable v_client possède toutes les colonnes de la table clients. On peut y accéder par nom (v_client.nom, v_client.email).'
                 ),

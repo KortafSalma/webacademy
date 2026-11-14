@@ -4,7 +4,7 @@
    - sandbox="allow-scripts" sans allow-same-origin : pas d'accès à la session,
      au DOM parent, aux cookies ni aux données de l'application ;
    - la CSP du parent (connect-src 'self') limite les appels réseau ;
-   - délai maximal côté parent : l'iframe est supprimée si le code boucle. */
+   - le timer parent couvre les attentes asynchrones ; une boucle synchrone peut bloquer le navigateur. */
 WA.runner = (function () {
     let seq = 0;
 
@@ -46,6 +46,7 @@ WA.runner = (function () {
         '    try { results.push({ index: index, ok: !!(await fn()), detail: detail || "" }); }',
         '    catch (e) { results.push({ index: index, ok: false, detail: (detail || "") + " — " + e.message }); }',
         '  };',
+        '  window.__waFail = function (e) { post("runtime-error", { error: String(e && e.message ? e.message : e) }); };',
         '  window.__waLogs = logs;',
         '  window.__waFinish = function () { post("results", { results: results, output: logs.join("\\n") }); };',
         '  window.addEventListener("message", function (ev) {',
@@ -54,7 +55,7 @@ WA.runner = (function () {
         '    post("started", {});',
         '    try {',
         '      var script = document.createElement("script");',
-        '      script.textContent = "(async function () {\\n" + data.code + "\\n" + (data.testCode || "") + "\\n})().catch(function (e) { console.error(e && e.message ? e.message : e); });";',
+        '      script.textContent = "(async function () {\\n" + data.code + "\\n" + (data.testCode || "") + "\\n})().catch(function (e) { window.__waFail(e); });";',
         '      document.body.appendChild(script);',
         '    } catch (e) {',
         '      post("runtime-error", { error: "Impossible de lancer le script : " + e.message });',
@@ -142,7 +143,7 @@ WA.runner = (function () {
                 finished = true;
                 cleanup();
                 resolve(Object.assign({
-                    ok: !runtimeError && (tests.length === 0 || results.every(r => r.ok)),
+                    ok: !runtimeError && results.length === tests.length && results.every(r => r.ok),
                     output: extra && extra.output != null ? extra.output : output,
                     error: runtimeError,
                     results: results,
@@ -152,13 +153,13 @@ WA.runner = (function () {
 
             function onMessage(ev) {
                 const data = ev.data || {};
-                if (data.__waRunner !== token) return;
+                if (ev.source !== frame.contentWindow || data.__waRunner !== token) return;
                 if (data.type === 'ready') {
                     frame.contentWindow.postMessage({
                         __waRunner: token,
                         cmd: 'run',
                         code: code,
-                        testCode: tests.length ? buildTestCode(tests) : '',
+                        testCode: buildTestCode(tests),
                         settle: settle
                     }, '*');
                 } else if (data.type === 'runtime-error') {
@@ -166,11 +167,11 @@ WA.runner = (function () {
                 } else if (data.type === 'results') {
                     results = Array.isArray(data.results) ? data.results : [];
                     output = String(data.output || output || '');
-                    finish();
+                    if (results.length === tests.length) finish();
                 } else if (data.type === 'done') {
                     output = String(data.output || output || '');
                     // Laisse une courte fenêtre aux tests asynchrones pour répondre.
-                    setTimeout(() => finish(), 40);
+                    // Completion is reported by __waFinish after student code and tests.
                 }
             }
 

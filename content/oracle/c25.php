@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * MODULE ORACLE — Chapitre 25 : Procédures et fonctions
- * Création d'objets stockés : procédures exécutables et fonctions retournant une valeur.
+ * Création d\'objets stockés : procédures exécutables et fonctions retournant une valeur.
  */
 
 return [
@@ -37,13 +37,13 @@ return [
 
                 make_example_block(
                     'Création d\'une procédure simple',
-                    '<pre><code>\nCREATE OR REPLACE PROCEDURE maj_statut_commande (p_cmd_id IN NUMBER, p_nouveau_statut IN VARCHAR2)\nIS\nBEGIN\n  -- Mise à jour du statut de la commande\n  UPDATE commandes\n  SET statut = p_nouveau_statut\n  WHERE cmd_id = p_cmd_id;\n  \n  -- Message de confirmation\n  DBMS_OUTPUT.PUT_LINE(\\'Commande ' || p_cmd_id || \" mise à jour avec le statut \" || p_nouveau_statut);\nEND;\n/<code></pre>',
+                    '<pre><code>\nCREATE OR REPLACE PROCEDURE maj_statut_commande (p_cmd_id IN NUMBER, p_nouveau_statut IN VARCHAR2)\nIS\nBEGIN\n  -- Mise à jour du statut de la commande\n  UPDATE commandes\n  SET statut = p_nouveau_statut\n  WHERE cmd_id = p_cmd_id;\n  \n  -- Message de confirmation\n  DBMS_OUTPUT.PUT_LINE(\'Commande \' || p_cmd_id || \" mise à jour avec le statut \" || p_nouveau_statut);\nEND;\n/<code></pre>',
                     '<pre>Commande 1001 mise à jour avec le statut ENVOYÉ</pre>',
                 ),
 
                 make_example_block(
                     'Exécution d\'une procédure',
-                    '<pre><code>\n-- En SQL*Plus ou SQL Developer\nEXECUTE maj_statut_commande(1001, \\'EXPÉDIÉ\\');</code></pre>',
+                    '<pre><code>\n-- En SQL*Plus ou SQL Developer\nEXECUTE maj_statut_commande(1001, \'EXPÉDIÉ\');</code></pre>',
                     '<pre>Commande 1001 mise à jour avec le statut EXPÉDIÉ</pre>',
                     'La procédure est exécutée avec les paramètres fournis.'
                 ),
@@ -121,7 +121,7 @@ return [
 
                 make_example_block(
                     'Exécution avec paramètres OUT',
-                    '<pre><code>\nDECLARE\n  v_solde NUMBER;\nBEGIN\n  -- Appel de la procédure, le résultat va dans v_solde\n  obtenir_solde(5, v_solde);\n  -- Afficher le résultat\n  DBMS_OUTPUT.PUT_LINE(\\'Solde client 5 :\' || v_solde);\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_solde NUMBER;\nBEGIN\n  -- Appel de la procédure, le résultat va dans v_solde\n  obtenir_solde(5, v_solde);\n  -- Afficher le résultat\n  DBMS_OUTPUT.PUT_LINE(\'Solde client 5 :\' || v_solde);\nEND;</code></pre>',
                     '<pre>Solde client 5 : 1250.50</pre>',
                     'Après exécution, v_solde contient la valeur récupérée par la procédure.'
                 ),
@@ -135,7 +135,7 @@ return [
         [
             'wrong'  => 'Oublier le mode du paramètre (IN par défaut)',
             'fix'    => 'Rappelez que si vous ne spécifiez pas de mode, par défaut le paramètre est IN. Si vous voulez retourner une valeur, utilisez OUT ou IN OUT.',
-            'fr'     => 'En l'absence de mode explicite, Oracle considère le paramètre comme IN. Oublier de spécifier OUT peut entraîner des erreurs lors de l\'attente d\'une valeur de retour.',
+            'fr'     => 'En l\'absence de mode explicite, Oracle considère le paramètre comme IN. Oublier de spécifier OUT peut entraîner des erreurs lors de l\'attente d\'une valeur de retour.',
             'darija' => 'Absence mode explicite Oracle considère paramètre IN. Oublier OUT erreurs retour valeur.'
         ],
         [

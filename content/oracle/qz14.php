@@ -43,7 +43,7 @@ return [
         [
             'type'    => 'find-error',
             'question'=> 'Identifiez l\'erreur : DECLARE v_taux NUMBER := 0.20; CONSTANT v_taux_tva := 0.20;',
-            'options' => 'Oubli DECLARE', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Deux déclarations du même type'},
+            'options' => ['Oubli DECLARE', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Deux déclarations du même type'],
             'answer' => 3,
             'concept' => 'Syntaxe DECLARE CONSTANT',
             'explainFr' => 'L\'erreur consiste à essayer de déclarer une variable et une constante du même type dans la même section DECLARE. Chaque déclaration doit être distincte.',
@@ -52,8 +52,8 @@ return [
 
         [
             'type'    => 'predict',
-            'question'=> 'Que affichera la commande : DECLARE v_prenom VARCHAR2(50) := \\'Mohamed\\'; BEGIN DBMS_OUTPUT.PUT_LINE(v_prenom); END ;',
-            'options' => 'Mohamed s\'affiche', 'Erreur de type', 'Rien ne s\'affiche', 'Compilation error',
+            'question'=> 'Que affichera la commande : DECLARE v_prenom VARCHAR2(50) := \'Mohamed\'; BEGIN DBMS_OUTPUT.PUT_LINE(v_prenom); END ;',
+            'options' => ['Mohamed s\'affiche', 'Erreur de type', 'Rien ne s\'affiche', 'Compilation error'],
             'answer' => 0,
             'concept' => 'Variable VARCHAR2 affichage',
             'explainFr' => 'La variable v_prenom affichera Mohamed.',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'L\'attribut %TYPE permet de :',
-            'options' => 'Déclarer une variable avec le type d\'une colonne existante', 'Déclarer une constante', 'Créer une table', 'Créer un trigger',
+            'options' => ['Déclarer une variable avec le type d\'une colonne existante', 'Déclarer une constante', 'Créer une table', 'Créer un trigger'],
             'answer' => 0,
             'concept' => 'Attribut %TYPE',
             'explainFr' => '%TYPE permet de typiser une variable d\'après une colonne existante, garantissant la compatibilité si le type change.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle des suivantes permet de typiser une variable d\'après la colonne "nom" de la table "clients" ?',
-            'options' => 'v_nom clients%ROWTYPE', 'v_nom clients.nom%TYPE', 'v_nom clients.TYPE', 'v_nom VARCHAR2(50)',
+            'options' => ['v_nom clients%ROWTYPE', 'v_nom clients.nom%TYPE', 'v_nom clients.TYPE', 'v_nom VARCHAR2(50)'],
             'answer' => 1,
             'concept' => 'Attribut %TYPE',
             'explainFr' => 'v_nom clients.nom%TYPE hérite du type de la colonne clients.nom.',

@@ -14,7 +14,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'La commande SELECT INTO permet de :',
-            'options' => 'Filtrer des lignes', 'Stocker une valeur de table dans une variable', 'Créer une table', 'Supprimer des données'],
+            'options' => ['Filtrer des lignes', 'Stocker une valeur de table dans une variable', 'Créer une table', 'Supprimer des données'],
             'answer' => 1,
             'concept' => 'SELECT INTO',
             'explainFr' => 'SELECT INTO stocke une valeur de table dans une variable PL/SQL.',
@@ -43,7 +43,7 @@ return [
         [
             'type'    => 'find-error',
             'question'=> 'Identifiez l\'erreur : DECLARE v_nom clients.nom%TYPE; BEGIN SELECT nom INTO v_nom FROM clients WHERE id = 1; END ;',
-            'options' => 'Oubli INTO', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Type de données incompatible'],
+            'options' => ['Oubli INTO', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Type de données incompatible'],
             'answer' => 0,
             'concept' => 'Oubli clause INTO',
             'explainFr' => 'Sans le mot-clé INTO, la valeur n\'est pas stockée dans la variable. C\'est l\'erreur la plus courante avec SELECT INTO.',
@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Que se passera-t-il si l\'on exécute SELECT COUNT(*) INTO v_total FROM clients WHERE id > 999 ;',
-            'options' => 'v_total vaudra 0', 'Erreur NO_DATA_FOUND', 'Erreur TOO_MANY_ROWS', 'v_total vaudra 1',
+            'options' => ['v_total vaudra 0', 'Erreur NO_DATA_FOUND', 'Erreur TOO_MANY_ROWS', 'v_total vaudra 1'],
             'answer' => 0,
             'concept' => 'SELECT INTO avec agrégat',
             'explainFr' => 'Comme COUNT(*) retourne toujours une ligne (même si le compte est 0), v_total vaudra 0 et aucune erreur ne sera levée.',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle des suivantes peut être utilisée dans SELECT INTO pour stocker une valeur agrégée ?',
-            'options' => 'COUNT', 'SUM', 'AVG', 'Toutes les réponses ci-dessus',
+            'options' => ['COUNT', 'SUM', 'AVG', 'Toutes les réponses ci-dessus'],
             'answer' => 3,
             'concept' => 'Agrégat SELECT INTO',
             'explainFr' => 'Toutes les fonctions d\'agrégat (COUNT, SUM, AVG, MIN, MAX) peuvent être utilisées dans SELECT INTO.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle des suivantes stocke le nombre total de clients dans une variable ?',
-            'options' => 'SELECT nombre INTO v_total FROM clients', 'SELECT COUNT(*) INTO v_total FROM clients', 'SELECT SUM INTO v_total FROM clients', 'SELECT AVG INTO v_total FROM clients',
+            'options' => ['SELECT nombre INTO v_total FROM clients', 'SELECT COUNT(*) INTO v_total FROM clients', 'SELECT SUM INTO v_total FROM clients', 'SELECT AVG INTO v_total FROM clients'],
             'answer' => 1,
             'concept' => 'SELECT INTO COUNT',
             'explainFr' => 'SELECT COUNT(*) INTO v_total stocke le nombre total de lignes dans v_total.',

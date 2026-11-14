@@ -14,7 +14,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'INNER JOIN retourne les lignes :',
-            'options' => 'Lorsque qu\'il y a correspondance dans les deux tables', 'Toutes les lignes de la table de gauche', 'Toutes les lignes de la table de droite', 'Lorsque qu\'il n\'y a correspondance dans aucune table'],
+            'options' => ['Lorsque qu\'il y a correspondance dans les deux tables', 'Toutes les lignes de la table de gauche', 'Toutes les lignes de la table de droite', 'Lorsque qu\'il n\'y a correspondance dans aucune table'],
             'answer'  => 0,
             'concept' => 'INNER JOIN',
             'explainFr' => 'INNER JOIN ne garde que les lignes où il y a correspondance dans les deux tables impliquées.',
@@ -43,7 +43,7 @@ return [
         [
             'type'    => 'find-error',
             'question'=> 'Identifiez l\'erreur potentielle : SELECT * FROM clients c, commandes o WHERE c.id = o.client_id',
-            'options' => 'Oubli de la clause ON dans JOIN explicite', 'Ancienne syntaxe JOIN implicite', 'Pas d\'erreur', 'Les deux sont des erreurs'],
+            'options' => ['Oubli de la clause ON dans JOIN explicite', 'Ancienne syntaxe JOIN implicite', 'Pas d\'erreur', 'Les deux sont des erreurs'],
             'answer'  => 1,
             'concept' => 'Syntaxe JOIN obsolète',
             'explainFr' => 'Bien que cette ancienne syntaxe (implicit join) fonctionne et produise un résultat similaire, elle est obsolète et peut entraîner desProduit cartésien involontaire. La syntaxe JOIN explicite avec ON est recommandée.',
@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Que affichera SELECT c.nom, o.cmd_id FROM clients c LEFT JOIN commandes o ON c.id = o.client_id WHERE o.cmd_id IS NULL ;',
-            'options' => 'Clients sans commandes', 'Commandes sans clients', 'Seulement les correspondances', 'Erreur'],
+            'options' => ['Clients sans commandes', 'Commandes sans clients', 'Seulement les correspondances', 'Erreur'],
             'answer'  => 0,
             'concept' => 'LEFT JOIN IS NULL',
             'explainFr' => 'Cette requête affichera les clients qui n\'ont pas encore passé de commande (les colonnes commande seront NULL).',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'RIGHT JOIN retourne toutes les lignes de :',
-            'options' => 'La table de gauche', 'La table de droite', 'Les deux tables', 'Aucune des deux'],
+            'options' => ['La table de gauche', 'La table de droite', 'Les deux tables', 'Aucune des deux'],
             'answer'  => 1,
             'concept' => 'RIGHT JOIN',
             'explainFr' => 'RIGHT JOIN (ou RIGHT OUTER JOIN) retourne toutes les lignes de la table de droite, ainsi que les lignes correspondantes de la table de gauche.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle de ces requêtes simule un FULL OUTER JOIN ?',
-            'options' => 'UNION ALL de LEFT JOIN et RIGHT JOIN', 'UNION de LEFT JOIN et RIGHT JOIN', 'Intersection de LEFT JOIN et RIGHT JOIN', 'Produit cartésien de LEFT JOIN et RIGHT JOIN'],
+            'options' => ['UNION ALL de LEFT JOIN et RIGHT JOIN', 'UNION de LEFT JOIN et RIGHT JOIN', 'Intersection de LEFT JOIN et RIGHT JOIN', 'Produit cartésien de LEFT JOIN et RIGHT JOIN'],
             'answer'  => 0,
             'concept' => 'Simulation FULL OUTER JOIN',
             'explainFr' => 'On peut simuler un FULL OUTER JOIN avec UNION ALL de LEFT JOIN et RIGHT JOIN en excluant les doublons.',

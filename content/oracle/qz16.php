@@ -14,7 +14,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'La structure IF THEN exécute le bloc si la condition est :',
-            'options' => 'VRAIE', 'FAUX', 'NULL', '0'],
+            'options' => ['VRAIE', 'FAUX', 'NULL', '0'],
             'answer' => 0,
             'concept' => 'Structure IF THEN',
             'explainFr' => 'La condition est évaluée ; si elle est VRAIE, le bloc s\'exécute.',
@@ -42,8 +42,8 @@ return [
 
         [
             'type'    => 'find-error',
-            'question'=> 'Identifiez l\'erreur : DECLARE v_note NUMBER := 15; IF v_note >= 10 THEN DBMS_OUTPUT.PUT_LINE(\\'Passable.\\'); END IF ;',
-            'options' => 'Oubli point-virgule', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Boucle infinie'],
+            'question'=> 'Identifiez l\'erreur : DECLARE v_note NUMBER := 15; IF v_note >= 10 THEN DBMS_OUTPUT.PUT_LINE(\'Passable.\'); END IF ;',
+            'options' => ['Oubli point-virgule', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Boucle infinie'],
             'answer' => 2,
             'concept' => 'Syntaxe IF',
             'explainFr' => 'La syntaxe semble correcte, mais notez le espace avant le point-virgule après END IF. Bien que ce ne soit pas une erreur stricte, il est recommandé d\'écrire END IF sans espace avant le point-virgule pour plus de clarté.',
@@ -52,8 +52,8 @@ return [
 
         [
             'type'    => 'predict',
-            'question'=> 'Que affichera le bloc suivant ? DECLARE v_note NUMBER := 17; BEGIN IF v_note >= 20 THEN DBMS_OUTPUT.PUT_LINE(\\'Maximale.\\'); ELSIF v_note >= 15 THEN DBMS_OUTPUT.PUT_LINE(\\'Très bien.\\'); ELSE DBMS_OUTPUT.PUT_LINE(\\'Insuffisant.\\'); END IF; END ;',
-            'options' => 'Très bien.', 'Maximale.', 'Insuffisant.', 'Aucune sortie',
+            'question'=> 'Que affichera le bloc suivant ? DECLARE v_note NUMBER := 17; BEGIN IF v_note >= 20 THEN DBMS_OUTPUT.PUT_LINE(\'Maximale.\'); ELSIF v_note >= 15 THEN DBMS_OUTPUT.PUT_LINE(\'Très bien.\'); ELSE DBMS_OUTPUT.PUT_LINE(\'Insuffisant.\'); END IF; END ;',
+            'options' => ['Très bien.', 'Maximale.', 'Insuffisant.', 'Aucune sortie'],
             'answer' => 1,
             'concept' => 'Structure IF ELSIF ELSE',
             'explainFr' => 'La note 17 déclenchera la première condition VRAIE (>= 15 -> "Très bien.").',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle des structures suivantes permet de tester plusieurs conditions séquentiellement ?',
-            'options' => 'IF THEN', 'IF ELSIF ELSE', 'LOOP...EXIT', 'WHILE...LOOP',
+            'options' => ['IF THEN', 'IF ELSIF ELSE', 'LOOP...EXIT', 'WHILE...LOOP'],
             'answer' => 1,
             'concept' => 'Structure IF ELSIF ELSE',
             'explainFr' => 'IF ELSIF ELSE teste plusieurs conditions séquentiellement, la première VRAIE exécutée, sinon ELSE exécutée.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle des suivantes n\'est pas valide en Oracle PL/SQL ?',
-            'options' => 'IF condition THEN ... END IF', 'IF condition THEN ... ELSE IF ... END IF', 'IF condition THEN ... ELSIF condition THEN ... END IF',
+            'options' => ['IF condition THEN ... END IF', 'IF condition THEN ... ELSE IF ... END IF', 'IF condition THEN ... ELSIF condition THEN ... END IF'],
             'answer' => 1,
             'concept' => 'Syntaxe ELSE IF',
             'explainFr' => 'En Oracle, on n\'écrit pas ELSE IF (deux mots). On utilise ELSIF (un seul mot) après le IF initial.',

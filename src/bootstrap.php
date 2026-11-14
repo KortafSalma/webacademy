@@ -33,7 +33,7 @@ define('APP_MAX_CODE_BYTES', 32768);      // 32 Kio de code étudiant
 define('APP_MAX_SQL_BYTES', 65536);       // 64 Kio de SQL
 // Chemin temporaire en forme longue (sans ~ Windows) :
 // évite les erreurs de parse ini de `open_basedir` dans la sandbox PHP.
-$tmpBase = str_replace('/', '\\', sys_get_temp_dir());
+$tmpBase = sys_get_temp_dir();
 $realTmp = @realpath($tmpBase);
 if ($realTmp !== false) {
     $tmpBase = $realTmp;

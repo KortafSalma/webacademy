@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -33,7 +32,7 @@ return [
 
                 ['type' => 'text',
                  'fr'   => '<p>Pour développer en JavaScript, vous avez besoin d\'un éditeur de code (comme VS Code, Sublime Text ou Atom) et d\'un navigateur web moderne (Chrome, Firefox, Safari, Edge). Aucun installation n\'est nécessaire : JavaScript tourne déjà dans votre navigateur. Cependant, pour travailler en local ou sur Node.js, vous pouvez installer Node.js depuis nodejs.org qui inclut npm (gestionnaire de paquets).</p>',
-                 'darija' => '<p>Pour dyal development JavaScript, kay7et editor code (VS Code, Sublime Text wla Atom) w navigation web moderne (Chrome, Firefox, Safari, Edge). Kaydima installation m3ida : JavaScript kaykhdem f navigation m3ich installation. Wlkhir bach t3awmo f local wla Node.js, kay7et nodejs.org kaym3ich npm.</p>'],
+                 'darija' => '<p>Pour dyal développement JavaScript, kay7et editor code (VS Code, Sublime Text wla Atom) w navigation web moderne (Chrome, Firefox, Safari, Edge). Kaydima installation m3ida : JavaScript kaykhdem f navigation m3ich installation. Wlkhir bach t3awmo f local wla Node.js, kay7et nodejs.org kaym3ich npm.</p>'],
 
                 ['type' => 'example', 'title' => 'Structure de base d\'une page HTML avec JavaScript',
                  'lang'  => 'html+javascript',
@@ -58,7 +57,7 @@ return [
 
                 ['type' => 'text',
                  'fr'   => '<p>Pour écrire votre premier script, ouvrez un fichier <code>.html</code> et ajoutez la balise <code><script></code>. Tout ce qui est entre <code><script></code> et <code>?></code> est du code JavaScript. La façon la plus simple de tester est d\'utiliser la console du navigateur : appuyez sur F12, allez dans l\'onglet "Console", et tapez directement du code.</p>',
-                 'darija' => '<p>Bach tkteb premier script, kay7et fichier .html w bala tag script. Kol chi btw script w ? script kay9der t7ot f console navigation b3d appui F12 w onglet "Console".'],
+                 'darija' => '<p>Bach tkteb premier script, kay7et fichier .html w bala tag script. Kay9der text b console navigation b3d appui F12 w onglet "Console".</p>'],
 
                 ['type' => 'example', 'title' => 'console.log basique',
                  'lang'  => 'javascript',
@@ -68,7 +67,6 @@ return [
 
                 ['type' => 'example', 'title' => 'Commentaires et structure',
                  'lang'  => 'javascript',
-                 'code'
                  'code'  => '// Ceci est un commentaire sur une ligne\n\n# Ceci est aussi un commentaire (même résultat)\n\n/* Ceci est un\n   commentaire sur\n   plusieurs lignes */\n\nconsole.log("Bonjour");',
                  'explainFr' => 'Les commentaires sont ignorés par le navigateur. Ils servent à documenter le code.',
                  'explainDarija' => 'Commentaires ma kaynafidhomch navigation. Kay9der kaydoc code.'],
@@ -103,7 +101,7 @@ return [
                  'answer' => 'message',
                  'concept' => 'Affichage de variable',
                  'explainFr' => 'On peut afficher une variable directement dans console.log.',
-                 'explainDarija' => 'Kay9der kayktb variable b7direct f console.log.'],
+                 'explainDarija' => 'Kay9der kayktb variable b7irect f console.log.'],
 
                 ['type' => 'mcq',
                  'question' => 'Quel est le but de console.log() ?',
@@ -127,21 +125,21 @@ return [
 
     'mistakes' => [
         [
-            'wrong'  => 'Oublier les balises <script>',
-            'fix'    => 'Toujours encadrer le code JavaScript par <?php ... ?> ou <script> ... </script>',
-            'fr'     => 'Sans balises script, le navigateur traite le code comme du texte brut.',
-            'darija' => 'Bla tag script, navigation ma kaykhed code kaybda b texte brut.',
+            'wrong'  => 'S\'attendre à accéder aux fichiers du visiteur',
+            'fix'    => 'Utiliser localStorage ou envoyer une requête au serveur',
+            'fr'     => 'JavaScript ne peut pas lire de fichiers sur l\'ordinateur du visiteur sans interaction explicite.',
+            'darija' => 'JavaScript ma y9der y7et fichier PC visitor b7al interaction explicite.',
         ],
         [
-            'wrong'  => 'Oublier le point-virgule à la fin des instructions',
-            'fix'    => 'Vérifier visuellement chaque ligne se terminant par ;',
-            'fr'     => 'L\'oubli de point-virgule provoque des erreurs d\'exécution ou des résultats inattendus.',
-            'darija' => 'Ila nsah 9sire point-virgule : errors execution w résultats inattendus.',
+            'wrong'  => 'Ignorer la Same-Origin Policy',
+            'fix'    => 'Vérifier les en-têtes CORS ou utiliser un proxy serveur',
+            'fr'     => 'Les requêtes cross-origin nécessitent l\'autorisation du serveur distant.',
+            'darija' => 'Requêtes cross-origin kay9der y9der authorization server distant.',
         ],
     ],
 
     'summary' => [
         'fr' => '<strong>JavaScript</strong> s\'écrit à l\'intérieur des balises <script> dans une page HTML. Pas d\'installation n\'est nécessaire dans le navigateur. On utilise <code>console.log()</code> pour afficher des messages en développement. Chaque instruction se termine par un point-virgule. Les commentaires (// ou /* */) documentent le code sans l\'exécuter.',
-        'darija' => '<strong>JavaScript</strong> ktib f tag script f page HTML. Kay7et installation m3ich f navigation. Kay7et <code>console.log()</code> bach tf3awich messages f development. Kol instruction tam b ;. Commentaires // w /* */ kaydoc code b9der m3awdo m3a execution.'],
+        'darija' => '<strong>JavaScript</strong> ktib f tag script f page HTML. Kay7et installation m3ich f navigation. Kay7et <code>console.log()</code> bach tf3awich messages f development. Kol instruction tam b ;. Commentaires // w /* */ kaydoc code b9der m3awdo m3a execution.',
     ],
 ];

@@ -72,7 +72,7 @@ return [
 
                 make_example_block(
                     'Appel de procédure depuis un package',
-                    '<pre><code>\n-- Exécution de la procédure depuis le package\nEXEC pak_gestion_clients.ajouter_client(\\'Nouveau Client\\');</code></pre>',
+                    '<pre><code>\n-- Exécution de la procédure depuis le package\nEXEC pak_gestion_clients.ajouter_client(\'Nouveau Client\');</code></pre>',
                     '<pre>1 row created.</pre>',
                     'La procédure est qualifiée du nom du package.'
                 ),

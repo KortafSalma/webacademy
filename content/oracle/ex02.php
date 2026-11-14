@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 /**
- * Exercices du chapitre oracle-ch2 — Installation et configuration d'Oracle Database XE.
- * 5 niveaux progressifs en mode statique (pas d'exécution Oracle).
+ * Exercices du chapitre oracle-ch2 — Installation et configuration d\'Oracle Database XE.
+ * 5 niveaux progressifs en mode statique (pas d\'exécution Oracle).
  */
 
 return [

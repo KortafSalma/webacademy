@@ -52,7 +52,7 @@ return [
 
         [
             'type'    => 'predict',
-            'question'=> 'Que affichera la commande suivante ? SET SERVEROUTPUT ON ; BEGIN DBMS_OUTPUT.PUT_LINE(\'Test\\'); END ;',
+            'question'=> 'Que affichera la commande suivante ? SET SERVEROUTPUT ON ; BEGIN DBMS_OUTPUT.PUT_LINE(\'Test\'); END ;',
             'options' => ['Test s\'affiche', 'Rien ne s\'affiche', 'Erreur Oracle', 'Commande invalide'],
             'answer'  => 0,
             'concept' => 'SET SERVEROUTPUT ON',

@@ -47,7 +47,7 @@ return [
 
                 make_example_block(
                     'Différent de',
-                    '<pre><code>-- Clients qui ne sont pas de Casablanca\nSELECT id, nom, ville\nFROM clients\nWHERE ville != \\'Casablanca\\\';</code></pre>',
+                    '<pre><code>-- Clients qui ne sont pas de Casablanca\nSELECT id, nom, ville\nFROM clients\nWHERE ville != \'Casablanca\';</code></pre>',
                     '<pre>ID NOM VILLE\n-- ----------------- -----------\n 1  Mohamed CASABLANCA\n 2  Fatima  MARRAKECH\n 4  Omar    RABAT</pre>',
                     'Affiche tous les clients excepté ceux de Casablanca.'
                 ),
@@ -88,21 +88,21 @@ return [
 
                 make_example_block(
                     'AND : plusieurs conditions',
-                    '<pre><code>-- Produits dont le prix est supérieur à 50 ET de catégorie "Électronique"\nSELECT nom, prix, categorie\nFROM produits\nWHERE prix > 50 AND categorie = \\'Électronique\\\';</code></pre>',
+                    '<pre><code>-- Produits dont le prix est supérieur à 50 ET de catégorie "Électronique"\nSELECT nom, prix, categorie\nFROM produits\nWHERE prix > 50 AND categorie = \'Électronique\';</code></pre>',
                     '<pre>NOM      PRIX CATÉGORIE\n-------  ------- -----------\nTéléphone    199.99 Électronique\nOrdinateur   899.99 Électronique</pre>',
                     'Affiche produits prix > 50 ET catégorie Électronique.'
                 ),
 
                 make_example_block(
-                    'OR : l'une ou l'autre condition',
-                    '<pre><code>-- Clients de Casablanca OU dont le nom commence par "O"\nSELECT id, nom, ville\nFROM clients\nWHERE ville = \\'Casablanca\\' OR nom LIKE \\'O%\\\';</code></pre>',
+                    'OR : l\'une ou l\'autre condition',
+                    '<pre><code>-- Clients de Casablanca OU dont le nom commence par "O"\nSELECT id, nom, ville\nFROM clients\nWHERE ville = \'Casablanca\' OR nom LIKE \'O%\';</code></pre>',
                     '<pre>ID NOM VILLE\n-- ----------------- -----------\n 1  Mohamed CASABLANCA\n 3  Zakaria CASABLANCA\n 5  Omar    RABAT</pre>',
                     'Affiche clients de Casablanca OU nom commence par O.'
                 ),
 
                 make_example_block(
                     'NOT : inverser une condition',
-                    '<pre><code>-- Produits qui ne sont PAS en rupture de stock\nSELECT nom, en_stock\nFROM produits\nWHERE NOT en_stock = \\'OUI\\\';</code></pre>',
+                    '<pre><code>-- Produits qui ne sont PAS en rupture de stock\nSELECT nom, en_stock\nFROM produits\nWHERE NOT en_stock = \'OUI\';</code></pre>',
                     '<pre>NOM      EN_STOCK\n-------  ----------\nT-shirt      OUI\nPantalon     OUI</pre>',
                     'Affiche produits qui ne sont pas en rupture (en_stock ≠ OUI).'
                 ),
@@ -144,14 +144,14 @@ return [
 
                 make_example_block(
                     'IN : plusieurs valeurs possibles',
-                    '<pre><code>-- Clients de Paris, Lyon ou Marseille\nSELECT id, nom, ville\nFROM clients\nWHERE ville IN (\\'Paris\\', \\'Lyon\\', \\'Marseille\\');</code></pre>',
+                    '<pre><code>-- Clients de Paris, Lyon ou Marseille\nSELECT id, nom, ville\nFROM clients\nWHERE ville IN (\'Paris\', \'Lyon\', \'Marseille\');</code></pre>',
                     '<pre>ID NOM VILLE\n-- ----------------- -----------\n 2  Fatima  LYON\n 4  Omar    RABAT\n 6  Ahmed   PARIS\n 7  Salma   MARSEILLE</pre>',
                     'Affiche clients de Paris, Lyon ou Marseille.'
                 ),
 
                 make_example_block(
                     'LIKE : recherche de modèles',
-                    '<pre><code>-- Produits dont le nom commence par "Pro"\nSELECT nom\nFROM produits\nWHERE nom LIKE \\'Pro%\\\';</code></pre>',
+                    '<pre><code>-- Produits dont le nom commence par "Pro"\nSELECT nom\nFROM produits\nWHERE nom LIKE \'Pro%\';</code></pre>',
                     '<pre>NOM\n------\nProjecteur\nProjection\nPromo Special</pre>',
                     'Affiche produits dont le nom commence par "Pro".'
                 ),
@@ -164,9 +164,9 @@ return [
     'mistakes' => [
         [
             'wrong'  => 'Oublier les guillemets autour des valeurs de texte dans WHERE',
-            'fix'    => 'Entourez toujours les valeurs texte de guillemets simples (') en Oracle.',
+            'fix'    => 'Entourez toujours les valeurs texte de guillemets simples (\') en Oracle.',
             'fr'     => 'En Oracle, les valeurs de texte doivent être entourées de guillemets simples : WHERE nom = \'Mohamed\'. Oublier les guillemets provoque une erreur de syntaxe.',
-            'darija' => 'Valeurs texte toujouts guillemets simples ('). Oublier kay erreur syntax.'
+            'darija' => 'Valeurs texte toujouts guillemets simples (\'). Oublier kay erreur syntax.'
         ],
         [
             'wrong'  => 'Utiliser OR au lieu d\'IN pour une liste courte (lisibilité)',

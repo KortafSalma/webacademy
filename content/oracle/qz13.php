@@ -14,7 +14,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'PL/SQL signifie :',
-            'options' => 'Programming Language/SQL', 'Procedural Language/SQL', 'Performance Language/SQL', 'Power Language/SQL'],
+            'options' => ['Programming Language/SQL', 'Procedural Language/SQL', 'Performance Language/SQL', 'Power Language/SQL'],
             'answer' => 1,
             'concept' => 'Définition PL/SQL',
             'explainFr' => 'PL/SQL signifie Procedural Language/SQL.',
@@ -42,8 +42,8 @@ return [
 
         [
             'type'    => 'find-error',
-            'question'=> 'Identifiez l\'erreur : BEGIN DBMS_OUTPUT.PUT_LINE(\\'Test\\'); END ; (sans SET SERVEROUTPUT ON)',
-            'options' => 'Erreur de syntaxe', 'Aucune erreur visible', 'La sortie n\'apparaitra pas', 'Exception levée'],
+            'question'=> 'Identifiez l\'erreur : BEGIN DBMS_OUTPUT.PUT_LINE(\'Test\'); END ; (sans SET SERVEROUTPUT ON)',
+            'options' => ['Erreur de syntaxe', 'Aucune erreur visible', 'La sortie n\'apparaitra pas', 'Exception levée'],
             'answer' => 2,
             'concept' => 'SET SERVEROUTPUT ON',
             'explainFr' => 'Sans SET SERVEROUTPUT ON, DBMS_OUTPUT.PUT_LINE() ne s\'affiche pas en SQL*Plus. C\'est une erreur fréquente des débutants.',
@@ -52,8 +52,8 @@ return [
 
         [
             'type'    => 'predict',
-            'question'=> 'Que affichera la commande : SET SERVEROUTPUT ON ; BEGIN DBMS_OUTPUT.PUT_LINE(\\'Bonjour\\'); END ;',
-            'options' => 'Bonjour s\'affiche', 'Rien ne s\'affiche', 'Erreur Oracle', 'Commande invalide',
+            'question'=> 'Que affichera la commande : SET SERVEROUTPUT ON ; BEGIN DBMS_OUTPUT.PUT_LINE(\'Bonjour\'); END ;',
+            'options' => ['Bonjour s\'affiche', 'Rien ne s\'affiche', 'Erreur Oracle', 'Commande invalide'],
             'answer' => 0,
             'concept' => 'SET SERVEROUTPUT ON + DBMS_OUTPUT',
             'explainFr' => 'La commande SET SERVEROUTPUT ON active l\'affichage. La PL/SQL block affichera "Bonjour".',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'La section qui contient le code exécutable dans un bloc PL/SQL s\'appelle :',
-            'options' => 'DECLARE', 'BEGIN...END', 'EXCEPTION', 'PACKAGE',
+            'options' => ['DECLARE', 'BEGIN...END', 'EXCEPTION', 'PACKAGE'],
             'answer' => 1,
             'concept' => 'Structure bloc PL/SQL',
             'explainFr' => 'La section BEGIN...END contient le code exécutable.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle des suivantes n\'est pas une partie d\'un bloc PL/SQL anonyme ?',
-            'options' => 'DECLARE', 'BEGIN...END', 'EXCEPTION', 'CREATE TABLE',
+            'options' => ['DECLARE', 'BEGIN...END', 'EXCEPTION', 'CREATE TABLE'],
             'answer' => 3,
             'concept' => 'Structure bloc PL/SQL',
             'explainFr' => 'CREATE TABLE est une commande SQL, pas une partie d\'un bloc PL/SQL anonyme.',

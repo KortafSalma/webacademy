@@ -30,7 +30,7 @@ final class Repos
             return $default;
         }
         $decoded = json_decode((string) $row, true);
-        return $decoded === null ? $row : $decoded;
+        return json_last_error() === JSON_ERROR_NONE ? $decoded : $row;
     }
 
     public static function setSetting(string $key, mixed $value): void
@@ -153,14 +153,14 @@ final class Repos
         return self::db()->query('SELECT * FROM notes ORDER BY updated_at DESC, id DESC')->fetchAll();
     }
 
-    public static function saveNote(int $id, string $title, string $body, ?string $lessonKey): int
+    public static function saveNote(int $id, string $title, string $body, ?string $lessonKey): ?int
     {
         if ($id > 0) {
             $st = self::db()->prepare(
                 'UPDATE notes SET title = :t, body = :b, lesson_key = :k, updated_at = datetime("now") WHERE id = :id'
             );
             $st->execute([':t' => $title, ':b' => $body, ':k' => $lessonKey, ':id' => $id]);
-            return $id;
+            return $st->rowCount() > 0 ? $id : null;
         }
         $st = self::db()->prepare(
             'INSERT INTO notes (lesson_key, title, body) VALUES (:k, :t, :b)'

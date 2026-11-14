@@ -45,6 +45,7 @@ foreach ($files as $file) {
         $output = (string) ($result['output'] ?? '');
         $stderr = trim((string) ($result['stderr'] ?? ''));
         $labels = [];
+        if (!$result['ok']) { $labels[] = 'sandbox failure'; $failures++; }
 
         foreach ($level['tests'] as $test) {
             $checks++;
@@ -57,7 +58,7 @@ foreach ($files as $file) {
             } elseif ($type === 'output_not_contains') {
                 $pass = !str_contains(norm($output), norm($value));
             } else {
-                $pass = true;
+                $pass = false;
             }
 
             if (!$pass) {

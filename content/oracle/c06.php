@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * MODULE ORACLE — Chapitre 6 : Introduction aux bases de données relationnelles et aux tables
- * Concepts fondamentaux : tables, lignes, colonnes, clés primaires, et structure d'une base Oracle.
+ * Concepts fondamentaux : tables, lignes, colonnes, clés primaires, et structure d\'une base Oracle.
  */
 
 return [

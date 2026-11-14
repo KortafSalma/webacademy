@@ -1,0 +1,332 @@
+﻿{
+    "php": "8.3.14",
+    "syntax": [
+        {
+            "file": "content\/oracle\/c05.php",
+            "line": 78,
+            "error": "syntax error, unexpected identifier \"SALAM\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c08.php",
+            "line": 20,
+            "error": "syntax error, unexpected identifier \"importance\", expecting \"]\""
+        },
+        {
+            "file": "content\/oracle\/c09.php",
+            "line": 84,
+            "error": "syntax error, unexpected identifier \"M\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c10.php",
+            "line": 112,
+            "error": "syntax error, unexpected identifier \"non\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c11.php",
+            "line": 50,
+            "error": "syntax error, unexpected identifier \"Casablanca\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c12.php",
+            "line": 124,
+            "error": "syntax error, unexpected identifier \"D\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c14.php",
+            "line": 153,
+            "error": "syntax error, unexpected identifier \"ordre\", expecting \"]\""
+        },
+        {
+            "file": "content\/oracle\/c16.php",
+            "line": 53,
+            "error": "syntax error, unexpected identifier \"test\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c17.php",
+            "line": 83,
+            "error": "syntax error, unexpected identifier \"Mohamed\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c18.php",
+            "line": 46,
+            "error": "syntax error, unexpected identifier \"Mohamed\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c19.php",
+            "line": 47,
+            "error": "syntax error, unexpected identifier \"Dupont\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c20.php",
+            "line": 39,
+            "error": "syntax error, unexpected identifier \"Client\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c21.php",
+            "line": 40,
+            "error": "syntax error, unexpected identifier \"Félicitations\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c22.php",
+            "line": 40,
+            "error": "syntax error, unexpected identifier \"Itération\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c23.php",
+            "line": 47,
+            "error": "syntax error, unexpected identifier \"Client\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c24.php",
+            "line": 46,
+            "error": "syntax error, unexpected identifier \"Client\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c25.php",
+            "line": 40,
+            "error": "syntax error, unexpected identifier \"Commande\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c26.php",
+            "line": 75,
+            "error": "syntax error, unexpected identifier \"Nouveau\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c27.php",
+            "line": 49,
+            "error": "syntax error, unexpected identifier \"EN_ATTENTE\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/c28.php",
+            "line": 40,
+            "error": "syntax error, unexpected identifier \"Client\", expecting \")\""
+        },
+        {
+            "file": "content\/oracle\/projects\/library_management.php",
+            "line": 35,
+            "error": "syntax error, unexpected integer \"1\""
+        },
+        {
+            "file": "content\/oracle\/qz01.php",
+            "line": 55,
+            "error": "Unclosed '[' on line 53 does not match ')'"
+        },
+        {
+            "file": "content\/oracle\/qz03.php",
+            "line": 60,
+            "error": "syntax error, unexpected identifier \"exécutera\", expecting \"]\""
+        },
+        {
+            "file": "content\/oracle\/qz04.php",
+            "line": 71,
+            "error": "syntax error, unexpected token \",\", expecting \";\""
+        },
+        {
+            "file": "content\/oracle\/qz05.php",
+            "line": 45,
+            "error": "syntax error, unexpected identifier \"EXPEDIÉ\", expecting \"]\""
+        },
+        {
+            "file": "content\/oracle\/qz06.php",
+            "line": 49,
+            "error": "syntax error, unexpected identifier \"Mohamed\", expecting \"]\""
+        },
+        {
+            "file": "content\/oracle\/qz07.php",
+            "line": 49,
+            "error": "syntax error, unexpected identifier \"Électronique\", expecting \"]\""
+        },
+        {
+            "file": "content\/oracle\/qz08.php",
+            "line": 61,
+            "error": "syntax error, unexpected token \",\", expecting \";\""
+        },
+        {
+            "file": "content\/oracle\/qz09.php",
+            "line": 51,
+            "error": "syntax error, unexpected token \",\", expecting \";\""
+        },
+        {
+            "file": "content\/oracle\/qz10.php",
+            "line": 51,
+            "error": "syntax error, unexpected token \",\", expecting \";\""
+        },
+        {
+            "file": "content\/oracle\/qz11.php",
+            "line": 51,
+            "error": "syntax error, unexpected token \",\", expecting \";\""
+        },
+        {
+            "file": "content\/oracle\/qz12.php",
+            "line": 51,
+            "error": "syntax error, unexpected token \",\", expecting \";\""
+        },
+        {
+            "file": "content\/oracle\/qz13.php",
+            "line": 45,
+            "error": "syntax error, unexpected identifier \"Test\", expecting \"]\""
+        },
+        {
+            "file": "content\/oracle\/qz14.php",
+            "line": 46,
+            "error": "Unclosed '[' on line 43 does not match '}'"
+        },
+        {
+            "file": "content\/oracle\/qz15.php",
+            "line": 51,
+            "error": "syntax error, unexpected token \",\", expecting \";\""
+        },
+        {
+            "file": "content\/oracle\/qz16.php",
+            "line": 45,
+            "error": "syntax error, unexpected identifier \"Passable\", expecting \"]\""
+        },
+        {
+            "file": "content\/oracle\/qz17.php",
+            "line": 51,
+            "error": "syntax error, unexpected token \",\", expecting \";\""
+        }
+    ],
+    "modules": {
+        "html": {
+            "planned": 8,
+            "loaded": 8,
+            "exercises": 8,
+            "quizzes": 8,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": [
+                {
+                    "chapter": 5,
+                    "type": "true_false"
+                }
+            ]
+        },
+        "css": {
+            "planned": 14,
+            "loaded": 14,
+            "exercises": 14,
+            "quizzes": 14,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": [
+                {
+                    "chapter": 3,
+                    "type": "true_false"
+                },
+                {
+                    "chapter": 4,
+                    "type": "true_false"
+                }
+            ]
+        },
+        "php": {
+            "planned": 15,
+            "loaded": 15,
+            "exercises": 15,
+            "quizzes": 15,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": [
+                {
+                    "chapter": 3,
+                    "type": "true_false"
+                }
+            ]
+        },
+        "sql": {
+            "planned": 14,
+            "loaded": 14,
+            "exercises": 14,
+            "quizzes": 14,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": [
+                {
+                    "chapter": 1,
+                    "type": "true_false"
+                }
+            ]
+        },
+        "integration": {
+            "planned": 7,
+            "loaded": 7,
+            "exercises": 7,
+            "quizzes": 7,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "cpp": {
+            "planned": 30,
+            "loaded": 30,
+            "exercises": 1,
+            "quizzes": 1,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "javascript": {
+            "planned": 30,
+            "loaded": 30,
+            "exercises": 1,
+            "quizzes": 1,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "oracle": {
+            "planned": 28,
+            "loaded": 0,
+            "exercises": 0,
+            "quizzes": 0,
+            "missing": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28
+            ],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        }
+    },
+    "projects": [
+        "cpp-proj1",
+        "p1"
+    ],
+    "regressions": {
+        "nullSetting": {
+            "expected": null,
+            "actual": "null"
+        },
+        "nonexistentNoteUpdate": {
+            "returnedId": 100000,
+            "rowsSaved": 0
+        }
+    },
+    "phpFilesChecked": 345
+}

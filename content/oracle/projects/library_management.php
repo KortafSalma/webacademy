@@ -32,7 +32,7 @@ return [
                 'title' => 'VARCHAR2(200)',
                 'author' => 'VARCHAR2(100)',
                 'genre' => 'VARCHAR2(50)',
-                'available' => 'NUMBER DEFAULT 1',  -- 1 = disponible, 0 = emprunté
+                'available' => 'NUMBER DEFAULT 1',  // 1 = disponible, 0 = emprunté
             ],
         ],
         'borrowings' => [

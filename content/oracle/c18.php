@@ -43,7 +43,7 @@ return [
 
                 make_example_block(
                     'Bloc PL/SQL anonyme basique',
-                    '<pre><code>\n-- Bloc anonyme : s\'exécute directement dans SQL*Plus ou SQL Developer\nDECLARE\n  -- Section déclaration (variables, curseurs, etc.)\n  v_nom VARCHAR2(50) := \\'Mohamed\\\';\n  v_age NUMBER := 30;\nBEGIN\n  -- Section exécution (instructions SQL, PL/SQL)\n  DBMS_OUTPUT.PUT_LINE(\\'Bonjour \"\' || v_nom || \\' ! Age :\' || v_age);\nEND;\n/<code></pre>',
+                    '<pre><code>\n-- Bloc anonyme : s\'exécute directement dans SQL*Plus ou SQL Developer\nDECLARE\n  -- Section déclaration (variables, curseurs, etc.)\n  v_nom VARCHAR2(50) := \'Mohamed\';\n  v_age NUMBER := 30;\nBEGIN\n  -- Section exécution (instructions SQL, PL/SQL)\n  DBMS_OUTPUT.PUT_LINE(\'Bonjour \"\' || v_nom || \' ! Age :\' || v_age);\nEND;\n/<code></pre>',
                     '<pre>Bonjour "Mohamed" ! Age : 30</pre>',
                     'Le bloc se compose d\'une partieDECLARE (variables) et d\'une partieBEGIN...END (execution).'
                 ),
@@ -78,7 +78,7 @@ return [
 
                 make_example_block(
                     'Structure complète avec les trois parties',
-                    '<pre><code>\nDECLARE\n  v_salaire NUMBER := 5000;\n  v_taux    NUMBER := 0.15;\nBEGIN\n  -- Calcul de la prime\n  v_prime := v_salaire * v_taux;\n  -- Affichage de la result\n  DBMS_OUTPUT.PUT_LINE(\\'Prime calculée :\' || v_prime);\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_salaire NUMBER := 5000;\n  v_taux    NUMBER := 0.15;\nBEGIN\n  -- Calcul de la prime\n  v_prime := v_salaire * v_taux;\n  -- Affichage de la result\n  DBMS_OUTPUT.PUT_LINE(\'Prime calculée :\' || v_prime);\nEND;</code></pre>',
                     '<pre>Prime calculée : 750</pre>',
                     'Démonstration complète avec déclaration de deux variables et calcul dans la section BEGIN.'
                 ),
@@ -107,14 +107,14 @@ return [
 
                 make_example_block(
                     'Activation et utilisation',
-                    '<pre><code>\n-- En SQL*Plus, à taper UNE SEULE FOIS\nSET SERVEROUTPUT ON\n\n-- Ensuite, exécuter n\'importe quel bloc PL/SQL\nBEGIN\n  DBMS_OUTPUT.PUT_LINE(\\'Cette ligne s\'affiche grâce à SET SERVEROUTPUT ON\\');\nEND;\n/<code></pre>',
+                    '<pre><code>\n-- En SQL*Plus, à taper UNE SEULE FOIS\nSET SERVEROUTPUT ON\n\n-- Ensuite, exécuter n\'importe quel bloc PL/SQL\nBEGIN\n  DBMS_OUTPUT.PUT_LINE(\'Cette ligne s\'affiche grâce à SET SERVEROUTPUT ON\');\nEND;\n/<code></pre>',
                     '<pre>SET SERVEROUTPUT ON\n\nCette ligne s\'affiche grâce à SET SERVEROUTPUT ON</pre>',
                     'Montre le processus : d\'abord la commande SET, puis l\'exécution du bloc.'
                 ),
 
                 make_example_block(
                     'Plusieurs lignes de sortie',
-                    '<pre><code>\nBEGIN\n  DBMS_OUTPUT.PUT_LINE(\\'Ligne 1\\');\n  DBMS_OUTPUT.PUT_LINE(\\'Ligne 2\\');\n  DBMS_OUTPUT.PUT_LINE(\\'Ligne 3\\');\nEND;\n/<code></pre>',
+                    '<pre><code>\nBEGIN\n  DBMS_OUTPUT.PUT_LINE(\'Ligne 1\');\n  DBMS_OUTPUT.PUT_LINE(\'Ligne 2\');\n  DBMS_OUTPUT.PUT_LINE(\'Ligne 3\');\nEND;\n/<code></pre>',
                     '<pre>Ligne 1\nLigne 2\nLigne 3</pre>',
                     'Plusieurs lignes s\'affichent séquentiellement.'
                 ),

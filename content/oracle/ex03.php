@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /**
  * Exercices du chapitre oracle-ch3 — Comprendre SQL*Plus et SQL Developer.
- * 5 niveaux progressifs en mode statique (pas d'exécution Oracle).
+ * 5 niveaux progressifs en mode statique (pas d\'exécution Oracle).
  */
 
 return [

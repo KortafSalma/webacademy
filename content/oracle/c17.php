@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * MODULE ORACLE — Chapitre 17 : Vues, séquences et index
- * Objets de base de données qui simplifient l'accès, génèrent des identifiants
+ * Objets de base de données qui simplifient l\'accès, génèrent des identifiants
  * ou améliorent les performances de lecture.
  */
 
@@ -80,7 +80,7 @@ return [
 
                 make_example_block(
                     'CREATE SEQUENCE et NEXT VALUE',
-                    '<pre><code>\n-- Création d\'une séquence pour les IDs d\'employés\nCREATE SEQUENCE seq_emp\n  START WITH 1\n  INCREMENT BY 1\n  NOCACHE\n  NOCYCLE;\n\n-- Utilisation dans un INSERT\nINSERT INTO employés (emp_id, emp_name, dep_id)\nVALUES (NEXT VALUE FOR seq_emp, \\'Mohamed\\', 5);</code></pre>',
+                    '<pre><code>\n-- Création d\'une séquence pour les IDs d\'employés\nCREATE SEQUENCE seq_emp\n  START WITH 1\n  INCREMENT BY 1\n  NOCACHE\n  NOCYCLE;\n\n-- Utilisation dans un INSERT\nINSERT INTO employés (emp_id, emp_name, dep_id)\nVALUES (NEXT VALUE FOR seq_emp, \'Mohamed\', 5);</code></pre>',
                     '<pre>1 row created.\n</pre>',
                     'La séquence commence à 1, incrémente de 1 à chaque utilisation.'
                 ),
@@ -124,12 +124,12 @@ return [
                     'CREATE INDEX',
                     '<pre><code>\n-- Création d\'un index sur la colonne email de la table utilisateurs\nCREATE INDEX idx_util_email\nON utilisateurs (email);</code></pre>',
                     '<pre>Index created.\n</pre>',
-                    'L'index sur email accélère les recherches par adresse email.'
+                    'L\'index sur email accélère les recherches par adresse email.'
                 ),
 
                 make_example_block(
                     'Utilisation de l\'index',
-                    '<pre><code>\n-- La requête profite automatiquement de l\'index créé précédemment\nSELECT *\nFROM utilisateurs\nWHERE email = \\'moh@exemple.com\\\';</code></pre>',
+                    '<pre><code>\n-- La requête profite automatiquement de l\'index créé précédemment\nSELECT *\nFROM utilisateurs\nWHERE email = \'moh@exemple.com\';</code></pre>',
                     '<pre>ID NOM EMAIL DATE_INSCRIPTION\n-- ----------------- ----------- -----------------\n 1  Mohamed moh@exemple.com  15-JAN-2024</pre>',
                     'Oracle utilise l\'index idx_util_email pour trouver rapidement la ligne.'
                 ),

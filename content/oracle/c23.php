@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * MODULE ORACLE — Chapitre 23 : Curseurs : implicites et explicites
- * Parcourir les lignes d'une requête SELECT une à une en PL/SQL.
+ * Parcourir les lignes d\'une requête SELECT une à une en PL/SQL.
  */
 
 return [
@@ -44,14 +44,14 @@ return [
 
                 make_example_block(
                     'Utilisation des attributs %ROWCOUNT et %FOUND',
-                    '<pre><code>\nDECLARE\n  v_nom clients.nom%TYPE;\n  v_trouvé BOOLEAN := FALSE;\nBEGIN\n  -- Sélectionner une seule ligne\n  SELECT nom\n  INTO v_nom\n  FROM clients\n  WHERE id = 999;\n  \n  -- Vérifier si une ligne a été trouvée\n  IF SQL%ROWCOUNT = 1 THEN\n    v_trouvé := TRUE;\n    DBMS_OUTPUT.PUT_LINE(\\'Client trouvé :\' || v_nom);\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(\\'Aucun client avec cet ID.\\');\n  END IF;\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_nom clients.nom%TYPE;\n  v_trouvé BOOLEAN := FALSE;\nBEGIN\n  -- Sélectionner une seule ligne\n  SELECT nom\n  INTO v_nom\n  FROM clients\n  WHERE id = 999;\n  \n  -- Vérifier si une ligne a été trouvée\n  IF SQL%ROWCOUNT = 1 THEN\n    v_trouvé := TRUE;\n    DBMS_OUTPUT.PUT_LINE(\'Client trouvé :\' || v_nom);\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(\'Aucun client avec cet ID.\');\n  END IF;\nEND;</code></pre>',
                     '<pre>Aucun client avec cet ID.</pre>',
                     'SQL%ROWCOUNT compte le nombre de lignes affectées. = 1 signifie succès.'
                 ),
 
                 make_example_block(
                     'Mise à jour avec attributs implicites',
-                    '<pre><code>\nDECLARE\n  v_nouvel_email VARCHAR2(100) := \\'nouveau@exemple.com\\\';\nBEGIN\n  -- Mise à jour d\'un seul client\n  UPDATE clients\n  SET email = v_nouvel_email\n  WHERE id = 5;\n  \n  -- Vérifier le résultat\n  IF SQL%ROWCOUNT = 1 THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Email mis à jour avec succès.\\');\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(\\'Aucun client mis à jour (ID introuvable).\\');\n  END IF;\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_nouvel_email VARCHAR2(100) := \'nouveau@exemple.com\';\nBEGIN\n  -- Mise à jour d\'un seul client\n  UPDATE clients\n  SET email = v_nouvel_email\n  WHERE id = 5;\n  \n  -- Vérifier le résultat\n  IF SQL%ROWCOUNT = 1 THEN\n    DBMS_OUTPUT.PUT_LINE(\'Email mis à jour avec succès.\');\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(\'Aucun client mis à jour (ID introuvable).\');\n  END IF;\nEND;</code></pre>',
                     '<pre>Email mis à jour avec succès.</pre>',
                     'Après UPDATE, SQL%ROWCOUNT indique combien de lignes ont été modifiées.'
                 ),
@@ -74,7 +74,7 @@ return [
 
                 make_example_block(
                     'Curseur explicite : afficher tous les clients',
-                    '<pre><code>\nDECLARE\n  -- Déclaration du curseur\n  CURSOR c_clients IS\n    SELECT id, nom, email FROM clients;\n  -- Variables pour recevoir les lignes\n  v_id clients.id%TYPE;\n  v_nom clients.nom%TYPE;\n  v_email clients.email%TYPE;\nBEGIN\n  -- Ouverture du curseur\n  OPEN c_clients;\n  \n  -- Boucle de lecture\n  LOOP\n    -- Récupération de la ligne suivante\n    FETCH c_clients INTO v_id, v_nom, v_email;\n    -- Sortie de la boucle quand plus de lignes\n    EXIT WHEN c_clients%NOTFOUND;\n    \n    -- Traitement de la ligne\n    DBMS_OUTPUT.PUT_LINE(\\'ID :\' || v_id || \\'| Nom :\' || v_nom || \\'| Email :\' || v_email);\n  END LOOP;\n  \n  -- Fermeture du curseur\n  CLOSE c_clients;\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  -- Déclaration du curseur\n  CURSOR c_clients IS\n    SELECT id, nom, email FROM clients;\n  -- Variables pour recevoir les lignes\n  v_id clients.id%TYPE;\n  v_nom clients.nom%TYPE;\n  v_email clients.email%TYPE;\nBEGIN\n  -- Ouverture du curseur\n  OPEN c_clients;\n  \n  -- Boucle de lecture\n  LOOP\n    -- Récupération de la ligne suivante\n    FETCH c_clients INTO v_id, v_nom, v_email;\n    -- Sortie de la boucle quand plus de lignes\n    EXIT WHEN c_clients%NOTFOUND;\n    \n    -- Traitement de la ligne\n    DBMS_OUTPUT.PUT_LINE(\'ID :\' || v_id || \'| Nom :\' || v_nom || \'| Email :\' || v_email);\n  END LOOP;\n  \n  -- Fermeture du curseur\n  CLOSE c_clients;\nEND;</code></pre>',
                     '<pre>ID : 1| Nom : Mohamed| Email : moh@exemple.com\nID : 2| Nom : Fatima| Email : fat@exemple.com\n... (autres lignes)</pre>',
                     'Le curseur parcourt tous les clients un par un.'
                 ),

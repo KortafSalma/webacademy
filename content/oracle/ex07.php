@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Exercices du chapitre oracle-ch5 — Création d'utilisateurs, attribution de privilèges.
+ * Exercices du chapitre oracle-ch5 — Création d\'utilisateurs, attribution de privilèges.
  * 5 niveaux progressifs en mode statique.
  */
 

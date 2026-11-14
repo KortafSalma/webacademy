@@ -3,162 +3,202 @@
 declare(strict_types=1);
 
 /**
- * PARCOURS JAVASCRIPT — Chapitre 13 : Fonctions, paramètres et retour
+ * PARCOURS JAVASCRIPT — Chapitre 1 : Qu'est-ce que JavaScript ?
  * Modèle de qualité pour les 30 chapitres du parcours.
  */
 
 return [
-    'id'       => 'js-ch13',
-    'title'    => 'Fonctions, paramètres et retour',
-    'subtitle' => 'Créer et appeler des fonctions avec des arguments.',
+    'id'       => 'js-ch1',
+    'title'    => 'Qu\'est-ce que JavaScript ?',
+    'subtitle' => 'Le langage qui rend les pages vivantes : où il tourne, ce qu\'il peut faire et comment écrire son premier script.',
     'level'    => 'Débutant',
-    'minutes'  => 40,
-    'prerequisites' => ['Savoir utiliser les variables et les types'],
+    'minutes'  => 30,
+    'prerequisites' => ['Savoir lire une page HTML simple (balises, attributs)'],
 
     'objectives' => [
-        'Déclarer une fonction avec le mot-clé function.',
-        'Passer des paramètres à une fonction.',
-        'Utiliser return pour renvoyer une valeur.',
-        'Comprendre le portée locale des variables à l\'intérieur des fonctions.',
+        'Expliquer le rôle de JavaScript dans une page web.',
+        'Distinguer HTML, CSS et JavaScript.',
+        'Comprendre où le code JavaScript s\'exécute.',
+        'Écrire et exécuter un premier script avec console.log.',
     ],
 
     'lessons' => [
 
         // ------------------------------------------------ Section 1
         [
-            'id'    => 'declaring-functions',
-            'title' => 'Déclarer une fonction',
-            'icon'  => '�-function:',
+            'id'    => 'langage-du-navigateur',
+            'title' => 'Le langage qui rend la page vivante',
+            'icon'  => '⚡',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>Une fonction est déclarée avec le mot-clé <code>function</code>, suivi du nom, d\'une liste de paramètres entre parenthèses, et d\'un bloc d\'instruction entre accolades.</p><p><code>function nomFonction(param1, param2) { ... }</code></p>',
-                 'darija' => '<p>Fonction déclarée b <code>function</code>, nom, paramètres entre parenthèses, bloc instiction b accolades.</p><p><code>function nomFonction(param1, param2) { ... }</code></p>'],
+                 'fr'   => '<p>HTML décrit le <strong>contenu</strong>, CSS décrit l\'<strong>apparence</strong>, et <strong>JavaScript</strong> décrit le <strong>comportement</strong>. C\'est le seul des trois langages qui peut prendre des décisions, réagir à un clic, vérifier un formulaire, animer un élément ou envoyer une requête sans recharger la page.</p><p>Sans JavaScript, une page reste statique : les liens fonctionnent, mais rien ne se passe réellement dans la page. Avec JavaScript, un bouton peut changer un texte, un menu peut s\'ouvrir, un panier peut se mettre à jour instantanément.</p>',
+                 'darija' => '<p>HTML kaywsef <b>contenu</b>, CSS kaywsef <b>apparence</b>, w <b>JavaScript</b> kaywsef <b>comportement</b>. Howa l\'lougha wa7ed li kayqder yakhod decisions, ytf3al m3a clic, yverifi formulaire, y7rek élément, wla yseft requête bla ma t3awed tcharji page.</p><p>Bla JavaScript, page katbqa statique : les liens kaykhdmo, walakin walou ma kayt7arek f page. M3a JavaScript, bouton kayqder ybedel texte, menu kayt7el, panier kayt3adal direct.</p>'],
 
-                ['type' => 'example', 'title' => 'Fonction basique',
-                 'lang'  => 'javascript',
-                 'code'  => 'function saluer(nom) {\n  return "Bonjour " + nom + " !";\n}\nconsole.log(saluer("Yasmine")); // "Bonjour Yasmine !"',
-                 'explainFr' => 'La fonction retourne "Bonjour Yasmine !" lorsqu\'on lui passe "Yasmine".',
-                 'explainDarija' => 'Fonction retourne "Bonjour Yasmine !" b9der passed "Yasmine".'],
+                ['type' => 'table',
+                 'headers' => ['Langage', 'Rôle', 'Exemple'],
+                 'rows' => [
+                     ['HTML', 'Structure et contenu', 'Un titre, un paragraphe, un bouton'],
+                     ['CSS', 'Apparence et mise en page', 'Couleur, taille, espacement'],
+                     ['JavaScript', 'Comportement et logique', 'Réagir au clic, calculer, afficher'],
+                 ],
+                 'fr' => 'Les trois langages collaborent : HTML fournit les éléments, CSS les habille, JavaScript les fait réagir.',
+                ],
 
-                ['type' => 'mcq',
-                 'question' => 'Quel sera le résultat de \nconst f = function(x) { return x + 1; };\nf(5) ?',
-                 'options' => '5', '6', 'Erreur',
-                 'answer' => 1,
-                 'concept' => 'appel fonction',
-                 'explainFr' => '5 + 1 = 6.',
-                 'explainDarija' => '5 + 1 = 6.'],
-
+                ['type' => 'definition', 'title' => 'JavaScript (JS)',
+                 'fr'   => '<p><strong>JavaScript</strong> est un langage de programmation créé en 1995 pour les navigateurs. Aujourd\'hui, il sert aussi côté serveur (Node.js), dans les applications mobiles et sur les objets connectés. Son nom contient « Java », mais c\'est un langage totalement différent de Java.</p>',
+                 'darija' => '<p><b>JavaScript</b> langage de programmation tsawb f 1995 l navigateurs. Lyoum kaykhdem 7tta côté serveur (Node.js), f applications mobiles w objets connectés. Smiytou fiha « Java », walakin howa lougha mkhtalfa 3la Java.</p>'],
             ],
         ],
 
         // ------------------------------------------------ Section 2
         [
-            'id'    => 'parametres',
-            'title' => 'Paramètres et arguments',
-            'icon'  => '⚙️',
+            'id'    => 'ou-s-execute-js',
+            'title' => 'Où s\'exécute JavaScript ?',
+            'icon'  => '🌐',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>Les paramètres sont les variables listées dans la déclaration de la fonction. Les arguments sont les valeurs réelles passées lors de l\'appel. On peut aussi définir des paramètres par défaut :</p><pre><code>function addition(a, b = 0) { return a + b; }\naddition(5); // 5\naddition(3, 2); // 5</code></pre>',
-                 'darija' => '<p>Paramètres variables déclarées f9der function. Arguments valeurs réelles b9der appel. Paramètres par défaut : <code>function addition(a, b = 0) { return a + b; }</code></p>'],
+                 'fr'   => '<p>Dans une page web, JavaScript est exécuté par le <strong>moteur JavaScript du navigateur</strong> : V8 pour Chrome et Edge, SpiderMonkey pour Firefox, JavaScriptCore pour Safari. Le code arrive avec la page, puis le navigateur l\'exécute sur la machine du visiteur.</p><p>JavaScript peut aussi tourner <strong>hors du navigateur</strong> grâce à Node.js. Dans ce cas, il n\'y a ni page HTML ni <code>document</code> : le code lit des fichiers, lance un serveur ou manipule des données.</p>',
+                 'darija' => '<p>F page web, JavaScript kaynfed b <b>moteur JavaScript dyal navigateur</b> : V8 f Chrome w Edge, SpiderMonkey f Firefox, JavaScriptCore f Safari. Code kayji m3a page, w navigateur kaynfdo f PC dyal visiteur.</p><p>JavaScript kayqder 7tta ykhdem <b>bara mn navigateur</b> b Node.js. F had l7ala, ma kaynch page HTML wla <code>document</code> : code kayqra fichiers, kayslanci serveur, wla kaykhdem 3la données.</p>'],
 
-                ['type' => 'example', 'title' => 'Paramètres par défaut',
-                 'lang'  => 'javascript',
-                 'code'  => 'function calculer(x, y = 10) {\n  return x + y;\n}\nconsole.log(calculer(5));     // 15\nconsole.log(calculer(3, 7));  // 10',
-                 'explainFr' => 'Si y n\'est pas fourni, il vaut 1 par défaut.',
-                 'explainDarija' => 'Si y pas fourni, vaut 1 par défaut.'],
+                ['type' => 'warning',
+                 'title' => 'Côté client ne veut pas dire sans danger',
+                 'fr'   => 'Le code JavaScript envoyé au navigateur est <strong>visible</strong> par l\'utilisateur et peut être modifié. On ne met donc jamais de mot de passe, de clé secrète ou de règle de sécurité uniquement en JavaScript côté client : la vérification finale doit se faire sur le serveur.',
+                 'darija' => 'Code JavaScript li kayseft l navigateur <b>kayban</b> l utilisateur w kayqder ybedlo. 3lach ma kandirouch mot de passe, clé secrète wla règle de sécurité ghir f JavaScript côté client : vérification l\'akhira khass tkoun f serveur.'],
 
-                ['type' => 'mcq',
-                 'question' => 'Que renvoie \nfunction test(a = 5) { return a; };\ntest() ?',
-                 'options' => '5', 'undefined', 'Erreur',
-                 'answer' => 0,
-                 'concept' => 'paramètre défaut',
-                 'explainFr' => 'Le paramètre par défaut s\'applique quand aucune valeur n\'est fournie.',
-                 'explainDarija' => 'Paramètre défaut s\'applique b9der aucune valeur fournie.'],
-
+                ['type' => 'table',
+                 'headers' => ['Environnement', 'Accès au HTML', 'Usage typique'],
+                 'rows' => [
+                     ['Navigateur', 'Oui, via le DOM', 'Interactions, formulaires, animations'],
+                     ['Node.js', 'Non', 'Serveurs, scripts, outils en ligne de commande'],
+                 ],
+                 'fr' => 'Le même langage, deux environnements : les objets disponibles ne sont pas identiques. <code>document</code> existe dans le navigateur, pas dans Node.js.',
+                ],
             ],
         ],
 
         // ------------------------------------------------ Section 3
         [
-            'id'    => 'return',
-            'title' => 'L\'instruction return',
-            'icon'  => '↩️',
+            'id'    => 'premier-script',
+            'title' => 'Votre premier script',
+            'icon'  => '🚀',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>L\'instruction <code>return</code> arrête l\'exécution de la fonction et renvoie une valeur à l\'endroit où la fonction a été appelée. Si aucune valeur n\'est spécifiée, la fonction renvoie <code>undefined</code>.</p>',
-                 'darija' => '<p><code>return</code> arrête execution function w renvoie valeur b9der called. Si aucune valeur, function renvoie <code>undefined</code>.'],
+                 'fr'   => '<p>Pour exécuter du JavaScript dans une page, on utilise la balise <code>&lt;script&gt;</code>. Le code peut être écrit directement entre les balises ou placé dans un fichier séparé avec l\'attribut <code>src</code>. La console du navigateur (<code>F12</code> puis onglet Console) affiche les messages et les erreurs.</p>',
+                 'darija' => '<p>Bach tnfed JavaScript f page, katkhdem b balise <code>&lt;script&gt;</code>. Code yqder ykoun direct bin balises wla f fichier separé b attribut <code>src</code>. Console dyal navigateur (<code>F12</code> mn ba3d onglet Console) kat3red messages w erreurs.</p>'],
 
-                ['type' => 'example', 'title' => 'return avec et sans valeur',
+                ['type' => 'syntax',
+                 'lang' => 'html',
+                 'title' => 'Inclure un script dans une page',
+                 'code' => '<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Premier script</title>
+</head>
+<body>
+  <h1>Ma première page interactive</h1>
+
+  <script>
+    console.log("Salam, JavaScript !");
+  </script>
+</body>
+</html>'],
+
+                ['type' => 'example',
+                 'title' => 'Un script qui réagit à un clic',
                  'lang'  => 'javascript',
-                 'code'  => 'function avecRetour() { return 42; }\nfunction sansRetour() { console.log("bonjour"); }\nconsole.log(avecRetour()); // 42\nsansRetour(); // "bonjour" (renvoie undefined)\n',
-                 'explainFr' => 'avecRetour renvoie 42 ; sansRetour affiche "bonjour" et renvoie undefined.',
-                 'explainDarija' => 'avecRetour renvoie 42 ; sansRetour affiche "bonjour" w renvoie undefined.'],
+                 'code'  => 'const bouton = document.getElementById("action");
+const message = document.getElementById("message");
 
-                ['type' => 'true_false',
-                 'question' => 'Si une fonction n\'a pas de return, elle renvoie undefined.',
-                 'answer' => 0,
-                 'concept' => 'return',
-                 'explainFr' => 'Vrai : sans return, la valeur par défaut est undefined.',
-                 'explainDarija' => 'Vrai : sans return, valeur par défaut undefined.'],
+bouton.addEventListener("click", () => {
+    message.textContent = "Le bouton a été cliqué !";
+    console.log("Clic détecté");
+});',
+                 'output' => 'Après un clic : « Le bouton a été cliqué ! » dans la page et « Clic détecté » dans la console.',
+                 'explainFr' => '<code>document.getElementById</code> récupère un élément HTML. <code>addEventListener</code> enregistre une fonction exécutée plus tard, au moment du clic. <code>textContent</code> modifie le texte affiché.',
+                 'explainDarija' => '<code>document.getElementById</code> kayjib élément HTML. <code>addEventListener</code> kaysejjel fonction li katkhdem mn ba3d, f wa9t clic. <code>textContent</code> kaybedel texte li kayban.'],
 
+                ['type' => 'tip',
+                 'title' => 'Toujours ouvrir la console',
+                 'fr'   => 'La console est votre meilleur outil de diagnostic. Elle affiche la valeur des variables, les erreurs de syntaxe et les erreurs d\'exécution avec leur numéro de ligne. Un développeur JavaScript garde la console ouverte en permanence.',
+                 'darija' => 'Console howa a7san outil dyal diagnostic. Kat3red valeur dyal variables, erreurs de syntaxe w erreurs d\'exécution m3a numéro de ligne. Développeur JavaScript kaykhelli console m7loula dima.'],
             ],
         ],
 
         // ------------------------------------------------ Section 4
         [
-            'id'    => 'test-fonctions',
-            'title' => 'Vérifier vos connaissances',
-            'icon'  => '❓',
+            'id'    => 'console-et-commentaires',
+            'title' => 'console.log, commentaires et structure',
+            'icon'  => '🧰',
             'blocks' => [
 
-                ['type' => 'fill',
-                 'question' => 'Pour qu\'une fonction renvoie une valeur, on utilise le mot-clé _____ .',
-                 'answer' => 'return',
-                 'concept' => 'return',
-                 'explainFr' => 'L\'instruction return renvoie une valeur.',
-                 'explainDarija' => 'return kayder valeur.'],
+                ['type' => 'text',
+                 'fr'   => '<p><code>console.log()</code> affiche une valeur dans la console. C\'est l\'instruction la plus utilisée pour comprendre ce qui se passe dans un programme. Les commentaires, eux, sont ignorés par le moteur : ils servent à expliquer le code aux humains.</p>',
+                 'darija' => '<p><code>console.log()</code> kay3red valeur f console. Hiya instruction li katkhdem ktar bach tfhem chno kayt7arek f programme. Comments, moteur kaytjahalhom : kayn ghir bach tchar7 code l humains.</p>'],
 
-                ['type' => 'mcq',
-                 'question' => 'Que vaut \nfunction test(x) { return x * 2; };\ntest(4) ?',
-                 'options' => '8', '4', '2', 'undefined',
-                 'answer' => 0,
-                 'concept' => 'calcul dans return',
-                 'explainFr' => '4 * 2 = 8.',
-                 'explainDarija' => '4 * 2 = 8.'],
+                ['type' => 'example',
+                 'title' => 'Variables, calcul et affichage',
+                 'lang'  => 'javascript',
+                 'code'  => '// Un commentaire sur une ligne
+const prenom = "Amine";
+let age = 20;
 
-                ['type' => 'code_contains',
-                 'question' => 'Lequel affiche 10 ?',
-                 'code_a' => 'function double(x) { return x * 2; }\ndouble(5);',
-                 'code_b' => 'function double(x) { console.log(x * 2); }\ndouble(5);',
-                 'answer' => 0,
-                 'concept' => 'return vs console.log',
-                 'explainFr' => 'return renvoie la valeur ; console.log l\'affiche mais la function renvoie undefined.',
-                 'explainDarija' => 'return renvoie valeur ; console.log l\'affiche b function renvoie undefined.'],
+/* Ce commentaire
+   tient sur plusieurs lignes. */
+const anneeNaissance = 2026 - age;
 
+console.log("Prenom : " + prenom);
+console.log("Annee de naissance :", anneeNaissance);',
+                 'output' => 'Prenom : Amine\nAnnee de naissance : 2006',
+                 'explainFr' => '<code>const</code> déclare une valeur qui ne sera pas réassignée, <code>let</code> une valeur modifiable. Le signe <code>+</code> colle deux chaînes ; la virgule dans <code>console.log</code> ajoute une valeur séparée.',
+                 'explainDarija' => '<code>const</code> kat3len valeur li ma ghadi tbedelch, <code>let</code> valeur li tqder tbedel. Signe <code>+</code> kaylsse9 jouj chaînes ; virgule f <code>console.log</code> katzid valeur mfreqa.'],
+
+                ['type' => 'syntax',
+                 'lang' => 'javascript',
+                 'title' => 'Les deux styles de commentaires',
+                 'code' => '// Commentaire sur une seule ligne
+
+/*
+   Commentaire sur plusieurs lignes.
+   Utile pour expliquer un bloc complexe.
+*/
+
+console.log("Le moteur ignore les commentaires");'],
+
+                ['type' => 'note',
+                 'title' => 'Un fichier JavaScript séparé',
+                 'fr'   => 'En pratique, on place le code dans un fichier <code>.js</code> et on l\'inclut avec <code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code>. L\'attribut <code>defer</code> attend que le HTML soit analysé avant d\'exécuter le script, ce qui évite les erreurs du type « élément introuvable ».',
+                 'darija' => 'F pratique, code kayt7et f fichier <code>.js</code> w kaytdkhel b <code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code>. Attribut <code>defer</code> kaytsenna HTML ytqra qbel exécution, w hadchi kayweqef erreurs dyal « élément introuvable ».'],
             ],
         ],
-
     ],
 
     'mistakes' => [
         [
-            'wrong'  => 'Oublir return dans une fonction censée retourner une valeur',
-            'fix'    => 'Vérifiez toujours la fin des fonctions qui doivent renvoyer un résultat.',
-            'fr'     => 'Sans return, la fonction renverra undefined et le résultat sera perdu.',
-            'darija' => 'Sans return, function renverra undefined w résultat perdu.'],
+            'wrong'  => 'Confondre JavaScript et Java',
+            'fix'    => 'Retenir que ce sont deux langages différents, sans lien technique direct',
+            'fr'     => 'JavaScript et Java partagent une partie de leur nom, mais leurs syntaxes, leurs usages et leurs écosystèmes sont distincts. JavaScript est le langage du navigateur ; Java est utilisé pour d\'autres types d\'applications.',
+            'darija' => 'JavaScript w Java kaytcharKo ghir f smiya, walakin syntaxe, usage w écosystème mkhtalfin. JavaScript lougha dyal navigateur ; Java kayst5dem f applications okhra.',
         ],
         [
-            'wrong'  => 'Modifier les paramètres externes à l\'intérieur d\'une fonction',
-            'fix'    => 'Utilisez des variables locales ou passez par valeur si nécessaire.',
-            'fr'     => 'Les paramètres sont copiés ; les modifications n\'affectent pas les variables extérieures (sauf objets).',
-            'darija' => 'Paramètres copiés ; modifications n\'affectent pas variables extérieures (sauf objets).'],
+            'wrong'  => 'Placer un script avant les éléments HTML qu\'il utilise',
+            'fix'    => 'Mettre le script en fin de body ou ajouter l\'attribut defer',
+            'fr'     => 'Si le script s\'exécute avant que le bouton existe, <code>getElementById</code> renvoie <code>null</code> et l\'appel suivant provoque une erreur. <code>defer</code> règle ce problème.',
+            'darija' => 'Ila script khdem qbel ma ykoun bouton, <code>getElementById</code> kayrje3 <code>null</code> w appel mora kay3ti erreur. <code>defer</code> kay7el had problème.',
+        ],
+        [
+            'wrong'  => 'Croire que console.log affiche le résultat dans la page',
+            'fix'    => 'Utiliser textContent ou innerHTML pour modifier la page',
+            'fr'     => '<code>console.log</code> écrit uniquement dans la console de développement. Pour changer ce que voit le visiteur, il faut modifier un élément du DOM.',
+            'darija' => '<code>console.log</code> kaykteb ghir f console dyal développement. Bach tbedel chi haja li kaychofha visiteur, khassek tbedel élément f DOM.',
+        ],
     ],
 
     'summary' => [
-        'fr' => '<strong>JavaScript</strong> utilise <code>function nom(param1, param2)</code> pour déclarer une fonction. Les paramètres par défaut s\'écrivent <code>param = valeurParDefaut</code>. L\'instruction <code>return</code> arrête la fonction et renvoie une valeur ; sans return, la fonction renvoie undefined. ',
-        'darija' => '<strong>JavaScript</strong> utilise <code>function nom(param1, param2)</code> b9der declarer function. Paramètres par défaut s\'écrivent <code>param = valeurParDefaut</code>. <code>return</code> arrête function w renvoie valeur ; sans return, function renvoie undefined. ',
+        'fr'     => '<b>JavaScript</b> est le langage du comportement : il réagit aux clics, valide les formulaires, calcule et modifie la page. Il s\'exécute dans le <b>navigateur</b> (V8, SpiderMonkey, JavaScriptCore) ou avec <b>Node.js</b> côté serveur. On l\'inclut avec <code>&lt;script&gt;</code>, on affiche des valeurs avec <code>console.log</code>, et les commentaires <code>//</code> ou <code>/* … */</code> documentent le code sans être exécutés.',
+        'darija' => '<b>JavaScript</b> howa lougha dyal comportement : kaytf3al m3a clics, kayverifi formulaires, kay7seb w kaybedel page. Kaykhdem f <b>navigateur</b> (V8, SpiderMonkey, JavaScriptCore) wla b <b>Node.js</b> côté serveur. Kaytdkhel b <code>&lt;script&gt;</code>, kay3red valeurs b <code>console.log</code>, w comments <code>//</code> wla <code>/* … */</code> kaychar7o code bla ma ytnfed.',
     ],
 ];

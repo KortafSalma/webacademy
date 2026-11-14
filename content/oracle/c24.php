@@ -43,14 +43,14 @@ return [
 
                 make_example_block(
                     'Gestion de NO_DATA_FOUND',
-                    '<pre><code>\nDECLARE\n  v_nom clients.nom%TYPE;\nBEGIN\n  SELECT nom\n  INTO v_nom\n  FROM clients\n  WHERE id = 999;  -- ID inexistant\n  DBMS_OUTPUT.PUT_LINE(\\'Client :\' || v_nom);\nEXCEPTION\n  WHEN NO_DATA_FOUND THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Aucun client trouvé avec cet ID.\\');\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_nom clients.nom%TYPE;\nBEGIN\n  SELECT nom\n  INTO v_nom\n  FROM clients\n  WHERE id = 999;  -- ID inexistant\n  DBMS_OUTPUT.PUT_LINE(\'Client :\' || v_nom);\nEXCEPTION\n  WHEN NO_DATA_FOUND THEN\n    DBMS_OUTPUT.PUT_LINE(\'Aucun client trouvé avec cet ID.\');\nEND;</code></pre>',
                     '<pre>Aucun client trouvé avec cet ID.</pre>',
-                    'L'exception est attrapée et un message amical s\'affiche au lieu d\'erreur Oracle.'
+                    'L\'exception est attrapée et un message amical s\'affiche au lieu d\'erreur Oracle.'
                 ),
 
                 make_example_block(
                     'Gestion de TOO_MANY_ROWS',
-                    '<pre><code>\nDECLARE\n  v_compte NUMBER;\nBEGIN\n  SELECT COUNT(*)\n  INTO v_compte\n  FROM clients;  -- Retourne 1 ligne seulement, pas d\'erreur\n  DBMS_OUTPUT.PUT_LINE(\\'Nombre clients :\' || v_compte);\nEXCEPTION\n  WHEN TOO_MANY_ROWS THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Erreur : trop de lignes renvoyées.\\');\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_compte NUMBER;\nBEGIN\n  SELECT COUNT(*)\n  INTO v_compte\n  FROM clients;  -- Retourne 1 ligne seulement, pas d\'erreur\n  DBMS_OUTPUT.PUT_LINE(\'Nombre clients :\' || v_compte);\nEXCEPTION\n  WHEN TOO_MANY_ROWS THEN\n    DBMS_OUTPUT.PUT_LINE(\'Erreur : trop de lignes renvoyées.\');\nEND;</code></pre>',
                     '<pre>Nombre clients : 25</pre>',
                     'Dans ce cas spécifique, COUNT(*) ne provoque pas d\'erreur car il retourne toujours une ligne.'
                 ),
@@ -73,14 +73,14 @@ return [
 
                 make_example_block(
                     'Lever une exception personnalisée',
-                    '<pre><code>\nDECLARE\n  -- Déclaration d\'une exception personnalisée\n  e_solde_négatif EXCEPTION;\n  v_solde NUMBER := -100;\nBEGIN\n  IF v_solde < 0 THEN\n    -- Lever l\'exception avec un message personnalisé\n    RAISE e_solde_négatif;\n  END IF;\nEXCEPTION\n  WHEN e_solde_négatif THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Erreur : Le solde ne peut pas être négatif.\\');\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  -- Déclaration d\'une exception personnalisée\n  e_solde_négatif EXCEPTION;\n  v_solde NUMBER := -100;\nBEGIN\n  IF v_solde < 0 THEN\n    -- Lever l\'exception avec un message personnalisé\n    RAISE e_solde_négatif;\n  END IF;\nEXCEPTION\n  WHEN e_solde_négatif THEN\n    DBMS_OUTPUT.PUT_LINE(\'Erreur : Le solde ne peut pas être négatif.\');\nEND;</code></pre>',
                     '<pre>Erreur : Le solde ne peut pas être négatif.</pre>',
-                    'L'exception personnalisée est levée et attrapée avec un message clair.'
+                    'L\'exception personnalisée est levée et attrapée avec un message clair.'
                 ),
 
                 make_example_block(
                     'RAISE avec SQLERRM',
-                    '<pre><code>\nDECLARE\n  v_erreur NUMBER;\nBEGIN\n  -- Simulation d\'une erreur quelconque\n  BEGIN\n    -- Code qui peut échouer\n  END;\n  EXCEPTION\n    WHEN OTHERS THEN\n      v_erreur := SQLCODE;\n      DBMS_OUTPUT.PUT_LINE(\\'Erreur n°\' || v_erreur || \\' :\' || SQLERRM);\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_erreur NUMBER;\nBEGIN\n  -- Simulation d\'une erreur quelconque\n  BEGIN\n    -- Code qui peut échouer\n  END;\n  EXCEPTION\n    WHEN OTHERS THEN\n      v_erreur := SQLCODE;\n      DBMS_OUTPUT.PUT_LINE(\'Erreur n°\' || v_erreur || \' :\' || SQLERRM);\nEND;</code></pre>',
                     '<pre>Erreur n°-1 : ORA-00000: succès</pre>',
                     'SQLERRM retourne le message d\'erreur texte, SQLCODE le numéro d\'erreur.'
                 ),

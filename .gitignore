@@ -19,3 +19,6 @@ vendor/
 # Captures et rapports de test locaux
 /wa_shots/
 /test-results/
+
+# Diagnostic stderr generated during local verification
+/data/repair-audit.err

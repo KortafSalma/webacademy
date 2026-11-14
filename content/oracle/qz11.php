@@ -14,7 +14,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Une sous-requête scalaire retourne :',
-            'options' => 'Plusieurs lignes et colonnes', 'Une seule valeur (ligne, colonne)', 'Une table entière', 'Une vue'],
+            'options' => ['Plusieurs lignes et colonnes', 'Une seule valeur (ligne, colonne)', 'Une table entière', 'Une vue'],
             'answer'  => 1,
             'concept' => 'Sous-requête scalaire',
             'explainFr' => 'Une sous-requête scalaire ne retourne qu\'une seule valeur (une ligne, une colonne).',
@@ -43,7 +43,7 @@ return [
         [
             'type'    => 'find-error',
             'question'=> 'Identifiez l\'erreur : SELECT * FROM (SELECT client_id, COUNT(*) FROM commandes GROUP BY client_id)',
-            'options' => 'Oubli alias', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Manque GROUP BY'],
+            'options' => ['Oubli alias', 'Pas d\'erreur', 'Syntaxe incorrecte', 'Manque GROUP BY'],
             'answer'  => 0,
             'concept' => 'Sous-requête FROM alias',
             'explainFr' => 'L\'erreur consiste à oublier l\'alias sur une sous-requête dans FROM. Oracle provoquera une erreur ORA-00923 : FROM keyword where expected.',
@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Que retournera SELECT nom FROM clients WHERE id = ANY (SELECT client_id FROM commandes) ;',
-            'options' => 'Clients qui ont passé au moins une commande', 'Clients qui n\'ont jamaiscommandé', 'Tous les clients', 'Aucun client'],
+            'options' => ['Clients qui ont passé au moins une commande', 'Clients qui n\'ont jamaiscommandé', 'Tous les clients', 'Aucun client'],
             'answer'  => 0,
             'concept' => 'Sous-requête WHERE ANY',
             'explainFr' => 'La requête affichera les clients dont l\'id apparaît dans la liste des client_id de la table commandes.',
@@ -63,7 +63,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle de ces sous-requêtes corrélées référence la requête externe ?',
-            'options' => 'SELECT * FROM produits p WHERE prix > (SELECT AVG(prix) FROM produits)', 'SELECT * FROM clients c WHERE EXISTS (SELECT * FROM commandes WHERE c.id = client_id)', 'SELECT nom FROM produits WHERE prix > 50', 'SELECT COUNT(*) FROM clients'],
+            'options' => ['SELECT * FROM produits p WHERE prix > (SELECT AVG(prix) FROM produits)', 'SELECT * FROM clients c WHERE EXISTS (SELECT * FROM commandes WHERE c.id = client_id)', 'SELECT nom FROM produits WHERE prix > 50', 'SELECT COUNT(*) FROM clients'],
             'answer' => 1,
             'concept' => 'Sous-requête corrélée',
             'explainFr' => 'La sous-requête EXISTS référence la colonne client_id de la requête externe (alias c.id = client_id), elle est donc corrélée.',
@@ -86,13 +86,13 @@ return [
             'answer'  => 1,
             'concept' => 'Sous-requête non corrélée',
             'explainFr' => 'Vrai : Une sous-requête non corrélée ne fait pas référence à la requête externe et peut s\'exécuter une seule fois.',
-            'explainDarija' => 'Vrai : Non corrélée s\\'exécute indépendamment une seule fois.',
+            'explainDarija' => 'Vrai : Non corrélée s\'exécute indépendamment une seule fois.',
         ],
 
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle de ces requêtes utilise une sous-requête dans le WHERE ?',
-            'options' => 'SELECT * FROM produits WHERE prix > (SELECT AVG(prix) FROM produits)', 'SELECT * FROM (SELECT * FROM clients)', 'SELECT COUNT(*) FROM clients', 'CREATE TABLE AS SELECT * FROM clients'],
+            'options' => ['SELECT * FROM produits WHERE prix > (SELECT AVG(prix) FROM produits)', 'SELECT * FROM (SELECT * FROM clients)', 'SELECT COUNT(*) FROM clients', 'CREATE TABLE AS SELECT * FROM clients'],
             'answer' => 0,
             'concept' => 'Sous-requête WHERE',
             'explainFr' => 'La première option place une sous-requête dans la clause WHERE pour filtrer les résultats.',

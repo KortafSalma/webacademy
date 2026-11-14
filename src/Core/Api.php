@@ -201,12 +201,13 @@ final class Api
 
     private static function settingsSave(array $in): array
     {
+        $updates = [];
         if (array_key_exists('theme', $in)) {
             $theme = $in['theme'];
             if (!in_array($theme, ['light', 'dark'], true)) {
                 return self::fail('Thème invalide.', 422);
             }
-            Repos::setSetting('theme', $theme);
+            $updates['theme'] = $theme;
         }
 
         if (array_key_exists('langMode', $in)) {
@@ -214,15 +215,15 @@ final class Api
             if (!in_array($mode, ['fr', 'darija', 'bilingual'], true)) {
                 return self::fail('Mode de langue invalide.', 422);
             }
-            Repos::setSetting('langMode', $mode);
+            $updates['langMode'] = $mode;
         }
 
         if (array_key_exists('lastLesson', $in)) {
             $last = $in['lastLesson'];
             if ($last === null || $last === '') {
-                Repos::setSetting('lastLesson', null);
+                $updates['lastLesson'] = null;
             } elseif (is_string($last) && preg_match(self::LESSON_KEY, $last)) {
-                Repos::setSetting('lastLesson', $last);
+                $updates['lastLesson'] = $last;
             } else {
                 return self::fail('Leçon mémorisée invalide.', 422);
             }
@@ -232,9 +233,12 @@ final class Api
             if (!is_bool($in['examMode'])) {
                 return self::fail('Mode révision invalide.', 422);
             }
-            Repos::setSetting('examMode', $in['examMode']);
+            $updates['examMode'] = $in['examMode'];
         }
 
+        foreach ($updates as $key => $value) {
+            Repos::setSetting($key, $value);
+        }
         return ['ok' => true] + self::settingsData();
     }
 
@@ -261,6 +265,9 @@ final class Api
         }
 
         $id = Repos::saveNote($id, $title !== '' ? $title : 'Note', $body, $key !== '' ? $key : null);
+        if ($id === null) {
+            return self::fail('Note introuvable.', 404);
+        }
         return ['ok' => true, 'id' => $id, 'notes' => Repos::notes()];
     }
 

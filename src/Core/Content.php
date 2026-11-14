@@ -75,6 +75,9 @@ final class Content
             return self::$fileCache[$file] = null;
         }
         try {
+            if (str_starts_with(str_replace('\\', '/', $file), str_replace('\\', '/', APP_CONTENT) . '/oracle/')) {
+                require_once APP_CONTENT . '/oracle/_helpers.php';
+            }
             $data = require $file;
         } catch (\Throwable $e) {
             error_log(sprintf(
@@ -154,7 +157,7 @@ final class Content
             return [];
         }
         $projects = [];
-        foreach (glob($dir . '/*.php') ?: [] as $file) {
+        foreach (array_merge(glob($dir . '/*.php') ?: [], glob(APP_CONTENT . '/javascript/*project*.php') ?: [], glob(APP_CONTENT . '/oracle/projects/*.php') ?: []) as $file) {
             $data = self::loadFile($file);
             if ($data !== null && isset($data['id'], $data['title'])) {
                 $projects[] = $data;

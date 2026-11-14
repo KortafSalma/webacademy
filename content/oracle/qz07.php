@@ -46,14 +46,14 @@ return [
             'options' => ['Oubli guillemets catégorie', 'Pas d\'erreur', 'Type de données incorrect', 'Alias manquant'],
             'answer'  => 0,
             'concept' => 'Syntaxe texte dans WHERE',
-            'explainFr' => 'Les valeurs texte doivent être entourées de guillemets simples en Oracle : categorie = \\'Électronique\\'.',
+            'explainFr' => 'Les valeurs texte doivent être entourées de guillemets simples en Oracle : categorie = \'Électronique\'.',
             'explainDarija' => 'Valeurs texte guillemets simples Oracle : catégorie = Électronique.',
         ],
 
         [
             'type'    => 'predict',
             'question'=> 'Quel sera le résultat de SELECT nom, prix FROM produits WHERE prix BETWEEN 20 AND 80 ;',
-            'options' => 'Produits dont le prix est compris entre 20 et 80', 'Erreur de syntaxe', 'Aucun résultat', 'Tous les produits'],
+            'options' => ['Produits dont le prix est compris entre 20 et 80', 'Erreur de syntaxe', 'Aucun résultat', 'Tous les produits'],
             'answer'  => 0,
             'concept' => 'Opérateur BETWEEN',
             'explainFr' => 'La requête affichera les produits dont le prix est compris entre 20 et 80 inclus.',
@@ -92,7 +92,7 @@ return [
         [
             'type'    => 'mcq',
             'question'=> 'Laquelle de ces requêtes retournera les clients de Paris, Lyon ou Marseille ?',
-            'options' => 'WHERE ville = \\'Paris\\' OR \\'Lyon\\' OR \\'Marseille\\', WHERE ville IN (\\'Paris\\', \\'Lyon\\', \\'Marseille\\'), SELECT * FROM clients WHERE ville LIKE \\'%Paris%\\', Toutes les réponses ci-dessus',
+            'options' => ["WHERE ville = 'Paris' OR 'Lyon' OR 'Marseille'", "WHERE ville IN ('Paris', 'Lyon', 'Marseille')", "WHERE ville LIKE '%Paris%'", 'Toutes les r?ponses ci-dessus'],
             'answer'  => 1,
             'concept' => 'Opérateur IN vs OR',
             'explainFr' => 'L\'opérateur IN est la façon la plus concise de spécifier plusieurs valeurs pour la même colonne.',

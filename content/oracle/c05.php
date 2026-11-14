@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * MODULE ORACLE — Chapitre 5 : Création d'utilisateurs, attribution de privilèges
+ * MODULE ORACLE — Chapitre 5 : Création d\'utilisateurs, attribution de privilèges
  * et gestion des autorisations.
  * Création de comptes utilisateurs, attribution de privilèges système et de
  * données, et gestion des profils et quotas.
@@ -75,7 +75,7 @@ return [
 
                 make_example_block(
                     'Accorder CREATE TABLE et CREATE SESSION',
-                    '<pre><code>-- Accorder le privilège de connexion\nSQL> GRANT CREATE SESSION TO salam;\n\n-- Accorder la création de tables\nSQL> GRANT CREATE TABLE TO salam;\n\n-- Vérifier les privilèges attribués\nSQL> SELECT privilege FROM user_sys_privs WHERE grantee = \\'SALAM\\';</code></pre>',
+                    '<pre><code>-- Accorder le privilège de connexion\nSQL> GRANT CREATE SESSION TO salam;\n\n-- Accorder la création de tables\nSQL> GRANT CREATE TABLE TO salam;\n\n-- Vérifier les privilèges attribués\nSQL> SELECT privilege FROM user_sys_privs WHERE grantee = \'SALAM\';</code></pre>',
                     '<pre>GRANT created.\n</pre>',
                     'L\'utilisateur salam peut maintenant créer des tables dans son propre schéma.'
                 ),

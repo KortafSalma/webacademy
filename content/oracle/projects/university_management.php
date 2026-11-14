@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /**
  * Système complet de gestion universitaire pour Oracle Database XE.
- * Gère tous les aspects d'une université : étudiants, cours, professeurs, départements, etc.
+ * Gère tous les aspects d\'une université : étudiants, cours, professeurs, départements, etc.
  */
 
 return [

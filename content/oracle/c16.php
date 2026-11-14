@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * MODULE ORACLE — Chapitre 16 : Constraints : PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK et NOT NULL
- * Contraintes de intégrité qui s'appliquent automatiquement sur les colonnes de tables.
+ * Contraintes de intégrité qui s\'appliquent automatiquement sur les colonnes de tables.
  */
 
 return [
@@ -50,7 +50,7 @@ return [
 
                 make_example_block(
                     'Vérifier contrainte NOT NULL',
-                    '<pre><code>-- Essayer d\'insérer un utilisateur sans nom (va échouer)\nINSERT INTO utilisateurs (utilisateur_id, email)\nVALUES (1, \\'test@exemple.com\\\');\n-- Erreur : ORACLE error 1400: cannot insert INTO USER NULL INTO NOT NULL constraint</code></pre>',
+                    '<pre><code>-- Essayer d\'insérer un utilisateur sans nom (va échouer)\nINSERT INTO utilisateurs (utilisateur_id, email)\nVALUES (1, \'test@exemple.com\');\n-- Erreur : ORACLE error 1400: cannot insert INTO USER NULL INTO NOT NULL constraint</code></pre>',
                     '<pre>Erreur ORACLE 1400 : cannot insert INTO USER NULL INTO NOT NULL constraint</pre>',
                     'L\'insertion échoue car la colonne nom ne peut pas être NULL.'
                 ),
@@ -86,7 +86,7 @@ return [
 
                 make_example_block(
                     'Insertion et violation de clé étrangère',
-                    '<pre><code>-- Tentative d\'insérer un employé avec un département inexistant\nINSERT INTO employés (emp_id, emp_name, dep_id)\nVALUES (100, \\'Test\\', 999);\n-- Erreur : ORACLE error 01400: cannot insert INTO ... referenced key not found</code></pre>',
+                    '<pre><code>-- Tentative d\'insérer un employé avec un département inexistant\nINSERT INTO employés (emp_id, emp_name, dep_id)\nVALUES (100, \'Test\', 999);\n-- Erreur : ORACLE error 01400: cannot insert INTO ... referenced key not found</code></pre>',
                     '<pre>Erreur ORACLE 01400 : referenced key not found</pre>',
                     'Impossible d\'ajouter un employé avec un dep_id qui n\'existe pas dans la table départements.'
                 ),
@@ -116,7 +116,7 @@ return [
 
                 make_example_block(
                     'Violation de CHECK',
-                    '<pre><code>-- Essayer d\'insérer un produit avec un prix négatif\nINSERT INTO produits (prod_id, nom, prix)\nVALUES (1, \\'Casse-c\\'ole\\', -10);\n-- Erreur : ORACLE error 3819: constraint (SCOTT.PRIX_POSITIF) violated</code></pre>',
+                    '<pre><code>-- Essayer d\'insérer un produit avec un prix négatif\nINSERT INTO produits (prod_id, nom, prix)\nVALUES (1, \'Casse-c\'ole\', -10);\n-- Erreur : ORACLE error 3819: constraint (SCOTT.PRIX_POSITIF) violated</code></pre>',
                     '<pre>Erreur ORACLE 3819: constraint (SCOTT.PRIX_POSITIF) violated</pre>',
                     'L\'insertion est rejetée car le prix -10 viole la contrainte CHECK prix > 0.'
                 ),

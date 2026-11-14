@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Quiz du chapitre oracle-ch2 — Installation et configuration d'Oracle Database XE.
+ * Quiz du chapitre oracle-ch2 — Installation et configuration d\'Oracle Database XE.
  * 10 questions : mcq, fill, true_false, find-error, predict.
  */
 
@@ -53,7 +53,7 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Que affichera la commande suivante ? Oracle Database 21c Express Edition Release 21.0.0.0.0 - Production',
-            'options' => 'BANNER',
+            'options' => ['BANNER', 'USERNAME', 'TABLE_NAME', 'STATUS'],
             'answer'  => 0,
             'concept' => 'VERSION BDD',
             'explainFr' => 'Cette sortie correspond à la commande SHOW PARAMETER database_name ou à la vue V$VERSION.',

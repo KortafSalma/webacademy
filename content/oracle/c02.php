@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * MODULE ORACLE — Chapitre 2 : Installation et configuration d'Oracle Database XE
+ * MODULE ORACLE — Chapitre 2 : Installation et configuration d\'Oracle Database XE
  * Téléchargement, installation pas à pas, configuration du système,
- * mémoires, et vérification de l'installation.
+ * mémoires, et vérification de l\'installation.
  */
 
 return [

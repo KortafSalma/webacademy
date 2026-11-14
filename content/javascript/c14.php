@@ -3,176 +3,202 @@
 declare(strict_types=1);
 
 /**
- * PARCOURS JAVASCRIPT — Chapitre 14 : Fonctions anonymes et arrow functions
+ * PARCOURS JAVASCRIPT — Chapitre 1 : Qu'est-ce que JavaScript ?
  * Modèle de qualité pour les 30 chapitres du parcours.
  */
 
 return [
-    'id'       => 'js-ch14',
-    'title'    => 'Fonctions anonymes et arrow functions',
-    'subtitle' => 'Des syntaxes alternatives pour les fonctions.',
-    'level'    => 'Intermédiaire',
-    'minutes'  => 45,
-    'prerequisites' => ['Savoir déclarer une fonction classique'],
+    'id'       => 'js-ch1',
+    'title'    => 'Qu\'est-ce que JavaScript ?',
+    'subtitle' => 'Le langage qui rend les pages vivantes : où il tourne, ce qu\'il peut faire et comment écrire son premier script.',
+    'level'    => 'Débutant',
+    'minutes'  => 30,
+    'prerequisites' => ['Savoir lire une page HTML simple (balises, attributs)'],
 
     'objectives' => [
-        'Écrire une fonction arrow function.',
-        'Comprendre la différence entre function classique et arrow function.',
-        'Utiliser les arrow functions avec une seule expression.',
-        'Ne pas utiliser d\'arrow function comme méthodes d\'objets ou avec arguments.callee.',
+        'Expliquer le rôle de JavaScript dans une page web.',
+        'Distinguer HTML, CSS et JavaScript.',
+        'Comprendre où le code JavaScript s\'exécute.',
+        'Écrire et exécuter un premier script avec console.log.',
     ],
 
     'lessons' => [
 
         // ------------------------------------------------ Section 1
         [
-            'id'    => 'syntax-arrow',
-            'title' => 'Syntaxe des arrow functions',
-            'icon'  => '➡️',
+            'id'    => 'langage-du-navigateur',
+            'title' => 'Le langage qui rend la page vivante',
+            'icon'  => '⚡',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>Les <strong>arrow functions</strong> (functions fléchées) offrent une syntaxe plus courte pour les fonctions. La syntaxe basic est : <code>(paramètres) => expression</code>. Si il n\'y a qu\'un seul paramètre, on peut omettre les parenthèses : <code>param => expression</code>. Si le corps contient plusieurs instructions, il faut utiliser des accolades et <code>return</code> explicite.</p>',
-                 'darija' => '<p>Arrow functions syntax plus courte <code>(paramètres) => expression</code>. Si un seul paramètre, omettre parenthèses : <code>param => expression</code>. Si plusieurs instructions, accolades w <code>return</code> explicite.'],
+                 'fr'   => '<p>HTML décrit le <strong>contenu</strong>, CSS décrit l\'<strong>apparence</strong>, et <strong>JavaScript</strong> décrit le <strong>comportement</strong>. C\'est le seul des trois langages qui peut prendre des décisions, réagir à un clic, vérifier un formulaire, animer un élément ou envoyer une requête sans recharger la page.</p><p>Sans JavaScript, une page reste statique : les liens fonctionnent, mais rien ne se passe réellement dans la page. Avec JavaScript, un bouton peut changer un texte, un menu peut s\'ouvrir, un panier peut se mettre à jour instantanément.</p>',
+                 'darija' => '<p>HTML kaywsef <b>contenu</b>, CSS kaywsef <b>apparence</b>, w <b>JavaScript</b> kaywsef <b>comportement</b>. Howa l\'lougha wa7ed li kayqder yakhod decisions, ytf3al m3a clic, yverifi formulaire, y7rek élément, wla yseft requête bla ma t3awed tcharji page.</p><p>Bla JavaScript, page katbqa statique : les liens kaykhdmo, walakin walou ma kayt7arek f page. M3a JavaScript, bouton kayqder ybedel texte, menu kayt7el, panier kayt3adal direct.</p>'],
 
-                ['type' => 'example', 'title' => 'Arrow function basique',
-                 'lang'  => 'javascript',
-                 'code'  => 'const addition = (a, b) => a + b;\nconsole.log(addition(3, 4)); // 7',
-                 'explainFr' => 'Flèches la fonction additionne deux nombres.',
-                 'explainDarija' => 'addition 3 w 4 kayder 7.'],
+                ['type' => 'table',
+                 'headers' => ['Langage', 'Rôle', 'Exemple'],
+                 'rows' => [
+                     ['HTML', 'Structure et contenu', 'Un titre, un paragraphe, un bouton'],
+                     ['CSS', 'Apparence et mise en page', 'Couleur, taille, espacement'],
+                     ['JavaScript', 'Comportement et logique', 'Réagir au clic, calculer, afficher'],
+                 ],
+                 'fr' => 'Les trois langages collaborent : HTML fournit les éléments, CSS les habille, JavaScript les fait réagir.',
+                ],
 
-                ['type' => 'example', 'title' => 'Arrow function avec un paramètre',
-                 'lang'  => 'javascript',
-                 'code'  => 'const carre = x => x * x;\nconsole.log(carre(5)); // 25',
-                 'explainFr' => 'Une seule paramètre, parenthèses omises.',
-                 'explainDarija' => 'Paramètre unique, parenthèses omises.'],
-
-                ['type' => 'example', 'title' => 'Arrow function avec corps multi-instructions',
-                 'lang'  => 'javascript',
-                 'code'  => 'const additionLongue = (a, b) => {\n  const somme = a + b;\n  return somme;\n};\nconsole.log(additionLongue(3, 4)); // 7',
-                 'explainFr' => 'Quand le corps contient plusieurs lignes, utiliser les accolades et return explicite.',
-                 'explainDarija' => 'Quand corps plusieurs lignes, accolades w return explicite.'],
-
-                ['type' => 'mcq',
-                 'question' => 'Laquelle de ces arrow functions est valide ?',
-                 'options' => '() => {}', 'x => x + 1', '() => { return 1 }', 'Toutes les réponses ci-dessus',
-                 'answer' => 3,
-                 'concept' => 'syntaxe valide',
-                 'explainFr' => 'Toutes les syntaxes ci-dessus sont valides selon le contexte.',
-                 'explainDarija' => 'Toutes syntaxes ci-dessus valides selon contexte.'],
-
+                ['type' => 'definition', 'title' => 'JavaScript (JS)',
+                 'fr'   => '<p><strong>JavaScript</strong> est un langage de programmation créé en 1995 pour les navigateurs. Aujourd\'hui, il sert aussi côté serveur (Node.js), dans les applications mobiles et sur les objets connectés. Son nom contient « Java », mais c\'est un langage totalement différent de Java.</p>',
+                 'darija' => '<p><b>JavaScript</b> langage de programmation tsawb f 1995 l navigateurs. Lyoum kaykhdem 7tta côté serveur (Node.js), f applications mobiles w objets connectés. Smiytou fiha « Java », walakin howa lougha mkhtalfa 3la Java.</p>'],
             ],
         ],
 
         // ------------------------------------------------ Section 2
         [
-            'id'    => 'differences',
-            'title' => 'Différences avec les functions classiques',
-            'icon'  => '📊',
+            'id'    => 'ou-s-execute-js',
+            'title' => 'Où s\'exécute JavaScript ?',
+            'icon'  => '🌐',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>Il y a deux différences majeures :</p><ul><li><strong>this</strong> : Dans une function classique, this dépend de l\'où la fonction est appelée. Dans une arrow function, this est hérité du contexte lexical (la portée dans laquelle la arrow function a été définie).</li><li><code>arguments</code> : Les functions classiques ont accès au objet arguments ; les arrow functions n\'en ont pas (elles utilisent plutôt les rest parameters ...).</li></ul>',
-                 'darija' => '<p>Deux differences majeures :</li><li><strong>this</strong> : function classique, this dépend où appelée. Arrow function, this hérité du contexte lexical.</li><li><code>arguments</code> : functions classiques arguments ; arrow functions n\'en ont pas (utilisent plutôt rest parameters ...).</li></ul>'],
+                 'fr'   => '<p>Dans une page web, JavaScript est exécuté par le <strong>moteur JavaScript du navigateur</strong> : V8 pour Chrome et Edge, SpiderMonkey pour Firefox, JavaScriptCore pour Safari. Le code arrive avec la page, puis le navigateur l\'exécute sur la machine du visiteur.</p><p>JavaScript peut aussi tourner <strong>hors du navigateur</strong> grâce à Node.js. Dans ce cas, il n\'y a ni page HTML ni <code>document</code> : le code lit des fichiers, lance un serveur ou manipule des données.</p>',
+                 'darija' => '<p>F page web, JavaScript kaynfed b <b>moteur JavaScript dyal navigateur</b> : V8 f Chrome w Edge, SpiderMonkey f Firefox, JavaScriptCore f Safari. Code kayji m3a page, w navigateur kaynfdo f PC dyal visiteur.</p><p>JavaScript kayqder 7tta ykhdem <b>bara mn navigateur</b> b Node.js. F had l7ala, ma kaynch page HTML wla <code>document</code> : code kayqra fichiers, kayslanci serveur, wla kaykhdem 3la données.</p>'],
 
-                ['type' => 'example', 'title' => 'this en function classique vs arrow',
-                 'lang'  => 'javascript',
-                 'code'  => 'const obj = {\n  normale: function() {\n    return this;\n  },\n  fleche: () => {\n    return this;\n  }\n};\nconsole.log(obj.normale()); // obj\nconsole.log(obj.fleche()); // window (ou undefined en strict mode)',
-                 'explainFr' => 'La arrow function capte this du contexte extérieur, pas de l\'objet.',
-                 'explainDarija' => 'Arrow function capte this contexte extérieur, pas objet.'],
+                ['type' => 'warning',
+                 'title' => 'Côté client ne veut pas dire sans danger',
+                 'fr'   => 'Le code JavaScript envoyé au navigateur est <strong>visible</strong> par l\'utilisateur et peut être modifié. On ne met donc jamais de mot de passe, de clé secrète ou de règle de sécurité uniquement en JavaScript côté client : la vérification finale doit se faire sur le serveur.',
+                 'darija' => 'Code JavaScript li kayseft l navigateur <b>kayban</b> l utilisateur w kayqder ybedlo. 3lach ma kandirouch mot de passe, clé secrète wla règle de sécurité ghir f JavaScript côté client : vérification l\'akhira khass tkoun f serveur.'],
 
-                ['type' => 'mcq',
-                 'question' => 'Laquelle affirmation sur this est vraie ?',
-                 'options' => 'this toujours identique', 'this dépend du contexte d\'appel', 'this identique dans arrow w classique',
-                 'answer' => 1,
-                 'concept' => 'this',
-                 'explainFr' => 'Dans une fonction normale, this dépend de la manière dont elle est appelée.',
-                 'explainDarija' => 'Dans function normale, this dépend façon appelée.'],
-
+                ['type' => 'table',
+                 'headers' => ['Environnement', 'Accès au HTML', 'Usage typique'],
+                 'rows' => [
+                     ['Navigateur', 'Oui, via le DOM', 'Interactions, formulaires, animations'],
+                     ['Node.js', 'Non', 'Serveurs, scripts, outils en ligne de commande'],
+                 ],
+                 'fr' => 'Le même langage, deux environnements : les objets disponibles ne sont pas identiques. <code>document</code> existe dans le navigateur, pas dans Node.js.',
+                ],
             ],
         ],
 
         // ------------------------------------------------ Section 3
         [
-            'id'    => 'rest-parameters',
-            'title' => 'Rest parameters et arguments',
-            'icon'  => '…',
+            'id'    => 'premier-script',
+            'title' => 'Votre premier script',
+            'icon'  => '🚀',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>Pour accepter un nombre indéfini d\'arguments, on utilise les <strong>rest parameters</strong> avec la syntaxe <code>...paramètres</code>. Cela regroupe tous les arguments restants dans un tableau.</p>',
-                 'darija' => '<p>Pour nombre indéfini arguments, rest parameters b syntaxe <code>...paramètres</code>. Regroupe arguments restants dans tableau.'],
+                 'fr'   => '<p>Pour exécuter du JavaScript dans une page, on utilise la balise <code>&lt;script&gt;</code>. Le code peut être écrit directement entre les balises ou placé dans un fichier séparé avec l\'attribut <code>src</code>. La console du navigateur (<code>F12</code> puis onglet Console) affiche les messages et les erreurs.</p>',
+                 'darija' => '<p>Bach tnfed JavaScript f page, katkhdem b balise <code>&lt;script&gt;</code>. Code yqder ykoun direct bin balises wla f fichier separé b attribut <code>src</code>. Console dyal navigateur (<code>F12</code> mn ba3d onglet Console) kat3red messages w erreurs.</p>'],
 
-                ['type' => 'example', 'title' => 'Rest parameters',
+                ['type' => 'syntax',
+                 'lang' => 'html',
+                 'title' => 'Inclure un script dans une page',
+                 'code' => '<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Premier script</title>
+</head>
+<body>
+  <h1>Ma première page interactive</h1>
+
+  <script>
+    console.log("Salam, JavaScript !");
+  </script>
+</body>
+</html>'],
+
+                ['type' => 'example',
+                 'title' => 'Un script qui réagit à un clic',
                  'lang'  => 'javascript',
-                 'code'  => 'function addition(...nombres) {\n  return nombres.reduce((total, n) => total + n, 0);\n}\nconsole.log(addition(1, 2, 3, 4, 5)); // 15\nconsole.log(addition(1)); // 1',
-                 'explainFr' => 'Tous les arguments sont rassemblés dans le tableau nombres.',
-                 'explainDarija' => 'Arguments rassemblés tableau nombres.'],
+                 'code'  => 'const bouton = document.getElementById("action");
+const message = document.getElementById("message");
 
-                ['type' => 'mcq',
-                 'question' => 'Que renvoie \nfunction f(...rest) { return rest.length; }\nf(1, 2, 3) ?',
-                 'options' => '1', '2', '3', 'undefined',
-                 'answer' => 2,
-                 'concept' => 'rest parameters',
-                 'explainFr' => 'Le tableau rest contient 3 éléments.',
-                 'explainDarija' => 'Tableau rest contient 3 éléments.'],
+bouton.addEventListener("click", () => {
+    message.textContent = "Le bouton a été cliqué !";
+    console.log("Clic détecté");
+});',
+                 'output' => 'Après un clic : « Le bouton a été cliqué ! » dans la page et « Clic détecté » dans la console.',
+                 'explainFr' => '<code>document.getElementById</code> récupère un élément HTML. <code>addEventListener</code> enregistre une fonction exécutée plus tard, au moment du clic. <code>textContent</code> modifie le texte affiché.',
+                 'explainDarija' => '<code>document.getElementById</code> kayjib élément HTML. <code>addEventListener</code> kaysejjel fonction li katkhdem mn ba3d, f wa9t clic. <code>textContent</code> kaybedel texte li kayban.'],
 
+                ['type' => 'tip',
+                 'title' => 'Toujours ouvrir la console',
+                 'fr'   => 'La console est votre meilleur outil de diagnostic. Elle affiche la valeur des variables, les erreurs de syntaxe et les erreurs d\'exécution avec leur numéro de ligne. Un développeur JavaScript garde la console ouverte en permanence.',
+                 'darija' => 'Console howa a7san outil dyal diagnostic. Kat3red valeur dyal variables, erreurs de syntaxe w erreurs d\'exécution m3a numéro de ligne. Développeur JavaScript kaykhelli console m7loula dima.'],
             ],
         ],
 
         // ------------------------------------------------ Section 4
         [
-            'id'    => 'test-arrow',
-            'title' => 'Vérifier vos connaissances',
-            'icon'  => '❓',
+            'id'    => 'console-et-commentaires',
+            'title' => 'console.log, commentaires et structure',
+            'icon'  => '🧰',
             'blocks' => [
 
-                ['type' => 'fill',
-                 'question' => 'La syntaxe d\'une arrow function simple est : (paramètres) => _____ .',
-                 'answer' => 'expression',
-                 'concept' => 'syntaxe arrow',
-                 'explainFr' => 'La forme courte n\'a qu\'une expression à retourner implicitement.',
-                 'explainDarija' => 'Forme courte une expression retour implicite.'],
+                ['type' => 'text',
+                 'fr'   => '<p><code>console.log()</code> affiche une valeur dans la console. C\'est l\'instruction la plus utilisée pour comprendre ce qui se passe dans un programme. Les commentaires, eux, sont ignorés par le moteur : ils servent à expliquer le code aux humains.</p>',
+                 'darija' => '<p><code>console.log()</code> kay3red valeur f console. Hiya instruction li katkhdem ktar bach tfhem chno kayt7arek f programme. Comments, moteur kaytjahalhom : kayn ghir bach tchar7 code l humains.</p>'],
 
-                ['type' => 'mcq',
-                 'question' => 'Laquelle de ces arrow functions renvoie "Bonjour" ?',
-                 'options' => '() => \"Bonjour\"', '() => { \"Bonjour\" }', 'function() { return \"Bonjour\" }', 'A et C',
-                 'answer' => 3,
-                 'concept' => 'arrow function return',
-                 'explainFr' => 'L\'arrow function sans accolades retourne implicitement ; avec accolades, il faut return explicite.',
-                 'explainDarija' => 'Arrow function sans accolades retourne implicite ; avec accolades, return explicite requis.'],
+                ['type' => 'example',
+                 'title' => 'Variables, calcul et affichage',
+                 'lang'  => 'javascript',
+                 'code'  => '// Un commentaire sur une ligne
+const prenom = "Amine";
+let age = 20;
 
-                ['type' => 'code_contains',
-                 'question' => 'Lequel affiche "window" (ou undefined) ?',
-                 'code_a' => 'const f = () => this;\nf()',
-                 'code_b' => 'const f = function() { return this; };\nf()',
-                 'answer' => 0,
-                 'concept' => 'this arrow w classique',
-                 'explainFr' => 'Arrow function capte this du contexte global (window).',
-                 'explainDarija' => 'Arrow function capte this contexte global (window).'],
+/* Ce commentaire
+   tient sur plusieurs lignes. */
+const anneeNaissance = 2026 - age;
 
+console.log("Prenom : " + prenom);
+console.log("Annee de naissance :", anneeNaissance);',
+                 'output' => 'Prenom : Amine\nAnnee de naissance : 2006',
+                 'explainFr' => '<code>const</code> déclare une valeur qui ne sera pas réassignée, <code>let</code> une valeur modifiable. Le signe <code>+</code> colle deux chaînes ; la virgule dans <code>console.log</code> ajoute une valeur séparée.',
+                 'explainDarija' => '<code>const</code> kat3len valeur li ma ghadi tbedelch, <code>let</code> valeur li tqder tbedel. Signe <code>+</code> kaylsse9 jouj chaînes ; virgule f <code>console.log</code> katzid valeur mfreqa.'],
+
+                ['type' => 'syntax',
+                 'lang' => 'javascript',
+                 'title' => 'Les deux styles de commentaires',
+                 'code' => '// Commentaire sur une seule ligne
+
+/*
+   Commentaire sur plusieurs lignes.
+   Utile pour expliquer un bloc complexe.
+*/
+
+console.log("Le moteur ignore les commentaires");'],
+
+                ['type' => 'note',
+                 'title' => 'Un fichier JavaScript séparé',
+                 'fr'   => 'En pratique, on place le code dans un fichier <code>.js</code> et on l\'inclut avec <code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code>. L\'attribut <code>defer</code> attend que le HTML soit analysé avant d\'exécuter le script, ce qui évite les erreurs du type « élément introuvable ».',
+                 'darija' => 'F pratique, code kayt7et f fichier <code>.js</code> w kaytdkhel b <code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code>. Attribut <code>defer</code> kaytsenna HTML ytqra qbel exécution, w hadchi kayweqef erreurs dyal « élément introuvable ».'],
             ],
         ],
-
     ],
 
     'mistakes' => [
         [
-            'wrong'  => 'Utiliser une arrow function comme méthode d\'objet',
-            'fix'    => 'Utilisez une function classique si vous avez besoin d\'un this propre à l\'objet.',
-            'fr'     => 'Dans une arrow function, this n\'est pas l\'objet qui contient la fonction.',
-            'darija' => 'Arrow function, this pas objet contient function.'],
+            'wrong'  => 'Confondre JavaScript et Java',
+            'fix'    => 'Retenir que ce sont deux langages différents, sans lien technique direct',
+            'fr'     => 'JavaScript et Java partagent une partie de leur nom, mais leurs syntaxes, leurs usages et leurs écosystèmes sont distincts. JavaScript est le langage du navigateur ; Java est utilisé pour d\'autres types d\'applications.',
+            'darija' => 'JavaScript w Java kaytcharKo ghir f smiya, walakin syntaxe, usage w écosystème mkhtalfin. JavaScript lougha dyal navigateur ; Java kayst5dem f applications okhra.',
         ],
         [
-            'wrong'  => 'Oublier return dans une arrow function multilignes',
-            'fix'    => 'N\'oubliez pas les accolades et le return explicite pour les corps multiples.',
-            'fr'     => 'Sans return explicite, une arrow function multilignes renvoie undefined.',
-            'darija' => 'Sans return explicite, multilignes arrow function renvoie undefined.'],
+            'wrong'  => 'Placer un script avant les éléments HTML qu\'il utilise',
+            'fix'    => 'Mettre le script en fin de body ou ajouter l\'attribut defer',
+            'fr'     => 'Si le script s\'exécute avant que le bouton existe, <code>getElementById</code> renvoie <code>null</code> et l\'appel suivant provoque une erreur. <code>defer</code> règle ce problème.',
+            'darija' => 'Ila script khdem qbel ma ykoun bouton, <code>getElementById</code> kayrje3 <code>null</code> w appel mora kay3ti erreur. <code>defer</code> kay7el had problème.',
+        ],
+        [
+            'wrong'  => 'Croire que console.log affiche le résultat dans la page',
+            'fix'    => 'Utiliser textContent ou innerHTML pour modifier la page',
+            'fr'     => '<code>console.log</code> écrit uniquement dans la console de développement. Pour changer ce que voit le visiteur, il faut modifier un élément du DOM.',
+            'darija' => '<code>console.log</code> kaykteb ghir f console dyal développement. Bach tbedel chi haja li kaychofha visiteur, khassek tbedel élément f DOM.',
         ],
     ],
 
     'summary' => [
-        'fr' => '<strong>JavaScript</strong> propose les arrow functions comme syntaxe courte : (param) => expression. Différences clés avec les functions classiques : this est lexical (hérité), pas d\'objets arguments. Utilisez rest parameters ... pour accepter un nombre indéfini d\'arguments.',
-        'darija' => '<strong>JavaScript</strong> arrow functions syntaxe courte : (param) => expression. Différences clés : this lexical (hérité), pas d\'objets arguments. rest parameters ... b9der accepté nombre indéfini arguments.'],
+        'fr'     => '<b>JavaScript</b> est le langage du comportement : il réagit aux clics, valide les formulaires, calcule et modifie la page. Il s\'exécute dans le <b>navigateur</b> (V8, SpiderMonkey, JavaScriptCore) ou avec <b>Node.js</b> côté serveur. On l\'inclut avec <code>&lt;script&gt;</code>, on affiche des valeurs avec <code>console.log</code>, et les commentaires <code>//</code> ou <code>/* … */</code> documentent le code sans être exécutés.',
+        'darija' => '<b>JavaScript</b> howa lougha dyal comportement : kaytf3al m3a clics, kayverifi formulaires, kay7seb w kaybedel page. Kaykhdem f <b>navigateur</b> (V8, SpiderMonkey, JavaScriptCore) wla b <b>Node.js</b> côté serveur. Kaytdkhel b <code>&lt;script&gt;</code>, kay3red valeurs b <code>console.log</code>, w comments <code>//</code> wla <code>/* … */</code> kaychar7o code bla ma ytnfed.',
     ],
 ];

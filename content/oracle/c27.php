@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * MODULE ORACLE — Chapitre 27 : Triggers
- * Déclencheurs automatiques qui s'exécutent avant ou après des événements sur les tables.
+ * Déclencheurs automatiques qui s\'exécutent avant ou après des événements sur les tables.
  */
 
 return [
@@ -46,7 +46,7 @@ return [
 
                 make_example_block(
                     'Trigger BEFORE INSERT : valider un champ obligatoire',
-                    '<pre><code>CREATE OR REPLACE TRIGGER trg_valider_avant_insert\nBEFORE INSERT ON commandes\nFOR EACH ROW\nBEGIN\n  IF :NEW.statut IS NULL THEN\n    :NEW.statut := \\'EN_ATTENTE\\';\n  END IF;\nEND;</code></pre>',
+                    '<pre><code>CREATE OR REPLACE TRIGGER trg_valider_avant_insert\nBEFORE INSERT ON commandes\nFOR EACH ROW\nBEGIN\n  IF :NEW.statut IS NULL THEN\n    :NEW.statut := \'EN_ATTENTE\';\n  END IF;\nEND;</code></pre>',
                     '<pre>Trigger created.</pre>',
                     'Avant chaque insertion dans la table commandes, si le statut est NULL, il devient "EN_ATTENTE".'
                 ),
@@ -82,7 +82,7 @@ return [
 
                 make_example_block(
                     'Trigger avec :OLD et :NEW : empêcher la suppression des clients ayant des commandes',
-                    '<pre><code>CREATE OR REPLACE TRIGGER trg_protéger_suppression_clients\nBEFORE DELETE ON clients\nFOR EACH ROW\nBEGIN\n  SELECT COUNT(*)\n  INTO v_compte\n  FROM commandes\n  WHERE client_id = :OLD.id;\n  IF v_compte > 0 THEN\n    RAISE_APPLICATION_ERROR(-20001, \\'Impossible de supprimer un client ayant des commandes existantes.\\');\n  END IF;\nEND;</code></pre>',
+                    '<pre><code>CREATE OR REPLACE TRIGGER trg_protéger_suppression_clients\nBEFORE DELETE ON clients\nFOR EACH ROW\nBEGIN\n  SELECT COUNT(*)\n  INTO v_compte\n  FROM commandes\n  WHERE client_id = :OLD.id;\n  IF v_compte > 0 THEN\n    RAISE_APPLICATION_ERROR(-20001, \'Impossible de supprimer un client ayant des commandes existantes.\');\n  END IF;\nEND;</code></pre>',
                     '<pre>Trigger created.</pre>',
                     'Empêche la suppression d\'un client s\'il a des commandes en lien. L\'ancienne clé primaire est accessible via :OLD.id.'
                 ),

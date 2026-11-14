@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 /**
  * Exercices du chapitre oracle-ch1 — Introduction à Oracle Database et Oracle XE.
- * 5 niveaux progressifs en mode statique (pas d'exécution Oracle).
+ * 5 niveaux progressifs en mode statique (pas d\'exécution Oracle).
  */
 
 return [

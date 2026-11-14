@@ -1,0 +1,97 @@
+﻿{
+    "php": "8.3.14",
+    "syntax": [],
+    "modules": {
+        "html": {
+            "planned": 8,
+            "loaded": 8,
+            "exercises": 8,
+            "quizzes": 8,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "css": {
+            "planned": 14,
+            "loaded": 14,
+            "exercises": 14,
+            "quizzes": 14,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "php": {
+            "planned": 15,
+            "loaded": 15,
+            "exercises": 15,
+            "quizzes": 15,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "sql": {
+            "planned": 14,
+            "loaded": 14,
+            "exercises": 14,
+            "quizzes": 14,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "integration": {
+            "planned": 7,
+            "loaded": 7,
+            "exercises": 7,
+            "quizzes": 7,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "cpp": {
+            "planned": 30,
+            "loaded": 30,
+            "exercises": 1,
+            "quizzes": 1,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "javascript": {
+            "planned": 30,
+            "loaded": 30,
+            "exercises": 1,
+            "quizzes": 1,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        },
+        "oracle": {
+            "planned": 28,
+            "loaded": 28,
+            "exercises": 28,
+            "quizzes": 17,
+            "missing": [],
+            "emptySections": [],
+            "unsupportedQuizTypes": []
+        }
+    },
+    "projects": [
+        "cpp-proj1",
+        "js-proj1",
+        "oracle-project-library-management",
+        "oracle-project-student-management",
+        "oracle-project-university-management",
+        "p1"
+    ],
+    "regressions": {
+        "nullSetting": {
+            "expected": null,
+            "actual": null
+        },
+        "nonexistentNoteUpdate": {
+            "returnedId": null,
+            "rowsSaved": 0
+        }
+    },
+    "phpFilesChecked": 346
+}

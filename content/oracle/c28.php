@@ -37,7 +37,7 @@ return [
 
                 make_example_block(
                     'Déclaration et utilisation d\'un RECORD',
-                    '<pre><code>TYPE t_client_record IS RECORD (\n  id clients.id%TYPE;\n  nom clients.nom%TYPE;\n  email clients.email%TYPE;\n  solde NUMBER DEFAULT 0\n);\n\nv_client t_client_record;\nBEGIN\n  SELECT id, nom, email, solde\n  INTO v_client\n  FROM clients\n  WHERE id = 1;\n  DBMS_OUTPUT.PUT_LINE(\\'Client :\' || v_client.id || \\' -\' || v_client.nom || \\'\\' || v_client.email);\nEND;</code></pre>',
+                    '<pre><code>TYPE t_client_record IS RECORD (\n  id clients.id%TYPE;\n  nom clients.nom%TYPE;\n  email clients.email%TYPE;\n  solde NUMBER DEFAULT 0\n);\n\nv_client t_client_record;\nBEGIN\n  SELECT id, nom, email, solde\n  INTO v_client\n  FROM clients\n  WHERE id = 1;\n  DBMS_OUTPUT.PUT_LINE(\'Client :\' || v_client.id || \' -\' || v_client.nom || \'\' || v_client.email);\nEND;</code></pre>',
                     '<pre>Client : 1 - Mohamed moh@exemple.com</pre>',
                     'Le record v_client contient les quatre champs sélectionnés depuis la table clients.'
                 ),
@@ -45,7 +45,7 @@ return [
                 make_tip_block(
                     'TYPE RECORD vs ligne de table',
                     '<p>Contrairement à une ligne de table (%ROWTYPE), un RECORD n\'est pas automatiquement lié à une table. Vous devez déclarer explicitement chaque champ. Cela offre plus de flexibilité lorsque vous ne travaillez qu\'avec certaines colonnes.</p>',
-                    '<p>Contrairementligne table (%ROWTYPE), RECORD automatiquement lié table. Vous declarez explicite chaque champ. Plus flexible lorsqu\\'utilisez certaines colonnes seulement.</p>'
+                    '<p>Contrairementligne table (%ROWTYPE), RECORD automatiquement lié table. Vous declarez explicite chaque champ. Plus flexible lorsqu\'utilisez certaines colonnes seulement.</p>'
                 ),
 
             ],
@@ -72,14 +72,14 @@ return [
 
                 make_example_block(
                     'TYPE TABLE OF index par PLS_INTEGER',
-                    '<pre>TYPE t_nombre_table IS TABLE OF NUMBER INDEX BY PLS_INTEGER;\nv_table t_nombre_table;\nBEGIN\n  v_table(1) := 100;\n  v_table(5) := 200;\n  v_table(10) := 300;\n  FOR i IN 1..10 LOOP\n    IF EXISTS(v_table, i) THEN\n      DBMS_OUTPUT.PUT_LINE(\\'Index :\' || i || \\' Valeur :\' || v_table(i));\n    END IF;\n  END LOOP;\nEND;</pre>',
+                    '<pre>TYPE t_nombre_table IS TABLE OF NUMBER INDEX BY PLS_INTEGER;\nv_table t_nombre_table;\nBEGIN\n  v_table(1) := 100;\n  v_table(5) := 200;\n  v_table(10) := 300;\n  FOR i IN 1..10 LOOP\n    IF EXISTS(v_table, i) THEN\n      DBMS_OUTPUT.PUT_LINE(\'Index :\' || i || \' Valeur :\' || v_table(i));\n    END IF;\n  END LOOP;\nEND;</pre>',
                     '<pre>Index : 1 Valeur : 100\nIndex : 5 Valeur : 200\nIndex : 10 Valeur : 300</pre>',
                     'La collection TABLE OF peut être remplie à n\'importe quelle index et parcouillée avec EXISTS pour vérifier la présence.'
                 ),
 
                 make_example_block(
                     'TYPE VARRAY de taille fixe',
-                    '<pre>TYPE t_jour_semaine IS VARRAY(7) OF VARCHAR2(10);\nv_jours t_jour_semaine := t_jour_semaine(\\'Lundi\\', \\'Mardi\\', \\'Mercredi\\', \\'Jeudi\\', \\'Vendredi\\');\nBEGIN\n  v_jours.EXTEND;\n  v_jours(6) := \\'Samedi\\';\n  v_jours.EXTEND;\n  v_jours(7) := \\'Dimanche\\';\n  FOR i IN 1..v_jours.COUNT LOOP\n    DBMS_OUTPUT.PUT_LINE(v_jours(i));\n  END LOOP;\nEND;</pre>',
+                    '<pre>TYPE t_jour_semaine IS VARRAY(7) OF VARCHAR2(10);\nv_jours t_jour_semaine := t_jour_semaine(\'Lundi\', \'Mardi\', \'Mercredi\', \'Jeudi\', \'Vendredi\');\nBEGIN\n  v_jours.EXTEND;\n  v_jours(6) := \'Samedi\';\n  v_jours.EXTEND;\n  v_jours(7) := \'Dimanche\';\n  FOR i IN 1..v_jours.COUNT LOOP\n    DBMS_OUTPUT.PUT_LINE(v_jours(i));\n  END LOOP;\nEND;</pre>',
                     '<pre>Lundi\nMardi\nMercredi\nJeudi\nVendredi\nSamedi\nDimanche</pre>',
                     'Le VARRAY a une taille maximale (7) mais peut être étendu avec EXTEND jusqu\'à cette limite.'
                 ),
@@ -114,7 +114,7 @@ return [
 
                 make_example_block(
                     'Méthodes EXISTS, COUNT, TRIM sur TABLE OF',
-                    '<pre>TYPE t_indice_table IS TABLE OF NUMBER INDEX BY VARCHAR2(20);\nv_notes t_indice_table;\n\nv_notes\\'maths\\' := 15;\nv_notes\\'fran\\'ais := 18;\nv_notes\\'physique := 12;\n\nIF EXISTS(v_notes\\'maths\\') THEN\n  DBMS_OUTPUT.PUT_LINE(\\'Matière maths présente avec la note :\' || v_notes\\'maths\\');\nEND IF;\n\nDBMS_OUTPUT.PUT_LINE(\\'Nombre matières :\' || v_notes.COUNT);\n\nTRIM(v_notes);\nDBMS_OUTPUT.PUT_LINE(\\'Après TRIM, nombre :\' || v_notes.COUNT);</pre>',
+                    '<pre>TYPE t_indice_table IS TABLE OF NUMBER INDEX BY VARCHAR2(20);\nv_notes t_indice_table;\n\nv_notes\'maths\' := 15;\nv_notes\'fran\'ais := 18;\nv_notes\'physique := 12;\n\nIF EXISTS(v_notes\'maths\') THEN\n  DBMS_OUTPUT.PUT_LINE(\'Matière maths présente avec la note :\' || v_notes\'maths\');\nEND IF;\n\nDBMS_OUTPUT.PUT_LINE(\'Nombre matières :\' || v_notes.COUNT);\n\nTRIM(v_notes);\nDBMS_OUTPUT.PUT_LINE(\'Après TRIM, nombre :\' || v_notes.COUNT);</pre>',
                     '<pre>Matière maths présente avec la note : 15\nNombre matières : 3\nAprès TRIM, nombre : 2</pre>',
                     'Exemple complet : on vérifie la présence d\'une clé, on compte les éléments, puis on en supprime un avec TRIM.'
                 ),

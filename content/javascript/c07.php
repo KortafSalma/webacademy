@@ -3,174 +3,202 @@
 declare(strict_types=1);
 
 /**
- * PARCOURS JAVASCRIPT — Chapitre 7 : Types de données : string, number, boolean…
+ * PARCOURS JAVASCRIPT — Chapitre 1 : Qu'est-ce que JavaScript ?
  * Modèle de qualité pour les 30 chapitres du parcours.
  */
 
 return [
-    'id'       => 'js-ch7',
-    'title'    => 'Types de données : string, number, boolean…',
-    'subtitle' => 'Les catégories fondamentales de données en JavaScript.',
+    'id'       => 'js-ch1',
+    'title'    => 'Qu\'est-ce que JavaScript ?',
+    'subtitle' => 'Le langage qui rend les pages vivantes : où il tourne, ce qu\'il peut faire et comment écrire son premier script.',
     'level'    => 'Débutant',
-    'minutes'  => 35,
-    'prerequisites' => ['Savoir déclarer des variables'],
+    'minutes'  => 30,
+    'prerequisites' => ['Savoir lire une page HTML simple (balises, attributs)'],
 
     'objectives' => [
-        'Identifier les types de données primitifs.',
-        'Comprendre les opérations sur chaque type.',
-        'Détecter le type d\'une variable dynamiquement.',
-        'Convertir un type en un autre quand nécessaire.',
+        'Expliquer le rôle de JavaScript dans une page web.',
+        'Distinguer HTML, CSS et JavaScript.',
+        'Comprendre où le code JavaScript s\'exécute.',
+        'Écrire et exécuter un premier script avec console.log.',
     ],
 
     'lessons' => [
 
         // ------------------------------------------------ Section 1
         [
-            'id'    => 'types-primitifs',
-            'title' => 'Les types primitifs',
-            'icon'  => '🧱',
+            'id'    => 'langage-du-navigateur',
+            'title' => 'Le langage qui rend la page vivante',
+            'icon'  => '⚡',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>JavaScript dispose de sept types de données primitifs :</p><ul><li><strong>string</strong> : suite de caractères, ex: "Bonjour", "5".</li><li><strong>number</strong> : nombres entiers ou à virgule, ex: 42, 3.14.</li><li><strong>boolean</strong> : vrai ou faux, true ou false.</li><li><strong>null</strong> : valeur intentionnellement nulle.</li><li><strong>undefined</strong> : valeur non définie.</li><li><strong>symbol</strong> : identifiant unique (ES6+).</li><li><strong>bigint</strong> : entiers de précision arbitrary (ES2020+).</li></ul>',
-                 'darija' => '<p>JavaScript kay7et sept types de données primitives :</li><li><strong>string</strong> : suite caractères, ex: "Bonjour", "5".</li><li><strong>number</strong> : nombres entiers ou à virgule, ex: 42, 3.14.</li><li><strong>boolean</strong> : vrai ou faux, true w false.</li><li><strong>null</strong> : valeur nulle intentionnelle.</li><li><strong>undefined</strong> : valeur non définie.</li><li><strong>symbol</strong> : identifiant unique (ES6+).</li><li><strong>bigint</strong> : entiers précision arbitrary (ES2020+).</li></ul>'],
+                 'fr'   => '<p>HTML décrit le <strong>contenu</strong>, CSS décrit l\'<strong>apparence</strong>, et <strong>JavaScript</strong> décrit le <strong>comportement</strong>. C\'est le seul des trois langages qui peut prendre des décisions, réagir à un clic, vérifier un formulaire, animer un élément ou envoyer une requête sans recharger la page.</p><p>Sans JavaScript, une page reste statique : les liens fonctionnent, mais rien ne se passe réellement dans la page. Avec JavaScript, un bouton peut changer un texte, un menu peut s\'ouvrir, un panier peut se mettre à jour instantanément.</p>',
+                 'darija' => '<p>HTML kaywsef <b>contenu</b>, CSS kaywsef <b>apparence</b>, w <b>JavaScript</b> kaywsef <b>comportement</b>. Howa l\'lougha wa7ed li kayqder yakhod decisions, ytf3al m3a clic, yverifi formulaire, y7rek élément, wla yseft requête bla ma t3awed tcharji page.</p><p>Bla JavaScript, page katbqa statique : les liens kaykhdmo, walakin walou ma kayt7arek f page. M3a JavaScript, bouton kayqder ybedel texte, menu kayt7el, panier kayt3adal direct.</p>'],
 
-                ['type' => 'example', 'title' => 'Déclarer différents types',
-                 'lang'  => 'javascript',
-                 'code'  => 'const titre = "Mon titre";       // string\nconst age = 25;               // number\nconst estActif = true;        // boolean\nconst vide = null;            // null\nconst nonDefini;              // undefined\nconst id = Symbol("id");      // symbol\nconst grosNombre = 9007199254740991n;  // bigint',
-                 'explainFr' => 'Chaque type a sa syntaxe et son usage propre.',
-                 'explainDarija' => 'Kay type kay syntax w usage propre.'],
+                ['type' => 'table',
+                 'headers' => ['Langage', 'Rôle', 'Exemple'],
+                 'rows' => [
+                     ['HTML', 'Structure et contenu', 'Un titre, un paragraphe, un bouton'],
+                     ['CSS', 'Apparence et mise en page', 'Couleur, taille, espacement'],
+                     ['JavaScript', 'Comportement et logique', 'Réagir au clic, calculer, afficher'],
+                 ],
+                 'fr' => 'Les trois langages collaborent : HTML fournit les éléments, CSS les habille, JavaScript les fait réagir.',
+                ],
 
-                ['type' => 'mcq',
-                 'question' => 'Combien y a-t-il de types de données primitifs en JavaScript ?',
-                 'options' => ['5', '7', '9'],
-                 'answer' => 1,
-                 'concept' => 'Types primitifs',
-                 'explainFr' => 'JavaScript compte 7 types de données primitifs.',
-                 'explainDarija' => 'JavaScript kay7et 7 types données primitives.'],
-
+                ['type' => 'definition', 'title' => 'JavaScript (JS)',
+                 'fr'   => '<p><strong>JavaScript</strong> est un langage de programmation créé en 1995 pour les navigateurs. Aujourd\'hui, il sert aussi côté serveur (Node.js), dans les applications mobiles et sur les objets connectés. Son nom contient « Java », mais c\'est un langage totalement différent de Java.</p>',
+                 'darija' => '<p><b>JavaScript</b> langage de programmation tsawb f 1995 l navigateurs. Lyoum kaykhdem 7tta côté serveur (Node.js), f applications mobiles w objets connectés. Smiytou fiha « Java », walakin howa lougha mkhtalfa 3la Java.</p>'],
             ],
         ],
 
         // ------------------------------------------------ Section 2
         [
-            'id'    => 'operateurs-types',
-            'title' => 'Opérateurs et types',
-            'icon'  => '➕➖',
+            'id'    => 'ou-s-execute-js',
+            'title' => 'Où s\'exécute JavaScript ?',
+            'icon'  => '🌐',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>Chaque type de données supporte des opérateurs spécifiques. Les nombres peuvent être additionnés, soustraits, multipliés ou divisés. Les chaînes de caractères peuvent être concatenées avec l\'opérateur <code>+</code>. Le langage est sensible aux types : additionner un nombre et une chaîne produit une chaîne.</p>',
-                 'darija' => '<p>Chaque type kay9der operators spécifiques. Nombres kay9der additionnés, soustraits, multipliés w divisés. Chaînes kay9der concatenées b operator <code>+</code>. Langage sensitive l types : addition nombre w chaîne kay9der produit chaîne.'],
+                 'fr'   => '<p>Dans une page web, JavaScript est exécuté par le <strong>moteur JavaScript du navigateur</strong> : V8 pour Chrome et Edge, SpiderMonkey pour Firefox, JavaScriptCore pour Safari. Le code arrive avec la page, puis le navigateur l\'exécute sur la machine du visiteur.</p><p>JavaScript peut aussi tourner <strong>hors du navigateur</strong> grâce à Node.js. Dans ce cas, il n\'y a ni page HTML ni <code>document</code> : le code lit des fichiers, lance un serveur ou manipule des données.</p>',
+                 'darija' => '<p>F page web, JavaScript kaynfed b <b>moteur JavaScript dyal navigateur</b> : V8 f Chrome w Edge, SpiderMonkey f Firefox, JavaScriptCore f Safari. Code kayji m3a page, w navigateur kaynfdo f PC dyal visiteur.</p><p>JavaScript kayqder 7tta ykhdem <b>bara mn navigateur</b> b Node.js. F had l7ala, ma kaynch page HTML wla <code>document</code> : code kayqra fichiers, kayslanci serveur, wla kaykhdem 3la données.</p>'],
 
-                ['type' => 'example', 'title' => 'Opérations sur les nombres',
-                 'lang'  => 'javascript',
-                 'code'  => 'const a = 10;\nconst b = 5;\nconsole.log(a + b);   // 15\nconsole.log(a - b);   // 5\nconsole.log(a * b);   // 50\nconsole.log(a / b);   // 2',
-                 'explainFr' => 'Les opérateurs mathématiques fonctionnent comme attendu.',
-                 'explainDarija' => 'Operators mathématiques kay9der b7et attendu.'],
+                ['type' => 'warning',
+                 'title' => 'Côté client ne veut pas dire sans danger',
+                 'fr'   => 'Le code JavaScript envoyé au navigateur est <strong>visible</strong> par l\'utilisateur et peut être modifié. On ne met donc jamais de mot de passe, de clé secrète ou de règle de sécurité uniquement en JavaScript côté client : la vérification finale doit se faire sur le serveur.',
+                 'darija' => 'Code JavaScript li kayseft l navigateur <b>kayban</b> l utilisateur w kayqder ybedlo. 3lach ma kandirouch mot de passe, clé secrète wla règle de sécurité ghir f JavaScript côté client : vérification l\'akhira khass tkoun f serveur.'],
 
-                ['type' => 'example', 'title' => 'Concatenation chaîne + nombre',
-                 'lang'  => 'javascript',
-                 'code'  => 'const resultat = "La valeur est : " + 5;\nconsole.log(resultat); // "La valeur est : 5"',
-                 'explainFr' => 'L\'opérateur + concatène si l\'un des opérandes est une chaîne.',
-                 'explainDarija' => 'Operator + kaylsse9 b9der chaîne si kay one operands chaîne.'],
-
-                ['type' => 'true_false',
-                 'question' => 'En JavaScript, "5" + 3 vaut "53".',
-                 'answer' => 0,
-                 'concept' => 'Conversion de type',
-                 'explainFr' => 'Vrai : l\'addition d\'une chaîne et d\'un nombre convertit le nombre en chaîne.',
-                 'explainDarija' => 'Vrai : addition chaîne w nombre kay9der convertir nombre chaîne.'],
-
+                ['type' => 'table',
+                 'headers' => ['Environnement', 'Accès au HTML', 'Usage typique'],
+                 'rows' => [
+                     ['Navigateur', 'Oui, via le DOM', 'Interactions, formulaires, animations'],
+                     ['Node.js', 'Non', 'Serveurs, scripts, outils en ligne de commande'],
+                 ],
+                 'fr' => 'Le même langage, deux environnements : les objets disponibles ne sont pas identiques. <code>document</code> existe dans le navigateur, pas dans Node.js.',
+                ],
             ],
         ],
 
         // ------------------------------------------------ Section 3
         [
-            'id'    => 'detecter-convertir-types',
-            'title' => 'Détecter et convertir les types',
-            'icon'  => '🔄',
+            'id'    => 'premier-script',
+            'title' => 'Votre premier script',
+            'icon'  => '🚀',
             'blocks' => [
 
                 ['type' => 'text',
-                 'fr'   => '<p>Pour connaître le type d\'une variable, on utilise <code>typeof</code> :</p><pre><code>typeof 42          // "number"\ntypeof "texte"    // "string"\ntypeof true       // "boolean"\ntypeof null       // "object"  <!-- bug historique\ntypeof undefined  // "undefined"</code></pre>',
-                 'darija' => '<p>Bach kayder type variable, kay7et <code>typeof</code> :</p><pre><code>typeof 42          // "number"\ntypeof "texte"    // "string"\ntypeof true       // "boolean"\ntypeof null       // "object"  <!-- bug historique\ntypeof undefined  // "undefined"</code></pre>',
+                 'fr'   => '<p>Pour exécuter du JavaScript dans une page, on utilise la balise <code>&lt;script&gt;</code>. Le code peut être écrit directement entre les balises ou placé dans un fichier séparé avec l\'attribut <code>src</code>. La console du navigateur (<code>F12</code> puis onglet Console) affiche les messages et les erreurs.</p>',
+                 'darija' => '<p>Bach tnfed JavaScript f page, katkhdem b balise <code>&lt;script&gt;</code>. Code yqder ykoun direct bin balises wla f fichier separé b attribut <code>src</code>. Console dyal navigateur (<code>F12</code> mn ba3d onglet Console) kat3red messages w erreurs.</p>'],
 
-                ['type' => 'example', 'title' => "Conversion nombre → chaîne",
+                ['type' => 'syntax',
+                 'lang' => 'html',
+                 'title' => 'Inclure un script dans une page',
+                 'code' => '<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Premier script</title>
+</head>
+<body>
+  <h1>Ma première page interactive</h1>
+
+  <script>
+    console.log("Salam, JavaScript !");
+  </script>
+</body>
+</html>'],
+
+                ['type' => 'example',
+                 'title' => 'Un script qui réagit à un clic',
                  'lang'  => 'javascript',
-                 'code'  => 'const n = 42;\nconst s = String(n);\nconsole.log(s + " est une chaîne"); // "42 est une chaîne"\nconsole.log("" + n); // "42" (conversion implicite)',
-                 'explainFr' => 'String() convertit un nombre en chaîne. L\'addition avec une chaîne provoque une conversion implicite.',
-                 'explainDarija' => 'String() kay9der nombre f chaîne. Addition b chaîne kay9der conversion implicite.'],
+                 'code'  => 'const bouton = document.getElementById("action");
+const message = document.getElementById("message");
 
-                ['type' => 'example', 'title' => "Conversion chaîne → nombre",
-                 'lang'  => 'javascript',
-                 'code'  => 'const s = "100";\nconst n = Number(s);\nconsole.log(n + 5); // 105\nconsole.log("" + s); // "100"',
-                 'explainFr' => 'Number() convertit une chaîne valide en nombre.',
-                 'explainDarija' => 'Number() kay9der chaîne valide f nombre.'],
+bouton.addEventListener("click", () => {
+    message.textContent = "Le bouton a été cliqué !";
+    console.log("Clic détecté");
+});',
+                 'output' => 'Après un clic : « Le bouton a été cliqué ! » dans la page et « Clic détecté » dans la console.',
+                 'explainFr' => '<code>document.getElementById</code> récupère un élément HTML. <code>addEventListener</code> enregistre une fonction exécutée plus tard, au moment du clic. <code>textContent</code> modifie le texte affiché.',
+                 'explainDarija' => '<code>document.getElementById</code> kayjib élément HTML. <code>addEventListener</code> kaysejjel fonction li katkhdem mn ba3d, f wa9t clic. <code>textContent</code> kaybedel texte li kayban.'],
 
-                ['type' => 'mcq',
-                 'question' => 'Que renvoie typeof null ?',
-                 'options' => '"null"', '"undefined"', '"object"', '"void 0"'],
-                 'answer' => 2,
-                 'concept' => 'typeof',
-                 'explainFr' => 'C\'est un bug historique : typeof null renvoie "object".',
-                 'explainDarija' => 'Bug historique : typeof null kayder "object".'],
-
+                ['type' => 'tip',
+                 'title' => 'Toujours ouvrir la console',
+                 'fr'   => 'La console est votre meilleur outil de diagnostic. Elle affiche la valeur des variables, les erreurs de syntaxe et les erreurs d\'exécution avec leur numéro de ligne. Un développeur JavaScript garde la console ouverte en permanence.',
+                 'darija' => 'Console howa a7san outil dyal diagnostic. Kat3red valeur dyal variables, erreurs de syntaxe w erreurs d\'exécution m3a numéro de ligne. Développeur JavaScript kaykhelli console m7loula dima.'],
             ],
         ],
 
         // ------------------------------------------------ Section 4
         [
-            'id'    => 'test-types',
-            'title' => 'Vérifier vos connaissances',
-            'icon'  => '❓',
+            'id'    => 'console-et-commentaires',
+            'title' => 'console.log, commentaires et structure',
+            'icon'  => '🧰',
             'blocks' => [
 
-                ['type' => 'fill',
-                 'question' => 'La valeur _____ indique qu\'une variable a été déclarée mais pas encore attribuée.',
-                 'answer' => 'undefined',
-                 'concept' => 'Undefined',
-                 'explainFr' => 'undefined signifie "non défini".',
-                 'explainDarija' => 'undefined kay9der "non défini".'],
+                ['type' => 'text',
+                 'fr'   => '<p><code>console.log()</code> affiche une valeur dans la console. C\'est l\'instruction la plus utilisée pour comprendre ce qui se passe dans un programme. Les commentaires, eux, sont ignorés par le moteur : ils servent à expliquer le code aux humains.</p>',
+                 'darija' => '<p><code>console.log()</code> kay3red valeur f console. Hiya instruction li katkhdem ktar bach tfhem chno kayt7arek f programme. Comments, moteur kaytjahalhom : kayn ghir bach tchar7 code l humains.</p>'],
 
-                ['type' => 'mcq',
-                 'question' => 'Laquelle de ces conversions est fausse ?',
-                 'options' => ['Number("abc") → NaN', 'String(123) → "123"', 'Boolean("") → false'],
-                 'answer' => 0,
-                 'concept' => 'Conversions',
-                 'explainFr' => 'Number("abc") renvoie NaN (Not-a-Number).',
-                 'explainDarija' => 'Number("abc") kayder NaN.'],
+                ['type' => 'example',
+                 'title' => 'Variables, calcul et affichage',
+                 'lang'  => 'javascript',
+                 'code'  => '// Un commentaire sur une ligne
+const prenom = "Amine";
+let age = 20;
 
-                ['type' => 'code_contains',
-                 'question' => 'Lequel de ces extraits affiche "number" ?',
-                 'code_a' => 'console.log(typeof 42);',
-                 'code_b' => 'console.log(typeof "texte");',
-                 'answer' => 0,
-                 'concept' => 'typeof',
-                 'explainFr' => 'typeof 42 renvoie "number".',
-                 'explainDarija' => 'typeof 42 kayder "number".'],
+/* Ce commentaire
+   tient sur plusieurs lignes. */
+const anneeNaissance = 2026 - age;
 
+console.log("Prenom : " + prenom);
+console.log("Annee de naissance :", anneeNaissance);',
+                 'output' => 'Prenom : Amine\nAnnee de naissance : 2006',
+                 'explainFr' => '<code>const</code> déclare une valeur qui ne sera pas réassignée, <code>let</code> une valeur modifiable. Le signe <code>+</code> colle deux chaînes ; la virgule dans <code>console.log</code> ajoute une valeur séparée.',
+                 'explainDarija' => '<code>const</code> kat3len valeur li ma ghadi tbedelch, <code>let</code> valeur li tqder tbedel. Signe <code>+</code> kaylsse9 jouj chaînes ; virgule f <code>console.log</code> katzid valeur mfreqa.'],
+
+                ['type' => 'syntax',
+                 'lang' => 'javascript',
+                 'title' => 'Les deux styles de commentaires',
+                 'code' => '// Commentaire sur une seule ligne
+
+/*
+   Commentaire sur plusieurs lignes.
+   Utile pour expliquer un bloc complexe.
+*/
+
+console.log("Le moteur ignore les commentaires");'],
+
+                ['type' => 'note',
+                 'title' => 'Un fichier JavaScript séparé',
+                 'fr'   => 'En pratique, on place le code dans un fichier <code>.js</code> et on l\'inclut avec <code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code>. L\'attribut <code>defer</code> attend que le HTML soit analysé avant d\'exécuter le script, ce qui évite les erreurs du type « élément introuvable ».',
+                 'darija' => 'F pratique, code kayt7et f fichier <code>.js</code> w kaytdkhel b <code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code>. Attribut <code>defer</code> kaytsenna HTML ytqra qbel exécution, w hadchi kayweqef erreurs dyal « élément introuvable ».'],
             ],
         ],
-
     ],
 
     'mistakes' => [
         [
-            'wrong'  => 'Utiliser Number() sur une chaîne non numérique',
-            'fix'    => 'Vérifier avec isNaN() ou parseFloat() d\'abord',
-            'fr'     => 'Number("abc") donne NaN, ce qui peut causer des bugs silencieux.',
-            'darija' => 'Number("abc") kayder NaN, kay9der bugs silencieux.'],
+            'wrong'  => 'Confondre JavaScript et Java',
+            'fix'    => 'Retenir que ce sont deux langages différents, sans lien technique direct',
+            'fr'     => 'JavaScript et Java partagent une partie de leur nom, mais leurs syntaxes, leurs usages et leurs écosystèmes sont distincts. JavaScript est le langage du navigateur ; Java est utilisé pour d\'autres types d\'applications.',
+            'darija' => 'JavaScript w Java kaytcharKo ghir f smiya, walakin syntaxe, usage w écosystème mkhtalfin. JavaScript lougha dyal navigateur ; Java kayst5dem f applications okhra.',
         ],
         [
-            'wrong'  => 'Confondre null et undefined',
-            'fix'    => 'Utiliser null pour "vide intentionnel" et undefined pour "non initialisé"',
-            'fr'     => 'Bien que==, null == undefined soit true, ce sont des valeurs différentes.',
-            'darija' => 'Bien que== null == undefined b true, kay9der valeurs différentes.'],
+            'wrong'  => 'Placer un script avant les éléments HTML qu\'il utilise',
+            'fix'    => 'Mettre le script en fin de body ou ajouter l\'attribut defer',
+            'fr'     => 'Si le script s\'exécute avant que le bouton existe, <code>getElementById</code> renvoie <code>null</code> et l\'appel suivant provoque une erreur. <code>defer</code> règle ce problème.',
+            'darija' => 'Ila script khdem qbel ma ykoun bouton, <code>getElementById</code> kayrje3 <code>null</code> w appel mora kay3ti erreur. <code>defer</code> kay7el had problème.',
+        ],
+        [
+            'wrong'  => 'Croire que console.log affiche le résultat dans la page',
+            'fix'    => 'Utiliser textContent ou innerHTML pour modifier la page',
+            'fr'     => '<code>console.log</code> écrit uniquement dans la console de développement. Pour changer ce que voit le visiteur, il faut modifier un élément du DOM.',
+            'darija' => '<code>console.log</code> kaykteb ghir f console dyal développement. Bach tbedel chi haja li kaychofha visiteur, khassek tbedel élément f DOM.',
+        ],
     ],
 
     'summary' => [
-        'fr' => '<strong>JavaScript</strong> compte 7 types de données primitifs : string, number, boolean, null, undefined, symbol, bigint. Utilisez <code>typeof</code> pour détecter un type et <code>String()</code>, <code>Number()</code>, <code>Boolean()</code> pour convertir. Faites attention au bug historique : typeof null renvoie "object".',
-        'darija' => '<strong>JavaScript</strong> kay7et 7 types primitives : string, number, boolean, null, undefined, symbol, bigint. Isti7mal <code>typeof</code> b detecter type w <code>String()</code>, <code>Number()</code>, <code>Boolean()</code> b convertir. Chou l bug historique : typeof null kayder "object".',
+        'fr'     => '<b>JavaScript</b> est le langage du comportement : il réagit aux clics, valide les formulaires, calcule et modifie la page. Il s\'exécute dans le <b>navigateur</b> (V8, SpiderMonkey, JavaScriptCore) ou avec <b>Node.js</b> côté serveur. On l\'inclut avec <code>&lt;script&gt;</code>, on affiche des valeurs avec <code>console.log</code>, et les commentaires <code>//</code> ou <code>/* … */</code> documentent le code sans être exécutés.',
+        'darija' => '<b>JavaScript</b> howa lougha dyal comportement : kaytf3al m3a clics, kayverifi formulaires, kay7seb w kaybedel page. Kaykhdem f <b>navigateur</b> (V8, SpiderMonkey, JavaScriptCore) wla b <b>Node.js</b> côté serveur. Kaytdkhel b <code>&lt;script&gt;</code>, kay3red valeurs b <code>console.log</code>, w comments <code>//</code> wla <code>/* … */</code> kaychar7o code bla ma ytnfed.',
     ],
 ];

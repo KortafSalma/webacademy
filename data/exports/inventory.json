@@ -1,0 +1,18 @@
+{
+  "app": {
+    "settings": 4,
+    "progress": 0,
+    "quiz_results": 0,
+    "exercise_results": 0,
+    "notes": 0,
+    "bookmarks": 0,
+    "history": 233,
+    "lab_snippets": 0
+  },
+  "sql_sandbox": {
+    "professeur": 3,
+    "etudiant": 5,
+    "matiere": 4,
+    "note": 10
+  }
+}

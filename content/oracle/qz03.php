@@ -53,17 +53,17 @@ return [
         [
             'type'    => 'predict',
             'question'=> 'Quel sera le résultat de CREATE TABLE t (id NUMBER PRIMARY KEY) ?',
-            'options' => 'Table créée avec succès', 'Erreur de clé en double', 'Erreur de type de données', 'Requête incomplète'],
+            'options' => ['Table créée avec succès', 'Erreur de clé en double', 'Erreur de type de données', 'Requête incomplète'],
             'answer'  => 0,
             'concept' => 'Syntaxe CREATE TABLE',
             'explainFr' => 'La commande CREATE TABLE s\'exécutera avec succès et créera la table avec la clé primaire spécifiée.',
-            'explainDarija' => 'Commande CREATE TABLE s\\'exécutera succès kaylik créer table clé primaire spécifié.',
+            'explainDarija' => 'Commande CREATE TABLE s\'exécutera succès kaylik créer table clé primaire spécifié.',
         ],
 
         [
             'type'    => 'mcq',
             'question'=> 'Combien de colonnes la table CREATE TABLE emp (emp_id NUMBER PRIMARY KEY, emp_name VARCHAR2(100), salaire NUMBER) possède-t-elle ?',
-            'options' => '2', '3', '4', '5'],
+            'options' => ['2', '3', '4', '5'],
             'answer'  => 1,
             'concept' => 'Syntaxe CREATE TABLE',
             'explainFr' => 'La table possède 3 colonnes : emp_id, emp_name, salaire.',

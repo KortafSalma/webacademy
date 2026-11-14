@@ -37,14 +37,14 @@ return [
 
                 make_example_block(
                     'IF simple : vérifier si un nombre est positif',
-                    '<pre><code>\nDECLARE\n  v_note NUMBER := 15;\nBEGIN\n  IF v_note >= 10 THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Félicitations ! La note est suffisante.\\');\n  END IF;\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_note NUMBER := 15;\nBEGIN\n  IF v_note >= 10 THEN\n    DBMS_OUTPUT.PUT_LINE(\'Félicitations ! La note est suffisante.\');\n  END IF;\nEND;</code></pre>',
                     '<pre>Félicitations ! La note est suffisante.</pre>',
                     'Si la note >= 10, le message s\'affiche.'
                 ),
 
                 make_example_block(
                     'IF sans condition VRAIE',
-                    '<pre><code>\nDECLARE\n  v_note NUMBER := 5;\nBEGIN\n  IF v_note >= 10 THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Note suffisante.\\');\n  END IF;\n  -- Rien ne s\'affiche car la condition est fausse\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_note NUMBER := 5;\nBEGIN\n  IF v_note >= 10 THEN\n    DBMS_OUTPUT.PUT_LINE(\'Note suffisante.\');\n  END IF;\n  -- Rien ne s\'affiche car la condition est fausse\nEND;</code></pre>',
                     '<pre>(aucune sortie)</pre>',
                     'Si la condition est fausse, rien ne se passe (pas de ELSE).'
                 ),
@@ -73,7 +73,7 @@ return [
 
                 make_example_block(
                     'IF ELSIF ELSE : classification des notes',
-                    '<pre><code>\nDECLARE\n  v_note NUMBER := 17;\nBEGIN\n  IF v_note >= 20 THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Note maximale !\\');\n  ELSIF v_note >= 15 THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Très bien.\\');\n  ELSIF v_note >= 10 THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Passable.\\');\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(\\'Insuffisant.\\');\n  END IF;\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_note NUMBER := 17;\nBEGIN\n  IF v_note >= 20 THEN\n    DBMS_OUTPUT.PUT_LINE(\'Note maximale !\');\n  ELSIF v_note >= 15 THEN\n    DBMS_OUTPUT.PUT_LINE(\'Très bien.\');\n  ELSIF v_note >= 10 THEN\n    DBMS_OUTPUT.PUT_LINE(\'Passable.\');\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(\'Insuffisant.\');\n  END IF;\nEND;</code></pre>',
                     '<pre>Très bien.</pre>',
                     'La note 17 déclenche la première condition VRAIE (>= 15).'
                 ),
@@ -96,7 +96,7 @@ return [
 
                 make_example_block(
                     'IF imbriqué : validation d\'inscription',
-                    '<pre><code>\nDECLARE\n  v_age NUMBER := 20;\n  v_ayat VARCHAR2(10) := \\'oui\\\';\nBEGIN\n  IF v_age >= 18 THEN\n    DBMS_OUTPUT.PUT_LINE(\\'Vous êtes majeur.\\');\n    IF v_ayat = \\'oui\\' THEN\n      DBMS_OUTPUT.PUT_LINE(\\'Inscription acceptée.\\');\n    ELSE\n      DBMS_OUTPUT.PUT_LINE(\\'Inscription reportée.\\');\n    END IF;\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(\\'Vous êtes mineur.\\');\n  END IF;\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_age NUMBER := 20;\n  v_ayat VARCHAR2(10) := \'oui\';\nBEGIN\n  IF v_age >= 18 THEN\n    DBMS_OUTPUT.PUT_LINE(\'Vous êtes majeur.\');\n    IF v_ayat = \'oui\' THEN\n      DBMS_OUTPUT.PUT_LINE(\'Inscription acceptée.\');\n    ELSE\n      DBMS_OUTPUT.PUT_LINE(\'Inscription reportée.\');\n    END IF;\n  ELSE\n    DBMS_OUTPUT.PUT_LINE(\'Vous êtes mineur.\');\n  END IF;\nEND;</code></pre>',
                     '<pre>Vous êtes majeur.\nInscription acceptée.</pre>',
                     'Testage de l\'âge d\'abord, puis vérification du consentement.'
                 ),

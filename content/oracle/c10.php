@@ -109,7 +109,7 @@ return [
 
                 make_example_block(
                     'NVL avec une colonne',
-                    '<pre><code>-- Afficher le nom du client et remplacer l\'email manquant par \"non fourni\"\nSELECT nom, NVL(email, \\'non fourni\\') AS email_valide\nFROM clients;</code></pre>',
+                    '<pre><code>-- Afficher le nom du client et remplacer l\'email manquant par \"non fourni\"\nSELECT nom, NVL(email, \'non fourni\') AS email_valide\nFROM clients;</code></pre>',
                     '<pre>NOM          EMAIL_VALIDE\n-----------  -------------------------\nMohamed      moh@exemple.com\nZakaria      non fourni</pre>',
                     'Si email est NULL, il s\'affiche "non fourni".'
                 ),

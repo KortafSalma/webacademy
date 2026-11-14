@@ -81,7 +81,7 @@ return [
 
                 make_example_block(
                     'WHERE avec texte (comme)',
-                    '<pre><code>-- Clients dont le nom commence par "M"\nSELECT id, nom\nFROM clients\nWHERE nom LIKE \\'M%\\\';</code></pre>',
+                    '<pre><code>-- Clients dont le nom commence par "M"\nSELECT id, nom\nFROM clients\nWHERE nom LIKE \'M%\';</code></pre>',
                     '<pre>ID NOM\n-- -----------------\n 1  Mohamed         moh@exemple.com</pre>',
                     'LIKE \'M%\' cherche les noms commençant par M.'
                 ),

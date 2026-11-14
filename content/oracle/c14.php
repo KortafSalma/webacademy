@@ -150,7 +150,7 @@ return [
             'darija' => 'Sans clause ON, Oracle sait pas comment relier tables w peut produire produit cartésien (toutes combinaisons) résultats massifs erronés.'
         ],
         [
-            'wrong'  => 'Confondre l'ordre des tables dans LEFT/RIGHT JOIN',
+            'wrong'  => 'Confondre l\'ordre des tables dans LEFT/RIGHT JOIN',
             'fix'    => 'La table de gauche est la première table listée, la table de droite est la deuxième. Inversez l\'ordre si vous voulez changer laquelle affiche toutes ses lignes.',
             'fr'     => 'Dans LEFT JOIN, c\'est la première table qui voit toutes ses lignes affichées. Dans RIGHT JOIN, c\'est la deuxième table. Inversez l\'ordre des tables si vous avez besoin de l\'un ou l\'autre comportement.',
             'darija' => 'LEFT JOIN: première table kaylik toutes lignes affichées. RIGHT JOIN: deuxième table kaylik. Inversez ordre tables si besoin comportement inverse.'

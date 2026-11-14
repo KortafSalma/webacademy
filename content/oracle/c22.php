@@ -37,7 +37,7 @@ return [
 
                 make_example_block(
                     'LOOP simple avec compteur',
-                    '<pre><code>\nDECLARE\n  v_compteur NUMBER := 1;\nBEGIN\n  LOOP\n    DBMS_OUTPUT.PUT_LINE(\\'Itération :\' || v_compteur);\n    v_compteur := v_compteur + 1;\n    EXIT WHEN v_compteur > 5;\n  END LOOP;\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_compteur NUMBER := 1;\nBEGIN\n  LOOP\n    DBMS_OUTPUT.PUT_LINE(\'Itération :\' || v_compteur);\n    v_compteur := v_compteur + 1;\n    EXIT WHEN v_compteur > 5;\n  END LOOP;\nEND;</code></pre>',
                     '<pre>Itération : 1\nItération : 2\nItération : 3\nItération : 4\nItération : 5</pre>',
                     'La boucle s\'arrête après 5 itérations grâce à EXIT WHEN.'
                 ),
@@ -66,7 +66,7 @@ return [
 
                 make_example_block(
                     'WHILE avec compteur',
-                    '<pre><code>\nDECLARE\n  v_compteur NUMBER := 1;\nBEGIN\n  WHILE v_compteur <= 5 LOOP\n    DBMS_OUTPUT.PUT_LINE(\\'Compteur :\' || v_compteur);\n    v_compteur := v_compteur + 1;\n  END LOOP;\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_compteur NUMBER := 1;\nBEGIN\n  WHILE v_compteur <= 5 LOOP\n    DBMS_OUTPUT.PUT_LINE(\'Compteur :\' || v_compteur);\n    v_compteur := v_compteur + 1;\n  END LOOP;\nEND;</code></pre>',
                     '<pre>Compteur : 1\nCompteur : 2\nCompteur : 3\nCompteur : 4\nCompteur : 5</pre>',
                     'La boucle s\'arrête lorsque v_compteur dépasse 5.'
                 ),
@@ -89,14 +89,14 @@ return [
 
                 make_example_block(
                     'FOR simple : afficher les nombres de 1 à 5',
-                    '<pre><code>\nBEGIN\n  FOR v IN 1..5 LOOP\n    DBMS_OUTPUT.PUT_LINE(\\'Nombre :\' || v);\n  END LOOP;\nEND;</code></pre>',
+                    '<pre><code>\nBEGIN\n  FOR v IN 1..5 LOOP\n    DBMS_OUTPUT.PUT_LINE(\'Nombre :\' || v);\n  END LOOP;\nEND;</code></pre>',
                     '<pre>Nombre : 1\nNombre : 2\nNombre : 3\nNombre : 4\nNombre : 5</pre>',
                     'La variable v prend automatiquement les valeurs 1, 2, 3, 4, 5.'
                 ),
 
                 make_example_block(
                     'FOR avec agrégat : somme des nombres',
-                    '<pre><code>\nDECLARE\n  v_somme NUMBER := 0;\nBEGIN\n  FOR v IN 1..10 LOOP\n    v_somme := v_somme + v;\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE(\\'Somme 1 à 10 :\' || v_somme);\nEND;</code></pre>',
+                    '<pre><code>\nDECLARE\n  v_somme NUMBER := 0;\nBEGIN\n  FOR v IN 1..10 LOOP\n    v_somme := v_somme + v;\n  END LOOP;\n  DBMS_OUTPUT.PUT_LINE(\'Somme 1 à 10 :\' || v_somme);\nEND;</code></pre>',
                     '<pre>Somme 1 à 10 : 55</pre>',
                     'Le boucle calcule 1+2+...+10 = 55.'
                 ),

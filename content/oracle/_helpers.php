@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 if (!function_exists('oracle_v2')) {
     function oracle_v2(string $value): string {
-        return String($value ?? '');
+        return (string) $value;
     }
 }
 
@@ -39,9 +39,9 @@ function make_syntax_block(string $lang, string $code, string $title): array {
 }
 
 /**
- * Génère un bloc d'exemple Oracle avec code, sortie attendue et explications.
+ * Génère un bloc d\'exemple Oracle avec code, sortie attendue et explications.
  */
-function make_example_block(string $title, string $code, string $output, string $explainFr, string $explainDarija, bool $preview = false): array {
+function make_example_block(string $title, string $code, string $output = '', string $explainFr = '', string $explainDarija = '', bool $preview = false): array {
     return [
         'type' => 'example',
         'title' => $title,
@@ -130,4 +130,7 @@ function make_summary_block(string $fr, string $darija): array {
         'fr' => $fr,
         'darija' => $darija,
     ];
+}
+function make_text_block(string $fr, string $darija = ""): array {
+    return ["type" => "text", "fr" => $fr, "darija" => $darija];
 }

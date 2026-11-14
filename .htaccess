@@ -7,11 +7,14 @@ Options -Indexes
     RewriteEngine On
 
     # Dossiers privés : jamais servis par Apache.
-    RewriteRule ^(?:src|content|data|views|node_modules|\.git)(?:/|$) - [F,L,NC]
+    RewriteRule ^(?:src|content|data|views|node_modules|tools|deploy_htdocs|dist|\.git)(?:/|$) - [F,L,NC]
 
     # Fichiers internes, configuration, rapports, bases et sauvegardes.
     RewriteRule ^(?:config_local\.php|package(?:-lock)?\.json|router\.php|.*\.md|.*\.sqlite(?:3)?(?:-wal|-shm|-journal)?|.*\.log|.*\.bak|.*\.tmp)$ - [F,L,NC]
     RewriteRule (^|/)\. - [F,L,NC]
+
+    RewriteRule ^(?:debug[^/]*|test[^/]*|convert)\.php$ - [F,L,NC]
+    RewriteRule \.(?:zip|bat|ps1|cjs)$ - [F,L,NC]
 
     # Les assets publics vivent dans public/assets.
     RewriteRule ^assets/(.*)$ public/assets/$1 [L]
