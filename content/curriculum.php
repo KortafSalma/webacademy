@@ -59,6 +59,8 @@ return [
             ['n' => 13, 'title' => 'Gestion des erreurs'],
             ['n' => 14, 'title' => 'POO PHP'],
             ['n' => 15, 'title' => 'Sécurité PHP'],
+            ['n' => 16, 'title' => 'Namespaces et alias de classes'],
+            ['n' => 17, 'title' => 'Interfaces, contrats et traits'],
         ]],
 
         ['id' => 'sql', 'name' => 'SQL', 'color' => 'teal', 'icon' => 'SQL', 'blurb' => 'Bases de données', 'chapters' => [
@@ -76,6 +78,8 @@ return [
             ['n' => 12, 'title' => 'Transactions'],
             ['n' => 13, 'title' => 'Views et indexes'],
             ['n' => 14, 'title' => 'Conception de bases'],
+            ['n' => 15, 'title' => 'CTE : organiser les requêtes avec WITH'],
+            ['n' => 16, 'title' => 'Fonctions de fenêtrage : classement et cumul'],
         ]],
 
         ['id' => 'integration', 'name' => 'PHP + SQL', 'color' => 'violet', 'icon' => '⇄', 'blurb' => 'Applications dynamiques', 'chapters' => [
@@ -89,7 +93,7 @@ return [
         ]],
 
         // ==================================================================
-        // PARCOURS C++ — 30 chapitres, 7 modules pédagogiques
+        // PARCOURS C++ — 32 chapitres, approfondissements et projets
         // ==================================================================
         [
             'id' => 'cpp',
@@ -109,6 +113,7 @@ return [
                 ['id' => 'cpp-part-4', 'title' => 'Module 4 — Fonctions et structures de données', 'chapters' => [17, 18, 19, 20, 21, 22]],
                 ['id' => 'cpp-part-5', 'title' => 'Module 5 — Programmation orientée objet', 'chapters' => [23, 24, 25, 26, 27]],
                 ['id' => 'cpp-part-6', 'title' => 'Module 6 — C++ avancé et STL', 'chapters' => [28, 29, 30]],
+                ['id' => 'cpp-practice', 'title' => 'Approfondissement et pratique', 'chapters' => [31, 32]],
                 ['id' => 'cpp-projects', 'title' => 'Module 7 — Projets pratiques', 'chapters' => []],
             ],
             'chapters' => [
@@ -142,11 +147,13 @@ return [
                 ['n' => 28, 'title' => 'Mémoire dynamique, pile, tas et smart pointers'],
                 ['n' => 29, 'title' => 'Exceptions et fichiers'],
                 ['n' => 30, 'title' => 'STL : vector, list, map, itérateurs et templates'],
+                ['n' => 31, 'title' => 'Algorithmes STL : trier, rechercher et filtrer'],
+                ['n' => 32, 'title' => 'Complexité : raisonner sur le coût des algorithmes'],
             ],
         ],
 
         // ==================================================================
-        // PARCOURS JAVASCRIPT — 30 chapitres, 6 modules pédagogiques
+        // PARCOURS JAVASCRIPT — 32 chapitres, approfondissements et projets
         // ==================================================================
         [
             'id' => 'javascript',
@@ -166,6 +173,7 @@ return [
                 ['id' => 'js-part-4', 'title' => 'Module 4 — Objets et données', 'chapters' => [18, 19, 20, 21]],
                 ['id' => 'js-part-5', 'title' => 'Module 5 — DOM et navigateur', 'chapters' => [22, 23, 24, 25, 26]],
                 ['id' => 'js-part-6', 'title' => 'Module 6 — JavaScript moderne', 'chapters' => [27, 28, 29, 30]],
+                ['id' => 'js-practice', 'title' => 'Approfondissement et pratique', 'chapters' => [31, 32]],
                 ['id' => 'js-projects', 'title' => 'Module 7 — Projets pratiques', 'chapters' => []],
             ],
             'chapters' => [
@@ -199,6 +207,8 @@ return [
                 ['n' => 28, 'title' => 'Modules : export et import'],
                 ['n' => 29, 'title' => 'Erreurs, try/catch/finally et debugging'],
                 ['n' => 30, 'title' => 'Promesses, async/await et Fetch API'],
+                ['n' => 31, 'title' => 'Expressions régulières : rechercher et valider'],
+                ['n' => 32, 'title' => 'Tester des fonctions et leurs cas limites'],
             ],
         ],
 
