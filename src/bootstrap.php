@@ -26,7 +26,7 @@ define('APP_SRC', APP_ROOT . '/src');
 define('APP_CONTENT', APP_ROOT . '/content');
 define('APP_DATA', APP_ROOT . '/data');
 define('APP_ASSETS', APP_PUBLIC . '/assets');
-define('APP_VERSION', '2.0.1');
+define('APP_VERSION', '3.2.0');
 // Limites communes aux points d'entrée HTTP et aux exécuteurs.
 define('APP_MAX_REQUEST_BYTES', 1048576); // 1 Mio pour le corps JSON
 define('APP_MAX_CODE_BYTES', 32768);      // 32 Kio de code étudiant

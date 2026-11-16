@@ -213,4 +213,121 @@ final class Repos
         $st->execute();
         return $st->fetchAll(PDO::FETCH_COLUMN) ?: [];
     }
+
+    // ---------------------------------------------------------------- users & auth
+
+    public static function createUser(string $username, string $password, ?string $email = null, string $avatar = 'neo-coder', bool $isGuest = false): array
+    {
+        $db = self::db();
+        $hash = $password !== '' ? password_hash($password, PASSWORD_DEFAULT) : '';
+        $st = $db->prepare(
+            'INSERT INTO users (username, email, password_hash, role, avatar, is_guest, created_at, last_login)
+             VALUES (:u, :e, :h, :r, :a, :g, datetime(\'now\'), datetime(\'now\'))'
+        );
+        $st->execute([
+            ':u' => $username,
+            ':e' => $email ?: null,
+            ':h' => $hash,
+            ':r' => $isGuest ? 'guest' : 'student',
+            ':a' => $avatar ?: 'neo-coder',
+            ':g' => $isGuest ? 1 : 0,
+        ]);
+        $id = (int) $db->lastInsertId();
+        return [
+            'id'       => $id,
+            'username' => $username,
+            'email'    => $email,
+            'role'     => $isGuest ? 'guest' : 'student',
+            'avatar'   => $avatar ?: 'neo-coder',
+            'is_guest' => $isGuest,
+        ];
+    }
+
+    public static function verifyUser(string $identifier, string $password): ?array
+    {
+        $st = self::db()->prepare('SELECT * FROM users WHERE (LOWER(username) = LOWER(:id) OR LOWER(email) = LOWER(:id)) AND is_guest = 0 LIMIT 1');
+        $st->execute([':id' => $identifier]);
+        $user = $st->fetch();
+        if (!$user) {
+            return null;
+        }
+        if (!password_verify($password, (string) ($user['password_hash'] ?? ''))) {
+            return null;
+        }
+        $up = self::db()->prepare('UPDATE users SET last_login = datetime(\'now\') WHERE id = :id');
+        $up->execute([':id' => (int) $user['id']]);
+
+        return [
+            'id'       => (int) $user['id'],
+            'username' => (string) $user['username'],
+            'email'    => $user['email'] ? (string) $user['email'] : null,
+            'role'     => (string) $user['role'],
+            'avatar'   => (string) ($user['avatar'] ?: 'neo-coder'),
+            'is_guest' => (bool) $user['is_guest'],
+        ];
+    }
+
+    public static function createSession(int $userId): string
+    {
+        $token = bin2hex(random_bytes(32));
+        $st = self::db()->prepare(
+            'INSERT INTO user_sessions (token, user_id, created_at, expires_at)
+             VALUES (:t, :u, datetime(\'now\'), datetime(\'now\', \'+365 days\'))'
+        );
+        $st->execute([':t' => $token, ':u' => $userId]);
+        return $token;
+    }
+
+    public static function getUserByToken(string $token): ?array
+    {
+        if (trim($token) === '') {
+            return null;
+        }
+        $st = self::db()->prepare(
+            'SELECT u.id, u.username, u.email, u.role, u.avatar, u.is_guest
+             FROM user_sessions s
+             JOIN users u ON u.id = s.user_id
+             WHERE s.token = :t AND s.expires_at > datetime(\'now\')
+             LIMIT 1'
+        );
+        $st->execute([':t' => $token]);
+        $user = $st->fetch();
+        if (!$user) {
+            return null;
+        }
+        return [
+            'id'       => (int) $user['id'],
+            'username' => (string) $user['username'],
+            'email'    => $user['email'] ? (string) $user['email'] : null,
+            'role'     => (string) $user['role'],
+            'avatar'   => (string) ($user['avatar'] ?: 'neo-coder'),
+            'is_guest' => (bool) $user['is_guest'],
+        ];
+    }
+
+    public static function deleteSession(string $token): void
+    {
+        $st = self::db()->prepare('DELETE FROM user_sessions WHERE token = :t');
+        $st->execute([':t' => $token]);
+    }
+
+    public static function createGuest(): array
+    {
+        $guestNum = random_int(1000, 9999);
+        $username = 'Invite_' . $guestNum;
+        $avatars = ['neo-coder', 'pixel-bot', 'cyber-cat', 'retro-hacker'];
+        $avatar = $avatars[array_rand($avatars)];
+        $user = self::createUser($username, '', null, $avatar, true);
+        $token = self::createSession($user['id']);
+        return [
+            'user'  => $user,
+            'token' => $token,
+        ];
+    }
+
+    public static function updateUserAvatar(int $userId, string $avatar): bool
+    {
+        $st = self::db()->prepare('UPDATE users SET avatar = :a WHERE id = :id');
+        return $st->execute([':a' => $avatar, ':id' => $userId]);
+    }
 }

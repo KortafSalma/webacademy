@@ -14,7 +14,7 @@ Ouvrir http://127.0.0.1:8088/. PHP 8.1+ avec PDO SQLite, mbstring et proc_open e
 
 ## Cours et documents
 
-Les sources des cours, exercices et quiz se trouvent dans `content/`. Les documents Markdown et les archives de déploiement sont inclus dans le dépôt. Aucun fichier PDF n’était présent dans le dossier local au moment du premier envoi.
+Les sources des cours, exercices et quiz se trouvent dans `content/`. Aucun fichier PDF n’était présent dans le dossier local au moment du premier envoi.
 
 Huit chapitres supplémentaires sont disponibles dans le programme, avec explications français/darija, exemples, deux exercices corrigés et cinq questions de quiz par chapitre :
 

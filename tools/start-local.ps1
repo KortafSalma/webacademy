@@ -38,8 +38,12 @@ try {
     foreach ($candidate in ($candidates | Select-Object -Unique)) {
         if (!(Test-Path -LiteralPath $candidate)) { continue }
         try {
-            $runtimeCheck = & $candidate -r "exit(PHP_VERSION_ID >= 80100 && extension_loaded('pdo_sqlite') && extension_loaded('mbstring') && function_exists('proc_open') ? 0 : 1);" 2>&1
-            if ($LASTEXITCODE -eq 0) { $phpExecutable = $candidate; break }
+            $prevEA = $ErrorActionPreference
+            $ErrorActionPreference = 'SilentlyContinue'
+            & $candidate -r "exit(PHP_VERSION_ID >= 80100 && extension_loaded('pdo_sqlite') && extension_loaded('mbstring') && function_exists('proc_open') ? 0 : 1);" 2>$null
+            $code = $LASTEXITCODE
+            $ErrorActionPreference = $prevEA
+            if ($code -eq 0) { $phpExecutable = $candidate; break }
         } catch { continue }
     }
     if (!$phpExecutable) {

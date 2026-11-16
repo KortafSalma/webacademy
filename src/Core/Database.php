@@ -105,6 +105,25 @@ CREATE TABLE IF NOT EXISTS lab_snippets (
     code       TEXT NOT NULL,
     updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+CREATE TABLE IF NOT EXISTS users (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    username      TEXT UNIQUE NOT NULL,
+    email         TEXT,
+    password_hash TEXT NOT NULL,
+    role          TEXT NOT NULL DEFAULT 'student',
+    avatar        TEXT NOT NULL DEFAULT 'neo-coder',
+    is_guest      INTEGER NOT NULL DEFAULT 0,
+    created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+    last_login    TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS user_sessions (
+    token         TEXT PRIMARY KEY,
+    user_id       INTEGER NOT NULL,
+    created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+    expires_at    TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_sessions_user ON user_sessions (user_id);
 CREATE INDEX IF NOT EXISTS idx_history_lesson ON history (lesson_key, viewed_at);
 CREATE INDEX IF NOT EXISTS idx_quiz_lesson ON quiz_results (lesson_key, id);
 CREATE INDEX IF NOT EXISTS idx_exercise_lesson ON exercise_results (lesson_key, level);

@@ -12,9 +12,10 @@ data/*.log
 .DS_Store
 Thumbs.db
 
-# Dépendances éventuelles
+# Dépendances éventuelles (Composer racine)
+/vendor/
 node_modules/
-vendor/
+!public/assets/vendor/
 
 # Captures et rapports de test locaux
 /wa_shots/

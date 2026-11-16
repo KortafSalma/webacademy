@@ -6,17 +6,22 @@
 $v = rawurlencode(APP_VERSION);
 ?>
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WebAcademy — HTML · CSS · PHP · SQL · C++ · JavaScript</title>
-<meta name="description" content="WebAcademy : cours interactifs de développement (HTML, CSS, PHP, SQL, C++ et JavaScript) en français et en darija, avec ateliers de code, exercices et quiz corrigés.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>WebAcademy — Neo-Brutalist Code Learning Platform</title>
+<meta name="description" content="WebAcademy : plateforme interactive d'apprentissage du code (HTML, CSS, PHP, SQL, C++, JS, Oracle) au style Neo-Brutalist.">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14110d" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFE600">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <script src="assets/js/theme-init.js?v=<?= $v ?>"></script>
 <link rel="stylesheet" href="assets/css/fonts.css?v=<?= $v ?>">
 <link rel="stylesheet" href="assets/vendor/codemirror/codemirror.min.css?v=<?= $v ?>">

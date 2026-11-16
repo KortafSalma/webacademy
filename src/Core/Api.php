@@ -18,7 +18,13 @@ final class Api
 
     /** Méthodes autorisées par endpoint (défense en profondeur). */
     private const METHODS = [
-        'bootstrap'      => ['GET'],
+        'bootstrap'      => ['GET', 'POST'],
+        'auth-login'     => ['POST'],
+        'auth-register'  => ['POST'],
+        'auth-guest'     => ['POST'],
+        'auth-me'        => ['GET', 'POST'],
+        'auth-logout'    => ['POST'],
+        'auth-avatar'    => ['POST'],
         'lesson'         => ['GET'],
         'projects'       => ['GET'],
         'project'        => ['GET'],
@@ -52,8 +58,14 @@ final class Api
         }
 
         return match ($endpoint) {
-            'bootstrap' => self::bootstrap(),
-            'lesson'    => self::lesson($in),
+            'bootstrap'     => self::bootstrap($in),
+            'auth-login'    => self::authLogin($in),
+            'auth-register' => self::authRegister($in),
+            'auth-guest'    => self::authGuest(),
+            'auth-me'       => self::authMe($in),
+            'auth-logout'   => self::authLogout($in),
+            'auth-avatar'   => self::authAvatar($in),
+            'lesson'        => self::lesson($in),
             'projects'  => ['ok' => true, 'projects' => Content::projects()],
             'project'   => self::project($in),
             'glossary'  => ['ok' => true, 'glossary' => Content::glossary()],
@@ -82,10 +94,125 @@ final class Api
         };
     }
 
+    private static function token(array $in = []): ?string
+    {
+        if (!empty($in['token']) && is_string($in['token'])) {
+            return trim($in['token']);
+        }
+        $header = $_SERVER['HTTP_X_AUTH_TOKEN'] ?? $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        if (str_starts_with($header, 'Bearer ')) {
+            return trim(substr($header, 7));
+        }
+        if ($header !== '') {
+            return trim($header);
+        }
+        if (!empty($_COOKIE['wa_auth_token'])) {
+            return trim((string)$_COOKIE['wa_auth_token']);
+        }
+        return null;
+    }
+
+    // ============================================================ authentification
+
+    private static function authLogin(array $in): array
+    {
+        $id = trim(self::str($in, 'identifier'));
+        $pwd = self::str($in, 'password');
+        if ($id === '' || $pwd === '') {
+            return self::fail('Identifiant et mot de passe requis.', 422);
+        }
+        $user = Repos::verifyUser($id, $pwd);
+        if (!$user) {
+            return self::fail('Identifiant ou mot de passe incorrect.', 401);
+        }
+        $token = Repos::createSession($user['id']);
+        return ['ok' => true, 'user' => $user, 'token' => $token];
+    }
+
+    private static function authRegister(array $in): array
+    {
+        $username = trim(self::str($in, 'username'));
+        $pwd = self::str($in, 'password');
+        $email = trim(self::str($in, 'email'));
+        $avatar = trim(self::str($in, 'avatar')) ?: 'neo-coder';
+
+        if (mb_strlen($username) < 3 || mb_strlen($username) > 30) {
+            return self::fail('Le pseudo doit contenir entre 3 et 30 caractères.', 422);
+        }
+        if (!preg_match('/^[a-zA-Z0-9_\-\.]+$/', $username)) {
+            return self::fail('Le pseudo ne peut contenir que des lettres, chiffres, tirets et points.', 422);
+        }
+        if (strlen($pwd) < 4) {
+            return self::fail('Le mot de passe doit contenir au moins 4 caractères.', 422);
+        }
+        if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return self::fail('Adresse email invalide.', 422);
+        }
+
+        try {
+            $user = Repos::createUser($username, $pwd, $email ?: null, $avatar, false);
+            $token = Repos::createSession($user['id']);
+            return ['ok' => true, 'user' => $user, 'token' => $token];
+        } catch (\PDOException $e) {
+            if (str_contains($e->getMessage(), 'UNIQUE')) {
+                return self::fail('Ce pseudo ou cette adresse email est déjà utilisé.', 409);
+            }
+            return self::fail('Erreur lors de l\'inscription.', 500);
+        }
+    }
+
+    private static function authGuest(): array
+    {
+        $res = Repos::createGuest();
+        return ['ok' => true, 'user' => $res['user'], 'token' => $res['token']];
+    }
+
+    private static function authMe(array $in): array
+    {
+        $tok = self::token($in);
+        if (!$tok) {
+            return ['ok' => true, 'user' => null];
+        }
+        $user = Repos::getUserByToken($tok);
+        return ['ok' => true, 'user' => $user];
+    }
+
+    private static function authLogout(array $in): array
+    {
+        $tok = self::token($in);
+        if ($tok) {
+            Repos::deleteSession($tok);
+        }
+        return ['ok' => true];
+    }
+
+    private static function authAvatar(array $in): array
+    {
+        $tok = self::token($in);
+        if (!$tok) {
+            return self::fail('Non connecté.', 401);
+        }
+        $user = Repos::getUserByToken($tok);
+        if (!$user) {
+            return self::fail('Session expirée.', 401);
+        }
+        $avatar = trim(self::str($in, 'avatar'));
+        if ($avatar !== '') {
+            Repos::updateUserAvatar($user['id'], $avatar);
+            $user['avatar'] = $avatar;
+        }
+        return ['ok' => true, 'user' => $user];
+    }
+
     // ============================================================ contenu
 
-    private static function bootstrap(): array
+    private static function bootstrap(array $in = []): array
     {
+        $user = null;
+        $tok = self::token($in);
+        if ($tok) {
+            $user = Repos::getUserByToken($tok);
+        }
         return [
             'ok'           => true,
             'manifest'     => Content::manifest(),
@@ -95,6 +222,7 @@ final class Api
             'mysql'        => SqlExecutor::mysqlInfo(),
             'datasets'     => SqlExecutor::datasets(),
             'version'      => APP_VERSION,
+            'user'         => $user,
         ];
     }
 
@@ -192,7 +320,7 @@ final class Api
     private static function settingsData(): array
     {
         return [
-            'theme'      => Repos::setting('theme', 'dark'),
+            'theme'      => Repos::setting('theme', 'light'),
             'langMode'   => Repos::setting('langMode', 'bilingual'),
             'lastLesson' => Repos::setting('lastLesson', null),
             'examMode'   => (bool) Repos::setting('examMode', false),

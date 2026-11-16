@@ -14,6 +14,7 @@ WA.app = (function () {
     const ROUTES = {
         '': 'dashboard',
         dashboard: 'dashboard',
+        login: 'login',
         lesson: 'lesson',
         lab: 'lab',
         course: 'course',
@@ -27,6 +28,7 @@ WA.app = (function () {
 
     const PAGE_LABELS = {
         dashboard: 'Tableau de bord',
+        login: 'Espace Membre',
         lesson: 'Leçon',
         lab: 'Atelier',
         course: 'Cours',
@@ -35,9 +37,40 @@ WA.app = (function () {
         notes: 'Mes notes',
         progress: 'Ma progression',
         search: 'Recherche',
-        settings: 'Réglages',
+        settings: 'Paramètres',
         notfound: 'Page introuvable'
     };
+
+    const AVATARS = [
+        { id: 'neo-coder', name: 'Le Renard Codeur', code: 'DEV', icon: 'terminal', color: '#FF6B6B' },
+        { id: 'pixel-bot', name: 'Le Robot Pixel', code: 'BOT', icon: 'cpu', color: '#00F0FF' },
+        { id: 'cyber-cat', name: 'Le Hacker Cyber', code: 'SEC', icon: 'shield', color: '#FFE600' },
+        { id: 'retro-hacker', name: 'Le Hacker Rétro', code: 'ROOT', icon: 'zap', color: '#A78BFA' },
+        { id: 'code-alien', name: 'L\'Alien du Web', code: 'JS', icon: 'code', color: '#4ECCA3' },
+        { id: 'ninja-panda', name: 'Le Panda Ninja', code: 'PHP', icon: 'database', color: '#FB923C' },
+        { id: 'astro-dev', name: 'L\'Astro Dev', code: 'OPS', icon: 'rocket', color: '#38BDF8' },
+        { id: 'syntax-wizard', name: 'Le Mage Syntax', code: 'C++', icon: 'layers', color: '#EC4899' }
+    ];
+
+    function getAvatar(id) {
+        return AVATARS.find(a => a.id === id) || AVATARS[0];
+    }
+
+    function renderAvatar(id, size) {
+        size = size || 36;
+        const a = getAvatar(id);
+        const el = h('div.wa-avatar-badge', {
+            style: `width:${size}px;height:${size}px;background:${a.color};border:var(--bw) solid var(--line);box-shadow:2px 2px 0 var(--line);border-radius:var(--radius-sm);display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-family:var(--font-mono);font-size:${Math.round(size * 0.38)}px;color:var(--line);text-transform:uppercase;flex-shrink:0;`,
+            title: a.name,
+            'aria-label': a.name
+        });
+        if (a.icon) {
+            el.appendChild(icon(a.icon, Math.max(14, Math.round(size * 0.55))));
+        } else {
+            el.textContent = a.code || 'DEV';
+        }
+        return el;
+    }
 
     const LAB_MODULES = ['html', 'css', 'php', 'sql', 'cpp', 'javascript'];
     const COURSE_IDS = ['cpp', 'javascript'];
@@ -188,7 +221,7 @@ WA.app = (function () {
     }
 
     function applyTheme(theme, persist) {
-        const value = theme === 'light' ? 'light' : 'dark';
+        const value = theme === 'dark' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', value);
         document.documentElement.style.colorScheme = value;
         try { localStorage.setItem('wa-theme', value); } catch (err) { /* stockage indisponible */ }
@@ -228,9 +261,16 @@ WA.app = (function () {
     function brand() {
         return h('a.wa-brand', { href: href('dashboard'), 'aria-label': 'WebAcademy — accueil' },
             h('span.wa-brand-mark', { 'aria-hidden': 'true' }, '</>'),
-            h('span.wa-brand-text', {},
-                h('span.wa-brand-name', {}, 'WebAcademy'),
-                h('span.wa-brand-sub', {}, 'HTML · CSS · PHP · SQL · C++ · JS')));
+            h('span.wa-brand-name', {}, 'WebAcademy'));
+    }
+
+    
+    function toggleSidebar() {
+        document.body.classList.toggle('wa-sidebar-collapsed');
+        try {
+            const isCol = document.body.classList.contains('wa-sidebar-collapsed');
+            localStorage.setItem('wa-sidebar-collapsed', isCol ? '1' : '0');
+        } catch (e) {}
     }
 
     function renderSidebar() {
@@ -238,7 +278,40 @@ WA.app = (function () {
         if (!aside) return;
         aside.innerHTML = '';
         const scroll = h('div.wa-sidebar-scroll', { id: 'wa-sidebar-scroll' });
-        scroll.appendChild(brand());
+
+        const brandRow = h('div.wa-brand-row', {},
+            brand(),
+            h('button.wa-collapse-btn', {
+                type: 'button',
+                title: 'Masquer la barre latérale (sortir)',
+                'aria-label': 'Masquer la barre latérale',
+                onclick: toggleSidebar
+            }, icon('arrowLeft', 16))
+        );
+        scroll.appendChild(brandRow);
+
+        const user = BOOT ? BOOT.user : null;
+        if (user) {
+            const userCard = h('div.wa-side-user', {
+                style: 'display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-flat);margin-bottom:10px;cursor:pointer;',
+                onclick: () => navigate('login'),
+                title: 'Gérer mon profil'
+            },
+                renderAvatar(user.avatar, 38),
+                h('div', { style: 'flex:1;overflow:hidden;' },
+                    h('b', { style: 'display:block;font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;' }, user.username),
+                    h('span.wa-badge' + (user.is_guest ? '.pink' : '.yellow'), { style: 'font-size:0.65rem;padding:2px 6px;margin-top:2px;' }, user.is_guest ? 'Invité' : 'Membre')
+                ),
+                icon('chevron', 13)
+            );
+            scroll.appendChild(userCard);
+        } else {
+            const authCard = h('a.wa-btn.primary.small', {
+                href: href('login'),
+                style: 'margin-bottom:10px;width:100%;justify-content:center;'
+            }, icon('user', 14), 'Se connecter / Invité');
+            scroll.appendChild(authCard);
+        }
 
         const searchWrap = h('div.wa-navsearch');
         searchWrap.appendChild(icon('search', 15));
@@ -250,7 +323,6 @@ WA.app = (function () {
             autocomplete: 'off'
         });
         searchWrap.appendChild(navSearch);
-        searchWrap.appendChild(h('kbd.wa-kbd', {}, 'Ctrl K'));
         scroll.appendChild(searchWrap);
 
         const results = h('div.wa-navresults', { hidden: true });
@@ -259,51 +331,6 @@ WA.app = (function () {
         scroll.appendChild(h('div.wa-nav-group', {}, 'Parcours'));
         scroll.appendChild(quickLink('home', 'Tableau de bord', 'dashboard'));
         scroll.appendChild(quickLink('chart', 'Ma progression', 'progress'));
-
-        scroll.appendChild(h('div.wa-nav-group', {}, 'Programme'));
-        modules().filter(m => !m.course).forEach((m, index) => {
-            const mod = h('div.wa-nav-mod');
-            const c = moduleCounts(m.id);
-            const modBtn = h('button.wa-nav-mod-btn', {
-                type: 'button',
-                'aria-expanded': 'false',
-                'aria-controls': 'wa-mod-' + m.id,
-                onclick: () => {
-                    const open = mod.classList.toggle('open');
-                    modBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-                }
-            },
-                h('span.wa-nav-mod-icon', { 'aria-hidden': 'true' }, m.icon || String(index + 1)),
-                h('span.wa-nav-mod-name', {}, m.name),
-                h('span.wa-nav-mod-count', {}, c.done + '/' + c.total),
-                h('span.chev', { 'aria-hidden': 'true' }, icon('chevron', 13)));
-            mod.appendChild(modBtn);
-
-            const chapters = h('div.wa-nav-chapters', { id: 'wa-mod-' + m.id });
-            (m.chapters || []).forEach(ch => {
-                const available = isAvailable(m.id, ch.n);
-                const status = statusOf(m.id, ch.n);
-                // Only add done/todo when chapter is available; ghost chapters
-                // should not also show completed/in-progress state.
-                const statusCls = available && (status === 'done' ? '.done' : status === 'in_progress' ? '.todo' : '');
-                const link = h('a.wa-nav-chapter' + (available ? '' : '.ghost') + statusCls, {
-                    href: available ? lessonHref(m.id, ch.n) : href('lesson/' + m.id + '/' + ch.n),
-                    'data-key': m.id + '-ch' + ch.n,
-                    'aria-current': 'false'
-                },
-                    h('span.dot', { 'aria-hidden': 'true' }),
-                    h('span', {}, ch.title),
-                    available ? null : h('span.wa-sr-only', {}, ' (non rédigé)'));
-                if (!available) link.setAttribute('aria-disabled', 'true');
-                chapters.appendChild(link);
-            });
-            mod.appendChild(chapters);
-            scroll.appendChild(mod);
-            if (currentRoute && currentRoute.name === 'lesson' && currentRoute.params.module === m.id) {
-                mod.classList.add('open');
-                modBtn.setAttribute('aria-expanded', 'true');
-            }
-        });
 
         scroll.appendChild(h('div.wa-nav-group', {}, 'Langages'));
         modules().filter(m => m.course).forEach(m => {
@@ -317,7 +344,7 @@ WA.app = (function () {
                 h('span.wa-course-link-text', {},
                     h('b', {}, m.name),
                     h('span', {}, m.blurb + ' · ' + c.done + '/' + c.total)),
-                icon('chevron', 13)));
+                h('span.wa-quick-arrow', { 'aria-hidden': 'true' }, icon('arrowRight', 13))));
         });
 
         scroll.appendChild(h('div.wa-nav-group', {}, 'Ateliers'));
@@ -331,14 +358,12 @@ WA.app = (function () {
         scroll.appendChild(quickLink('book', 'Glossaire', 'glossary'));
         scroll.appendChild(quickLink('note', 'Mes notes', 'notes'));
 
+        scroll.appendChild(h('div.wa-nav-group', {}, 'Préférences'));
+        scroll.appendChild(quickLink('settings', 'Paramètres & Thème', 'settings'));
+
         aside.appendChild(scroll);
 
-        const foot = h('div.wa-sidefoot', {},
-            h('a.wa-sidefoot-link', { href: href('settings') }, icon('settings', 15), 'Réglages'),
-            h('div.wa-sidefoot-meta', {},
-                h('span', {}, 'v' + (data('version') || '2.0.0')),
-                h('span', {}, 'hors ligne · local')));
-        aside.appendChild(foot);
+
 
         markActiveNav();
         wireNavSearch(navSearch, results);
@@ -347,7 +372,9 @@ WA.app = (function () {
 
     function quickLink(iconName, label, path) {
         return h('a.wa-quick', { href: href(path), 'data-route': path.split('/')[0] },
-            icon(iconName, 16), h('span', {}, label));
+            h('span.wa-quick-icon', { 'aria-hidden': 'true' }, icon(iconName, 15)),
+            h('span.wa-quick-label', {}, label),
+            h('span.wa-quick-arrow', { 'aria-hidden': 'true' }, icon('arrowRight', 13)));
     }
 
     function markActiveNav() {
@@ -454,31 +481,34 @@ WA.app = (function () {
             h('span.wa-brand-mark', { 'aria-hidden': 'true' }, '</>'),
             h('span', {}, 'WebAcademy')));
 
+        const desktopToggle = h('button.wa-iconbtn.wa-sidebar-desktop-toggle', {
+            type: 'button',
+            'aria-label': 'Afficher la barre latérale',
+            title: 'Afficher la barre latérale',
+            onclick: toggleSidebar
+        }, icon('menu', 17));
+        start.appendChild(desktopToggle);
+
         const crumbs = h('nav.wa-crumbs', { 'aria-label': 'Fil d’Ariane' });
         start.appendChild(crumbs);
         bar.appendChild(start);
 
         const actions = h('div.wa-topbar-actions');
 
-        const langSwitch = h('div.wa-langswitch', { role: 'group', 'aria-label': 'Langue des contenus' });
-        [['fr', 'FR', 'Français'], ['darija', 'Darija', 'Darija'], ['bilingual', 'Bilingue', 'Français et darija']].forEach(([mode, label, title]) => {
-            langSwitch.appendChild(h('button', {
+        const user = BOOT ? BOOT.user : null;
+        if (user) {
+            const userChip = h('button.wa-user-chip' + (user.is_guest ? '.guest' : ''), {
                 type: 'button',
-                'data-mode': mode,
-                title,
-                'aria-pressed': 'false',
-                onclick: () => applyLang(mode, true)
-            }, label));
-        });
-        actions.appendChild(langSwitch);
+                title: user.is_guest ? 'Mode Invité (Cliquez pour gérer)' : 'Mon profil (Cliquez pour gérer)',
+                onclick: () => navigate('login')
+            },
+                renderAvatar(user.avatar, 26),
+                h('span', {}, user.username),
+                user.is_guest ? h('span.wa-badge.pink', { style: 'font-size:9px;padding:1px 5px;' }, 'INVITÉ') : null
+            );
+            actions.appendChild(userChip);
+        }
 
-        actions.appendChild(h('button#wa-theme-toggle.wa-iconbtn', {
-            type: 'button',
-            'aria-label': 'Changer de thème',
-            onclick: toggleTheme
-        }, icon('sun', 17)));
-
-        actions.appendChild(iconBtn('search', 'Rechercher dans les cours', () => navigate('search')));
         bar.appendChild(actions);
 
         return { bar, crumbs };
@@ -559,6 +589,7 @@ WA.app = (function () {
         try {
             let node;
             if (name === 'dashboard') node = dashboardPage();
+            else if (name === 'login') node = loginPage();
             else if (name === 'lesson') node = await lessonPage(currentRoute.params);
             else if (name === 'lab') node = labPage(currentRoute.params.module);
             else if (name === 'course') node = await coursePage(currentRoute.params.id);
@@ -572,6 +603,12 @@ WA.app = (function () {
 
             if (seq !== routeSeq) return;
             view.appendChild(node);
+
+            document.querySelectorAll('.wa-bottom-item').forEach(b => {
+                const r = b.getAttribute('data-route');
+                const active = (name === r) || (r === 'course' && name === 'lesson');
+                b.classList.toggle('active', !!active);
+            });
             main.setAttribute('aria-busy', 'false');
             announce((PAGE_LABELS[name] || 'Page') + ' affiché');
 
@@ -663,6 +700,23 @@ WA.app = (function () {
             h('p', {}, mc.done + ' chapitre' + (mc.done > 1 ? 's' : '') + ' terminé' + (mc.done > 1 ? 's' : '') + ' sur ' + mc.total + ' publiés.'),
             h('p.wa-course-note', {}, 'Les chapitres sont publiés au fur et à mesure de leur rédaction. Aucun contenu de remplacement n’est affiché.')));
         root.appendChild(hero);
+
+        // --- BARRE DE CATÉGORIES / PARCOURS EXPRESS ---
+        const catBar = h('div.wa-categories-bar');
+        [
+            { label: 'Web Front-End', icon: 'code', bg: 'var(--neo-orange)', route: 'lesson/html/1' },
+            { label: 'JavaScript & DOM', icon: 'zap', bg: 'var(--neo-yellow)', route: 'course/javascript' },
+            { label: 'PHP & Backend', icon: 'terminal', bg: 'var(--neo-pink)', route: 'lesson/php/1' },
+            { label: 'SQL & Données', icon: 'database', bg: 'var(--neo-mint)', route: 'lesson/sql/1' },
+            { label: 'C++ Moderne', icon: 'cpu', bg: 'var(--neo-blue)', route: 'course/cpp' },
+            { label: 'Projets Pratiques', icon: 'rocket', bg: 'var(--neo-purple)', route: 'projects' }
+        ].forEach(c => {
+            catBar.appendChild(h('a.wa-category-pill', {
+                href: href(c.route),
+                style: '--pill-bg:' + c.bg + ';'
+            }, h('span.cat-ico', {}, icon(c.icon, 16)), h('span.cat-lbl', {}, c.label)));
+        });
+        root.appendChild(catBar);
 
         const parts = Array.isArray(m.parts) && m.parts.length
             ? m.parts
@@ -768,10 +822,11 @@ WA.app = (function () {
 
         const hero = h('section.wa-hero');
         const heroMain = h('div', {},
-            h('div.wa-overline', {}, 'Parcours personnel · 2026'),
+            h('div.wa-overline', {}, h('strong', {}, 'Parcours personnel · 2026')),
             h('h1.wa-display', {}, 'Apprendre à coder, une page à la fois.'),
             h('p.wa-page-lead', {},
-                'HTML, CSS, PHP, SQL, C++ et JavaScript : des leçons rédigées, des ateliers exécutés pour de vrai et des exercices corrigés — en français et en darija.'));
+                h('strong', {}, 'HTML, CSS, PHP, SQL, C++ et JavaScript'),
+                ' : des leçons rédigées, des ateliers exécutés pour de vrai et des exercices corrigés — en français et en darija.'));
         hero.appendChild(heroMain);
 
         const ring = h('div.wa-ring', { style: '--p:' + c.pct, role: 'img', 'aria-label': c.pct + ' % du parcours terminé' },
@@ -784,6 +839,80 @@ WA.app = (function () {
                 h('p', {}, c.done + ' chapitre' + (c.done > 1 ? 's' : '') + ' terminé' + (c.done > 1 ? 's' : '') + ' sur ' + c.total + ' disponibles.'),
                 h('a.wa-btn.small', { href: href('progress') }, 'Voir ma progression'))));
         root.appendChild(hero);
+
+        // --- BARRE DE CATÉGORIES EXPRESS ---
+        const catBar = h('div.wa-categories-bar');
+        [
+            { label: 'Web Front-End', icon: 'code', bg: 'var(--neo-orange)', route: 'lesson/html/1' },
+            { label: 'JavaScript & DOM', icon: 'zap', bg: 'var(--neo-yellow)', route: 'course/javascript' },
+            { label: 'PHP & Backend', icon: 'terminal', bg: 'var(--neo-pink)', route: 'lesson/php/1' },
+            { label: 'SQL & Données', icon: 'database', bg: 'var(--neo-mint)', route: 'lesson/sql/1' },
+            { label: 'C++ Moderne', icon: 'cpu', bg: 'var(--neo-blue)', route: 'course/cpp' },
+            { label: 'Projets Pratiques', icon: 'rocket', bg: 'var(--neo-purple)', route: 'projects' }
+        ].forEach(c => {
+            catBar.appendChild(h('a.wa-category-pill', {
+                href: href(c.route),
+                style: '--pill-bg:' + c.bg + ';'
+            }, h('span.cat-ico', {}, icon(c.icon, 16)), h('span.cat-lbl', {}, c.label)));
+        });
+        root.appendChild(catBar);
+
+        // --- NEO-BRUTALIST BIG CARDS SHOWCASE ---
+        const bigGrid = h('div.wa-bigcards-grid');
+        [
+            {
+                color: 'orange',
+                sticker: 'PARCOURS WEB',
+                title: 'Fullstack Moderne',
+                desc: 'HTML5 sémantique, CSS3 moderne, PHP 8 et MySQL pour concevoir des applications web complètes.',
+                btn: 'Démarrer le Web →',
+                route: 'lesson/html/1',
+                tag: '154 CHAPITRES'
+            },
+            {
+                color: 'blue',
+                sticker: 'LANGAGES CIBLÉS',
+                title: 'C++ & JavaScript',
+                desc: 'Algorithmique, programmation système C++17 et dynamique interactive du DOM JavaScript.',
+                btn: 'Voir les Langages →',
+                route: 'course/javascript',
+                tag: 'COURS DÉDIÉS'
+            },
+            {
+                color: 'yellow',
+                sticker: 'PRATIQUE RÉELLE',
+                title: '6 Ateliers de Code',
+                desc: 'Exécution PHP isolée, bases SQLite & MySQL réelles, et bac à sable JS sans configuration.',
+                btn: 'Ouvrir les Labs →',
+                route: 'lab/html',
+                tag: 'BAC À SABLE'
+            },
+            {
+                color: 'mint',
+                sticker: 'PROGRESSION LIBRE',
+                title: 'Mode Invité & Profil',
+                desc: 'Commence instantanément sans mot de passe ou sauvegarde ton profil avec un avatar néo-brutaliste.',
+                btn: 'Gérer mon Profil →',
+                route: 'login',
+                tag: 'ZÉRO FRICTION'
+            }
+        ].forEach(c => {
+            bigGrid.appendChild(h('a.wa-bigcard.' + c.color, {
+                href: href(c.route),
+                style: 'text-decoration:none;'
+            },
+                h('div.wa-bigcard-top', {},
+                    h('span.wa-bigcard-sticker', {}, c.sticker),
+                    h('span.wa-badge', { style: 'font-size:0.7rem;padding:2px 6px;background:#000;color:#fff;border-color:#000;' }, c.tag)
+                ),
+                h('h3.wa-bigcard-title', { style: 'font-family:var(--font-display);font-size:1.35rem;font-weight:900;margin:6px 0 2px;' }, c.title),
+                h('p.wa-bigcard-desc', { style: 'font-size:0.88rem;line-height:1.45;flex:1;' }, c.desc),
+                h('div.wa-bigcard-foot', { style: 'display:flex;align-items:center;justify-content:space-between;margin-top:10px;' },
+                    h('span.wa-btn.small', { style: 'pointer-events:none;' }, c.btn)
+                )
+            ));
+        });
+        root.appendChild(bigGrid);
 
         if (next) {
             const meta = moduleMeta(next.module);
@@ -1059,54 +1188,209 @@ WA.app = (function () {
     /* ------------------------------------------------------------ progress */
 
     function progressPage() {
-        const root = h('div');
+        const root = h('div.wa-progress-page');
         const c = counts();
+        const all = availableLessons();
+        const pMap = progressMap();
+
+        let quizCount = 0;
+        let quizSum = 0;
+        Object.values(pMap).forEach(rec => {
+            if (rec && typeof rec.quizScore === 'number') {
+                quizCount++;
+                quizSum += rec.quizScore;
+            }
+        });
+        const avgQuiz = quizCount ? Math.round(quizSum / quizCount) : 0;
+        const favCount = (BOOT.progress && Array.isArray(BOOT.progress.bookmarks)) ? BOOT.progress.bookmarks.length : 0;
+
         root.appendChild(pageHead({
-            overline: 'Suivi',
+            overline: 'Suivi & Performances',
             title: 'Ma progression',
-            lead: 'Votre avancement est enregistré localement, chapitre par chapitre. Les quiz et exercices validés restent associés à chaque leçon.',
-            actions: [h('a.wa-btn', { href: href('dashboard') }, icon('arrowLeft', 15), 'Tableau de bord')]
+            lead: 'Suivez l\'avancement détaillé de votre apprentissage, visualisez votre progression par langage et retrouvez vos scores aux quiz.',
+            actions: [h('a.wa-btn.primary', { href: href('dashboard') }, icon('arrowLeft', 15), 'Tableau de bord')]
         }));
 
-        const overview = h('section.wa-card.wa-progress-overview');
-        overview.appendChild(h('div.wa-overview-head', {},
-            h('h3', {}, 'Vue d’ensemble'),
-            h('span.pct', {}, c.pct + '%')));
-        overview.appendChild(progressbar(c.pct, c.pct === 100, 'Progression globale'));
-        overview.appendChild(h('p', { style: 'margin-top:10px;color:var(--muted);font-size:13px' },
-            c.done + ' chapitre' + (c.done > 1 ? 's' : '') + ' terminé' + (c.done > 1 ? 's' : '') + ' sur ' + c.total + ' disponibles.'));
+        // 1. Overview Hero Card
+        const overview = h('section.wa-card.wa-progress-hero');
+        const heroHead = h('div.wa-progress-hero-head', {},
+            h('div.wa-progress-hero-titles', {},
+                h('span.wa-badge.yellow', {}, 'VUE D\'ENSEMBLE'),
+                h('h2.wa-progress-hero-title', {}, 'Parcours Global WebAcademy'),
+                h('p.wa-progress-hero-sub', {}, c.done + ' chapitre' + (c.done > 1 ? 's' : '') + ' validé' + (c.done > 1 ? 's' : '') + ' sur ' + c.total + ' disponibles dans 8 modules.')
+            ),
+            h('div.wa-progress-hero-pct', {},
+                h('span.wa-progress-big-number', {}, c.pct + '%'),
+                h('span.wa-progress-big-lbl', {}, 'COMPLÉTÉ')
+            )
+        );
+        overview.appendChild(heroHead);
+
+        // Mega progress bar
+        const bar = h('div.wa-progress-megabar', {
+            role: 'progressbar',
+            'aria-valuenow': String(c.pct),
+            'aria-valuemin': '0',
+            'aria-valuemax': '100',
+            'aria-label': 'Progression globale'
+        },
+            h('div.wa-progress-megabar-fill' + (c.pct === 100 ? '.ok' : ''), { style: 'width:' + c.pct + '%' },
+                c.pct > 10 ? h('span.wa-progress-megabar-text', {}, c.pct + '%') : null
+            )
+        );
+        overview.appendChild(bar);
+
+        // Stat cards row
+        const statRow = h('div.wa-progress-stat-row', {},
+            h('div.wa-stat-card', {},
+                h('span.wa-stat-num', {}, String(c.done)),
+                h('span.wa-stat-label', {}, 'Chapitres terminés')
+            ),
+            h('div.wa-stat-card', {},
+                h('span.wa-stat-num', {}, String(c.total - c.done)),
+                h('span.wa-stat-label', {}, 'Chapitres restants')
+            ),
+            h('div.wa-stat-card', {},
+                h('span.wa-stat-num', {}, quizCount ? (avgQuiz + '%') : '0%'),
+                h('span.wa-stat-label', {}, 'Moyenne quiz (' + quizCount + ' passé' + (quizCount > 1 ? 's' : '') + ')')
+            ),
+            h('div.wa-stat-card', {},
+                h('span.wa-stat-num', {}, String(favCount)),
+                h('span.wa-stat-label', {}, 'Favoris enregistrés')
+            )
+        );
+        overview.appendChild(statRow);
         root.appendChild(overview);
 
+        // 2. Modules Grid Section
+        const modSection = h('section.wa-progress-mod-section');
+        modSection.appendChild(h('div.wa-section-head', {},
+            h('h2', {}, 'Avancement par Langage & Module'),
+            h('span.wa-meta', {}, '8 technologies au programme')
+        ));
+
+        const modGrid = h('div.wa-progress-mod-grid');
         modules().forEach(m => {
             const mc = moduleCounts(m.id);
             if (!mc.total) return;
-            root.appendChild(h('div.wa-minirow', {},
-                h('div', {}, h('div.wa-mininame', {}, m.name), h('div.wa-minicount', {}, mc.done + '/' + mc.total + ' chapitres')),
-                h('div.wa-minibarcell', {}, h('div.wa-minibar', {}, h('i', { style: 'width:' + mc.pct + '%' }))),
-                h('div.wa-minicount', { style: 'text-align:right' }, mc.pct + ' %')));
+
+            const modCard = h('article.wa-card.wa-progress-mod-card', { 'data-mod': m.id },
+                h('div.wa-prog-card-top', {},
+                    h('div.wa-prog-card-badge-wrap', {},
+                        h('span.wa-prog-sticker.' + (m.color || 'yellow'), {}, m.name),
+                        h('span.wa-badge.ghost', {}, mc.done + '/' + mc.total)
+                    ),
+                    h('span.wa-prog-mod-pct', {}, mc.pct + '%')
+                ),
+                h('div.wa-prog-card-body', {},
+                    h('h3.wa-prog-mod-name', {}, m.name),
+                    h('p.wa-prog-mod-blurb', {}, m.blurb || 'Cursus interactif')
+                ),
+                h('div.wa-prog-card-bar-wrap', {},
+                    h('div.wa-prog-mod-bar', {},
+                        h('span.wa-prog-mod-bar-fill.' + (m.color || 'yellow'), { style: 'width:' + mc.pct + '%' })
+                    )
+                ),
+                h('div.wa-prog-card-foot', {},
+                    h('span.wa-prog-card-status', {}, mc.pct === 100 ? 'Validé' : (mc.pct > 0 ? 'En cours' : 'À commencer')),
+                    h('a.wa-btn.small.primary', {
+                        href: m.course ? href('course/' + m.id) : lessonHref(m.id, 1)
+                    }, 'Ouvrir', icon('arrowRight', 12))
+                )
+            );
+            modGrid.appendChild(modCard);
+        });
+        modSection.appendChild(modGrid);
+        root.appendChild(modSection);
+
+        // 3. Chapters Detail Section with Instant Filter
+        const chapSection = h('section.wa-progress-chap-section');
+        chapSection.appendChild(h('div.wa-section-head', {},
+            h('h2', {}, 'Détail des 154 Chapitres'),
+            h('span.wa-meta', {}, 'statut · quiz · favori')
+        ));
+
+        const chapCard = h('div.wa-card.wa-progress-chap-card');
+
+        // Filter toolbar
+        let currentFilter = 'all';
+        const filterBar = h('div.wa-progress-filter-bar');
+        const filterButtons = [
+            { id: 'all', label: 'Tous (' + all.length + ')' },
+            { id: 'done', label: 'Terminés (' + c.done + ')' },
+            { id: 'in_progress', label: 'En cours' },
+            { id: 'todo', label: 'À lire (' + (c.total - c.done) + ')' }
+        ];
+
+        const list = h('div.wa-progress-list');
+
+        function renderChapters(filter) {
+            list.innerHTML = '';
+            const filtered = all.filter(l => {
+                const status = statusOf(l.module, l.ch);
+                if (filter === 'done') return status === 'done';
+                if (filter === 'in_progress') return status === 'in_progress';
+                if (filter === 'todo') return status !== 'done' && status !== 'in_progress';
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                list.appendChild(h('div.wa-empty-hint', { style: 'padding:28px 16px;text-align:center;color:var(--muted);font-weight:700;' },
+                    'Aucun chapitre dans cette catégorie.'
+                ));
+                return;
+            }
+
+            filtered.forEach(l => {
+                const status = statusOf(l.module, l.ch);
+                const rec = pMap[l.module + '-ch' + l.ch] || {};
+                const mod = moduleMeta(l.module);
+                list.appendChild(h('div.wa-progressrow', {},
+                    h('div.wa-progressrow-left', {},
+                        h('span.wa-progressrow-mod-tag.' + (mod.color || 'yellow'), {}, mod.name + ' · Ch.' + String(l.ch).padStart(2, '0')),
+                        h('a.wa-progressrow-title', { href: lessonHref(l.module, l.ch) }, l.title)
+                    ),
+                    h('div.wa-progressrow-right', {},
+                        badge(status === 'done' ? 'ok' : status === 'in_progress' ? 'warn' : 'muted',
+                            status === 'done' ? 'Terminé' : status === 'in_progress' ? 'En cours' : 'À lire'),
+                        rec.quizScore ? h('span.wa-badge.info', {}, 'Quiz ' + rec.quizScore + ' %') : null,
+                        isBookmarked(l.module, l.ch) ? h('span.wa-badge.accent', {}, icon('star', 12), ' Favori') : null,
+                        h('a.wa-btn.small', { href: lessonHref(l.module, l.ch) }, 'Ouvrir')
+                    )
+                ));
+            });
+        }
+
+        filterButtons.forEach(fb => {
+            const btn = h('button.wa-filter-btn' + (fb.id === currentFilter ? '.active' : ''), {
+                type: 'button',
+                onclick: () => {
+                    currentFilter = fb.id;
+                    filterBar.querySelectorAll('.wa-filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderChapters(currentFilter);
+                }
+            }, fb.label);
+            filterBar.appendChild(btn);
         });
 
-        root.appendChild(h('div.wa-section-head', {}, h('h2', {}, 'Détail des chapitres'), h('span.wa-meta', {}, 'statut · quiz · favori')));
-        const list = h('div.wa-card');
-        availableLessons().forEach(l => {
-            const status = statusOf(l.module, l.ch);
-            const rec = progressMap()[l.module + '-ch' + l.ch] || {};
-            list.appendChild(h('div.wa-progressrow', {},
-                h('a.wa-progressrow-title', { href: lessonHref(l.module, l.ch) },
-                    h('span.num', {}, moduleMeta(l.module).name + ' · ' + String(l.ch).padStart(2, '0')),
-                    h('span', {}, l.title)),
-                badge(status === 'done' ? 'ok' : status === 'in_progress' ? 'warn' : 'muted',
-                    status === 'done' ? 'Terminé' : status === 'in_progress' ? 'En cours' : 'À lire'),
-                rec.quizScore ? h('span.wa-badge.info', {}, 'Quiz ' + rec.quizScore + ' %') : null,
-                isBookmarked(l.module, l.ch) ? h('span.wa-badge.accent', {}, '★ Favori') : null,
-                h('a.wa-btn.small', { href: lessonHref(l.module, l.ch) }, 'Ouvrir')));
-        });
-        root.appendChild(list);
+        chapCard.appendChild(filterBar);
+        chapCard.appendChild(list);
+        chapSection.appendChild(chapCard);
+        root.appendChild(chapSection);
 
+        // Initial chapters render
+        renderChapters('all');
+
+        // 4. Danger Zone
         const danger = h('section.wa-card.wa-danger-zone');
-        danger.appendChild(h('h3', {}, 'Réinitialiser la progression'));
-        danger.appendChild(h('p', { style: 'color:var(--muted);font-size:13px' },
-            'Efface le statut des chapitres, les scores de quiz et les exercices validés. Les notes et les favoris sont conservés.'));
+        danger.appendChild(h('div.wa-danger-head', {},
+            h('span.wa-badge.err', {}, 'ZONE DE DANGER'),
+            h('h3', {}, 'Réinitialiser la progression')
+        ));
+        danger.appendChild(h('p.wa-danger-desc', {},
+            'Efface le statut de toutes les leçons, les scores de quiz et les exercices validés. Vos notes personnelles et vos favoris sont conservés intacts.'
+        ));
         danger.appendChild(h('div.wa-btn-row', {},
             h('button.wa-btn.danger', {
                 type: 'button',
@@ -1126,8 +1410,10 @@ WA.app = (function () {
                         toast(err.message, 'err');
                     }
                 }
-            }, icon('refresh', 15), 'Réinitialiser'))); 
+            }, icon('refresh', 15), 'Réinitialiser toute la progression')
+        ));
         root.appendChild(danger);
+
         return root;
     }
 
@@ -1380,45 +1666,154 @@ WA.app = (function () {
         const settings = data('settings') || {};
         const root = h('div');
         root.appendChild(pageHead({
-            overline: 'Préférences',
-            title: 'Réglages',
-            lead: 'Apparence, langue, données personnelles et état du serveur. Tout est enregistré localement.'
+            overline: 'Configuration du Système',
+            title: 'Paramètres & Préférences',
+            lead: 'Personnalisez le thème d\'affichage (Clair / Sombre), la langue des cours (Français / Darija / Bilingue), et gérez vos données.'
         }));
 
         const grid = h('div.wa-settings-grid');
 
+        // 1. THEME & APPARENCE
         const appearance = h('section.wa-card.wa-setting');
-        appearance.appendChild(h('div.wa-setting-head', {}, h('h3', {}, 'Apparence')));
-        appearance.appendChild(h('p.wa-setting-desc', {}, 'Le thème suit votre choix et reste appliqué avant le premier rendu de la page.'));
-        const themes = h('div.wa-choice-grid');
-        [['light', 'Clair', 'Papier chaud, encre foncée'], ['dark', 'Sombre', 'Noir chaud, contraste doux']].forEach(([value, label, desc]) => {
-            const id = 'wa-theme-' + value;
-            themes.appendChild(h('label.wa-choice', { for: id },
-                h('input', {
-                    type: 'radio', name: 'wa-theme', id, value,
-                    checked: (document.documentElement.getAttribute('data-theme') || 'dark') === value ? '' : null,
-                    onchange: () => applyTheme(value, true)
-                }),
-                h('span', {}, h('b', {}, label), h('span', {}, desc))));
-        });
-        appearance.appendChild(themes);
+        appearance.appendChild(h('div.wa-setting-head', {},
+            h('h3', {}, 'Thème Visuel & Mode d\'Affichage'),
+            h('span.wa-badge.yellow', {}, 'NÉO-BRUTALISME')
+        ));
+        appearance.appendChild(h('p.wa-setting-desc', {},
+            'Choisissez votre ambiance visuelle. Basculez en un clic entre le Mode Clair et le Mode Sombre Cyber.'
+        ));
+
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const themeGrid = h('div.wa-theme-cards-grid');
+
+        const lightIndicator = h('span.wa-card-active-indicator', {}, currentTheme === 'light' ? 'ACTIF' : '');
+        const darkIndicator = h('span.wa-card-active-indicator', {}, currentTheme === 'dark' ? 'ACTIF' : '');
+
+        const lightCard = h('button.wa-theme-card' + (currentTheme === 'light' ? '.active' : ''), {
+            type: 'button',
+            onclick: () => {
+                applyTheme('light', true);
+                lightCard.classList.add('active');
+                darkCard.classList.remove('active');
+                lightIndicator.textContent = 'ACTIF';
+                darkIndicator.textContent = '';
+                WA.ui.toast('Mode Clair activé !');
+            }
+        },
+            h('div.wa-theme-card-head', {},
+                h('div.wa-theme-card-tags', {},
+                    h('span.wa-bigcard-sticker', {}, 'MODE CLAIR'),
+                    lightIndicator
+                ),
+                icon('sun', 24)
+            ),
+            h('h4.wa-theme-card-title', {}, 'Papier Crème & Encre Noire'),
+            h('p.wa-theme-card-desc', {}, 'Ambiance solaire (#FFFDF5), bordures noires nettes et ombres dures tactiles.'),
+            h('div.wa-theme-preview.light', {},
+                h('span.wa-badge', { style: 'background:#FFE600;color:#000;border:1.5px solid #000;' }, 'Bouton'),
+                h('span.wa-badge', { style: 'background:#4ECCA3;color:#000;border:1.5px solid #000;' }, 'Atelier'),
+                h('span.wa-badge', { style: 'background:#FF6B8B;color:#000;border:1.5px solid #000;' }, 'PHP')
+            )
+        );
+
+        const darkCard = h('button.wa-theme-card' + (currentTheme === 'dark' ? '.active' : ''), {
+            type: 'button',
+            onclick: () => {
+                applyTheme('dark', true);
+                darkCard.classList.add('active');
+                lightCard.classList.remove('active');
+                darkIndicator.textContent = 'ACTIF';
+                lightIndicator.textContent = '';
+                WA.ui.toast('Mode Sombre Cyber activé !');
+            }
+        },
+            h('div.wa-theme-card-head', {},
+                h('div.wa-theme-card-tags', {},
+                    h('span.wa-bigcard-sticker', {}, 'MODE SOMBRE'),
+                    darkIndicator
+                ),
+                icon('moon', 24)
+            ),
+            h('h4.wa-theme-card-title', {}, 'Cyber Ardoise & Néon'),
+            h('p.wa-theme-card-desc', {}, 'Ardoise cyber (#111216), bordures élégantes, ombres profondes et néon vibrant.'),
+            h('div.wa-theme-preview.dark', {},
+                h('span.wa-badge', { style: 'background:#FFE600;color:#000;border:1.5px solid #FFE600;' }, 'Bouton'),
+                h('span.wa-badge', { style: 'background:#4ECCA3;color:#000;border:1.5px solid #4ECCA3;' }, 'Atelier'),
+                h('span.wa-badge', { style: 'background:#FF6B8B;color:#000;border:1.5px solid #FF6B8B;' }, 'PHP')
+            )
+        );
+
+        themeGrid.appendChild(lightCard);
+        themeGrid.appendChild(darkCard);
+        appearance.appendChild(themeGrid);
         grid.appendChild(appearance);
 
+        // 2. LANGUE DES CONTENUS
         const language = h('section.wa-card.wa-setting');
-        language.appendChild(h('div.wa-setting-head', {}, h('h3', {}, 'Langue des contenus')));
-        language.appendChild(h('p.wa-setting-desc', {}, 'Choisissez d’afficher les explications en français, en darija, ou les deux.'));
-        const langs = h('div.wa-choice-grid');
-        [['fr', 'Français', 'Explications en français uniquement'], ['darija', 'Darija', 'Explications en darija uniquement'], ['bilingual', 'Bilingue', 'Français puis darija']].forEach(([value, label, desc]) => {
-            const id = 'wa-lang-' + value;
-            langs.appendChild(h('label.wa-choice', { for: id },
-                h('input', {
-                    type: 'radio', name: 'wa-lang', id, value,
-                    checked: lang === value ? '' : null,
-                    onchange: () => applyLang(value, true)
-                }),
-                h('span', {}, h('b', {}, label), h('span', {}, desc))));
+        language.appendChild(h('div.wa-setting-head', {},
+            h('h3', {}, 'Langue des Explications Pédagogiques'),
+            h('span.wa-badge.mint', {}, 'PEDAGOGIE')
+        ));
+        language.appendChild(h('p.wa-setting-desc', {},
+            'Choisissez la langue d\'affichage des explications théoriques et des commentaires.'
+        ));
+
+        const langGrid = h('div.wa-lang-cards-grid');
+        const langCards = [
+            {
+                id: 'fr',
+                badge: 'FRANÇAIS',
+                title: 'Français',
+                desc: 'Explications rédigées en français uniquement.',
+                flag: 'FR'
+            },
+            {
+                id: 'darija',
+                badge: 'DARIJA',
+                title: 'Darija Marocain',
+                desc: 'Explications en darija marocain (tournures naturelles et mots techniques).',
+                flag: 'MA'
+            },
+            {
+                id: 'bilingual',
+                badge: 'RECOMMANDÉ',
+                title: 'Mode Bilingue',
+                desc: 'Explication en français suivie de la version darija pour une double compréhension.',
+                flag: 'FR + MA'
+            }
+        ];
+
+        langCards.forEach(l => {
+            const isAct = lang === l.id;
+            const langIndicator = h('span.wa-card-active-indicator', {}, isAct ? 'ACTIF' : '');
+            const c = h('button.wa-lang-card' + (isAct ? '.active' : ''), {
+                type: 'button',
+                onclick: () => {
+                    applyLang(l.id, true);
+                    langGrid.querySelectorAll('.wa-lang-card').forEach(el => {
+                        el.classList.remove('active');
+                        const ind = el.querySelector('.wa-card-active-indicator');
+                        if (ind) ind.textContent = '';
+                    });
+                    c.classList.add('active');
+                    langIndicator.textContent = 'ACTIF';
+                    WA.ui.toast('Langue changée : ' + l.title);
+                }
+            },
+                h('div.wa-theme-card-head', {},
+                    h('div.wa-theme-card-tags', {},
+                        h('span.wa-bigcard-sticker', {}, l.badge),
+                        langIndicator
+                    ),
+                    h('span.wa-badge', { style: 'font-weight:900;' }, l.flag)
+                ),
+                h('h4.wa-theme-card-title', {}, l.title),
+                h('p.wa-theme-card-desc', {}, l.desc)
+            );
+            langGrid.appendChild(c);
         });
-        language.appendChild(langs);
+
+        language.appendChild(langGrid);
         grid.appendChild(language);
 
         const exam = h('section.wa-card.wa-setting');
@@ -1504,6 +1899,349 @@ WA.app = (function () {
         return root;
     }
 
+    /* ------------------------------------------------------------ espace membre / auth */
+
+    function loginPage() {
+        const root = h('div.wa-auth-container');
+        const user = (BOOT && BOOT.user) || null;
+
+        if (user) {
+            // Profil de l'utilisateur connecté
+            const card = h('div.wa-card.wa-auth-card');
+            const header = h('div.wa-card-header', {},
+                h('div.wa-tag' + (user.is_guest ? '.pink' : '.yellow'), {}, user.is_guest ? 'MODE INVITÉ ACTIF' : 'ÉTUDIANT CERTIFIÉ'),
+                h('h1', { style: 'font-size:1.8rem;font-weight:900;' }, 'Mon Espace Membre')
+            );
+            card.appendChild(header);
+
+            const profileBody = h('div', { style: 'display:flex;flex-direction:column;gap:18px;' });
+
+            const userHero = h('div', {
+                style: 'display:flex;align-items:center;gap:18px;background:var(--paper-deep);padding:18px;border:var(--bw) solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-card);'
+            },
+                renderAvatar(user.avatar, 64),
+                h('div', { style: 'flex:1;' },
+                    h('h2', { style: 'font-size:1.35rem;font-weight:900;margin-bottom:4px;' }, user.username),
+                    h('div.wa-badge' + (user.is_guest ? '.orange' : '.mint'), {}, user.is_guest ? 'Session Invité Locale' : (user.email || 'Compte Validé')),
+                    h('div', { style: 'font-size:0.75rem;color:var(--muted);font-weight:700;margin-top:6px;' }, 'Statut : Connecté et persistant')
+                )
+            );
+            profileBody.appendChild(userHero);
+
+            if (user.is_guest) {
+                const guestCallout = h('div.wa-callout.warn', {},
+                    h('div.ttl', {}, icon('alert', 16), 'Mode Invité : progression locale'),
+                    h('p', {}, 'Votre progression, vos exercices et vos notes sont enregistrés dans ce navigateur. Pour ne rien perdre et synchroniser vos cours, créez un compte permanent !'),
+                    h('button.wa-btn.primary', {
+                        onclick: async () => {
+                            await WA.api.logout();
+                            if (BOOT) BOOT.user = null;
+                            renderSidebar();
+                            renderRoute();
+                        }
+                    }, 'Créer un compte permanent →')
+                );
+                profileBody.appendChild(guestCallout);
+            }
+
+            // Sélecteur d'Avatar Neo-Brutalist
+            const avSection = h('div', { style: 'margin-top:8px;' });
+            avSection.appendChild(h('h3', { style: 'font-size:1rem;font-weight:900;text-transform:uppercase;margin-bottom:10px;' }, 'Choisis ton Avatar Néo-Brutaliste :'));
+            const avGrid = h('div.wa-avatar-grid');
+            AVATARS.forEach(a => {
+                const isSelected = (user.avatar || 'neo-coder') === a.id;
+                const opt = h('button.wa-avatar-option' + (isSelected ? '.active' : ''), {
+                    type: 'button',
+                    title: a.name,
+                    onclick: async () => {
+                        await WA.api.setAvatar(a.id);
+                        if (BOOT && BOOT.user) BOOT.user.avatar = a.id;
+                        WA.ui.toast('Avatar changé : ' + a.name);
+                        renderSidebar();
+                        renderRoute();
+                    }
+                },
+                    renderAvatar(a.id, 42),
+                    h('span.wa-avatar-opt-name', {}, a.name)
+                );
+                avGrid.appendChild(opt);
+            });
+            avSection.appendChild(avGrid);
+            profileBody.appendChild(avSection);
+
+            // Boutons d'action
+            const actions = h('div.wa-btn-row', { style: 'margin-top:14px;' },
+                h('a.wa-btn.primary', { href: href('dashboard') }, icon('home', 15), 'Aller au Tableau de bord'),
+                h('a.wa-btn.secondary', { href: href('progress') }, icon('chart', 15), 'Ma Progression'),
+                h('button.wa-btn.danger', {
+                    type: 'button',
+                    onclick: async () => {
+                        if (confirm('Voulez-vous vous déconnecter ?')) {
+                            await WA.api.logout();
+                            if (BOOT) BOOT.user = null;
+                            WA.ui.toast('Session fermée.');
+                            renderSidebar();
+                            renderRoute();
+                        }
+                    }
+                }, icon('x', 14), 'Se Déconnecter')
+            );
+            profileBody.appendChild(actions);
+
+            card.appendChild(profileBody);
+            root.appendChild(card);
+            return root;
+        }
+
+        // Non connecté : Vue avec Onglets (Connexion / Inscription / Mode Invité)
+        const card = h('div.wa-card.wa-auth-card');
+        const header = h('div.wa-card-header', {},
+            h('div.wa-tag.yellow', {}, 'REJOINDRE WEBACADEMY'),
+            h('h1', { style: 'font-size:1.8rem;font-weight:900;' }, 'Accéder aux Cours & Ateliers'),
+            h('p', { style: 'font-size:0.95rem;color:var(--muted);' }, 'Connecte-toi avec tes identifiants, inscris-toi gratuitement ou démarre immédiatement en Mode Invité !')
+        );
+        card.appendChild(header);
+
+        let activeTab = 'login'; // 'login' | 'register' | 'guest'
+        let selectedAvatar = 'neo-coder';
+        const formContainer = h('div');
+
+        function renderTabs() {
+            const tabs = h('div.wa-auth-tabs');
+            [
+                { id: 'login', label: 'Connexion' },
+                { id: 'register', label: 'Inscription' },
+                { id: 'guest', label: 'Mode Invité' }
+            ].forEach(t => {
+                const btn = h('button.wa-auth-tab' + (activeTab === t.id ? '.active' : ''), {
+                    type: 'button',
+                    onclick: () => {
+                        activeTab = t.id;
+                        paintForm();
+                    }
+                }, t.label);
+                tabs.appendChild(btn);
+            });
+            return tabs;
+        }
+
+        function paintForm() {
+            formContainer.innerHTML = '';
+            formContainer.appendChild(renderTabs());
+
+            const content = h('div');
+
+            if (activeTab === 'login') {
+                const form = h('form', {
+                    onsubmit: async (ev) => {
+                        ev.preventDefault();
+                        const id = form.querySelector('[name=identifier]').value.trim();
+                        const pwd = form.querySelector('[name=password]').value;
+                        if (!id || !pwd) {
+                            WA.ui.toast('Veuillez remplir tous les champs.', 'error');
+                            return;
+                        }
+                        try {
+                            const btn = form.querySelector('button[type=submit]');
+                            btn.disabled = true;
+                            btn.textContent = 'Connexion en cours…';
+                            const res = await WA.api.login(id, pwd);
+                            if (res.user) {
+                                if (BOOT) BOOT.user = res.user;
+                                WA.ui.toast('Bienvenue, ' + res.user.username + ' !');
+                                renderSidebar();
+                                navigate('dashboard');
+                            }
+                        } catch (err) {
+                            WA.ui.toast(err.message || 'Erreur de connexion.', 'error');
+                            const btn = form.querySelector('button[type=submit]');
+                            btn.disabled = false;
+                            btn.textContent = 'Se Connecter →';
+                        }
+                    }
+                });
+
+                form.appendChild(h('div.wa-form-group', {},
+                    h('label.wa-label', { for: 'wa-login-id' }, 'Pseudo ou Adresse Email'),
+                    h('input.wa-input', {
+                        id: 'wa-login-id',
+                        name: 'identifier',
+                        type: 'text',
+                        placeholder: 'Ex: salma ou salma@example.com',
+                        required: true,
+                        autocomplete: 'username'
+                    })
+                ));
+
+                form.appendChild(h('div.wa-form-group', {},
+                    h('label.wa-label', { for: 'wa-login-pwd' }, 'Mot de Passe'),
+                    h('input.wa-input', {
+                        id: 'wa-login-pwd',
+                        name: 'password',
+                        type: 'password',
+                        placeholder: '••••••••',
+                        required: true,
+                        autocomplete: 'current-password'
+                    })
+                ));
+
+                form.appendChild(h('div', { style: 'margin:12px 0 20px;font-size:0.85rem;' },
+                    h('label', { style: 'display:inline-flex;align-items:center;gap:8px;font-weight:700;cursor:pointer;' },
+                        h('input', { type: 'checkbox', checked: true, style: 'width:18px;height:18px;accent-color:var(--neo-yellow);' }),
+                        'Garder ma session active (Recommandé pour APK / Mobile)'
+                    )
+                ));
+
+                form.appendChild(h('button.wa-btn.primary', {
+                    type: 'submit',
+                    style: 'width:100%;font-size:1.05rem;padding:14px;'
+                }, 'Se Connecter →'));
+
+                content.appendChild(form);
+            } else if (activeTab === 'register') {
+                const form = h('form', {
+                    onsubmit: async (ev) => {
+                        ev.preventDefault();
+                        const username = form.querySelector('[name=username]').value.trim();
+                        const email = form.querySelector('[name=email]').value.trim();
+                        const pwd = form.querySelector('[name=password]').value;
+                        if (!username || !pwd) {
+                            WA.ui.toast('Le pseudo et le mot de passe sont obligatoires.', 'error');
+                            return;
+                        }
+                        try {
+                            const btn = form.querySelector('button[type=submit]');
+                            btn.disabled = true;
+                            btn.textContent = 'Création du compte…';
+                            const res = await WA.api.register(username, pwd, email, selectedAvatar);
+                            if (res.user) {
+                                if (BOOT) BOOT.user = res.user;
+                                WA.ui.toast('Compte créé avec succès ! Bienvenue, ' + res.user.username);
+                                renderSidebar();
+                                navigate('dashboard');
+                            }
+                        } catch (err) {
+                            WA.ui.toast(err.message || 'Erreur lors de l\'inscription.', 'error');
+                            const btn = form.querySelector('button[type=submit]');
+                            btn.disabled = false;
+                            btn.textContent = 'Créer mon Compte →';
+                        }
+                    }
+                });
+
+                form.appendChild(h('div.wa-form-group', {},
+                    h('label.wa-label', { for: 'wa-reg-user' }, 'Pseudo Étudiant'),
+                    h('input.wa-input', {
+                        id: 'wa-reg-user',
+                        name: 'username',
+                        type: 'text',
+                        placeholder: 'Ex: dev_coder',
+                        required: true,
+                        autocomplete: 'username'
+                    })
+                ));
+
+                form.appendChild(h('div.wa-form-group', {},
+                    h('label.wa-label', { for: 'wa-reg-email' }, 'Email (Optionnel)'),
+                    h('input.wa-input', {
+                        id: 'wa-reg-email',
+                        name: 'email',
+                        type: 'email',
+                        placeholder: 'etudiant@example.com',
+                        autocomplete: 'email'
+                    })
+                ));
+
+                form.appendChild(h('div.wa-form-group', {},
+                    h('label.wa-label', { for: 'wa-reg-pwd' }, 'Mot de Passe (4+ caractères)'),
+                    h('input.wa-input', {
+                        id: 'wa-reg-pwd',
+                        name: 'password',
+                        type: 'password',
+                        placeholder: '••••••••',
+                        required: true,
+                        autocomplete: 'new-password'
+                    })
+                ));
+
+                // Avatar picker
+                const avWrapper = h('div.wa-form-group');
+                avWrapper.appendChild(h('label.wa-label', {}, 'Choisis ton Avatar Néo-Brutaliste :'));
+                const avGrid = h('div.wa-avatar-grid');
+                AVATARS.forEach(a => {
+                    const opt = h('button.wa-avatar-option' + (selectedAvatar === a.id ? '.active' : ''), {
+                        type: 'button',
+                        onclick: () => {
+                            selectedAvatar = a.id;
+                            avGrid.querySelectorAll('.wa-avatar-option').forEach(el => el.classList.remove('active'));
+                            opt.classList.add('active');
+                        }
+                    },
+                        renderAvatar(a.id, 40),
+                        h('span.wa-avatar-opt-name', {}, a.name)
+                    );
+                    avGrid.appendChild(opt);
+                });
+                avWrapper.appendChild(avGrid);
+                form.appendChild(avWrapper);
+
+                form.appendChild(h('button.wa-btn.mint', {
+                    type: 'submit',
+                    style: 'width:100%;font-size:1.05rem;padding:14px;margin-top:10px;'
+                }, 'Créer mon Compte & Démarrer →'));
+
+                content.appendChild(form);
+            } else if (activeTab === 'guest') {
+                const guestCard = h('div', {
+                    style: 'display:flex;flex-direction:column;gap:16px;text-align:center;padding:12px 0;'
+                });
+
+                guestCard.appendChild(h('div', { style: 'width:64px;height:64px;margin:0 auto;display:flex;align-items:center;justify-content:center;background:var(--neo-yellow);border:var(--bw) solid var(--line);box-shadow:var(--shadow-hard);border-radius:var(--radius-sm);' }, icon('user', 32)));
+                guestCard.appendChild(h('h2', { style: 'font-size:1.4rem;font-weight:900;' }, 'Explorer en Mode Invité'));
+                guestCard.appendChild(h('p', { style: 'color:var(--muted);font-size:0.95rem;line-height:1.6;' },
+                    'Pas besoin d\'identifiants ni de mot de passe ! Le mode invité te permet d\'accéder à tous les cours, d\'exécuter du code et de pratiquer immédiatement.'
+                ));
+
+                const features = h('div', {
+                    style: 'display:flex;flex-direction:column;gap:8px;text-align:left;background:var(--paper-deep);padding:14px 18px;border:var(--bw) solid var(--line);border-radius:var(--radius);margin:6px 0;'
+                },
+                    h('div', { style: 'display:flex;align-items:center;gap:8px;font-weight:700;' }, icon('check', 14), 'Accès illimité à l\'ensemble des 154 chapitres'),
+                    h('div', { style: 'display:flex;align-items:center;gap:8px;font-weight:700;' }, icon('check', 14), 'Exécuteurs PHP et SQL opérationnels'),
+                    h('div', { style: 'display:flex;align-items:center;gap:8px;font-weight:700;' }, icon('check', 14), 'Sauvegarde locale de ta progression et de tes notes'),
+                    h('div', { style: 'display:flex;align-items:center;gap:8px;font-weight:700;' }, icon('spark', 14), 'Conversion en compte permanent disponible à tout moment')
+                );
+                guestCard.appendChild(features);
+
+                guestCard.appendChild(h('button.wa-btn.primary', {
+                    type: 'button',
+                    style: 'font-size:1.1rem;padding:16px;',
+                    onclick: async () => {
+                        try {
+                            const res = await WA.api.guest();
+                            if (res.user) {
+                                if (BOOT) BOOT.user = res.user;
+                                WA.ui.toast('Session Invité activée !');
+                                renderSidebar();
+                                navigate('dashboard');
+                            }
+                        } catch (err) {
+                            WA.ui.toast(err.message || 'Erreur lors de l\'activation.', 'error');
+                        }
+                    }
+                }, 'Continuer en Mode Invité'));
+
+                content.appendChild(guestCard);
+            }
+
+            formContainer.appendChild(content);
+        }
+
+        paintForm();
+        card.appendChild(formContainer);
+        root.appendChild(card);
+        return root;
+    }
+
     /* ------------------------------------------------------------ 404 */
 
     function notFoundPage() {
@@ -1516,6 +2254,30 @@ WA.app = (function () {
                 h('a.wa-btn', { href: href('search') }, 'Rechercher un chapitre')));
     }
 
+    /* ------------------------------------------------------------ bottom nav (mobile APK) */
+
+    function bottomNav() {
+        const nav = h('nav.wa-bottom-nav', { 'aria-label': 'Navigation mobile' });
+        const items = [
+            { icon: 'home', label: 'Accueil', route: 'dashboard', path: 'dashboard' },
+            { icon: 'book', label: 'Cours', route: 'course', path: 'course/javascript' },
+            { icon: 'flask', label: 'Atelier', route: 'lab', path: 'lab/html' },
+            { icon: 'note', label: 'Notes', route: 'notes', path: 'notes' },
+            { icon: 'user', label: 'Profil', route: 'login', path: 'login' },
+        ];
+        items.forEach(it => {
+            const a = h('a.wa-bottom-item', {
+                href: href(it.path),
+                'data-route': it.route
+            },
+                h('span.icon', {}, icon(it.icon, 20)),
+                h('span.label', {}, it.label)
+            );
+            nav.appendChild(a);
+        });
+        return nav;
+    }
+
     /* ------------------------------------------------------------ boot */
 
     function shell() {
@@ -1524,8 +2286,27 @@ WA.app = (function () {
         main.innerHTML = '';
         const chrome = topbar();
         main.appendChild(chrome.bar);
+
+        if (BOOT && BOOT.user && BOOT.user.is_guest) {
+            const banner = h('div.wa-guest-banner', {},
+                h('span', {}, 'Mode Invité actif — Progression locale à cet appareil.'),
+                h('a', { href: href('login') }, 'Créer un compte pour sauvegarder →')
+            );
+            main.appendChild(banner);
+        }
+
         main.appendChild(h('div.wa-main-inner', { id: 'wa-view' }));
         paintCrumbs(chrome.crumbs, null);
+
+        const oldNav = document.querySelector('.wa-bottom-nav');
+        if (oldNav) oldNav.remove();
+        document.body.appendChild(bottomNav());
+
+        try {
+            if (localStorage.getItem('wa-sidebar-collapsed') === '1' && window.innerWidth > 980) {
+                document.body.classList.add('wa-sidebar-collapsed');
+            }
+        } catch (e) {}
     }
 
     async function boot() {
@@ -1539,7 +2320,7 @@ WA.app = (function () {
             } catch (err) {
                 NOTES = null; // la page Notes retentera le chargement
             }
-            applyTheme(settings.theme || localStorage.getItem('wa-theme') || 'dark', false);
+            applyTheme(settings.theme || localStorage.getItem('wa-theme') || 'light', false);
             applyLang(settings.langMode || 'bilingual', false);
             renderSidebar();
             shell();
@@ -1563,6 +2344,10 @@ WA.app = (function () {
                 }
                 if (ev.key === 'Escape') closeNav();
             });
+
+            if (!location.hash || location.hash === '#' || location.hash === '#/') {
+                location.replace('#/dashboard');
+            }
 
             await renderRoute();
         } catch (err) {

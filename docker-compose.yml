@@ -1,0 +1,13 @@
+services:
+  webacademy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webacademy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./data:/var/www/html/data
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
