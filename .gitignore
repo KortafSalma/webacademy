@@ -23,3 +23,13 @@ node_modules/
 
 # Diagnostic stderr generated during local verification
 /data/repair-audit.err
+
+# Mobile Capacitor build files
+mobile/node_modules/
+mobile/android/.gradle/
+mobile/android/app/build/
+mobile/android/build/
+mobile/android/.idea/
+mobile/android/local.properties
+.gradle/
+Coding Academy Emblem.png

@@ -361,6 +361,17 @@ WA.app = (function () {
         scroll.appendChild(h('div.wa-nav-group', {}, 'Préférences'));
         scroll.appendChild(quickLink('settings', 'Paramètres & Thème', 'settings'));
 
+        scroll.appendChild(h('div.wa-nav-group', {}, 'Application'));
+        scroll.appendChild(h('a.wa-quick', {
+            href: 'webacademy.apk',
+            download: 'webacademy.apk',
+            title: 'Télécharger WebAcademy pour Android (.apk)'
+        },
+            h('span.wa-quick-icon', { 'aria-hidden': 'true' }, icon('download', 15)),
+            h('span.wa-quick-label', {}, 'Application Android'),
+            h('span.wa-quick-arrow', { 'aria-hidden': 'true', style: 'font-weight:900;font-size:10px;background:var(--neo-mint);padding:2px 6px;border-radius:4px;border:1.5px solid #111;' }, 'APK')
+        ));
+
         aside.appendChild(scroll);
 
 
@@ -826,7 +837,19 @@ WA.app = (function () {
             h('h1.wa-display', {}, 'Apprendre à coder, une page à la fois.'),
             h('p.wa-page-lead', {},
                 h('strong', {}, 'HTML, CSS, PHP, SQL, C++ et JavaScript'),
-                ' : des leçons rédigées, des ateliers exécutés pour de vrai et des exercices corrigés — en français et en darija.'));
+                ' : des leçons rédigées, des ateliers exécutés pour de vrai et des exercices corrigés — en français et en darija.'),
+            h('div.wa-btn-row', { style: 'margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap;' },
+                h('a.wa-btn.primary', { href: next ? href('lesson/' + next.module + '/' + next.ch) : href('course/html') },
+                    icon('play', 14), (next && next.resume) ? 'Reprendre la leçon' : 'Commencer le parcours'
+                ),
+                h('a.wa-btn', {
+                    href: 'webacademy.apk',
+                    download: 'webacademy.apk',
+                    style: 'background: var(--neo-mint); color: #111; font-weight: 800;'
+                },
+                    icon('download', 14), 'Télécharger l\'APK Android'
+                )
+            ));
         hero.appendChild(heroMain);
 
         const ring = h('div.wa-ring', { style: '--p:' + c.pct, role: 'img', 'aria-label': c.pct + ' % du parcours terminé' },
@@ -1881,6 +1904,23 @@ WA.app = (function () {
                 }
             }, icon('refresh', 15), 'Réinitialiser la progression')));
         grid.appendChild(dataCard);
+
+        const mobileCard = h('section.wa-card.wa-setting');
+        mobileCard.appendChild(h('div.wa-setting-head', {},
+            h('h3', {}, 'Application Mobile Android'),
+            h('span.wa-badge.yellow', {}, 'CAPACITOR · APK')
+        ));
+        mobileCard.appendChild(h('p.wa-setting-desc', {},
+            'Installez WebAcademy sur votre smartphone Android avec le fichier APK officiel pour apprendre le code partout.'
+        ));
+        mobileCard.appendChild(h('div.wa-data-actions', {},
+            h('a.wa-btn.primary', {
+                href: 'webacademy.apk',
+                download: 'webacademy.apk',
+                style: 'display: inline-flex; align-items: center; gap: 8px; text-decoration: none;'
+            }, icon('download', 16), 'Télécharger l\'APK Android (3.7 Mo)')
+        ));
+        grid.appendChild(mobileCard);
 
         const about = h('section.wa-card.wa-setting');
         about.appendChild(h('div.wa-setting-head', {}, h('h3', {}, 'À propos')));
