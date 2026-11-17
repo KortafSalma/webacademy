@@ -260,7 +260,7 @@ WA.app = (function () {
 
     function brand() {
         return h('a.wa-brand', { href: href('dashboard'), 'aria-label': 'WebAcademy — accueil' },
-            h('span.wa-brand-mark', { 'aria-hidden': 'true' }, '</>'),
+            h('img.wa-brand-img', { src: 'assets/img/logo-128.png', alt: 'WebAcademy' }),
             h('span.wa-brand-name', {}, 'WebAcademy'));
     }
 
@@ -489,7 +489,7 @@ WA.app = (function () {
         start.appendChild(toggle);
 
         start.appendChild(h('a.wa-mobile-brand', { href: href('dashboard') },
-            h('span.wa-brand-mark', { 'aria-hidden': 'true' }, '</>'),
+            h('img.wa-brand-img', { src: 'assets/img/logo-128.png', alt: 'WebAcademy' }),
             h('span', {}, 'WebAcademy')));
 
         const desktopToggle = h('button.wa-iconbtn.wa-sidebar-desktop-toggle', {

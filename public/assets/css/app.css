@@ -520,6 +520,18 @@ h1, h2, h3, h4, h5, h6 {
     transform: translate(-1.5px, -1.5px);
     box-shadow: var(--shadow-btn-hover);
 }
+.wa-brand-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    display: block;
+}
+.wa-mobile-brand .wa-brand-img {
+    width: 28px;
+    height: 28px;
+}
 .wa-brand-mark {
     display: flex;
     align-items: center;
